@@ -5,6 +5,7 @@ import android.content.Context;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.JsonObject;
+import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.network.entity.TokenEntity;
 
@@ -48,7 +49,7 @@ public class FetchToken {
      */
     public static synchronized FetchToken getInstance(Context ctx) {
         if (fetch == null)
-            return new FetchToken(ctx);
+            fetch = new FetchToken(ctx);
 
         return fetch;
     }
@@ -57,7 +58,7 @@ public class FetchToken {
      * Make Token
      *      Get the token or Refresh the token
      */
-    public void makeToken() {
+    public void makeToken(final GsonCallback callback) {
         // Construct a JSON Object to pass to the /login API
         JsonObject credentials = new JsonObject();
         credentials.addProperty("apiKey", API_KEY);
@@ -66,7 +67,8 @@ public class FetchToken {
             @Override
             public void onResponse(TokenEntity token) {
                 bearerToken = token;
-                System.out.println(bearerToken.getToken());
+                // Call the callback
+                callback.onSuccess(token);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -108,12 +110,8 @@ public class FetchToken {
      *
      * @return
      */
-    public String getToken() {
-        if (bearerToken.getToken() == null) {
-            return "null";
-        }
-
-        return bearerToken.getToken();
+    public TokenEntity getToken() {
+        return bearerToken;
     }
 }
 
