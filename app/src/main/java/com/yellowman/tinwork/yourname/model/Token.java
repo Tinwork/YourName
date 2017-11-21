@@ -1,4 +1,4 @@
-package com.yellowman.tinwork.yourname.network.entity;
+package com.yellowman.tinwork.yourname.model;
 
 /**
  * Created by Marc Intha-amnouay on 18/11/2017.
@@ -7,7 +7,7 @@ package com.yellowman.tinwork.yourname.network.entity;
  * Created by Antoine Renault on 18/11/2017.
  */
 
-public class TokenEntity {
+public class Token {
 
     private String token;
 

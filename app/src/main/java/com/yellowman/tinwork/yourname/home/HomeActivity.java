@@ -3,14 +3,14 @@ package com.yellowman.tinwork.yourname.home;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import com.yellowman.tinwork.yourname.FilmDetails.FilmDetails;
 import com.yellowman.tinwork.yourname.R;
+import com.yellowman.tinwork.yourname.model.Token;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
-import com.yellowman.tinwork.yourname.network.entity.TokenEntity;
-import com.yellowman.tinwork.yourname.network.fetch.FetchToken;
+import com.yellowman.tinwork.yourname.network.api.user.UserToken;
+import com.yellowman.tinwork.yourname.utils.Utils;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -26,15 +26,15 @@ public class HomeActivity extends AppCompatActivity {
      * Test Fetch
      */
     protected void testFetch() {
-        FetchToken fetch = FetchToken.getInstance(this.getApplicationContext());
-        fetch.makeToken(new GsonCallback<TokenEntity>() {
+        UserToken fetch = new UserToken(this.getApplicationContext());
+
+        fetch.makeToken(new GsonCallback<Token>() {
             @Override
-            public void onSuccess(TokenEntity response) {
-                // Do the rest here..
-                System.out.println(response.getToken());
+            public void onSuccess(Token response) {
+                // Save the token in the sharedPreference
+                Utils.saveSharedPreference(HomeActivity.this, "yourname_token", response.getToken());
             }
         });
-        //fetch.getToken();
     }
 
     /**
@@ -43,12 +43,9 @@ public class HomeActivity extends AppCompatActivity {
     protected void launchActivity() {
         Button button = (Button) findViewById(R.id.button);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(HomeActivity.this, FilmDetails.class);
-                startActivity(intent);
-            }
+        button.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, FilmDetails.class);
+            startActivity(intent);
         });
     }
 }

@@ -5,8 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.yellowman.tinwork.yourname.R;
-import com.yellowman.tinwork.yourname.network.entity.TokenEntity;
-import com.yellowman.tinwork.yourname.network.fetch.FetchToken;
+import com.yellowman.tinwork.yourname.utils.Utils;
 
 public class FilmDetails extends AppCompatActivity {
 
@@ -22,13 +21,7 @@ public class FilmDetails extends AppCompatActivity {
      *      Test if we have the token instance there so we don't have to reuse the token for the whole lifetime of the app
      */
     protected void getToken() {
-        FetchToken fetch = FetchToken.getInstance(this.getApplicationContext());
-        TokenEntity token = fetch.getToken();
-
-        if (token != null) {
-            Log.d("token value", token.getToken());
-        } else {
-            System.out.println("token is null");
-        }
+        String token = Utils.getSharedPreference(this, "yourname_token");
+        Log.d("token in second thread", token);
     }
 }
