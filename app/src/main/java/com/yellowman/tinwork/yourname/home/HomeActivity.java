@@ -3,6 +3,7 @@ package com.yellowman.tinwork.yourname.home;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 
 import com.yellowman.tinwork.yourname.FilmDetails.FilmDetails;
@@ -20,6 +21,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         testFetch();
         launchActivity();
+
     }
 
     /**
@@ -47,5 +49,33 @@ public class HomeActivity extends AppCompatActivity {
             Intent intent = new Intent(HomeActivity.this, FilmDetails.class);
             startActivity(intent);
         });
+    }
+
+    /**
+     *
+     * @param savedInstanceBundle
+     */
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceBundle) {
+        super.onRestoreInstanceState(savedInstanceBundle);
+
+        // restore data
+        Log.d("data restored username", savedInstanceBundle.getString("username"));
+        Log.d("restore token", savedInstanceBundle.getString("yourname_token"));
+
+    }
+
+    /**
+     *
+     * @param savedInstancedBundle
+     */
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstancedBundle) {
+        Log.d("save user", "mintha");
+        savedInstancedBundle.putString("username", "mintha");
+        savedInstancedBundle.putString("yourname_token", Utils.getSharedPreference(this, "yourname_token"));
+
+        // call the super method to save the view
+        super.onSaveInstanceState(savedInstancedBundle);
     }
 }

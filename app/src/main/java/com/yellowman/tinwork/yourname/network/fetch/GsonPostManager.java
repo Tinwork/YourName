@@ -62,24 +62,16 @@ public class GsonPostManager<T> extends JsonRequest<T> {
         String json = "";
 
         try {
-
             json = new String(
                     response.data,
                     HttpHeaderParser.parseCharset(response.headers));
-
-            // Well we mgiht use the default one after all..
-
         } catch (UnsupportedEncodingException e) {
-            Log.d("EncodingException", e.toString());
+            Log.d("Error", "UnsupportedEncodingException error: "+e.toString());
         } catch (JsonSyntaxException e) {
-            Log.d("JsonSyntaxException", e.toString());
+            Log.d("Error", "JsonSyntaxEception error:  "+e.toString());
         }
 
-        if (json.isEmpty()) {
-            throw new Error("Json Empty");
-        }
-
-        return (Response<T>) Response.success(
+        return Response.success(
                 gson.fromJson(json, cls),
                 HttpHeaderParser.parseCacheHeaders(response));
     }

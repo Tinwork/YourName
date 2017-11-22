@@ -14,6 +14,7 @@ import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.network.fetch.GsonGetManager;
 import com.yellowman.tinwork.yourname.network.fetch.GsonPostManager;
 import com.yellowman.tinwork.yourname.network.fetch.RequestQueueManager;
+import com.yellowman.tinwork.yourname.network.helper.VolleyErrorHelper;
 
 
 import java.util.HashMap;
@@ -45,6 +46,7 @@ public class UserToken {
 
     /**
      * Make Token
+     * @TODO display a toast OR a little popup message whenever an error of type network happened
      *      Get the token or Refresh the token
      */
     public void makeToken(final GsonCallback callback) {
@@ -56,7 +58,9 @@ public class UserToken {
             // Call the callback
             callback.onSuccess(token);
         }, error -> {
-            // we should thrown an error here
+            // Catch the error
+            VolleyErrorHelper.isBasicError(error);
+            HashMap<String, String> errorPayload = VolleyErrorHelper.getNetworkErrorData(error);
         });
 
         // Add the request to the queue
@@ -75,7 +79,8 @@ public class UserToken {
         GsonGetManager<Token> req = new GsonGetManager<>(Routes.REFRESH_TOKEN, Token.class, headers, response -> {
             callback.onSuccess(response);
         }, error -> {
-            // we should thrown an error
+            VolleyErrorHelper.isBasicError(error);
+            HashMap<String, String> errorPayload = VolleyErrorHelper.getNetworkErrorData(error);
         });
 
         queueManager.addToRequestQueue(req);

@@ -3,12 +3,8 @@ package com.yellowman.tinwork.yourname.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-
-import com.yellowman.tinwork.yourname.home.HomeActivity;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Created by Marc Intha-amnouay on 18/11/2017.

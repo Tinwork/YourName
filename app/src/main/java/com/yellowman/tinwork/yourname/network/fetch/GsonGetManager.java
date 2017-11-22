@@ -82,13 +82,9 @@ public class GsonGetManager<T> extends Request<T> {
                     response.data,
                     HttpHeaderParser.parseCharset(response.headers));
         } catch (UnsupportedEncodingException e) {
-            Log.d("EncodingException", e.toString());
+            Log.d("Error", "UnsupportedEncodingException error: "+e.toString());
         } catch (JsonSyntaxException e) {
-            Log.d("JsonSyntaxException", e.toString());
-        }
-
-        if (json.isEmpty()) {
-            throw new Error("Json Empty");
+            Log.d("Error", "JsonSyntaxEception error:  "+e.toString());
         }
 
         return Response.success(
