@@ -15,6 +15,7 @@ import com.yellowman.tinwork.yourname.network.fetch.GsonGetManager;
 import com.yellowman.tinwork.yourname.network.fetch.GsonPostManager;
 import com.yellowman.tinwork.yourname.network.fetch.RequestQueueManager;
 import com.yellowman.tinwork.yourname.network.helper.VolleyErrorHelper;
+import com.yellowman.tinwork.yourname.utils.Utils;
 
 
 import java.util.HashMap;
@@ -72,9 +73,7 @@ public class UserToken {
      * @param token
      */
     public void refreshToken(String token, final GsonCallback callback) {
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put("Content-type", "application/json");
-        headers.put("Authorisation", "Bearer "+token);
+        HashMap<String, String> headers = Utils.makeHeaders(null, token);;
 
         GsonGetManager<Token> req = new GsonGetManager<>(Routes.REFRESH_TOKEN, Token.class, headers, response -> {
             callback.onSuccess(response);

@@ -13,6 +13,10 @@ package com.yellowman.tinwork.yourname.network.api;
 public class Routes {
     private static final String PREFIX = "https://api.thetvdb.com";
 
+    // User auth
     public static final String LOGIN = PREFIX+"/login";
     public static final String REFRESH_TOKEN = PREFIX+"/refresh_token";
+
+    // Series
+    public static final String SEARCH_SERIES = PREFIX+"/search/series";
 }

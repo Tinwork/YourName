@@ -54,7 +54,7 @@ public class Utils {
         // Init a header with basic properties
         final HashMap<String, String> headers = new HashMap<>();
         headers.put("Content-type", "application/json");
-        headers.put("Authorisation", "Bearer "+token);
+        headers.put("Authorization", "Bearer "+token);
 
         // No extas return the basic URL
         if (extras == null)

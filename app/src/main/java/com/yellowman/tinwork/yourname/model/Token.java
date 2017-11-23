@@ -9,6 +9,7 @@ package com.yellowman.tinwork.yourname.model;
 
 public class Token {
 
+
     private String token;
 
     /**

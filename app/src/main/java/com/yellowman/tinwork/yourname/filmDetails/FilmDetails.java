@@ -1,4 +1,4 @@
-package com.yellowman.tinwork.yourname.FilmDetails;
+package com.yellowman.tinwork.yourname.filmDetails;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

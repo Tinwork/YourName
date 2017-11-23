@@ -29,14 +29,19 @@ public class VolleyErrorHelper {
      *
      * @param error
      */
-    public static void isBasicError(VolleyError error) {
+    public static Boolean isBasicError(VolleyError error) {
+        Boolean isBasic = true;
+
         if (error instanceof NetworkError) {
             Log.d("Error", "Network error");
         } else if (error instanceof  AuthFailureError) {
             Log.d("Error", "AuthFailureError");
+            isBasic = false;
         } else if (error instanceof ServerError) {
             Log.d("Error", "Server error");
         }
+
+        return isBasic;
     }
 
 

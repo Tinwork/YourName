@@ -18,7 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".FilmDetails.FilmDetails"></activity>
+        <activity android:name=".filmDetails.FilmDetails" />
+        <activity android:name=".networkTest.NetworkActivity"></activity>
     </application>
 
 </manifest>
