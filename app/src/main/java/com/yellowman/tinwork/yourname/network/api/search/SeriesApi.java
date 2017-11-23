@@ -4,12 +4,12 @@ import android.content.Context;
 import android.util.Log;
 
 import com.yellowman.tinwork.yourname.model.Search;
-import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.network.fetch.GsonGetManager;
 import com.yellowman.tinwork.yourname.network.fetch.RequestQueueManager;
 import com.yellowman.tinwork.yourname.network.helper.VolleyErrorHelper;
+import com.yellowman.tinwork.yourname.network.helper.VolleyRetry;
 import com.yellowman.tinwork.yourname.utils.Utils;
 
 import java.util.HashMap;
@@ -25,15 +25,20 @@ public class SeriesApi {
 
     private Context ctx;
     private final RequestQueueManager queueManager;
+    private GsonGetManager<Search> series;
+    private int retry;
 
 
     public SeriesApi(Context context) {
         this.ctx = context;
         this.queueManager = RequestQueueManager.getInstance(this.ctx.getApplicationContext());
+        this.retry = 0;
     }
 
     /**
      * Get Series
+     *
+     * @TODO test if the retry thresold is working in the next 24h...
      * @param payload
      * @param callback
      */
@@ -44,13 +49,18 @@ public class SeriesApi {
         // Bind the GET request params
         String URL = Utils.buildGetUrl(Routes.SEARCH_SERIES, payload);
 
-        GsonGetManager<Search> series = new GsonGetManager<>(URL, Search.class, headers, response -> {
+        series = new GsonGetManager<>(URL, Search.class, headers, response -> {
             callback.onSuccess(response);
         }, error -> {
             HashMap<String, String> errorPayload = VolleyErrorHelper.getNetworkErrorData(error);
             Log.d("Error", errorPayload.get("code"));
 
-            if (!VolleyErrorHelper.isBasicError(error)) {
+            if (new Integer(errorPayload.get("code")) == 401 && this.retry < 1) {
+                VolleyRetry re = new VolleyRetry(ctx);
+                re.retry(series);
+                retry = 1;
+            }
+            else if (!VolleyErrorHelper.isBasicError(error)) {
                 // Log the error
                 Log.d("Error", errorPayload.get("message"));
             }
