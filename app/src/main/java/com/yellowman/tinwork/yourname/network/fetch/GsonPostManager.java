@@ -54,7 +54,6 @@ public class GsonPostManager<T> extends JsonRequest<T> {
     /**
      * Parse Network Response
      *
-     * @TODO should add Real exception and Log.d
      * @param response
      * @return
      */

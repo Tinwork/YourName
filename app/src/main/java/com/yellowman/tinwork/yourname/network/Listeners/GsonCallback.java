@@ -7,6 +7,11 @@ package com.yellowman.tinwork.yourname.network.Listeners;
  * Created by Antoine Renault on 20/11/2017.
  */
 
+/**
+ * Gson Callback
+ *
+ * @param <T>
+ */
 public interface GsonCallback<T> {
     void onSuccess(T response);
 }

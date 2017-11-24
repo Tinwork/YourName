@@ -25,7 +25,7 @@ public class SearchSeries {
 
     private Context ctx;
     private final RequestQueueManager queueManager;
-    private GsonGetManager<com.yellowman.tinwork.yourname.model.Search> series;
+    private GsonGetManager<Search> series;
     private int retry;
 
 

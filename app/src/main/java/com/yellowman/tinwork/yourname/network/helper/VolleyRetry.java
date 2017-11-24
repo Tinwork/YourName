@@ -25,7 +25,8 @@ public class VolleyRetry<T> {
     private final RequestQueueManager queue;
 
     /**
-     * Volley Retry::Class
+     * Volley Retry
+     *
      * @param ctx
      */
     public VolleyRetry(Context ctx) {

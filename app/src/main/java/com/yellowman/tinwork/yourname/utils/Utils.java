@@ -71,6 +71,7 @@ public class Utils {
 
     /**
      * Save Shared Preference
+     *
      * @param ctx
      * @param keyName
      * @param keyValue
@@ -84,6 +85,7 @@ public class Utils {
 
     /**
      * Get Shared Preference
+     *
      * @param ctx
      * @param keyName
      * @return

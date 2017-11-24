@@ -19,9 +19,6 @@ import java.util.Map;
  * Created by Antoine Renault on 22/11/2017.
  */
 
-/**
- * @TODO test this Helper
- */
 public class VolleyErrorHelper {
 
     /**
@@ -47,6 +44,7 @@ public class VolleyErrorHelper {
 
     /**
      * Get Error Code
+     *
      * @param error
      * @return
      */
@@ -59,6 +57,7 @@ public class VolleyErrorHelper {
 
     /**
      * Get Network Error Data
+     *
      * @param error
      * @return
      */
@@ -81,6 +80,7 @@ public class VolleyErrorHelper {
 
     /**
      * Get JSON Network Error
+     *
      * @param dataError
      * @return
      */

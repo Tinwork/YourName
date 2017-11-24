@@ -31,6 +31,7 @@ public class GsonGetManager<T> extends Request<T> {
 
     /**
      * Gson Reflection Manager
+     *
      * @param URL
      * @param cls
      * @param headers
@@ -47,6 +48,7 @@ public class GsonGetManager<T> extends Request<T> {
 
     /**
      * Get Headers
+     *
      * @return
      * @throws AuthFailureError
      */
@@ -59,6 +61,7 @@ public class GsonGetManager<T> extends Request<T> {
 
     /**
      * Deliver Response
+     *
      * @param response
      */
     @Override
@@ -69,7 +72,6 @@ public class GsonGetManager<T> extends Request<T> {
     /**
      * Parse Network Response
      *
-     * @TODO should add Real exception and Log.d
      * @param response
      * @return
      */

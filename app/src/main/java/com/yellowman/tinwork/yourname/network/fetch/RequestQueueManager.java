@@ -21,6 +21,7 @@ public class RequestQueueManager {
 
     /**
      * Request Queue Manager
+     *
      * @param appCtx
      */
     private RequestQueueManager(Context appCtx) {
@@ -31,6 +32,7 @@ public class RequestQueueManager {
 
     /**
      * Request Queue Manager
+     *
      * @param ctx
      * @return
      */
@@ -43,6 +45,7 @@ public class RequestQueueManager {
 
     /**
      * Get Request Queue
+     *
      * @return
      */
     public RequestQueue getRequestQueue() {
@@ -55,6 +58,7 @@ public class RequestQueueManager {
 
     /**
      * Add To Request Queue
+     *
      * @param req
      * @param <T> any
      */
