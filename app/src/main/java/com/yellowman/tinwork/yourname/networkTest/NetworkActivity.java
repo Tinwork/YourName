@@ -9,7 +9,7 @@ import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.model.Search;
 import com.yellowman.tinwork.yourname.model.Token;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
-import com.yellowman.tinwork.yourname.network.api.search.SeriesApi;
+import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
 import com.yellowman.tinwork.yourname.network.api.user.UserToken;
 import com.yellowman.tinwork.yourname.utils.Utils;
 
@@ -63,7 +63,7 @@ public class NetworkActivity extends AppCompatActivity {
         HashMap<String, String> payload = new HashMap<>();
         payload.put("name", "your name");
 
-        SeriesApi search = new SeriesApi(this);
+        SearchSeries search = new SearchSeries(this);
         search.getSeries(payload, new GsonCallback<Search>() {
             @Override
             public void onSuccess(Search response) {
@@ -72,7 +72,6 @@ public class NetworkActivity extends AppCompatActivity {
             }
         });
     }
-
 
     /**
      * Listen Button

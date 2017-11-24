@@ -2,6 +2,7 @@ package com.yellowman.tinwork.yourname.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,24 +24,22 @@ public class Utils {
      * @return
      */
     public static String buildGetUrl(String baseURL, HashMap<String, String> payload) {
-        Boolean startPattern = true;
         if (payload.isEmpty())
             return baseURL;
+
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("https")
+               .authority("api.thetvdb.com")
+               .appendEncodedPath(baseURL);
 
         for (Map.Entry<String, String> data: payload.entrySet()) {
             String key   = data.getKey();
             String value = data.getValue();
 
-            if (startPattern) {
-                baseURL += "?";
-            } else {
-                baseURL += "&";
-            }
-
-            baseURL += key+"="+value;
+            builder.appendQueryParameter(key, value);
         }
 
-        return baseURL;
+        return builder.build().toString();
     }
 
     /**
@@ -91,7 +90,6 @@ public class Utils {
      */
     public static String getSharedPreference(Context ctx, String keyName) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ctx);
-
         return sharedPref.getString(keyName, "nopayload");
     }
 }

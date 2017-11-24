@@ -15,8 +15,8 @@ public class Routes {
 
     // User auth
     public static final String LOGIN = PREFIX+"/login";
-    public static final String REFRESH_TOKEN = PREFIX+"/refresh_token";
+    public static final String REFRESH_TOKEN = "refresh_token";
 
     // Series
-    public static final String SEARCH_SERIES = PREFIX+"/search/series";
+    public static final String SEARCH_SERIES = "search/series";
 }

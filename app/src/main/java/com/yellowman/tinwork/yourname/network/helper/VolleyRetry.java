@@ -1,7 +1,9 @@
 package com.yellowman.tinwork.yourname.network.helper;
 
 import android.content.Context;
+import android.util.Log;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.yellowman.tinwork.yourname.model.Token;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
@@ -39,11 +41,17 @@ public class VolleyRetry<T> {
      * @param req
      */
     public void retry(Request<T> req) {
-        String token = Utils.getSharedPreference(ctx, "yourname_token");
-        // Call the refresh token
-        userToken.refreshToken(token, new GsonCallback<Token>() {
+        // /!\ Refresh token timestamp is not implemented yet. Use the /login route in the meantime
+        userToken.makeToken(new GsonCallback<Token>() {
             @Override
             public void onSuccess(Token response) {
+                try {
+                    req.getHeaders().put("Authorization", "Bearer "+response.getToken());
+                } catch (AuthFailureError e) {
+                    Log.d("Error", "can not replace Headers");
+                }
+
+                Log.d("Debug", "Retry with new token");
                 Utils.saveSharedPreference(ctx, "yourname_token", response.getToken());
                 queue.addToRequestQueue(req);
             }

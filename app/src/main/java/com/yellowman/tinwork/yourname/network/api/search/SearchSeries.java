@@ -21,15 +21,15 @@ import java.util.HashMap;
  * Created by Antoine Renault on 19/11/2017.
  */
 
-public class SeriesApi {
+public class SearchSeries {
 
     private Context ctx;
     private final RequestQueueManager queueManager;
-    private GsonGetManager<Search> series;
+    private GsonGetManager<com.yellowman.tinwork.yourname.model.Search> series;
     private int retry;
 
 
-    public SeriesApi(Context context) {
+    public SearchSeries(Context context) {
         this.ctx = context;
         this.queueManager = RequestQueueManager.getInstance(this.ctx.getApplicationContext());
         this.retry = 0;
@@ -38,7 +38,6 @@ public class SeriesApi {
     /**
      * Get Series
      *
-     * @TODO test if the retry thresold is working in the next 24h...
      * @param payload
      * @param callback
      */
@@ -53,16 +52,16 @@ public class SeriesApi {
             callback.onSuccess(response);
         }, error -> {
             HashMap<String, String> errorPayload = VolleyErrorHelper.getNetworkErrorData(error);
-            Log.d("Error", errorPayload.get("code"));
 
-            if (new Integer(errorPayload.get("code")) == 401 && this.retry < 1) {
+            if (new Integer(errorPayload.get("code")) == 401 && retry < 1) {
                 VolleyRetry re = new VolleyRetry(ctx);
                 re.retry(series);
                 retry = 1;
-            }
-            else if (!VolleyErrorHelper.isBasicError(error)) {
+            } else if (!VolleyErrorHelper.isBasicError(error) && errorPayload.get("message") != null) {
                 // Log the error
                 Log.d("Error", errorPayload.get("message"));
+            } else {
+                Log.d("Error", errorPayload.get("code"));
             }
         });
 
