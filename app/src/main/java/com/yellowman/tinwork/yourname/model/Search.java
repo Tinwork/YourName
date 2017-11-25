@@ -10,7 +10,7 @@ import java.util.List;
  */
 
 public class Search {
-    public List<Series> data;
+    private List<Series> data;
 
     /**
      * Set Data

@@ -1,8 +1,8 @@
-package com.yellowman.tinwork.yourname.network.api.search;
+package com.yellowman.tinwork.yourname.network.api.user;
 
 import android.content.Context;
 
-import com.yellowman.tinwork.yourname.model.Search;
+import com.yellowman.tinwork.yourname.model.User.User;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.network.fetch.Fetch;
@@ -13,47 +13,49 @@ import com.yellowman.tinwork.yourname.utils.Utils;
 import java.util.HashMap;
 
 /**
- * Created by Marc Intha-amnouay on 19/11/2017.
- * Created by Didier Youn on 19/11/2017.
- * Created by Abdel-Latif Mabrouck on 19/11/2017.
- * Created by Antoine Renault on 19/11/2017.
+ * Created by Marc Intha-amnouay on 25/11/2017.
+ * Created by Didier Youn on 25/11/2017.
+ * Created by Abdel-Atif Mabrouck on 25/11/2017.
+ * Created by Antoine Renault on 25/11/2017.
  */
 
-public class SearchSeries extends Fetch {
+public class UserBasic extends Fetch {
 
     private Context ctx;
-    private final RequestQueueManager queueManager;
-    private GsonGetManager<Search> series;
+    private RequestQueueManager queue;
+    private GsonGetManager<User> userRequest;
     private int retry;
 
-
-    public SearchSeries(Context context) {
-        this.ctx = context;
-        this.queueManager = RequestQueueManager.getInstance(this.ctx.getApplicationContext());
+    /**
+     * UserBasic Constructor
+     * @param ctx
+     */
+    public UserBasic(Context ctx) {
+        this.ctx = ctx;
+        this.queue = RequestQueueManager.getInstance(ctx.getApplicationContext());
         this.retry = 0;
     }
 
     /**
      * Get
-     *
      * @param payload
      * @param callback
      */
     @Override
     public void get(HashMap<String, String> payload, final GsonCallback callback) {
+        // Retrieve the Token
         String token = Utils.getSharedPreference(ctx, "yourname_token");
-        // Headers
-        HashMap<String, String> headers = Utils.makeHeaders(null, token);
-        // Bind the GET request params
-        String URL = Utils.buildGetUrl(Routes.SEARCH_SERIES, payload);
 
-        series = new GsonGetManager<>(URL, Search.class, headers, response -> {
+        // Make the Header for the request
+        HashMap<String, String> headers = Utils.makeHeaders(null, token);
+
+        // Make the actual request
+        userRequest = new GsonGetManager<User>(Routes.USER, User.class, headers ,response -> {
             callback.onSuccess(response);
         }, error -> {
-            this.handleVolleyError(error, series, ctx, retry);
+            this.handleVolleyError(error, userRequest, ctx, retry);
             retry++;
         });
-
-        queueManager.addToRequestQueue(series);
     }
+
 }

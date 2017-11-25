@@ -64,7 +64,7 @@ public class NetworkActivity extends AppCompatActivity {
         payload.put("name", "your name");
 
         SearchSeries search = new SearchSeries(this);
-        search.getSeries(payload, new GsonCallback<Search>() {
+        search.get(payload, new GsonCallback<Search>() {
             @Override
             public void onSuccess(Search response) {
                 String serie = response.getData().get(0).getSeriesName();

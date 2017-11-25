@@ -1,13 +1,11 @@
 package com.yellowman.tinwork.yourname.home;
 
 import android.content.Intent;
-import android.net.Network;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 
-import com.yellowman.tinwork.yourname.filmDetails.FilmDetails;
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.login.LoginActivity;
 import com.yellowman.tinwork.yourname.networkTest.NetworkActivity;
@@ -19,7 +17,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        isUserSubscribe();
+        //isUserSubscribe();
         launchActivity();
     }
 
