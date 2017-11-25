@@ -13,6 +13,7 @@ import android.widget.EditText;
 
 import com.google.gson.Gson;
 import com.yellowman.tinwork.yourname.R;
+import com.yellowman.tinwork.yourname.network.api.user.UserBasic;
 import com.yellowman.tinwork.yourname.utils.Utils;
 
 /**
@@ -51,20 +52,23 @@ public class LoginActivity extends AppCompatActivity {
     * Prepare Auto Completion
     */
    private void prepareAutoCompletion() {
+       mUsername = findViewById(R.id.username);
        // Retrieve the usernames from the sharedPreference saved in Json
        String jsonUsernameTrialStr = Utils.getSharedPreference(this, "username_trial");
        // Gson
        gson = new Gson();
        String[] predicates = gson.fromJson(jsonUsernameTrialStr, String[].class);
-       // Create a new ArrayAdapter
-       ArrayAdapter<String> adapter  = new ArrayAdapter<String>(
-               this,
-               android.R.layout.simple_dropdown_item_1line,
-               predicates);
 
-       // Get the reference of the auto complete view
-       mUsername = findViewById(R.id.username);
-       mUsername.setAdapter(adapter);
+       if (predicates != null) {
+           // Create a new ArrayAdapter
+           ArrayAdapter<String> adapter  = new ArrayAdapter<String>(
+                   this,
+                   android.R.layout.simple_dropdown_item_1line,
+                   predicates);
+
+           // Set the adatper
+           mUsername.setAdapter(adapter);
+       }
    }
 
    /**
@@ -89,6 +93,7 @@ public class LoginActivity extends AppCompatActivity {
 
        // Attempt to make log to the
        //showProgress(true);
+       // Make a request to the APIs
    }
 
    /**
@@ -99,6 +104,11 @@ public class LoginActivity extends AppCompatActivity {
         // and hide the relevant UI components.
         mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
         mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
     }
 }
 

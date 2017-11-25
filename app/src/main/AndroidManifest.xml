@@ -27,7 +27,7 @@
         <activity android:name=".filmDetails.FilmDetails" />
         <activity android:name=".networkTest.NetworkActivity" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".login.LoginActivity"
             android:label="@string/title_activity_login"></activity>
     </application>
 
