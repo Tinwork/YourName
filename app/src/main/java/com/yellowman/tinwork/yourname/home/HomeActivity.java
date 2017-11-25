@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.yellowman.tinwork.yourname.filmDetails.FilmDetails;
 import com.yellowman.tinwork.yourname.R;
+import com.yellowman.tinwork.yourname.login.LoginActivity;
 import com.yellowman.tinwork.yourname.networkTest.NetworkActivity;
 import com.yellowman.tinwork.yourname.utils.Utils;
 
@@ -18,7 +19,21 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        isUserSubscribe();
         launchActivity();
+    }
+
+    private void isUserSubscribe() {
+        String username  = Utils.getSharedPreference(this, "username");
+        String accountID = Utils.getSharedPreference(this, "accountID");
+
+        // Create an intent to redirect to an other view
+        Intent view = new Intent();
+
+        if (username.isEmpty() || accountID.isEmpty()) {
+            view.setClass(this, LoginActivity.class);
+            startActivity(view);
+        }
     }
 
 
