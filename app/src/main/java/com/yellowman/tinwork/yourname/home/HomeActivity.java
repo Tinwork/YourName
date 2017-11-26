@@ -21,6 +21,14 @@ public class HomeActivity extends AppCompatActivity {
         launchActivity();
     }
 
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
+
+    /**
+     * Is User Subscribe
+     */
     private void isUserSubscribe() {
         String username  = Utils.getSharedPreference(this, "username");
         String accountID = Utils.getSharedPreference(this, "accountID");

@@ -24,7 +24,7 @@ public abstract class Fetch {
      * Handle Volley Error
      * @param error
      */
-    public static void handleVolleyError(VolleyError error, Request req, Context ctx, int retry) {
+    public static void handleVolleyError(VolleyError error, Request req, Context ctx, int retry, final GsonCallback callback) {
         HashMap<String, String> errorPayload = VolleyErrorHelper.getNetworkErrorData(error);
 
         if (new Integer(errorPayload.get("code")) == 401 && retry < 1) {
@@ -32,10 +32,12 @@ public abstract class Fetch {
             re.retry(req);
         } else if (!VolleyErrorHelper.isBasicError(error) && errorPayload.get("message") != null) {
             // Log the error
-            Log.d("Error", errorPayload.get("message"));
+            callback.onError(errorPayload.get("message"));
         } else {
-            Log.d("Error", errorPayload.get("code"));
+            // Log the error with basic VolleyError code
+            callback.onError(errorPayload.get("code"));
         }
+
     }
 
     /**

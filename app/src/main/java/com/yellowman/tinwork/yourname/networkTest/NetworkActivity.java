@@ -30,13 +30,15 @@ public class NetworkActivity extends AppCompatActivity {
     protected void testFetch() {
         UserToken fetch = new UserToken(this.getApplicationContext());
 
-        fetch.makeToken(new GsonCallback<Token>() {
+        fetch.get(null, new GsonCallback<Token>() {
             @Override
             public void onSuccess(Token response) {
                 // Save the token in the sharedPreference
                 Utils.saveSharedPreference(NetworkActivity.this, "yourname_token", response.getToken());
                 Log.d("Debug", "Token "+response.getToken());
             }
+
+            public void onError(String err) {}
         });
     }
 
@@ -53,6 +55,8 @@ public class NetworkActivity extends AppCompatActivity {
             public void onSuccess(Token response) {
                 Log.d("Debug", response.getToken());
             }
+            @Override
+            public void onError(String t) {}
         });
     }
 
@@ -70,6 +74,8 @@ public class NetworkActivity extends AppCompatActivity {
                 String serie = response.getData().get(0).getSeriesName();
                 Log.d("Debug", "Serie name for search API "+serie);
             }
+
+            public void onError(String err) {}
         });
     }
 

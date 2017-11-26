@@ -50,7 +50,7 @@ public class SearchSeries extends Fetch {
         series = new GsonGetManager<>(URL, Search.class, headers, response -> {
             callback.onSuccess(response);
         }, error -> {
-            this.handleVolleyError(error, series, ctx, retry);
+            this.handleVolleyError(error, series, ctx, retry, callback);
             retry++;
         });
 

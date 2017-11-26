@@ -28,7 +28,6 @@
         <activity android:name=".networkTest.NetworkActivity" />
         <activity
             android:name=".login.LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login" />
     </application>
-
 </manifest>

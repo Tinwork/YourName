@@ -11,6 +11,7 @@ import com.yellowman.tinwork.yourname.home.HomeActivity;
 import com.yellowman.tinwork.yourname.model.Token;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.Routes;
+import com.yellowman.tinwork.yourname.network.fetch.Fetch;
 import com.yellowman.tinwork.yourname.network.fetch.GsonGetManager;
 import com.yellowman.tinwork.yourname.network.fetch.GsonPostManager;
 import com.yellowman.tinwork.yourname.network.fetch.RequestQueueManager;
@@ -27,14 +28,17 @@ import java.util.HashMap;
  * Created by Antoine Renault on 18/11/2017.
  */
 
-public class UserToken {
+public class UserToken extends Fetch {
     // Information regarding the APIs secret
     private final String API_KEY  = "4EA2639295D9AFEB";
-
-    // Only use this when using the /user apis
-    private final String USER_KEY = "<account_number>";
-    private final String USR_NAME = "<username>";
+    private final Context ctx;
     private final RequestQueueManager queueManager;
+
+    // Retry
+    private int retry;
+    private GsonPostManager<Token> post;
+    private GsonGetManager<Token> reqGet;
+
 
     /**
      * UserToken::Constructor
@@ -42,30 +46,40 @@ public class UserToken {
      * @param ctx
      */
     public UserToken(Context ctx) {
-        queueManager = RequestQueueManager.getInstance(ctx.getApplicationContext());
+        queueManager  = RequestQueueManager.getInstance(ctx.getApplicationContext());
+        this.ctx = ctx;
+        this.retry = 0;
     }
 
     /**
-     * Make Token
-     * @TODO display a toast OR a little popup message whenever an error of type network happened
-     *      Get the token or Refresh the token
+     * Get
+     *
+     * @param callback
      */
-    public void makeToken(final GsonCallback callback) {
+    @Override
+    public void get(HashMap<String, String> payload, final GsonCallback callback) {
         // Construct a JSON Object to pass to the /login API
         JsonObject credentials = new JsonObject();
         credentials.addProperty("apiKey", API_KEY);
 
-        GsonPostManager<Token> req = new GsonPostManager<>(Routes.LOGIN, credentials.toString(), Token.class, token -> {
+        // Ok nested if is not good
+        if (payload != null) {
+            if (payload.containsKey("username") && payload.containsKey("account_id")) {
+                credentials.addProperty("username", payload.get("username"));
+                credentials.addProperty("userkey", payload.get("account_id"));
+            }
+        }
+
+        post = new GsonPostManager<>(Routes.LOGIN, credentials.toString(), Token.class, token -> {
             // Call the callback
             callback.onSuccess(token);
         }, error -> {
-            // Catch the error
-            VolleyErrorHelper.isBasicError(error);
-            HashMap<String, String> errorPayload = VolleyErrorHelper.getNetworkErrorData(error);
+            this.handleVolleyError(error, post, ctx, retry, callback);
+            retry++;
         });
 
         // Add the request to the queue
-        queueManager.addToRequestQueue(req);
+        queueManager.addToRequestQueue(post);
     }
 
     /**
@@ -75,14 +89,13 @@ public class UserToken {
     public void refreshToken(String token, final GsonCallback callback) {
         HashMap<String, String> headers = Utils.makeHeaders(null, token);;
 
-        GsonGetManager<Token> req = new GsonGetManager<>(Routes.REFRESH_TOKEN, Token.class, headers, response -> {
+        reqGet = new GsonGetManager<>(Routes.REFRESH_TOKEN, Token.class, headers, response -> {
             callback.onSuccess(response);
         }, error -> {
-            VolleyErrorHelper.isBasicError(error);
-            HashMap<String, String> errorPayload = VolleyErrorHelper.getNetworkErrorData(error);
+            this.handleVolleyError(error, reqGet, ctx, 1, callback);
         });
 
-        queueManager.addToRequestQueue(req);
+        queueManager.addToRequestQueue(reqGet);
     }
 }
 

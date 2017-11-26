@@ -1,5 +1,6 @@
 package com.yellowman.tinwork.yourname.login;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
 
@@ -13,8 +14,13 @@ import android.widget.EditText;
 
 import com.google.gson.Gson;
 import com.yellowman.tinwork.yourname.R;
-import com.yellowman.tinwork.yourname.network.api.user.UserBasic;
+import com.yellowman.tinwork.yourname.home.HomeActivity;
+import com.yellowman.tinwork.yourname.model.Token;
+import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
+import com.yellowman.tinwork.yourname.network.api.user.UserToken;
 import com.yellowman.tinwork.yourname.utils.Utils;
+
+import java.util.HashMap;
 
 /**
  * A login screen that offers login via email/password.
@@ -27,15 +33,37 @@ public class LoginActivity extends AppCompatActivity {
     private View mProgressView;
     private View mLoginFormView;
     private Gson gson;
+    private View focusView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        // Init the other login component view
+        initOtherComponent();
         // Prepare the listener
         addSubmitListener();
         // Set the Auto Completion
         prepareAutoCompletion();
+        // focus view
+        this.focusView = null;
+    }
+
+    /**
+     * On Back Pressed
+     *      Overriding the behavior of this method
+     */
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
+
+    /**
+     * Init Other Component
+     */
+    protected void initOtherComponent() {
+        mProgressView  = findViewById(R.id.login_progress);
+        mLoginFormView = findViewById(R.id.email_login_form);
     }
 
    /**
@@ -76,24 +104,47 @@ public class LoginActivity extends AppCompatActivity {
     *
     */
    private void attemptLogin() {
-       View focusView = null;
+       HashMap<String, String> userInfo = new HashMap<>();
        // Retrieve the Username
        mAccountID = findViewById(R.id.accountID);
        // Get the text of the edit text and the auto complete component
        String accountID = mAccountID.getText().toString();
        String username  = mUsername.getText().toString();
 
+
        if (accountID.isEmpty()) {
            mAccountID.setError(getString(R.string.error_field_required));
            focusView = mAccountID;
+           focusView.requestFocus();
        } else if (username.isEmpty()) {
            mUsername.setError(getString(R.string.error_field_required));
            focusView = mUsername;
+           focusView.requestFocus();
+       } else {
+           userInfo.put("username", username);
+           userInfo.put("account_id", accountID);
        }
 
-       // Attempt to make log to the
-       //showProgress(true);
-       // Make a request to the APIs
+       showProgress(true);
+       // Make a post request to get the token
+
+       UserToken tokenReq = new UserToken(this);
+       tokenReq.get(userInfo, new GsonCallback<Token>() {
+           @Override
+           public void onSuccess(Token response) {
+               Utils.saveSharedPreference(LoginActivity.this, "yourname_token", response.getToken());
+               // Save the user data
+               Utils.saveSharedPreference(LoginActivity.this, "username", username);
+               Utils.saveSharedPreference(LoginActivity.this, "accountID", accountID);
+               // Start the new home activity
+               LoginActivity.this.dispatchHome();
+           }
+
+           @Override
+           public void onError(String err) {
+               showProgress(false);
+           }
+       });
    }
 
    /**
@@ -106,9 +157,13 @@ public class LoginActivity extends AppCompatActivity {
         mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
     }
 
-    @Override
-    public void onBackPressed() {
-        moveTaskToBack(true);
+    /**
+     * Dispatch Home
+     *      Call the Home Activity
+     */
+    private void dispatchHome() {
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
     }
 }
 

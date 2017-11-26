@@ -53,7 +53,7 @@ public class UserBasic extends Fetch {
         userRequest = new GsonGetManager<User>(Routes.USER, User.class, headers ,response -> {
             callback.onSuccess(response);
         }, error -> {
-            this.handleVolleyError(error, userRequest, ctx, retry);
+            this.handleVolleyError(error, userRequest, ctx, retry, callback);
             retry++;
         });
     }
