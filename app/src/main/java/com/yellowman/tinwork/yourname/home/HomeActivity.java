@@ -1,14 +1,13 @@
 package com.yellowman.tinwork.yourname.home;
 
 import android.content.Intent;
-import android.net.Network;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 
-import com.yellowman.tinwork.yourname.filmDetails.FilmDetails;
 import com.yellowman.tinwork.yourname.R;
+import com.yellowman.tinwork.yourname.login.LoginActivity;
 import com.yellowman.tinwork.yourname.networkTest.NetworkActivity;
 import com.yellowman.tinwork.yourname.utils.Utils;
 
@@ -18,7 +17,29 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        isUserSubscribe();
         launchActivity();
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
+
+    /**
+     * Is User Subscribe
+     */
+    private void isUserSubscribe() {
+        String username  = Utils.getSharedPreference(this, "username");
+        String accountID = Utils.getSharedPreference(this, "accountID");
+
+        // Create an intent to redirect to an other view
+        Intent view = new Intent();
+
+        if (username.isEmpty() || accountID.isEmpty()) {
+            view.setClass(this, LoginActivity.class);
+            startActivity(view);
+        }
     }
 
 

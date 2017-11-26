@@ -14,4 +14,5 @@ package com.yellowman.tinwork.yourname.network.Listeners;
  */
 public interface GsonCallback<T> {
     void onSuccess(T response);
+    void onError(String err);
 }

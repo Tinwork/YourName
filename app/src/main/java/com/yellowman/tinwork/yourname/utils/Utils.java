@@ -92,6 +92,6 @@ public class Utils {
      */
     public static String getSharedPreference(Context ctx, String keyName) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ctx);
-        return sharedPref.getString(keyName, "nopayload");
+        return sharedPref.getString(keyName, "");
     }
 }

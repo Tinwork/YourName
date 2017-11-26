@@ -11,6 +11,8 @@ import com.yellowman.tinwork.yourname.network.api.user.UserToken;
 import com.yellowman.tinwork.yourname.network.fetch.RequestQueueManager;
 import com.yellowman.tinwork.yourname.utils.Utils;
 
+import java.util.HashMap;
+
 /**
  * Created by Marc Intha-amnouay on 23/11/2017.
  * Created by Didier Youn on 23/11/2017.
@@ -42,12 +44,19 @@ public class VolleyRetry<T> {
      * @param req
      */
     public void retry(Request<T> req) {
+        HashMap<String, String> usrPayload = new HashMap<>();
+        usrPayload.put("username", Utils.getSharedPreference(ctx, "username"));
+        usrPayload.put("accountID", Utils.getSharedPreference(ctx, "accountID"));
+
         // /!\ Refresh token timestamp is not implemented yet. Use the /login route in the meantime
-        userToken.makeToken(new GsonCallback<Token>() {
+        // Though the refresh token is pretty strange... on the api side..
+        userToken.get(usrPayload, new GsonCallback<Token>() {
             @Override
             public void onSuccess(Token response) {
                 try {
-                    req.getHeaders().put("Authorization", "Bearer "+response.getToken());
+                    if (req.getHeaders().containsKey("Authorization")) {
+                        req.getHeaders().put("Authorization", "Bearer "+response.getToken());
+                    }
                 } catch (AuthFailureError e) {
                     Log.d("Error", "can not replace Headers");
                 }
@@ -56,6 +65,13 @@ public class VolleyRetry<T> {
                 Utils.saveSharedPreference(ctx, "yourname_token", response.getToken());
                 queue.addToRequestQueue(req);
             }
+
+            @Override
+            public void onError(String err) {
+
+            }
         });
     }
+
+
 }
