@@ -3,4 +3,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <!-- Colors below is use for shadow on the App -->
+    <color name="starBlue">#4d6ede</color>
+    <color name="orchidPink">#d03d69</color>
+    <color name="deepPurple">#6642ea</color>
+    <color name="neonPurple">#9d42ea</color>
 </resources>

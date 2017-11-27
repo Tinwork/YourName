@@ -10,10 +10,12 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 
 import com.google.gson.Gson;
 import com.yellowman.tinwork.yourname.R;
+import com.yellowman.tinwork.yourname.UIKit.GradientGenerator;
 import com.yellowman.tinwork.yourname.home.HomeActivity;
 import com.yellowman.tinwork.yourname.model.Token;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
@@ -45,6 +47,8 @@ public class LoginActivity extends AppCompatActivity {
         addSubmitListener();
         // Set the Auto Completion
         prepareAutoCompletion();
+        // set the background color
+        setBackground();
         // focus view
         this.focusView = null;
     }
@@ -164,6 +168,18 @@ public class LoginActivity extends AppCompatActivity {
     private void dispatchHome() {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
+    }
+
+    /**
+     * Set Background
+     */
+    private void setBackground() {
+        LinearLayout layout = findViewById(R.id.loginLayout);
+        GradientGenerator gd = new GradientGenerator(this, layout);
+        gd.buildBackgroundGradientColor();
+
+        // Set the nav bar to translucent
+        Utils.makeNavBarTranslucent(getWindow());
     }
 }
 

@@ -3,7 +3,11 @@ package com.yellowman.tinwork.yourname.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.preference.PreferenceManager;
+import android.view.Window;
+import android.view.WindowManager;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -93,5 +97,25 @@ public class Utils {
     public static String getSharedPreference(Context ctx, String keyName) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ctx);
         return sharedPref.getString(keyName, "");
+    }
+
+    /**
+     * Get Random Number
+     * @param min
+     * @param max
+     * @return
+     */
+    public static int getRandomNumber(int min, int max) {
+        return min + (int) (Math.random() * ((max - min) + 1));
+    }
+
+    /**
+     * Make Nav Bar Translucent
+     * @param w
+     */
+    public static void makeNavBarTranslucent(final Window w) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
     }
 }
