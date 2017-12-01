@@ -39,8 +39,8 @@ For Calling the API you'll need to import your **Entity** and add the following 
  * <JSON.toString> a JSON Payload in String format
  * <Entity.class> pass the schema of the Class 
  */
-
-public void callFoo(final GsonCallback callback) {
+@Override
+public void get(HashMap<String, String> payload, final GsonCallback callback) {
   GsonPostManager<Entity> req = new GsonPostManager<>(<ROUTE>, <JSON.toString>, <Entity.class>, response -> {
     // Call the callback
     callback.onSuccess(token);

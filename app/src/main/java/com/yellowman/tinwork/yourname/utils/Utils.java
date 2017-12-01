@@ -2,6 +2,7 @@ package com.yellowman.tinwork.yourname.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -116,6 +117,7 @@ public class Utils {
     public static void makeNavBarTranslucent(final Window w) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            w.setNavigationBarColor(Color.WHITE);
         }
     }
 }

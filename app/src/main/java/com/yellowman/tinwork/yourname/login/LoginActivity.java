@@ -36,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
     private View mLoginFormView;
     private Gson gson;
     private View focusView;
+    private UserToken tokenReq;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         setBackground();
         // focus view
         this.focusView = null;
+        this.tokenReq = new UserToken(this);
     }
 
     /**
@@ -74,10 +77,12 @@ public class LoginActivity extends AppCompatActivity {
     * Add Submit Listener
     */
    private void addSubmitListener() {
-       Button signIn = (Button) findViewById(R.id.sign_in_button);
+       Button signIn = findViewById(R.id.sign_in_button);
+       Button skip   = findViewById(R.id.skip);
 
        // Add the onClickListener
        signIn.setOnClickListener(ev -> LoginActivity.this.attemptLogin());
+       skip.setOnClickListener(ev -> LoginActivity.this.getRequestToken(null));
    }
 
    /**
@@ -105,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
 
    /**
     * Attempt Login
-    *
+    * @void
     */
    private void attemptLogin() {
        HashMap<String, String> userInfo = new HashMap<>();
@@ -131,15 +136,27 @@ public class LoginActivity extends AppCompatActivity {
 
        showProgress(true);
        // Make a post request to get the token
+       getRequestToken(userInfo);
+   }
 
-       UserToken tokenReq = new UserToken(this);
-       tokenReq.get(userInfo, new GsonCallback<Token>() {
+
+   /**
+    * Get Request Token
+    *   Get the Token of the App
+    * @param payload
+    */
+   private void getRequestToken(HashMap<String, String> payload) {
+       tokenReq.get(payload, new GsonCallback<Token>() {
            @Override
            public void onSuccess(Token response) {
                Utils.saveSharedPreference(LoginActivity.this, "yourname_token", response.getToken());
                // Save the user data
-               Utils.saveSharedPreference(LoginActivity.this, "username", username);
-               Utils.saveSharedPreference(LoginActivity.this, "accountID", accountID);
+               if (payload != null) {
+                   if (payload.containsKey("username") && payload.containsKey("accountID")){
+                       Utils.saveSharedPreference(LoginActivity.this, "username", payload.get("username"));
+                       Utils.saveSharedPreference(LoginActivity.this, "accountID", payload.get("account_id"));
+                   }
+               }
                // Start the new home activity
                LoginActivity.this.dispatchHome();
            }

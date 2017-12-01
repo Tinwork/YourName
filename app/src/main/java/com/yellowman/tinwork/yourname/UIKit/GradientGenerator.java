@@ -19,7 +19,7 @@ import com.yellowman.tinwork.yourname.utils.Utils;
 public class GradientGenerator {
 
     private Context ctx;
-    private int[] colorsID;
+    private int[][] colorsID;
     private LinearLayout layout;
 
     /**
@@ -37,14 +37,14 @@ public class GradientGenerator {
      * @return
      * @protected
      */
-    protected int[] getShadowColors() {
+    protected int[][] getShadowColors() {
         // Get a reference of every color use for the shadow generator
         int starBlue   = ContextCompat.getColor(ctx, R.color.starBlue);
         int orchidPink = ContextCompat.getColor(ctx, R.color.orchidPink);
         int deepPurple = ContextCompat.getColor(ctx, R.color.deepPurple);
         int neonPurple = ContextCompat.getColor(ctx, R.color.neonPurple);
 
-        int[] colors = {starBlue, orchidPink, deepPurple, neonPurple};
+        int[][] colors = {{starBlue, deepPurple}, {orchidPink, neonPurple}};
         return colors;
     }
 
@@ -52,20 +52,20 @@ public class GradientGenerator {
      * Build Background Shadow Color
      */
     public void buildBackgroundGradientColor() {
-        int firstColor  = Utils.getRandomNumber(0, 3);
-        int secondColor = Utils.getRandomNumber(0, 3);
+        int idx  = Utils.getRandomNumber(0, 1);
 
-        int colors[] = {colorsID[firstColor], colorsID[secondColor]};
+        int colors[] = {colorsID[idx][0], colorsID[idx][1]};
 
-        GradientDrawable gd = new GradientDrawable(
-                GradientDrawable.Orientation.TOP_BOTTOM, colors
-        );
+        GradientDrawable gd = new GradientDrawable();
 
         // In case if the App is use by old android device, use the first background color
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            gd.setColors(colors);
+            gd.setGradientType(GradientDrawable.LINEAR_GRADIENT);
+            gd.setShape(GradientDrawable.RECTANGLE);
             layout.setBackground(gd);
         } else {
-            layout.setBackgroundColor(firstColor);
+            layout.setBackgroundColor(colorsID[idx][0]);
         }
     }
 }
