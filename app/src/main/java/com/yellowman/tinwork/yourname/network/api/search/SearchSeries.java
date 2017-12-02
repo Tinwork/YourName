@@ -21,12 +21,17 @@ import java.util.HashMap;
 
 public class SearchSeries extends Fetch {
 
-    private Context ctx;
     private final RequestQueueManager queueManager;
+    private Context ctx;
     private GsonGetManager<Search> series;
     private int retry;
 
 
+    /**
+     * Search Series
+     *
+     * @param context
+     */
     public SearchSeries(Context context) {
         this.ctx = context;
         this.queueManager = RequestQueueManager.getInstance(this.ctx.getApplicationContext());

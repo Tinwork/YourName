@@ -30,13 +30,12 @@ public class HomeActivity extends AppCompatActivity {
      * Is User Subscribe
      */
     private void isUserSubscribe() {
-        String username  = Utils.getSharedPreference(this, "username");
-        String accountID = Utils.getSharedPreference(this, "accountID");
+        String token  = Utils.getSharedPreference(this, "yourname_token");
 
         // Create an intent to redirect to an other view
         Intent view = new Intent();
 
-        if (username.isEmpty() || accountID.isEmpty()) {
+        if (token.isEmpty()) {
             view.setClass(this, LoginActivity.class);
             startActivity(view);
         }

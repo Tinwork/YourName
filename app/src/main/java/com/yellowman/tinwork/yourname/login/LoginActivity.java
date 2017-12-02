@@ -10,10 +10,12 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 
 import com.google.gson.Gson;
 import com.yellowman.tinwork.yourname.R;
+import com.yellowman.tinwork.yourname.UIKit.GradientGenerator;
 import com.yellowman.tinwork.yourname.home.HomeActivity;
 import com.yellowman.tinwork.yourname.model.Token;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
@@ -34,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
     private View mLoginFormView;
     private Gson gson;
     private View focusView;
+    private UserToken tokenReq;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +49,11 @@ public class LoginActivity extends AppCompatActivity {
         addSubmitListener();
         // Set the Auto Completion
         prepareAutoCompletion();
+        // set the background color
+        setBackground();
         // focus view
         this.focusView = null;
+        this.tokenReq = new UserToken(this);
     }
 
     /**
@@ -60,6 +67,8 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * Init Other Component
+     *
+     * @void
      */
     protected void initOtherComponent() {
         mProgressView  = findViewById(R.id.login_progress);
@@ -68,16 +77,22 @@ public class LoginActivity extends AppCompatActivity {
 
    /**
     * Add Submit Listener
+    *
+    * @void
     */
    private void addSubmitListener() {
-       Button signIn = (Button) findViewById(R.id.sign_in_button);
+       Button signIn = findViewById(R.id.sign_in_button);
+       Button skip   = findViewById(R.id.skip);
 
        // Add the onClickListener
        signIn.setOnClickListener(ev -> LoginActivity.this.attemptLogin());
+       skip.setOnClickListener(ev -> LoginActivity.this.getRequestToken(null));
    }
 
    /**
     * Prepare Auto Completion
+    *
+    * @void
     */
    private void prepareAutoCompletion() {
        mUsername = findViewById(R.id.username);
@@ -101,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
 
    /**
     * Attempt Login
-    *
+    * @void
     */
    private void attemptLogin() {
        HashMap<String, String> userInfo = new HashMap<>();
@@ -127,15 +142,27 @@ public class LoginActivity extends AppCompatActivity {
 
        showProgress(true);
        // Make a post request to get the token
+       getRequestToken(userInfo);
+   }
 
-       UserToken tokenReq = new UserToken(this);
-       tokenReq.get(userInfo, new GsonCallback<Token>() {
+
+   /**
+    * Get Request Token
+    *   Get the Token of the App
+    * @param payload
+    */
+   private void getRequestToken(HashMap<String, String> payload) {
+       tokenReq.get(payload, new GsonCallback<Token>() {
            @Override
            public void onSuccess(Token response) {
                Utils.saveSharedPreference(LoginActivity.this, "yourname_token", response.getToken());
                // Save the user data
-               Utils.saveSharedPreference(LoginActivity.this, "username", username);
-               Utils.saveSharedPreference(LoginActivity.this, "accountID", accountID);
+               if (payload != null) {
+                   if (payload.containsKey("username") && payload.containsKey("accountID")){
+                       Utils.saveSharedPreference(LoginActivity.this, "username", payload.get("username"));
+                       Utils.saveSharedPreference(LoginActivity.this, "accountID", payload.get("account_id"));
+                   }
+               }
                // Start the new home activity
                LoginActivity.this.dispatchHome();
            }
@@ -149,6 +176,8 @@ public class LoginActivity extends AppCompatActivity {
 
    /**
     * Shows the progress UI and hides the login form.
+    *
+    * @param show
     */
     private void showProgress(final boolean show) {
         // The ViewPropertyAnimator APIs are not available, so simply show
@@ -160,10 +189,25 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * Dispatch Home
      *      Call the Home Activity
+     *
+     * @void
      */
     private void dispatchHome() {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
+    }
+
+    /**
+     * Set Background
+     * @void
+     */
+    private void setBackground() {
+        LinearLayout layout = findViewById(R.id.loginLayout);
+        GradientGenerator gd = new GradientGenerator(this, layout);
+        gd.buildBackgroundGradientColor();
+
+        // Set the nav bar to translucent
+        Utils.makeNavBarTranslucent(getWindow());
     }
 }
 

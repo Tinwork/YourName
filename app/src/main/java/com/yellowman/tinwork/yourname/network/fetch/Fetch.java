@@ -23,13 +23,19 @@ public abstract class Fetch {
     /**
      * Handle Volley Error
      * @param error
+     * @param req
+     * @param ctx
+     * @param retry
+     * @param callback
      */
     public static void handleVolleyError(VolleyError error, Request req, Context ctx, int retry, final GsonCallback callback) {
         HashMap<String, String> errorPayload = VolleyErrorHelper.getNetworkErrorData(error);
 
-        if (new Integer(errorPayload.get("code")) == 401 && retry < 1) {
-            VolleyRetry re = new VolleyRetry(ctx);
-            re.retry(req);
+        if (errorPayload.containsKey("code") && retry < 1) {
+            if (new Integer(errorPayload.get("code")) == 401) {
+                VolleyRetry re = new VolleyRetry(ctx);
+                re.retry(req);
+            }
         } else if (!VolleyErrorHelper.isBasicError(error) && errorPayload.get("message") != null) {
             // Log the error
             callback.onError(errorPayload.get("message"));
@@ -37,7 +43,6 @@ public abstract class Fetch {
             // Log the error with basic VolleyError code
             callback.onError(errorPayload.get("code"));
         }
-
     }
 
     /**
