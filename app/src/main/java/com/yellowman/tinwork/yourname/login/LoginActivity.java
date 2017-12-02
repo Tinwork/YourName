@@ -67,6 +67,8 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * Init Other Component
+     *
+     * @void
      */
     protected void initOtherComponent() {
         mProgressView  = findViewById(R.id.login_progress);
@@ -75,6 +77,8 @@ public class LoginActivity extends AppCompatActivity {
 
    /**
     * Add Submit Listener
+    *
+    * @void
     */
    private void addSubmitListener() {
        Button signIn = findViewById(R.id.sign_in_button);
@@ -87,6 +91,8 @@ public class LoginActivity extends AppCompatActivity {
 
    /**
     * Prepare Auto Completion
+    *
+    * @void
     */
    private void prepareAutoCompletion() {
        mUsername = findViewById(R.id.username);
@@ -170,6 +176,8 @@ public class LoginActivity extends AppCompatActivity {
 
    /**
     * Shows the progress UI and hides the login form.
+    *
+    * @param show
     */
     private void showProgress(final boolean show) {
         // The ViewPropertyAnimator APIs are not available, so simply show
@@ -181,6 +189,8 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * Dispatch Home
      *      Call the Home Activity
+     *
+     * @void
      */
     private void dispatchHome() {
         Intent intent = new Intent(this, HomeActivity.class);
@@ -189,6 +199,7 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * Set Background
+     * @void
      */
     private void setBackground() {
         LinearLayout layout = findViewById(R.id.loginLayout);

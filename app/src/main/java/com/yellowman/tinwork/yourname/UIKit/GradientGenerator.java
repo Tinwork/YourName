@@ -34,6 +34,7 @@ public class GradientGenerator {
 
     /**
      * Get Shadow Colors
+     *
      * @return
      * @protected
      */
@@ -50,6 +51,8 @@ public class GradientGenerator {
 
     /**
      * Build Background Shadow Color
+     *
+     * @void
      */
     public void buildBackgroundGradientColor() {
         int idx  = Utils.getRandomNumber(0, 1);
