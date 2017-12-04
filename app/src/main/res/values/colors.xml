@@ -15,4 +15,7 @@
     <color name="orchidPink">#d03d69</color>
     <color name="deepPurple">#6642ea</color>
     <color name="neonPurple">#9d42ea</color>
+
+    <!-- toolbar -->
+    <color name="transparency">#00000000</color>
 </resources>

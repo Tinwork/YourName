@@ -17,4 +17,7 @@
 
     <!-- content description -->
     <string name="img_logo">Logo of yourname</string>
+
+    <!-- navigation bar -->
+    <string name="search_icon">Search Icon</string>
 </resources>

@@ -22,4 +22,16 @@
         <item name="android:textColorHint">@color/lightGrey</item>
         <item name="android:textColor">@color/white</item>
     </style>
+
+
+    <style name="AppToolbar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:background">@color/transparency</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/lightGrey</item>
+    </style>
+
+    <style name="Dark.Overlay.LightPopup" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:background">@color/transparency</item>
+    </style>
+
 </resources>
