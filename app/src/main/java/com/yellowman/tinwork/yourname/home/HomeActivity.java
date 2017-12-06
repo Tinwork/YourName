@@ -1,6 +1,7 @@
 package com.yellowman.tinwork.yourname.home;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -11,12 +12,13 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.yellowman.tinwork.yourname.R;
-import com.yellowman.tinwork.yourname.UIKit.GradientGenerator;
+import com.yellowman.tinwork.yourname.UIKit.misc.GradientGenerator;
+import com.yellowman.tinwork.yourname.home.fragments.TrendingFragment;
 import com.yellowman.tinwork.yourname.login.LoginActivity;
 import com.yellowman.tinwork.yourname.networkTest.NetworkActivity;
 import com.yellowman.tinwork.yourname.utils.Utils;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements TrendingFragment.OnFragmentInteractionListener{
 
     private GradientGenerator gd;
 
@@ -121,5 +123,8 @@ public class HomeActivity extends AppCompatActivity {
         super.onSaveInstanceState(savedInstancedBundle);
     }
 
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 
 }

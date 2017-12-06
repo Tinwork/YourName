@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
 import com.yellowman.tinwork.yourname.R;
-import com.yellowman.tinwork.yourname.UIKit.GradientGenerator;
+import com.yellowman.tinwork.yourname.UIKit.misc.GradientGenerator;
 import com.yellowman.tinwork.yourname.home.HomeActivity;
 import com.yellowman.tinwork.yourname.model.Token;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;

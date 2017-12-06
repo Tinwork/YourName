@@ -1,4 +1,4 @@
-package com.yellowman.tinwork.yourname.UIKit;
+package com.yellowman.tinwork.yourname.UIKit.misc;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
