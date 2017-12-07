@@ -9,6 +9,7 @@ import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.model.Search;
 import com.yellowman.tinwork.yourname.model.Token;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
+import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
 import com.yellowman.tinwork.yourname.network.api.user.UserToken;
 import com.yellowman.tinwork.yourname.utils.Utils;
@@ -80,18 +81,36 @@ public class NetworkActivity extends AppCompatActivity {
     }
 
     /**
+     * Test Placeholder URI
+     * @protected
+     * @void
+     */
+    protected void testPlaceholderURI() {
+        String[] params = {"bar", "lol"};
+        String[] single = {"foo"};
+
+        String paramsURI = Utils.buildPlaceholderUrl(Routes.SEARCH_SERIES, params, null);
+        String paramURI  = Utils.buildPlaceholderUrl(Routes.SEARCH_SERIES, single, "yourname/lyly/mama");
+        Log.d("Debug", paramsURI);
+        Log.d("Debug", paramURI);
+    }
+
+    /**
      * Listen Button
+     * @void
      */
     public void listenButton() {
         // Get the buttons
-        Button refresh   = (Button) findViewById(R.id.refreshToken);
-        Button getToken  = (Button) findViewById(R.id.getToken);
-        Button getSeries = (Button) findViewById(R.id.getSeries);
+        Button refresh     = (Button) findViewById(R.id.refreshToken);
+        Button getToken    = (Button) findViewById(R.id.getToken);
+        Button getSeries   = (Button) findViewById(R.id.getSeries);
+        Button placeHolder = (Button) findViewById(R.id.testPlaceHolder);
 
         // Add a listeners
         refresh.setOnClickListener(event -> NetworkActivity.this.testRefreshTokenAPI());
         getToken.setOnClickListener(event -> NetworkActivity.this.testFetch());
         getSeries.setOnClickListener(event -> NetworkActivity.this.testGetSeriesAPI());
+        placeHolder.setOnClickListener(event -> NetworkActivity.this.testPlaceholderURI());
     }
 
 }

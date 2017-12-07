@@ -11,15 +11,16 @@ package com.yellowman.tinwork.yourname.network.api;
  * Created by Antoine Renault on 19/11/2017.
  */
 public class Routes {
+    // Protocol
+    public static final String PROTOCOL = "https";
+    // Route that use the Authority and partial URI instead of the full one
+    public static final String API_AUTHORITY = "api.thetvbd.com";
+    // Series
+    public static final String SEARCH_SERIES = "search/series";
     private static final String PREFIX = "https://api.thetvdb.com";
-
     // User auth
     public static final String LOGIN = PREFIX+"/login";
     public static final String REFRESH_TOKEN = PREFIX+"/refresh_token";
-
-    // Series
-    public static final String SEARCH_SERIES = "search/series";
-
     // User
     // Route that not need params
     public static final String USER = PREFIX+"/user";
