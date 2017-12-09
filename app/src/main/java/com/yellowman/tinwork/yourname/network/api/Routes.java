@@ -17,6 +17,7 @@ public class Routes {
     public static final String API_AUTHORITY = "api.thetvbd.com";
     // Series
     public static final String SEARCH_SERIES = "search/series";
+    public static final String SERIES = "series";
     private static final String PREFIX = "https://api.thetvdb.com";
     // User auth
     public static final String LOGIN = PREFIX+"/login";
