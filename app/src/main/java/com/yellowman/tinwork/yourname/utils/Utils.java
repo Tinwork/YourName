@@ -9,6 +9,9 @@ import android.preference.PreferenceManager;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.yellowman.tinwork.yourname.network.api.Routes;
+
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,8 +36,8 @@ public class Utils {
             return baseURL;
 
         Uri.Builder builder = new Uri.Builder();
-        builder.scheme("https")
-               .authority("api.thetvdb.com")
+        builder.scheme(Routes.PROTOCOL)
+               .authority(Routes.API_AUTHORITY)
                .appendEncodedPath(baseURL);
 
         for (Map.Entry<String, String> data: payload.entrySet()) {
@@ -44,6 +47,30 @@ public class Utils {
             builder.appendQueryParameter(key, value);
         }
 
+        return builder.build().toString();
+    }
+
+    /**
+     * Build Placeholder Url
+     * @param baseURL
+     * @param placeholders
+     * @param restURL
+     *
+     * @TODO might change Min API Level...
+     * @return
+     */
+    public static String buildPlaceholderUrl(String baseURL, String[] placeholders, String restURL) {
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme(Routes.PROTOCOL)
+               .authority(Routes.API_AUTHORITY)
+               .appendEncodedPath(baseURL);
+
+        Arrays.stream(placeholders).forEach(placeholder -> builder.appendPath(placeholder));
+
+        if (restURL == null)
+            return builder.build().toString();
+
+        builder.appendEncodedPath(restURL);
         return builder.build().toString();
     }
 
