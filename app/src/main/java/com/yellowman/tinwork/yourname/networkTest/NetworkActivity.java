@@ -11,6 +11,7 @@ import com.yellowman.tinwork.yourname.model.Token;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
+import com.yellowman.tinwork.yourname.network.api.search.GetSerie;
 import com.yellowman.tinwork.yourname.network.api.user.UserToken;
 import com.yellowman.tinwork.yourname.utils.Utils;
 
@@ -86,13 +87,27 @@ public class NetworkActivity extends AppCompatActivity {
      * @void
      */
     protected void testPlaceholderURI() {
-        String[] params = {"bar", "lol"};
+        //String[] params = {"328840"};
         String[] single = {"foo"};
 
-        String paramsURI = Utils.buildPlaceholderUrl(Routes.SEARCH_SERIES, params, null);
-        String paramURI  = Utils.buildPlaceholderUrl(Routes.SEARCH_SERIES, single, "yourname/lyly/mama");
-        Log.d("Debug", paramsURI);
-        Log.d("Debug", paramURI);
+        HashMap<String, String> params = new HashMap<>();
+        params.put("series_id", "328840");
+
+        GetSerie serie = new GetSerie(this);
+        serie.get(params, new GsonCallback<Search>() {
+            @Override
+            public void onSuccess(Search response) {
+
+                Log.d("Debug", "Serie name for search API "+response.getData());
+            }
+
+            public void onError(String err) {}
+        });
+
+        //String paramsURI = Utils.buildPlaceholderUrl(Routes.SERIES, params, null);
+        //String paramURI  = Utils.buildPlaceholderUrl(Routes.SEARCH_SERIES, single, "yourname/lyly/mama");
+        //Log.d("Debug", paramsURI);
+        //Log.d("Debug", paramURI);
     }
 
     /**
