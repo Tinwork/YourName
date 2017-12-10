@@ -4,71 +4,97 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.yellowman.tinwork.yourname.R;
-import com.yellowman.tinwork.yourname.UIKit.fragments.FragmentManager;
+import com.yellowman.tinwork.yourname.UIKit.adapters.TrendAdapter;
+import com.yellowman.tinwork.yourname.model.Search;
+import com.yellowman.tinwork.yourname.model.Series;
+import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
+import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link TrendingFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link TrendingFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+
 public class TrendingFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private RecyclerView recyclerView;
 
+    /**
+     *  TrendingFragment::Constructor
+     */
     public TrendingFragment() {
         // Required empty public constructor
     }
 
     /**
      *
-     * @param param1
-     * @param param2
-     * @return
+     * @param savedInstanceState
      */
-    public static TrendingFragment newInstance(String param1, String param2) {
-        TrendingFragment fragment = new TrendingFragment();
-        Bundle args = new Bundle();
-
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * On Create View
+     *      Inflate the Fragment
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View trending = inflater.inflate(R.layout.fragment_trending, container, false);
+        recyclerView  = (RecyclerView) trending.findViewById(R.id.home_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(trending.getContext()));
 
-        String[] test = {"foo", "bar"};
 
-        View v = inflater.inflate(R.layout.fragment_trending, container, false);
-        RecyclerView rec = (RecyclerView) v.findViewById(R.id.home_recycler_view);
-        FragmentManager fr = new FragmentManager(rec, this.getActivity(), test);
+        // Dummy data
+        Series serie = new Series();
+        serie.setBanner("LOLOOOOLL");
 
-        fr.setLayout();
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_trending, container, false);
+        List<Series> ls = new ArrayList<>();
+        ls.add(serie);
+        ls.add(serie);
+        ls.add(serie);
+
+
+        // Set it to fix so android can do some optimization
+        recyclerView.setHasFixedSize(true);
+        TrendAdapter adapter = new TrendAdapter(ls);
+        recyclerView.setAdapter(adapter);
+
+        return trending;
     }
 
+    /**
+     * On Activity Created
+     *      Pass the adapter to bind the component
+     * @param savedInstanceState
+     */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        Log.d("Info", "Get series");
+        // Create an instance of the Adapter
+        getSeries(getActivity());
     }
 
-
+    /**
+     *
+     * @param context
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -87,14 +113,36 @@ public class TrendingFragment extends Fragment {
     }
 
     /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
+     * Get Series
+     * @private
+     */
+    private void getSeries(Context ctx) {
+        HashMap<String, String> payload = new HashMap<>();
+        payload.put("name", "your name");
+
+        SearchSeries search = new SearchSeries(ctx);
+        search.get(payload, new GsonCallback<Search>() {
+            @Override
+            public void onSuccess(Search response) {
+                // Create adapter
+                if (response.getData() == null) {
+                    // Do some stuff here
+                    return;
+                }
+
+                Log.d("Debug", "adapter !");
+                TrendAdapter adapter = new TrendAdapter(response.getData());
+                recyclerView.swapAdapter(adapter, false);
+            }
+
+            public void onError(String err) {
+                Log.d("Error", "err: "+err);
+            }
+        });
+    }
+
+    /**
+     * On Fragment Interaction Listener
      */
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);

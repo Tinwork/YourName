@@ -29,15 +29,24 @@ public class HomeActivity extends AppCompatActivity implements TrendingFragment.
         setToolbar();
         initView();
         isUserSubscribe();
-        launchActivity();
     }
 
+    /**
+     * On Create Options Menu
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
 
+    /**
+     * On Options Item Selected
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -58,6 +67,7 @@ public class HomeActivity extends AppCompatActivity implements TrendingFragment.
      * Set ToolBar
      */
     private void setToolbar() {
+        Log.d("Debug", "set toolbar");
         Toolbar toolbar = (Toolbar) findViewById(R.id.mytoolbar);
         setSupportActionBar(toolbar);
     }
@@ -80,19 +90,6 @@ public class HomeActivity extends AppCompatActivity implements TrendingFragment.
             view.setClass(this, LoginActivity.class);
             startActivity(view);
         }
-    }
-
-
-    /**
-     * Launch Activity
-     */
-    protected void launchActivity() {
-        Button button = (Button) findViewById(R.id.button);
-
-        button.setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this, NetworkActivity.class);
-            startActivity(intent);
-        });
     }
 
     /**

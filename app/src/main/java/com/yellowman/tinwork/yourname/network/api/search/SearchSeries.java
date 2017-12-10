@@ -1,6 +1,7 @@
 package com.yellowman.tinwork.yourname.network.api.search;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.yellowman.tinwork.yourname.model.Search;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
@@ -51,6 +52,7 @@ public class SearchSeries extends Fetch {
         HashMap<String, String> headers = Utils.makeHeaders(null, token);
         // Bind the GET request params
         String URL = Utils.buildGetUrl(Routes.SEARCH_SERIES, payload);
+        Log.d("Debug", URL);
 
         series = new GsonGetManager<>(URL, Search.class, headers, response -> {
             callback.onSuccess(response);

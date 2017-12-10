@@ -14,10 +14,11 @@ public class Routes {
     // Protocol
     public static final String PROTOCOL = "https";
     // Route that use the Authority and partial URI instead of the full one
-    public static final String API_AUTHORITY = "api.thetvbd.com";
+    public static final String API_AUTHORITY = "api.thetvdb.com";
     // Series
     public static final String SEARCH_SERIES = "search/series";
     public static final String SERIES = "series";
+    public static final String IMG_PATH = "www.thetvdb.com/banners";
     private static final String PREFIX = "https://api.thetvdb.com";
     // User auth
     public static final String LOGIN = PREFIX+"/login";

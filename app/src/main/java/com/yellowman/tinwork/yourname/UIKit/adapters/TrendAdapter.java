@@ -2,10 +2,15 @@ package com.yellowman.tinwork.yourname.UIKit.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.yellowman.tinwork.yourname.R;
+import com.yellowman.tinwork.yourname.UIKit.holder.TrendingHolder;
+import com.yellowman.tinwork.yourname.model.Series;
+
+import java.util.List;
 
 /**
  * Created by Marc Intha-amnouay on 06/12/2017.
@@ -14,41 +19,40 @@ import com.yellowman.tinwork.yourname.R;
  * Created by Antoine Renault on 06/12/2017.
  */
 
-public class TrendAdapter extends RecyclerView.Adapter<TrendAdapter.ViewHolder>{
-    private String[] mDataset;
+public class TrendAdapter extends RecyclerView.Adapter{
+
+    public List<Series> series;
 
     /**
-     * TrendAdapter::Constructor
-     * @param dataset
+     * Trend Adapter
+     * @param seriesList
      */
-    public TrendAdapter(String[] dataset) {
-        dataset = mDataset;
+    public TrendAdapter(List<Series> seriesList) {
+        series = seriesList;
     }
 
     /**
-     * On Create View Holder
+     *
      * @param parent
      * @param viewType
      * @return
      */
     @Override
-    public TrendAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        // Create a new text view
-        TextView title = (TextView) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_trending, parent, false);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_home, parent, false);
 
-        ViewHolder vh = new ViewHolder(title);
-        return vh;
+        // Create viewHolder here
+        return new TrendingHolder(view);
     }
 
     /**
      *
      * @param holder
-     * @param pos
+     * @param position
      */
     @Override
-    public void onBindViewHolder(ViewHolder holder, int pos) {
-        holder.title.setText(mDataset[pos]);
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        ((TrendingHolder) holder).bindData(series.get(position));
     }
 
     /**
@@ -57,17 +61,21 @@ public class TrendAdapter extends RecyclerView.Adapter<TrendAdapter.ViewHolder>{
      */
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        if (series == null) {
+            return 0;
+        }
+
+        return series.size();
     }
 
     /**
-     * View Holder
+     *
+     * @param position
+     * @return
      */
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView title;
-        public ViewHolder(TextView t) {
-            super(t);
-            title = t;
-        }
+    @Override
+    public int getItemViewType(final int position) {
+        return R.layout.card_home;
     }
+
 }

@@ -30,7 +30,7 @@ public class VolleyErrorHelper {
         Boolean isBasic = true;
 
         if (error instanceof NetworkError) {
-            Log.d("Error", "Network error");
+            Log.d("Error", "Network error "+error.getMessage());
         } else if (error instanceof  AuthFailureError) {
             Log.d("Error", "AuthFailureError");
             isBasic = false;

@@ -75,6 +75,21 @@ public class Utils {
     }
 
     /**
+     * Build Misc URL
+     * @param baseURL
+     * @param patch
+     * @return
+     */
+    public static Uri buildMiscURI(String baseURL, String patch) {
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme(Routes.PROTOCOL)
+               .encodedAuthority(baseURL)
+               .appendEncodedPath(patch);
+
+        return builder.build();
+    }
+
+    /**
      * Make Headers
      *      Make Custom headers for request
      * @param extras
