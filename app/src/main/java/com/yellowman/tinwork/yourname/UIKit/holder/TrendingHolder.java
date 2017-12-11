@@ -1,7 +1,6 @@
 package com.yellowman.tinwork.yourname.UIKit.holder;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +13,7 @@ import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.utils.Utils;
 
+
 /**
  * Created by Marc Intha-amnouay on 10/12/2017.
  * Created by Didier Youn on 10/12/2017.
@@ -24,6 +24,8 @@ import com.yellowman.tinwork.yourname.utils.Utils;
 public class TrendingHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
     private TextView filmTextView;
+    private TextView typeTextView;
+    private TextView airedTextView;
     private ImageView imgView;
     private Series series;
     private View v;
@@ -38,10 +40,13 @@ public class TrendingHolder extends RecyclerView.ViewHolder implements View.OnCl
         v = itemView;
         v.setOnClickListener(this);
         imgView = (ImageView) itemView.findViewById(R.id.banner);
-        filmTextView = (TextView) itemView.findViewById(R.id.film_name);
+        filmTextView  = (TextView) itemView.findViewById(R.id.film_name);
+        typeTextView  = (TextView) itemView.findViewById(R.id.status);
+        airedTextView = (TextView) itemView.findViewById(R.id.firstAired);
+
+        // Set the Icon of the Date
+        
     }
-
-
 
     /**
      * Bind Data
@@ -50,14 +55,13 @@ public class TrendingHolder extends RecyclerView.ViewHolder implements View.OnCl
     public void bindData(final Series seriesModel) {
         series = seriesModel;
         filmTextView.setText(seriesModel.getSeriesName());
+        typeTextView.setText(seriesModel.getStatus());
+        airedTextView.setText(seriesModel.getFirstAired());
 
         String bannerURL = seriesModel.getBanner();
         if (!bannerURL.isEmpty()) {
-            Log.d("Debug", seriesModel.getBanner());
             Glide.with(v).load(Utils.buildMiscURI(Routes.IMG_PATH, bannerURL)).into(imgView);
         }
-
-        // set the
     }
 
     /**

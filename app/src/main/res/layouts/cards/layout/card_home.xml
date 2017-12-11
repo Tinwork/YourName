@@ -25,23 +25,17 @@
                 style="@style/CardTextViewTitle"
                 android:layout_below="@id/banner"/>
 
-            <ImageView
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@id/film_name"
-                android:layout_toLeftOf="@+id/type"
-                android:scaleType="fitCenter"
-                android:src="@drawable/cinema_icon"/>
-
             <TextView
-                android:id="@+id/type"
+                android:id="@+id/firstAired"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_below="@id/film_name"
-                android:textColor="@color/starBlue"/>
+                android:layout_toLeftOf="@+id/status" />
 
+            <TextView
+                android:id="@+id/status"
+                style="@style/CardViewStatusText"
+                android:layout_below="@id/film_name"/>
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

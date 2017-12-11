@@ -27,6 +27,7 @@ public class Series implements Parcelable {
             return new Series[0];
         }
     };
+
     private String[] aliases;
     private String banner;
     private String firstAired;
