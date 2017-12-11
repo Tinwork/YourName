@@ -58,7 +58,7 @@
 
     <style name="CardTextViewTitle">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">35dp</item>
         <item name="android:paddingLeft">4dp</item>
         <item name="android:textColor">@color/starBlue</item>
         <item name="android:textStyle">bold</item>
@@ -67,9 +67,20 @@
     <!-- Card View Status text -->
     <style name="CardViewStatusText">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">35dp</item>
         <item name="android:paddingRight">4dp</item>
         <item name="android:textColor">@color/starBlue</item>
         <item name="android:layout_alignParentRight">true</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <!-- Card View Data Text -->
+    <style name="CardViewDateText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:gravity">center_vertical|start</item>
+        <item name="android:textColor">@color/starBlue</item>
     </style>
 </resources>

@@ -29,11 +29,12 @@ public class Helper<T> {
      * @param textview
      * @param resources
      */
-    public void setTextViewIcon(TextView textview, int resources, int[] offset) {
+    public static void setTextViewIcon(TextView textview, int resources, int[] offset) {
         if (offset == null) {
             textview.setCompoundDrawablesWithIntrinsicBounds(resources, 0, 0, 0);
         } else {
             textview.setCompoundDrawablesWithIntrinsicBounds(resources, offset[0], offset[1], offset[2]);
         }
+
     }
 }

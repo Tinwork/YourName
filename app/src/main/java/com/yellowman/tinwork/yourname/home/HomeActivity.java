@@ -69,6 +69,7 @@ public class HomeActivity extends AppCompatActivity implements TrendingFragment.
     private void setToolbar() {
         Log.d("Debug", "set toolbar");
         Toolbar toolbar = (Toolbar) findViewById(R.id.mytoolbar);
+        toolbar.setTitle("TRENDING");
         setSupportActionBar(toolbar);
     }
 

@@ -1,6 +1,7 @@
 package com.yellowman.tinwork.yourname.UIKit.holder;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -45,7 +46,7 @@ public class TrendingHolder extends RecyclerView.ViewHolder implements View.OnCl
         airedTextView = (TextView) itemView.findViewById(R.id.firstAired);
 
         // Set the Icon of the Date
-        
+        Helper.setTextViewIcon(airedTextView, R.drawable.ic_access_time_black_24dp, null);
     }
 
     /**
@@ -55,13 +56,16 @@ public class TrendingHolder extends RecyclerView.ViewHolder implements View.OnCl
     public void bindData(final Series seriesModel) {
         series = seriesModel;
         filmTextView.setText(seriesModel.getSeriesName());
-        typeTextView.setText(seriesModel.getStatus());
         airedTextView.setText(seriesModel.getFirstAired());
 
         String bannerURL = seriesModel.getBanner();
         if (!bannerURL.isEmpty()) {
             Glide.with(v).load(Utils.buildMiscURI(Routes.IMG_PATH, bannerURL)).into(imgView);
         }
+
+        String status = seriesModel.getStatus().toLowerCase().contains("ended") ? "End" : "On going";
+        Log.d("Debug", "status "+status);
+        typeTextView.setText(status);
     }
 
     /**

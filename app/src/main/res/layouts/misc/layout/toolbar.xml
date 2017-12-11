@@ -6,7 +6,6 @@
     android:layout_alignParentTop="true"
     android:elevation="4dp"
     app:popupTheme="@style/Dark.Overlay.LightPopup"
-    app:theme="@style/AppToolbar"
-    >
+    app:theme="@style/AppToolbar">
 
 </android.support.v7.widget.Toolbar>
