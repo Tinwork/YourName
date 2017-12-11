@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- Login style -->
     <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -22,16 +23,36 @@
         <item name="android:textColorHint">@color/lightGrey</item>
         <item name="android:textColor">@color/white</item>
     </style>
+    <!-- End login style -->
 
-
+    <!-- Toolbar -->
     <style name="AppToolbar" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:background">@color/transparency</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/lightGrey</item>
     </style>
 
+    <!-- Top bar -->
     <style name="Dark.Overlay.LightPopup" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:background">@color/transparency</item>
     </style>
 
+    <!-- Card view -->
+    <style name="CardViewHome" parent="CardView">
+        <item name="android:layout_width">170dp</item>
+        <item name="android:layout_height">230dp</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="cardCornerRadius">10dp</item>
+    </style>
+
+    <!-- Card img style -->
+    <style name="CardImgView">
+        <item name="android:layout_width">170dp</item>
+        <item name="android:layout_height">160dp</item>
+        <item name="android:contentDescription">@string/img_logo</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
 </resources>

@@ -14,13 +14,10 @@ import android.view.ViewGroup;
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.adapters.TrendAdapter;
 import com.yellowman.tinwork.yourname.model.Search;
-import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 
 public class TrendingFragment extends Fragment {
@@ -57,22 +54,11 @@ public class TrendingFragment extends Fragment {
                              Bundle savedInstanceState) {
         View trending = inflater.inflate(R.layout.fragment_trending, container, false);
         recyclerView  = (RecyclerView) trending.findViewById(R.id.home_recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(trending.getContext()));
-
-
-        // Dummy data
-        Series serie = new Series();
-        serie.setBanner("LOLOOOOLL");
-
-        List<Series> ls = new ArrayList<>();
-        ls.add(serie);
-        ls.add(serie);
-        ls.add(serie);
-
+        recyclerView.setLayoutManager(new LinearLayoutManager(trending.getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         // Set it to fix so android can do some optimization
         recyclerView.setHasFixedSize(true);
-        TrendAdapter adapter = new TrendAdapter(ls);
+        TrendAdapter adapter = new TrendAdapter(null);
         recyclerView.setAdapter(adapter);
 
         return trending;

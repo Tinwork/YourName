@@ -1,6 +1,5 @@
 package com.yellowman.tinwork.yourname.UIKit.holder;
 
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -47,10 +46,10 @@ public class TrendingHolder extends RecyclerView.ViewHolder {
     public void bindData(final Series seriesModel) {
         filmTextView.setText(seriesModel.getSeriesName());
 
-        if (seriesModel.getBanner() != null) {
+        String bannerURL = seriesModel.getBanner();
+        if (!bannerURL.isEmpty()) {
             Log.d("Debug", seriesModel.getBanner());
-           // Uri img = Uri.parse("https://www.thetvdb.com/banners/"+seriesModel.getBanner());
-            Glide.with(v).load(Utils.buildMiscURI(Routes.IMG_PATH, seriesModel.getBanner())).into(imgView);
+            Glide.with(v).load(Utils.buildMiscURI(Routes.IMG_PATH, bannerURL)).into(imgView);
         }
     }
 
