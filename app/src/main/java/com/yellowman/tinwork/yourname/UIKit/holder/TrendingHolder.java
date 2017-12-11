@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.yellowman.tinwork.yourname.R;
+import com.yellowman.tinwork.yourname.UIKit.helpers.Helper;
+import com.yellowman.tinwork.yourname.filmDetails.FilmDetails;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.utils.Utils;
@@ -19,10 +21,11 @@ import com.yellowman.tinwork.yourname.utils.Utils;
  * Created by Antoine Renault on 10/12/2017.
  */
 
-public class TrendingHolder extends RecyclerView.ViewHolder {
+public class TrendingHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
     private TextView filmTextView;
     private ImageView imgView;
+    private Series series;
     private View v;
 
     /**
@@ -33,6 +36,7 @@ public class TrendingHolder extends RecyclerView.ViewHolder {
         super(itemView);
 
         v = itemView;
+        v.setOnClickListener(this);
         imgView = (ImageView) itemView.findViewById(R.id.banner);
         filmTextView = (TextView) itemView.findViewById(R.id.film_name);
     }
@@ -44,6 +48,7 @@ public class TrendingHolder extends RecyclerView.ViewHolder {
      * @param seriesModel
      */
     public void bindData(final Series seriesModel) {
+        series = seriesModel;
         filmTextView.setText(seriesModel.getSeriesName());
 
         String bannerURL = seriesModel.getBanner();
@@ -51,6 +56,17 @@ public class TrendingHolder extends RecyclerView.ViewHolder {
             Log.d("Debug", seriesModel.getBanner());
             Glide.with(v).load(Utils.buildMiscURI(Routes.IMG_PATH, bannerURL)).into(imgView);
         }
+
+        // set the
     }
 
+    /**
+     * Set On Click Listener
+     *      Set the onclick listener on a ViewHolder
+     */
+    @Override
+    public void onClick(View vs) {
+        Helper helper = new Helper();
+        v.setOnClickListener(event -> helper.launchNewViewWithModel(series, vs.getContext(), FilmDetails.class));
+    }
 }

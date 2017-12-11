@@ -55,6 +55,8 @@ public class TrendAdapter extends RecyclerView.Adapter{
         ((TrendingHolder) holder).bindData(series.get(position));
     }
 
+
+
     /**
      *
      * @return
@@ -77,5 +79,4 @@ public class TrendAdapter extends RecyclerView.Adapter{
     public int getItemViewType(final int position) {
         return R.layout.card_home;
     }
-
 }
