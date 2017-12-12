@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -160,6 +161,20 @@ public class Utils {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             w.setNavigationBarColor(Color.WHITE);
+        }
+    }
+
+    /**
+     * Colorize Status Bar
+     *
+     * @param w
+     * @param ctx
+     * @param color
+     */
+    public static void colorizeStatusBar(final Window w, Context ctx ,int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            w.setStatusBarColor(ContextCompat.getColor(ctx, color));
         }
     }
 }

@@ -41,8 +41,8 @@
     <style name="CardViewHome" parent="CardView">
         <item name="android:layout_width">170dp</item>
         <item name="android:layout_height">230dp</item>
-        <item name="android:layout_marginLeft">15dp</item>
-        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_marginLeft">0dp</item>
+        <item name="android:layout_marginRight">0dp</item>
         <item name="android:layout_gravity">center</item>
         <item name="cardCornerRadius">10dp</item>
     </style>

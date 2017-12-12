@@ -52,9 +52,9 @@ public class GradientGenerator {
     /**
      * Build Background Shadow Color
      *
-     * @void
+     * @return
      */
-    public void buildBackgroundGradientColor() {
+    public int buildBackgroundGradientColor() {
         int idx  = Utils.getRandomNumber(0, 1);
 
         int colors[] = {colorsID[idx][0], colorsID[idx][1]};
@@ -70,5 +70,7 @@ public class GradientGenerator {
         } else {
             layout.setBackgroundColor(colorsID[idx][0]);
         }
+
+        return idx == 0 ? R.color.starBlue : R.color.orchidPink;
     }
 }

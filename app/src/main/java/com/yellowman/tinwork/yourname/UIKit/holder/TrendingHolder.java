@@ -1,7 +1,6 @@
 package com.yellowman.tinwork.yourname.UIKit.holder;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,7 +21,7 @@ import com.yellowman.tinwork.yourname.utils.Utils;
  * Created by Antoine Renault on 10/12/2017.
  */
 
-public class TrendingHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+public class TrendingHolder extends RecyclerView.ViewHolder{
 
     private TextView filmTextView;
     private TextView typeTextView;
@@ -30,6 +29,7 @@ public class TrendingHolder extends RecyclerView.ViewHolder implements View.OnCl
     private ImageView imgView;
     private Series series;
     private View v;
+    protected Helper helper;
 
     /**
      * TrendingHolder::Constructor
@@ -38,14 +38,15 @@ public class TrendingHolder extends RecyclerView.ViewHolder implements View.OnCl
     public TrendingHolder(final View itemView) {
         super(itemView);
 
+
         v = itemView;
-        v.setOnClickListener(this);
         imgView = (ImageView) itemView.findViewById(R.id.banner);
         filmTextView  = (TextView) itemView.findViewById(R.id.film_name);
         typeTextView  = (TextView) itemView.findViewById(R.id.status);
         airedTextView = (TextView) itemView.findViewById(R.id.firstAired);
 
         // Set the Icon of the Date
+        helper = new Helper();
         Helper.setTextViewIcon(airedTextView, R.drawable.ic_access_time_black_24dp, null);
     }
 
@@ -64,17 +65,11 @@ public class TrendingHolder extends RecyclerView.ViewHolder implements View.OnCl
         }
 
         String status = seriesModel.getStatus().toLowerCase().contains("ended") ? "End" : "On going";
-        Log.d("Debug", "status "+status);
         typeTextView.setText(status);
-    }
 
-    /**
-     * Set On Click Listener
-     *      Set the onclick listener on a ViewHolder
-     */
-    @Override
-    public void onClick(View vs) {
-        Helper helper = new Helper();
-        v.setOnClickListener(event -> helper.launchNewViewWithModel(series, vs.getContext(), FilmDetails.class));
+        // Set the listener of the item view
+        v.setOnClickListener(event -> {
+            helper.launchNewViewWithModel(series, v.getContext(), FilmDetails.class);
+        });
     }
 }

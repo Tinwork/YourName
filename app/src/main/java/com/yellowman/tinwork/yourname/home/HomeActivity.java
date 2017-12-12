@@ -27,6 +27,8 @@ public class HomeActivity extends AppCompatActivity implements TrendingFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         setToolbar();
+
+        // Init the view by adding bg colors, status bar..
         initView();
         isUserSubscribe();
     }
@@ -60,7 +62,8 @@ public class HomeActivity extends AppCompatActivity implements TrendingFragment.
     private void initView() {
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
         this.gd = new GradientGenerator(this, mainLayout);
-        this.gd.buildBackgroundGradientColor();
+        int color = this.gd.buildBackgroundGradientColor();
+        Utils.colorizeStatusBar(this.getWindow(), this, color);
     }
 
     /**
