@@ -8,14 +8,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.misc.GradientGenerator;
 import com.yellowman.tinwork.yourname.home.fragments.TrendingFragment;
 import com.yellowman.tinwork.yourname.login.LoginActivity;
-import com.yellowman.tinwork.yourname.networkTest.NetworkActivity;
 import com.yellowman.tinwork.yourname.utils.Utils;
 
 public class HomeActivity extends AppCompatActivity implements TrendingFragment.OnFragmentInteractionListener{
@@ -61,7 +59,7 @@ public class HomeActivity extends AppCompatActivity implements TrendingFragment.
      */
     private void initView() {
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
-        this.gd = new GradientGenerator(this, mainLayout);
+        this.gd = new GradientGenerator(this, null, mainLayout);
         int color = this.gd.buildBackgroundGradientColor();
         Utils.colorizeStatusBar(this.getWindow(), this, color);
     }
