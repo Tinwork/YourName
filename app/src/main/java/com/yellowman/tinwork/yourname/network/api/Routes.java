@@ -10,6 +10,7 @@ package com.yellowman.tinwork.yourname.network.api;
  * Created by Abdel-Latif Mabrouck on 19/11/2017.
  * Created by Antoine Renault on 19/11/2017.
  */
+
 public class Routes {
     // Protocol
     public static final String PROTOCOL = "https";
