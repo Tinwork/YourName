@@ -19,11 +19,13 @@ public class Routes {
     public static final String SEARCH_SERIES = "search/series";
     public static final String SERIES = "series";
     private static final String PREFIX = "https://api.thetvdb.com";
+    public static final String SUFFIX_ROUTES_EPISODES_FROM_SERIES = "episodes";
+
     // User auth
     public static final String LOGIN = PREFIX+"/login";
     public static final String REFRESH_TOKEN = PREFIX+"/refresh_token";
-    // Actors
-    public static final String AUTHOR = "/series";
+    // Prefix series
+    public static final String PREFIX_SERIES = "series";
     // User
     // Route that not need params
     public static final String USER = PREFIX+"/user";
