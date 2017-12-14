@@ -1,9 +1,8 @@
-package com.yellowman.tinwork.yourname.network.api.search;
+package com.yellowman.tinwork.yourname.network.api.series;
 
 import android.content.Context;
 
-import com.yellowman.tinwork.yourname.model.Search;
-import com.yellowman.tinwork.yourname.model.SeriesWrapper.SeriesWrapper;
+import com.yellowman.tinwork.yourname.model.Serie.SerieWrapper;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.network.fetch.Fetch;
@@ -21,7 +20,7 @@ public class GetSerie extends Fetch {
 
     private final RequestQueueManager queueManager;
     private Context ctx;
-    private GsonGetManager<SeriesWrapper> series;
+    private GsonGetManager<SerieWrapper> series;
     private int retry;
 
     /**
@@ -51,7 +50,7 @@ public class GetSerie extends Fetch {
         String[] foo = {payload.get("series_id")};
         String URL = Utils.buildPlaceholderUrl(Routes.SERIES, foo, null);
 
-        series = new GsonGetManager<>(URL, SeriesWrapper.class, headers, response -> {
+        series = new GsonGetManager<>(URL, SerieWrapper.class, headers, response -> {
             callback.onSuccess(response);
         }, error -> {
             this.handleVolleyError(error, series, ctx, retry, callback);

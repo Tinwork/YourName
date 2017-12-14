@@ -2,7 +2,7 @@ package com.yellowman.tinwork.yourname.network.api.series;
 
 import android.content.Context;
 
-import com.yellowman.tinwork.yourname.model.ActorsWrapper.ActorsWrapper;
+import com.yellowman.tinwork.yourname.model.Serie.Actors;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.network.fetch.Fetch;
@@ -23,12 +23,12 @@ public class ListActors extends Fetch {
 
     private final RequestQueueManager queueManager;
     private Context ctx;
-    private GsonGetManager<ActorsWrapper> actors;
+    private GsonGetManager<Actors> actors;
     private int retry;
 
 
     /**
-     * List Actors
+     * List Actor
      *
      * @param context
      */
@@ -53,9 +53,9 @@ public class ListActors extends Fetch {
 
        // buildPlaceholderUrl(AUTHOR, {"ID"}, "actors");
         String[] foo = {payload.get("series_id")};
-        String URL = Utils.buildPlaceholderUrl(Routes.AUTHOR, foo, "actors");
+        String URL = Utils.buildPlaceholderUrl(Routes.PREFIX_SERIES, foo, "actors");
 
-        actors = new GsonGetManager<>(URL, ActorsWrapper.class, headers, response -> {
+        actors = new GsonGetManager<>(URL, Actors.class, headers, response -> {
             callback.onSuccess(response);
         }, error -> {
             this.handleVolleyError(error, actors, ctx, retry, callback);

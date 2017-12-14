@@ -1,10 +1,10 @@
-package com.yellowman.tinwork.yourname.model;
+package com.yellowman.tinwork.yourname.entity;
 
 /**
  * Created by abdel-latifmabrouck on 11/12/2017.
  */
 
-public class Actors {
+public class Actor {
     private int id;
     private String name;
     private String role;

@@ -6,14 +6,16 @@ import android.util.Log;
 import android.widget.Button;
 
 import com.yellowman.tinwork.yourname.R;
-import com.yellowman.tinwork.yourname.model.ActorsWrapper.ActorsWrapper;
+import com.yellowman.tinwork.yourname.model.Serie.Actors;
 import com.yellowman.tinwork.yourname.model.Search;
-import com.yellowman.tinwork.yourname.model.SeriesWrapper.SeriesWrapper;
+import com.yellowman.tinwork.yourname.model.Serie.Episodes;
+import com.yellowman.tinwork.yourname.model.Serie.SerieWrapper;
+import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.model.Token;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
+import com.yellowman.tinwork.yourname.network.api.series.GetSerie;
 import com.yellowman.tinwork.yourname.network.api.series.ListActors;
 import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
-import com.yellowman.tinwork.yourname.network.api.search.GetSerie;
 import com.yellowman.tinwork.yourname.network.api.series.ListEpisodes;
 import com.yellowman.tinwork.yourname.network.api.user.UserToken;
 import com.yellowman.tinwork.yourname.utils.Utils;
@@ -85,36 +87,40 @@ public class NetworkActivity extends AppCompatActivity {
     }
 
     /**
-     * Test Placeholder URI
-     * @protected
-     * @void
+     * Test Get OneSerie API
      */
-    protected void testPlaceholderURI() {
-        //String[] params = {"328840"};
-        String[] single = {"foo"};
-
-        HashMap<String, String> params = new HashMap<>();
-        params.put("series_id", "328840/actors");
+    protected void testGetSerieAPI() {
+        HashMap<String, String> payload = new HashMap<>();
+        payload.put("series_id", "328840");
 
         GetSerie serie = new GetSerie(this);
-        serie.get(params, new GsonCallback<SeriesWrapper>() {
+        serie.get(payload, new GsonCallback<SerieWrapper>() {
             @Override
-            public void onSuccess(SeriesWrapper response) {
-
+            public void onSuccess(SerieWrapper response) {
                 Log.d("Debug", "Serie name for search API "+response.getData().getSeriesName());
             }
 
             public void onError(String err) {}
         });
-
-        //String paramsURI = Utils.buildPlaceholderUrl(Routes.SERIES, params, null);
-        //String paramURI  = Utils.buildPlaceholderUrl(Routes.SEARCH_SERIES, single, "yourname/lyly/mama");
-        //Log.d("Debug", paramsURI);
-        //Log.d("Debug", paramURI);
     }
 
     /**
-     * Test Get Actors API
+     * Test Placeholder URI
+     * @protected
+     * @void
+     */
+    protected void testPlaceholderURI() {
+        String[] params = {"bar", "lol"};
+        String[] single = {"foo"};
+
+        String paramsURI = Utils.buildPlaceholderUrl(Routes.SEARCH_SERIES, params, null);
+        String paramURI  = Utils.buildPlaceholderUrl(Routes.SEARCH_SERIES, single, "yourname/lyly/mama");
+        Log.d("Debug", paramsURI);
+        Log.d("Debug", paramURI);
+    }
+
+    /**
+     * Test Get Actor API
      * @protected
      * @void
      */
@@ -125,10 +131,9 @@ public class NetworkActivity extends AppCompatActivity {
         params.put("series_id", "328840");
 
         ListActors actors = new ListActors(this);
-        actors.get(params, new GsonCallback<ActorsWrapper>() {
+        actors.get(params, new GsonCallback<Actors>() {
             @Override
-            public void onSuccess(ActorsWrapper response) {
-
+            public void onSuccess(Actors response) {
                 Log.d("Debug", "Serie name for search API "+response.getData());
             }
 
@@ -140,16 +145,14 @@ public class NetworkActivity extends AppCompatActivity {
      * Test API Request [GET]
      * List episodes from series by ID
      */
-    protected void testGetEpisodesFromSeriesById()
-    {
+    protected void testGetEpisodesFromSeriesById() {
         HashMap<String, String> params = new HashMap<>();
         params.put("series_id", "328840");
 
         ListEpisodes episodes = new ListEpisodes(this);
         episodes.get(params, new GsonCallback<Episodes>() {
             @Override
-            public void onSuccess(Episodes response)
-            {
+            public void onSuccess(Episodes response) {
                 Log.d("Debug", "Serie name for search API " + response.getData());
             }
 
@@ -166,6 +169,7 @@ public class NetworkActivity extends AppCompatActivity {
         Button refresh               = (Button) findViewById(R.id.refreshToken);
         Button getToken              = (Button) findViewById(R.id.getToken);
         Button getSeries             = (Button) findViewById(R.id.getSeries);
+        Button getSerie              = (Button) findViewById(R.id.getOneSeries);
         Button placeHolder           = (Button) findViewById(R.id.testPlaceHolder);
         Button getActors             = (Button) findViewById(R.id.getActors);
         Button getEpisodesFromSeries = (Button) findViewById(R.id.getEpisodesFromSeries);
@@ -174,6 +178,7 @@ public class NetworkActivity extends AppCompatActivity {
         refresh.setOnClickListener(event -> NetworkActivity.this.testRefreshTokenAPI());
         getToken.setOnClickListener(event -> NetworkActivity.this.testFetch());
         getSeries.setOnClickListener(event -> NetworkActivity.this.testGetSeriesAPI());
+        getSerie.setOnClickListener(event -> NetworkActivity.this.testGetSerieAPI());
         placeHolder.setOnClickListener(event -> NetworkActivity.this.testPlaceholderURI());
         getActors.setOnClickListener(event -> NetworkActivity.this.testGetActorsAPI());
         getEpisodesFromSeries.setOnClickListener(event -> NetworkActivity.this.testGetEpisodesFromSeriesById());
