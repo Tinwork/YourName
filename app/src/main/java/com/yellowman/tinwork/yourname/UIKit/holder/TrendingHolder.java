@@ -47,7 +47,7 @@ public class TrendingHolder extends RecyclerView.ViewHolder{
 
         // Set the Icon of the Date
         helper = new Helper();
-        Helper.setTextViewIcon(airedTextView, R.drawable.ic_access_time_black_24dp, null);
+        com.yellowman.tinwork.yourname.UIKit.helpers.Utils.setTextViewIcon(airedTextView, R.drawable.ic_access_time_black_24dp, null);
     }
 
     /**

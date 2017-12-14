@@ -3,6 +3,7 @@ package com.yellowman.tinwork.yourname.home.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +14,9 @@ import android.view.ViewGroup;
 
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.adapters.TrendAdapter;
-import com.yellowman.tinwork.yourname.UIKit.helpers.Helper;
+import com.yellowman.tinwork.yourname.UIKit.communication.FragmentCommunication;
+import com.yellowman.tinwork.yourname.UIKit.communication.FragmentListener;
+import com.yellowman.tinwork.yourname.UIKit.helpers.Utils;
 import com.yellowman.tinwork.yourname.UIKit.misc.ProgressSpinner;
 import com.yellowman.tinwork.yourname.model.Search;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
@@ -22,9 +25,10 @@ import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
 import java.util.HashMap;
 
 
-public class TrendingFragment extends Fragment {
+public class TrendingFragment extends Fragment implements FragmentListener {
 
     private OnFragmentInteractionListener mListener;
+    private FragmentCommunication mCommunication;
     private RecyclerView recyclerView;
     protected View spinner;
 
@@ -55,14 +59,13 @@ public class TrendingFragment extends Fragment {
      * @return
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View trending = inflater.inflate(R.layout.fragment_trending, container, false);
         recyclerView  = (RecyclerView) trending.findViewById(R.id.home_recycler_view);
         recyclerView.setLayoutManager(
                 new LinearLayoutManager(
                         trending.getContext(),
-                        Helper.getLinearLayoutOrientation(this.getActivity()),
+                        Utils.getLinearLayoutOrientation(this.getActivity()),
                         false
                 )
         );
@@ -88,9 +91,7 @@ public class TrendingFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.d("Info", "Get series");
-        // Create an instance of the Adapter
-        getSeries(getActivity());
+
     }
 
     /**
@@ -104,6 +105,7 @@ public class TrendingFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
+            mCommunication = (FragmentCommunication) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -122,10 +124,42 @@ public class TrendingFragment extends Fragment {
     }
 
     /**
+     * Notify Data
+     *
+     * @param parcel
+     */
+    @Override
+    public void notifyData(Parcelable parcel) {
+        if (parcel == null) {
+            Log.d("Debug", "Parcel is null");
+            getSeries(getActivity());
+        } else {
+            Search data = (Search) parcel;
+            restoreData(data);
+        }
+    }
+
+    /**
      * On Fragment Interaction Listener
      */
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+
+    /**
+     * Restore Data
+     *
+     * @param payload
+     */
+    public void restoreData(Search payload) {
+        if (payload == null) {
+            getSeries(getActivity());
+        } else {
+            Log.d("Debug", "Restoring series");
+            TrendAdapter adapter = new TrendAdapter(payload.getData());
+            recyclerView.swapAdapter(adapter, false);
+            ProgressSpinner.setHidden(spinner);
+        }
     }
 
     /**
@@ -148,6 +182,7 @@ public class TrendingFragment extends Fragment {
 
                 TrendAdapter adapter = new TrendAdapter(response.getData());
                 recyclerView.swapAdapter(adapter, false);
+                mCommunication.setParcelable(response);
                 ProgressSpinner.setHidden(spinner);
             }
 
