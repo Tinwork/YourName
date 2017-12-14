@@ -57,5 +57,14 @@
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="8dp" />
 
+
+        <Button
+            android:id="@+id/getEpisodesFromSeries"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Get episodes from series"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
