@@ -6,10 +6,12 @@ import android.util.Log;
 import android.widget.Button;
 
 import com.yellowman.tinwork.yourname.R;
+import com.yellowman.tinwork.yourname.entity.Episode;
 import com.yellowman.tinwork.yourname.model.Serie.Actors;
 import com.yellowman.tinwork.yourname.model.Search;
 import com.yellowman.tinwork.yourname.model.Serie.Episodes;
 import com.yellowman.tinwork.yourname.model.Serie.SerieWrapper;
+import com.yellowman.tinwork.yourname.model.Serie.SingleEpisodeWrapper;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.model.Token;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
@@ -93,11 +95,11 @@ public class NetworkActivity extends AppCompatActivity {
         HashMap<String, String> payload = new HashMap<>();
 
         SearchEpisodes search = new SearchEpisodes(this);
-        search.get(payload, new GsonCallback<Search>() {
+        search.get(payload, new GsonCallback<SingleEpisodeWrapper>() {
             @Override
-            public void onSuccess(Search response) {
-                String serie = response.getData().get(0).getSeriesName();
-                Log.d("Debug", "Serie name for search API "+serie);
+            public void onSuccess(SingleEpisodeWrapper response) {
+                Episode episode = response.getData();
+                Log.d("Debug", "Serie name for search API "+episode.getEpisodeName());
             }
 
             public void onError(String err) {}
@@ -125,7 +127,7 @@ public class NetworkActivity extends AppCompatActivity {
     protected void testFilterSerieAPI() {
         HashMap<String, String> payload = new HashMap<>();
         payload.put("series_id", "328840");
-        payload.put("filter", "somefilter");
+        payload.put("key?", "seriesName");
 
         FilterSeries serie = new FilterSeries(this);
         serie.get(payload, new GsonCallback<SerieWrapper>() {

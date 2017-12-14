@@ -47,7 +47,8 @@ public class FilterSeries extends Fetch {
         HashMap<String, String> headers = Utils.makeHeaders(null, token);
         // Bind the GET request params
 
-        String[] foo = {payload.get("series_id") + "/filter/" + payload.get("filter")};
+        // @TODO pass by the other utils
+        String[] foo = {payload.get("series_id") + "/filter?keys=" + payload.get("key?")};
 
         String URL = Utils.buildPlaceholderUrl(Routes.SERIES, foo, null);
 
