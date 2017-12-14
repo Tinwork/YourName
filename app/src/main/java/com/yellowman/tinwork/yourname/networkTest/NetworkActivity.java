@@ -14,6 +14,7 @@ import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.series.ListActors;
 import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
 import com.yellowman.tinwork.yourname.network.api.search.GetSerie;
+import com.yellowman.tinwork.yourname.network.api.series.ListEpisodes;
 import com.yellowman.tinwork.yourname.network.api.user.UserToken;
 import com.yellowman.tinwork.yourname.utils.Utils;
 
@@ -136,16 +137,38 @@ public class NetworkActivity extends AppCompatActivity {
     }
 
     /**
+     * Test API Request [GET]
+     * List episodes from series by ID
+     */
+    protected void testGetEpisodesFromSeriesById()
+    {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("series_id", "328840");
+
+        ListEpisodes episodes = new ListEpisodes(this);
+        episodes.get(params, new GsonCallback<Episodes>() {
+            @Override
+            public void onSuccess(Episodes response)
+            {
+                Log.d("Debug", "Serie name for search API " + response.getData());
+            }
+
+            public void onError(String err) {}
+        });
+    }
+
+    /**
      * Listen Button
      * @void
      */
     public void listenButton() {
         // Get the buttons
-        Button refresh     = (Button) findViewById(R.id.refreshToken);
-        Button getToken    = (Button) findViewById(R.id.getToken);
-        Button getSeries   = (Button) findViewById(R.id.getSeries);
-        Button placeHolder = (Button) findViewById(R.id.testPlaceHolder);
-        Button getActors   = (Button) findViewById(R.id.getActors);
+        Button refresh               = (Button) findViewById(R.id.refreshToken);
+        Button getToken              = (Button) findViewById(R.id.getToken);
+        Button getSeries             = (Button) findViewById(R.id.getSeries);
+        Button placeHolder           = (Button) findViewById(R.id.testPlaceHolder);
+        Button getActors             = (Button) findViewById(R.id.getActors);
+        Button getEpisodesFromSeries = (Button) findViewById(R.id.getEpisodesFromSeries);
 
         // Add a listeners
         refresh.setOnClickListener(event -> NetworkActivity.this.testRefreshTokenAPI());
@@ -153,6 +176,7 @@ public class NetworkActivity extends AppCompatActivity {
         getSeries.setOnClickListener(event -> NetworkActivity.this.testGetSeriesAPI());
         placeHolder.setOnClickListener(event -> NetworkActivity.this.testPlaceholderURI());
         getActors.setOnClickListener(event -> NetworkActivity.this.testGetActorsAPI());
+        getEpisodesFromSeries.setOnClickListener(event -> NetworkActivity.this.testGetEpisodesFromSeriesById());
     }
 
 }
