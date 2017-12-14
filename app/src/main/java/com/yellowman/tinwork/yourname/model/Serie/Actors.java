@@ -5,9 +5,11 @@ import com.yellowman.tinwork.yourname.entity.Actor;
 import java.util.List;
 
 /**
- * Created by abdel-latifmabrouck on 11/12/2017.
+ * Created by Marc Intha-amnouay on 11/12/2017.
+ * Created by Didier Youn on 11/12/20177.
+ * Created by Abdel-Latif Mabrouck on 11/12/2017.
+ * Created by Antoine Renault on 11/12/2017.
  */
-
 public class Actors {
     private List<Actor> data;
 

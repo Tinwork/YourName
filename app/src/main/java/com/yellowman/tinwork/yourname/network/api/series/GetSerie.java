@@ -13,7 +13,10 @@ import com.yellowman.tinwork.yourname.utils.Utils;
 import java.util.HashMap;
 
 /**
- * Created by almabrouck on 07/12/2017.
+ * Created by Marc Intha-amnouay on 11/12/2017.
+ * Created by Didier Youn on 11/12/20177.
+ * Created by Abdel-Latif Mabrouck on 11/12/2017.
+ * Created by Antoine Renault on 11/12/2017.
  */
 
 public class GetSerie extends Fetch {
