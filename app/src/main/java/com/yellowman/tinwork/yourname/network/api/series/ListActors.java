@@ -1,9 +1,8 @@
-package com.yellowman.tinwork.yourname.network.api.search;
+package com.yellowman.tinwork.yourname.network.api.series;
 
 import android.content.Context;
 
-import com.yellowman.tinwork.yourname.model.Search;
-import com.yellowman.tinwork.yourname.model.SeriesWrapper.SeriesWrapper;
+import com.yellowman.tinwork.yourname.model.ActorsWrapper.ActorsWrapper;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.network.fetch.Fetch;
@@ -14,22 +13,26 @@ import com.yellowman.tinwork.yourname.utils.Utils;
 import java.util.HashMap;
 
 /**
- * Created by almabrouck on 07/12/2017.
+ * Created by Marc Intha-amnouay on 11/12/2017.
+ * Created by Didier Youn on 11/12/2017.
+ * Created by Abdel-Latif Mabrouck on 11/12/2017.
+ * Created by Antoine Renault on 11/12/2017.
  */
 
-public class GetSerie extends Fetch {
+public class ListActors extends Fetch {
 
     private final RequestQueueManager queueManager;
     private Context ctx;
-    private GsonGetManager<SeriesWrapper> series;
+    private GsonGetManager<ActorsWrapper> actors;
     private int retry;
 
+
     /**
-     * Search Series
+     * List Actors
      *
      * @param context
      */
-    public GetSerie(Context context) {
+    public ListActors(Context context) {
         this.ctx = context;
         this.queueManager = RequestQueueManager.getInstance(this.ctx.getApplicationContext());
         this.retry = 0;
@@ -48,16 +51,16 @@ public class GetSerie extends Fetch {
         HashMap<String, String> headers = Utils.makeHeaders(null, token);
         // Bind the GET request params
 
+       // buildPlaceholderUrl(AUTHOR, {"ID"}, "actors");
         String[] foo = {payload.get("series_id")};
-        String URL = Utils.buildPlaceholderUrl(Routes.SERIES, foo, null);
+        String URL = Utils.buildPlaceholderUrl(Routes.AUTHOR, foo, "actors");
 
-        series = new GsonGetManager<>(URL, SeriesWrapper.class, headers, response -> {
+        actors = new GsonGetManager<>(URL, ActorsWrapper.class, headers, response -> {
             callback.onSuccess(response);
         }, error -> {
-            this.handleVolleyError(error, series, ctx, retry, callback);
+            this.handleVolleyError(error, actors, ctx, retry, callback);
             retry++;
         });
-
-        queueManager.addToRequestQueue(series);
+        queueManager.addToRequestQueue(actors);
     }
 }
