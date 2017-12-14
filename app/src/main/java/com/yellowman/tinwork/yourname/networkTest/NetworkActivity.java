@@ -13,8 +13,13 @@ import com.yellowman.tinwork.yourname.model.Serie.SerieWrapper;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.model.Token;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
+<<<<<<< Updated upstream
 import com.yellowman.tinwork.yourname.network.api.series.GetSerie;
 import com.yellowman.tinwork.yourname.network.api.series.ListActors;
+=======
+import com.yellowman.tinwork.yourname.network.api.Routes;
+import com.yellowman.tinwork.yourname.network.api.search.SearchEpisodes;
+>>>>>>> Stashed changes
 import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
 import com.yellowman.tinwork.yourname.network.api.series.ListEpisodes;
 import com.yellowman.tinwork.yourname.network.api.user.UserToken;
@@ -75,6 +80,21 @@ public class NetworkActivity extends AppCompatActivity {
         payload.put("name", "your name");
 
         SearchSeries search = new SearchSeries(this);
+        search.get(payload, new GsonCallback<Search>() {
+            @Override
+            public void onSuccess(Search response) {
+                String serie = response.getData().get(0).getSeriesName();
+                Log.d("Debug", "Serie name for search API "+serie);
+            }
+
+            public void onError(String err) {}
+        });
+    }
+
+    protected void testGetEpisodesAPI() {
+        HashMap<String, String> payload = new HashMap<>();
+
+        SearchEpisodes search = new SearchEpisodes(this);
         search.get(payload, new GsonCallback<Search>() {
             @Override
             public void onSuccess(Search response) {
@@ -173,6 +193,7 @@ public class NetworkActivity extends AppCompatActivity {
         Button placeHolder           = (Button) findViewById(R.id.testPlaceHolder);
         Button getActors             = (Button) findViewById(R.id.getActors);
         Button getEpisodesFromSeries = (Button) findViewById(R.id.getEpisodesFromSeries);
+        Button getEpisodes = (Button) findViewById(R.id.getEpisodes);
 
         // Add a listeners
         refresh.setOnClickListener(event -> NetworkActivity.this.testRefreshTokenAPI());
@@ -182,6 +203,8 @@ public class NetworkActivity extends AppCompatActivity {
         placeHolder.setOnClickListener(event -> NetworkActivity.this.testPlaceholderURI());
         getActors.setOnClickListener(event -> NetworkActivity.this.testGetActorsAPI());
         getEpisodesFromSeries.setOnClickListener(event -> NetworkActivity.this.testGetEpisodesFromSeriesById());
+        getEpisodes.setOnClickListener(event -> NetworkActivity.this.testGetEpisodesAPI());
+
     }
 
 }

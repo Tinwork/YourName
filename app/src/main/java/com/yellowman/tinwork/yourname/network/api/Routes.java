@@ -18,7 +18,11 @@ public class Routes {
     public static final String API_AUTHORITY = "api.thetvdb.com";
     // Series
     public static final String SEARCH_SERIES = "search/series";
+
     public static final String SERIES = "series";
+
+    public static final String SEARCH_EPISODES = "episodes";
+
     private static final String PREFIX = "https://api.thetvdb.com";
     public static final String SUFFIX_ROUTES_EPISODES_FROM_SERIES = "episodes";
 
@@ -30,4 +34,8 @@ public class Routes {
     // User
     // Route that not need params
     public static final String USER = PREFIX+"/user";
+
+    public static String getEpisode(String id) {
+        return SEARCH_EPISODES+id;
+    }
 }
