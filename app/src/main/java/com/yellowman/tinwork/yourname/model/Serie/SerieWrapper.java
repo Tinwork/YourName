@@ -1,4 +1,4 @@
-package com.yellowman.tinwork.yourname.model.SeriesWrapper;
+package com.yellowman.tinwork.yourname.model.Serie;
 
 import com.yellowman.tinwork.yourname.model.Series;
 
@@ -6,7 +6,7 @@ import com.yellowman.tinwork.yourname.model.Series;
  * Created by abdel-latifmabrouck on 11/12/2017.
  */
 
-public class SeriesWrapper {
+public class SerieWrapper {
     Series data;
 
     public void setData(Series series) {

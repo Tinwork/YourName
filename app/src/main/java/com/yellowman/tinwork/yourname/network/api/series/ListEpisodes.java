@@ -55,7 +55,6 @@ public class ListEpisodes extends Fetch
         // Build API URL
         String[] foo = {payload.get("series_id")};
         String URL = Utils.buildPlaceholderUrl(Routes.PREFIX_SERIES, foo, Routes.SUFFIX_ROUTES_EPISODES_FROM_SERIES);
-        Log.d("Debug", "URL " + URL);
         // Call API
         episodes = new GsonGetManager<>(URL, Episodes.class, headers, response -> {
             callback.onSuccess(response);
