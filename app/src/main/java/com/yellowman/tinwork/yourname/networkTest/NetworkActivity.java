@@ -6,10 +6,12 @@ import android.util.Log;
 import android.widget.Button;
 
 import com.yellowman.tinwork.yourname.R;
+import com.yellowman.tinwork.yourname.model.ActorsWrapper.ActorsWrapper;
 import com.yellowman.tinwork.yourname.model.Search;
+import com.yellowman.tinwork.yourname.model.SeriesWrapper.SeriesWrapper;
 import com.yellowman.tinwork.yourname.model.Token;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
-import com.yellowman.tinwork.yourname.network.api.Routes;
+import com.yellowman.tinwork.yourname.network.api.series.ListActors;
 import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
 import com.yellowman.tinwork.yourname.network.api.search.GetSerie;
 import com.yellowman.tinwork.yourname.network.api.user.UserToken;
@@ -91,14 +93,14 @@ public class NetworkActivity extends AppCompatActivity {
         String[] single = {"foo"};
 
         HashMap<String, String> params = new HashMap<>();
-        params.put("series_id", "328840");
+        params.put("series_id", "328840/actors");
 
         GetSerie serie = new GetSerie(this);
-        serie.get(params, new GsonCallback<Search>() {
+        serie.get(params, new GsonCallback<SeriesWrapper>() {
             @Override
-            public void onSuccess(Search response) {
+            public void onSuccess(SeriesWrapper response) {
 
-                Log.d("Debug", "Serie name for search API "+response.getData());
+                Log.d("Debug", "Serie name for search API "+response.getData().getSeriesName());
             }
 
             public void onError(String err) {}
@@ -111,6 +113,29 @@ public class NetworkActivity extends AppCompatActivity {
     }
 
     /**
+     * Test Get Actors API
+     * @protected
+     * @void
+     */
+    protected void testGetActorsAPI() {
+        String[] single = {"foo"};
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("series_id", "328840");
+
+        ListActors actors = new ListActors(this);
+        actors.get(params, new GsonCallback<ActorsWrapper>() {
+            @Override
+            public void onSuccess(ActorsWrapper response) {
+
+                Log.d("Debug", "Serie name for search API "+response.getData());
+            }
+
+            public void onError(String err) {}
+        });
+    }
+
+    /**
      * Listen Button
      * @void
      */
@@ -120,12 +145,14 @@ public class NetworkActivity extends AppCompatActivity {
         Button getToken    = (Button) findViewById(R.id.getToken);
         Button getSeries   = (Button) findViewById(R.id.getSeries);
         Button placeHolder = (Button) findViewById(R.id.testPlaceHolder);
+        Button getActors   = (Button) findViewById(R.id.getActors);
 
         // Add a listeners
         refresh.setOnClickListener(event -> NetworkActivity.this.testRefreshTokenAPI());
         getToken.setOnClickListener(event -> NetworkActivity.this.testFetch());
         getSeries.setOnClickListener(event -> NetworkActivity.this.testGetSeriesAPI());
         placeHolder.setOnClickListener(event -> NetworkActivity.this.testPlaceholderURI());
+        getActors.setOnClickListener(event -> NetworkActivity.this.testGetActorsAPI());
     }
 
 }
