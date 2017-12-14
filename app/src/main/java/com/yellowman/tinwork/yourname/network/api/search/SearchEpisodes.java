@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.yellowman.tinwork.yourname.model.Search;
+import com.yellowman.tinwork.yourname.model.Serie.Episodes;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.network.fetch.Fetch;
@@ -21,7 +22,7 @@ import java.util.HashMap;
 public class SearchEpisodes extends Fetch {
     private final RequestQueueManager queueManager;
     private Context ctx;
-    private GsonGetManager<Search> series;
+    private GsonGetManager<Episodes> series;
     private int retry;
 
     /**
@@ -45,7 +46,7 @@ public class SearchEpisodes extends Fetch {
 
         Log.d("Debug", "URL : "+URL);
 
-        series = new GsonGetManager<>(URL, Search.class, headers, response -> {
+        series = new GsonGetManager<>(URL, Episodes.class, headers, response -> {
             callback.onSuccess(response);
         }, error -> {
             this.handleVolleyError(error, series, ctx, retry, callback);
