@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.yellowman.tinwork.yourname.R;
+import com.yellowman.tinwork.yourname.UIKit.holder.FavoriteHolder;
 import com.yellowman.tinwork.yourname.UIKit.holder.PopularHolder;
 import com.yellowman.tinwork.yourname.UIKit.holder.TrendingHolder;
 import com.yellowman.tinwork.yourname.model.Series;
@@ -64,6 +65,8 @@ public class CardSeriesAdapter extends RecyclerView.Adapter{
             case R.layout.card_generic:
                 ((PopularHolder) holder).bindData(series.get(position));
                 break;
+            case R.layout.card_favorite:
+                ((FavoriteHolder) holder).bindData(series.get(position));
         }
     }
 
@@ -109,6 +112,9 @@ public class CardSeriesAdapter extends RecyclerView.Adapter{
                 break;
             case R.layout.card_generic:
                 holder = new PopularHolder(v);
+                break;
+            case R.layout.card_favorite:
+                holder = new FavoriteHolder(v);
                 break;
             default:
                 holder = new TrendingHolder(v);

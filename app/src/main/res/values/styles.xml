@@ -47,9 +47,16 @@
         <item name="cardCornerRadius">10dp</item>
     </style>
 
+    <!-- Card View Favorite -->
+    <style name="CardViewFavorite" parent="@style/CardViewHome">
+        <item name="android:layout_width">113dp</item>
+        <item name="android:layout_height">230dp</item>
+    </style>
+
+    <!-- Generic card view -->
     <style name="CardViewGeneric" parent="CardView">
-        <item name="android:layout_width">85dp</item>
-        <item name="android:layout_height">180dp</item>
+        <item name="android:layout_width">113dp</item>
+        <item name="android:layout_height">195dp</item>
         <item name="android:layout_marginLeft">0dp</item>
         <item name="android:layout_marginRight">0dp</item>
         <item name="android:layout_gravity">center</item>

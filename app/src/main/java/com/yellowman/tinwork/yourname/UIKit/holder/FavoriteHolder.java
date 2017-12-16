@@ -18,22 +18,24 @@ import com.yellowman.tinwork.yourname.utils.Utils;
  * Created by Antoine Renault on 16/12/2017.
  */
 
-public class PopularHolder extends RecyclerView.ViewHolder {
+public class FavoriteHolder extends RecyclerView.ViewHolder {
 
-    private View viewItem;
     private ImageView imgView;
-    private TextView filmTextView;
+    private TextView  filmTextView;
+    private TextView  rateTextView;
+    private TextView  runtimeTextView;
+    protected View viewItem;
+
 
     /**
-     * Popular Holder
      *
      * @param viewItem
      */
-    public PopularHolder(final View viewItem) {
+    public FavoriteHolder(final View viewItem) {
         super(viewItem);
         this.viewItem = viewItem;
 
-        // Prepare the Layout Elements
+        // Prepare the Layout element
         prepareElements();
     }
 
@@ -48,14 +50,19 @@ public class PopularHolder extends RecyclerView.ViewHolder {
         if (!serie.getBanner().isEmpty()) {
             Glide.with(viewItem).load(Utils.buildMiscURI(Routes.IMG_PATH, serie.getBanner())).into(imgView);
         }
+
+        // Set other kind of props with 'FIX' Data in the meantime
+        rateTextView.setText("5");
+        runtimeTextView.setText("Romance / 55mn");
     }
 
     /**
      * Prepare Elements
      */
     private void prepareElements() {
-        // Prepare elements of the Holder
         imgView = viewItem.findViewById(R.id.banner);
         filmTextView = viewItem.findViewById(R.id.film_name);
+        rateTextView = viewItem.findViewById(R.id.genre_time);
+        runtimeTextView = viewItem.findViewById(R.id.rating);
     }
 }

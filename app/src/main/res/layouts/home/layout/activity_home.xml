@@ -12,20 +12,36 @@
     <include android:id="@+id/mytoolbar"
         layout="@layout/toolbar" />
 
-    <fragment
-        class="com.yellowman.tinwork.yourname.activities.home.fragments.TrendingFragment"
-        android:id="@+id/fragment_trending"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:scrollbars="none" />
+        android:layout_height="match_parent">
 
-    <fragment
-        class="com.yellowman.tinwork.yourname.activities.home.fragments.PopularFragment"
-        android:id="@+id/fragment_popular"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:scrollbars="none" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
+            <fragment
+                class="com.yellowman.tinwork.yourname.activities.home.fragments.TrendingFragment"
+                android:id="@+id/fragment_trending"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none" />
+
+            <fragment
+                class="com.yellowman.tinwork.yourname.activities.home.fragments.PopularFragment"
+                android:id="@+id/fragment_popular"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none" />
+
+            <fragment
+                class="com.yellowman.tinwork.yourname.activities.home.fragments.FavoriteFragment"
+                android:id="@+id/fragment_favorite"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none" />
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

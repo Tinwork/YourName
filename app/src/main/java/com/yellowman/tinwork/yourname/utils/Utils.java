@@ -7,11 +7,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.yellowman.tinwork.yourname.network.api.Routes;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +36,7 @@ public class Utils {
      * @return
      */
     public static String buildGetUrl(String baseURL, HashMap<String, String> payload) {
+        String uri = "";
         if (payload.isEmpty())
             return baseURL;
 
@@ -48,7 +52,17 @@ public class Utils {
             builder.appendQueryParameter(key, value);
         }
 
-        return builder.build().toString();
+
+        try {
+            uri = URLDecoder.decode(builder.build().toString(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            Log.d("Error", "Unable to decode URL with payload "+payload.toString());
+
+            // we at least build the url anyway hoping that it'll be accepted
+            uri = builder.build().toString();
+        }
+
+        return uri;
     }
 
     /**
