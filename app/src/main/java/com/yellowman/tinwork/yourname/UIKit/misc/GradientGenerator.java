@@ -1,10 +1,11 @@
-package com.yellowman.tinwork.yourname.UIKit;
+package com.yellowman.tinwork.yourname.UIKit.misc;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.utils.Utils;
@@ -20,15 +21,17 @@ public class GradientGenerator {
 
     private Context ctx;
     private int[][] colorsID;
-    private LinearLayout layout;
+    private RelativeLayout rLayout;
+    private LinearLayout lLayout;
 
     /**
      * Constructor
      * @param ctx
      */
-    public GradientGenerator(Context ctx, LinearLayout layout) {
+    public GradientGenerator(Context ctx, RelativeLayout rLayout, LinearLayout lLayout) {
         this.ctx = ctx;
-        this.layout = layout;
+        this.rLayout = rLayout;
+        this.lLayout = lLayout;
         this.colorsID = this.getShadowColors();
     }
 
@@ -52,9 +55,9 @@ public class GradientGenerator {
     /**
      * Build Background Shadow Color
      *
-     * @void
+     * @return
      */
-    public void buildBackgroundGradientColor() {
+    public int buildBackgroundGradientColor() {
         int idx  = Utils.getRandomNumber(0, 1);
 
         int colors[] = {colorsID[idx][0], colorsID[idx][1]};
@@ -66,9 +69,18 @@ public class GradientGenerator {
             gd.setColors(colors);
             gd.setGradientType(GradientDrawable.LINEAR_GRADIENT);
             gd.setShape(GradientDrawable.RECTANGLE);
-            layout.setBackground(gd);
+
+            if (rLayout != null)
+                rLayout.setBackground(gd);
+            else
+                lLayout.setBackground(gd);
         } else {
-            layout.setBackgroundColor(colorsID[idx][0]);
+            if (rLayout != null)
+                rLayout.setBackgroundColor(colorsID[idx][0]);
+            else
+                lLayout.setBackgroundColor(colorsID[idx][0]);
         }
+
+        return idx == 0 ? R.color.starBlue : R.color.orchidPink;
     }
 }

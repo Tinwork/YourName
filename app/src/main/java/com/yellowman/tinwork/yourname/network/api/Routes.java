@@ -19,6 +19,7 @@ public class Routes {
     // Series
     public static final String SEARCH_SERIES = "search/series";
     public static final String SERIES = "series";
+    public static final String IMG_PATH = "www.thetvdb.com/banners";
     private static final String PREFIX = "https://api.thetvdb.com";
     public static final String SUFFIX_ROUTES_EPISODES_FROM_SERIES = "episodes";
 

@@ -1,4 +1,4 @@
-package com.yellowman.tinwork.yourname.login;
+package com.yellowman.tinwork.yourname.activities.login;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -10,13 +10,14 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 
 import com.google.gson.Gson;
 import com.yellowman.tinwork.yourname.R;
-import com.yellowman.tinwork.yourname.UIKit.GradientGenerator;
-import com.yellowman.tinwork.yourname.home.HomeActivity;
+import com.yellowman.tinwork.yourname.UIKit.misc.GradientGenerator;
+import com.yellowman.tinwork.yourname.UIKit.misc.ProgressSpinner;
+import com.yellowman.tinwork.yourname.activities.home.HomeActivity;
 import com.yellowman.tinwork.yourname.model.Token;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.user.UserToken;
@@ -71,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
      * @void
      */
     protected void initOtherComponent() {
-        mProgressView  = findViewById(R.id.login_progress);
+        mProgressView  = findViewById(R.id.spinner_container);
         mLoginFormView = findViewById(R.id.email_login_form);
     }
 
@@ -152,6 +153,7 @@ public class LoginActivity extends AppCompatActivity {
     * @param payload
     */
    private void getRequestToken(HashMap<String, String> payload) {
+       ProgressSpinner.setVisible(mProgressView);
        tokenReq.get(payload, new GsonCallback<Token>() {
            @Override
            public void onSuccess(Token response) {
@@ -165,11 +167,12 @@ public class LoginActivity extends AppCompatActivity {
                }
                // Start the new home activity
                LoginActivity.this.dispatchHome();
+               ProgressSpinner.setHidden(mProgressView);
            }
 
            @Override
            public void onError(String err) {
-               showProgress(false);
+               //ProgressSpinner.setHidden(mProgressView);
            }
        });
    }
@@ -202,8 +205,8 @@ public class LoginActivity extends AppCompatActivity {
      * @void
      */
     private void setBackground() {
-        LinearLayout layout = findViewById(R.id.loginLayout);
-        GradientGenerator gd = new GradientGenerator(this, layout);
+        RelativeLayout layout = findViewById(R.id.loginLayout);
+        GradientGenerator gd = new GradientGenerator(this, layout, null);
         gd.buildBackgroundGradientColor();
 
         // Set the nav bar to translucent

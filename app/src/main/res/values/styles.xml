@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- Login style -->
     <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -21,5 +22,86 @@
         <item name="backgroundTint">@color/white</item>
         <item name="android:textColorHint">@color/lightGrey</item>
         <item name="android:textColor">@color/white</item>
+    </style>
+    <!-- End login style -->
+
+    <!-- Toolbar -->
+    <style name="AppToolbar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:background">@color/transparency</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/lightGrey</item>
+    </style>
+
+    <!-- Top bar -->
+    <style name="Dark.Overlay.LightPopup" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:background">@color/transparency</item>
+    </style>
+
+    <!-- Card view -->
+    <style name="CardViewHome" parent="CardView">
+        <item name="android:layout_width">170dp</item>
+        <item name="android:layout_height">230dp</item>
+        <item name="android:layout_marginLeft">0dp</item>
+        <item name="android:layout_marginRight">0dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="cardCornerRadius">10dp</item>
+    </style>
+
+    <!-- Card View Favorite -->
+    <style name="CardViewFavorite" parent="@style/CardViewHome">
+        <item name="android:layout_width">113dp</item>
+        <item name="android:layout_height">230dp</item>
+    </style>
+
+    <!-- Generic card view -->
+    <style name="CardViewGeneric" parent="CardView">
+        <item name="android:layout_width">113dp</item>
+        <item name="android:layout_height">195dp</item>
+        <item name="android:layout_marginLeft">0dp</item>
+        <item name="android:layout_marginRight">0dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="cardCornerRadius">10dp</item>
+    </style>
+
+    <!-- Card img style -->
+    <style name="CardImgGeneric">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">150dp</item>
+        <item name="android:contentDescription">@string/img_logo</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <style name="CardImgView" parent="@style/CardImgGeneric">
+        <item name="android:layout_width">170dp</item>
+        <item name="android:layout_height">160dp</item>
+    </style>
+
+    <style name="CardTextViewTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:textColor">@color/starBlue</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Card View Status text -->
+    <style name="CardViewStatusText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:paddingRight">4dp</item>
+        <item name="android:textColor">@color/starBlue</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <!-- Card View Data Text -->
+    <style name="CardViewDateText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:gravity">center_vertical|start</item>
+        <item name="android:textColor">@color/starBlue</item>
     </style>
 </resources>
