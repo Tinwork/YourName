@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.helpers.Helper;
-import com.yellowman.tinwork.yourname.filmDetails.FilmDetails;
+import com.yellowman.tinwork.yourname.activities.filmDetail.FilmDetails;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.utils.Utils;
@@ -38,12 +38,11 @@ public class TrendingHolder extends RecyclerView.ViewHolder{
     public TrendingHolder(final View itemView) {
         super(itemView);
 
-
-        v = itemView;
-        imgView = (ImageView) itemView.findViewById(R.id.banner);
-        filmTextView  = (TextView) itemView.findViewById(R.id.film_name);
-        typeTextView  = (TextView) itemView.findViewById(R.id.status);
-        airedTextView = (TextView) itemView.findViewById(R.id.firstAired);
+        this.v = itemView;
+        this.imgView = (ImageView) itemView.findViewById(R.id.banner);
+        this.filmTextView  = (TextView) itemView.findViewById(R.id.film_name);
+        this.typeTextView  = (TextView) itemView.findViewById(R.id.status);
+        this.airedTextView = (TextView) itemView.findViewById(R.id.firstAired);
 
         // Set the Icon of the Date
         helper = new Helper();

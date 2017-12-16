@@ -47,13 +47,27 @@
         <item name="cardCornerRadius">10dp</item>
     </style>
 
+    <style name="CardViewGeneric" parent="CardView">
+        <item name="android:layout_width">85dp</item>
+        <item name="android:layout_height">180dp</item>
+        <item name="android:layout_marginLeft">0dp</item>
+        <item name="android:layout_marginRight">0dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="cardCornerRadius">10dp</item>
+    </style>
+
     <!-- Card img style -->
-    <style name="CardImgView">
-        <item name="android:layout_width">170dp</item>
-        <item name="android:layout_height">160dp</item>
+    <style name="CardImgGeneric">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">150dp</item>
         <item name="android:contentDescription">@string/img_logo</item>
         <item name="android:layout_alignParentTop">true</item>
         <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <style name="CardImgView" parent="@style/CardImgGeneric">
+        <item name="android:layout_width">170dp</item>
+        <item name="android:layout_height">160dp</item>
     </style>
 
     <style name="CardTextViewTitle">

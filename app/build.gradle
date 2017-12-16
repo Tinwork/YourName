@@ -27,6 +27,7 @@ android {
                 'src/main/res/layouts/login',
                 'src/main/res/layouts/home',
                 'src/main/res/layouts/trending',
+                'src/main/res/layouts/popular',
                 'src/main/res/layouts/film_details',
                 'src/main/res/layouts/network',
                 'src/main/res/layouts/cards',

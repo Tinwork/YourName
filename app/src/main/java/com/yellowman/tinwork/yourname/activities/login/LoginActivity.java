@@ -1,4 +1,4 @@
-package com.yellowman.tinwork.yourname.login;
+package com.yellowman.tinwork.yourname.activities.login;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 
@@ -18,7 +17,7 @@ import com.google.gson.Gson;
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.misc.GradientGenerator;
 import com.yellowman.tinwork.yourname.UIKit.misc.ProgressSpinner;
-import com.yellowman.tinwork.yourname.home.HomeActivity;
+import com.yellowman.tinwork.yourname.activities.home.HomeActivity;
 import com.yellowman.tinwork.yourname.model.Token;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.user.UserToken;

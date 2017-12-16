@@ -1,4 +1,4 @@
-package com.yellowman.tinwork.yourname.home;
+package com.yellowman.tinwork.yourname.activities.home;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -12,11 +12,11 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 
 import com.yellowman.tinwork.yourname.R;
-import com.yellowman.tinwork.yourname.UIKit.communication.FragmentCommunication;
-import com.yellowman.tinwork.yourname.UIKit.communication.FragmentListener;
+import com.yellowman.tinwork.yourname.UIKit.iface.FragmentCommunication;
+import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.UIKit.misc.GradientGenerator;
-import com.yellowman.tinwork.yourname.home.fragments.TrendingFragment;
-import com.yellowman.tinwork.yourname.login.LoginActivity;
+import com.yellowman.tinwork.yourname.activities.home.fragments.TrendingFragment;
+import com.yellowman.tinwork.yourname.activities.login.LoginActivity;
 import com.yellowman.tinwork.yourname.utils.Utils;
 
 public class HomeActivity extends AppCompatActivity implements TrendingFragment.OnFragmentInteractionListener, FragmentCommunication{
@@ -133,7 +133,6 @@ public class HomeActivity extends AppCompatActivity implements TrendingFragment.
      * Set ToolBar
      */
     private void setToolbar() {
-        Log.d("Debug", "set toolbar");
         Toolbar toolbar = (Toolbar) findViewById(R.id.mytoolbar);
         toolbar.setTitle("TRENDING");
         setSupportActionBar(toolbar);
@@ -154,7 +153,9 @@ public class HomeActivity extends AppCompatActivity implements TrendingFragment.
         }
     }
 
-
+    /**
+     *
+     * @param uri
+     */
     public void onFragmentInteraction(Uri uri) {}
-
 }

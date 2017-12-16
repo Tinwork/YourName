@@ -1,4 +1,4 @@
-package com.yellowman.tinwork.yourname.home.fragments;
+package com.yellowman.tinwork.yourname.activities.home.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -13,16 +13,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.yellowman.tinwork.yourname.R;
-import com.yellowman.tinwork.yourname.UIKit.adapters.TrendAdapter;
-import com.yellowman.tinwork.yourname.UIKit.communication.FragmentCommunication;
-import com.yellowman.tinwork.yourname.UIKit.communication.FragmentListener;
+import com.yellowman.tinwork.yourname.UIKit.adapters.CardSeriesAdapter;
+import com.yellowman.tinwork.yourname.UIKit.iface.FragmentCommunication;
+import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.UIKit.helpers.Utils;
 import com.yellowman.tinwork.yourname.UIKit.misc.ProgressSpinner;
 import com.yellowman.tinwork.yourname.model.Search;
+import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
 
 import java.util.HashMap;
+import java.util.List;
 
 
 public class TrendingFragment extends Fragment implements FragmentListener {
@@ -61,7 +63,7 @@ public class TrendingFragment extends Fragment implements FragmentListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View trending = inflater.inflate(R.layout.fragment_trending, container, false);
-        recyclerView  = (RecyclerView) trending.findViewById(R.id.home_recycler_view);
+        recyclerView  = (RecyclerView) trending.findViewById(R.id.trendingFrag_recycler_view);
         recyclerView.setLayoutManager(
                 new LinearLayoutManager(
                         trending.getContext(),
@@ -72,10 +74,7 @@ public class TrendingFragment extends Fragment implements FragmentListener {
 
         // Set it to fix so android can do some optimization
         recyclerView.setHasFixedSize(true);
-        TrendAdapter adapter = new TrendAdapter(null);
-        recyclerView.setAdapter(adapter);
-
-
+        bindRecycleView(null);
         // Instantiate the Loader
         spinner = trending.findViewById(R.id.trending_spinner);
 
@@ -89,10 +88,7 @@ public class TrendingFragment extends Fragment implements FragmentListener {
      * @param savedInstanceState
      */
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-    }
+    public void onActivityCreated(Bundle savedInstanceState) { super.onActivityCreated(savedInstanceState); }
 
     /**
      * On Attach
@@ -140,6 +136,23 @@ public class TrendingFragment extends Fragment implements FragmentListener {
     }
 
     /**
+     * Bind Recycler View
+     *
+     * @param data
+     */
+    @Override
+    public void bindRecycleView(List<?> data) {
+        CardSeriesAdapter adapter;
+        if (data == null) {
+            adapter = new CardSeriesAdapter(null, R.layout.card_home);
+        } else {
+            adapter = new CardSeriesAdapter((List<Series>) data, R.layout.card_home);
+        }
+
+        recyclerView.setAdapter(adapter);
+    }
+
+    /**
      * On Fragment Interaction Listener
      */
     public interface OnFragmentInteractionListener {
@@ -156,8 +169,7 @@ public class TrendingFragment extends Fragment implements FragmentListener {
             getSeries(getActivity());
         } else {
             Log.d("Debug", "Restoring series");
-            TrendAdapter adapter = new TrendAdapter(payload.getData());
-            recyclerView.swapAdapter(adapter, false);
+            bindRecycleView(payload.getData());
             ProgressSpinner.setHidden(spinner);
         }
     }
@@ -172,6 +184,9 @@ public class TrendingFragment extends Fragment implements FragmentListener {
         HashMap<String, String> payload = new HashMap<>();
         payload.put("name", "star wars");
 
+        // Ok i guess this is not a good thing
+        TrendingFragment self = this;
+
         SearchSeries search = new SearchSeries(ctx);
         search.get(payload, new GsonCallback<Search>() {
             @Override
@@ -180,8 +195,7 @@ public class TrendingFragment extends Fragment implements FragmentListener {
                 if (response.getData() == null)
                     return;
 
-                TrendAdapter adapter = new TrendAdapter(response.getData());
-                recyclerView.swapAdapter(adapter, false);
+                self.bindRecycleView(response.getData());
                 mCommunication.setParcelable(response);
                 ProgressSpinner.setHidden(spinner);
             }

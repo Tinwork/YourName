@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.yellowman.tinwork.yourname.R;
+import com.yellowman.tinwork.yourname.UIKit.holder.PopularHolder;
 import com.yellowman.tinwork.yourname.UIKit.holder.TrendingHolder;
 import com.yellowman.tinwork.yourname.model.Series;
 
@@ -19,16 +20,19 @@ import java.util.List;
  * Created by Antoine Renault on 06/12/2017.
  */
 
-public class TrendAdapter extends RecyclerView.Adapter{
+public class CardSeriesAdapter extends RecyclerView.Adapter{
 
     public List<Series> series;
+    private int layoutID;
+
 
     /**
      * Trend Adapter
      * @param seriesList
      */
-    public TrendAdapter(List<Series> seriesList) {
-        series = seriesList;
+    public CardSeriesAdapter(List<Series> seriesList, int layoutID) {
+        this.series   = seriesList;
+        this.layoutID = layoutID;
     }
 
     /**
@@ -39,25 +43,33 @@ public class TrendAdapter extends RecyclerView.Adapter{
      */
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_home, parent, false);
+        final View view = LayoutInflater.from(parent.getContext()).inflate(layoutID, parent, false);
 
         // Create viewHolder here
-        return new TrendingHolder(view);
+        return getHolderBaseFromLayoutID(view);
     }
 
     /**
+     * On Bind View Holder
      *
      * @param holder
      * @param position
      */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((TrendingHolder) holder).bindData(series.get(position));
+        switch (layoutID) {
+            case R.layout.card_home:
+                ((TrendingHolder) holder).bindData(series.get(position));
+                break;
+            case R.layout.card_generic:
+                ((PopularHolder) holder).bindData(series.get(position));
+                break;
+        }
     }
 
 
-
     /**
+     * Get Item Count
      *
      * @return
      */
@@ -71,6 +83,7 @@ public class TrendAdapter extends RecyclerView.Adapter{
     }
 
     /**
+     * Get Item View Type
      *
      * @param position
      * @return
@@ -78,5 +91,29 @@ public class TrendAdapter extends RecyclerView.Adapter{
     @Override
     public int getItemViewType(final int position) {
         return R.layout.card_home;
+    }
+
+
+    /**
+     * Get Holder Based From Layout ID
+     *
+     * @param v
+     * @return
+     */
+    private RecyclerView.ViewHolder getHolderBaseFromLayoutID(View v) {
+        RecyclerView.ViewHolder holder = null;
+
+        switch (layoutID) {
+            case R.layout.card_home:
+                holder = new TrendingHolder(v);
+                break;
+            case R.layout.card_generic:
+                holder = new PopularHolder(v);
+                break;
+            default:
+                holder = new TrendingHolder(v);
+        }
+
+        return holder;
     }
 }

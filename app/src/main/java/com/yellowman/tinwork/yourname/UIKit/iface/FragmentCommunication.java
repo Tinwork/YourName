@@ -1,4 +1,4 @@
-package com.yellowman.tinwork.yourname.UIKit.communication;
+package com.yellowman.tinwork.yourname.UIKit.iface;
 
 import android.os.Parcelable;
 

@@ -1,6 +1,9 @@
-package com.yellowman.tinwork.yourname.UIKit.communication;
+package com.yellowman.tinwork.yourname.UIKit.iface;
 
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
+
+import java.util.List;
 
 /**
  * Created by Marc Intha-amnouay on 14/12/2017.
@@ -11,8 +14,14 @@ import android.os.Parcelable;
 
 public interface FragmentListener {
     /**
+     * Notify Data
      *
      * @param parcel
      */
     void notifyData(Parcelable parcel);
+
+    /**
+     * Bind Recycle View
+     */
+    void bindRecycleView(List<?> data);
 }

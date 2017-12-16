@@ -1,4 +1,4 @@
-package com.yellowman.tinwork.yourname.filmDetails;
+package com.yellowman.tinwork.yourname.activities.filmDetail;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,7 +7,6 @@ import android.util.Log;
 
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.model.Series;
-import com.yellowman.tinwork.yourname.utils.Utils;
 
 public class FilmDetails extends AppCompatActivity {
 
