@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.yellowman.tinwork.yourname.R;
+import com.yellowman.tinwork.yourname.UIKit.helpers.Helper;
+import com.yellowman.tinwork.yourname.activities.filmDetail.FilmDetails;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.utils.Utils;
@@ -25,6 +27,7 @@ public class FavoriteHolder extends RecyclerView.ViewHolder {
     private TextView  rateTextView;
     private TextView  runtimeTextView;
     protected View viewItem;
+    protected Helper helper;
 
 
     /**
@@ -34,6 +37,7 @@ public class FavoriteHolder extends RecyclerView.ViewHolder {
     public FavoriteHolder(final View viewItem) {
         super(viewItem);
         this.viewItem = viewItem;
+        this.helper = new Helper();
 
         // Prepare the Layout element
         prepareElements();
@@ -54,6 +58,11 @@ public class FavoriteHolder extends RecyclerView.ViewHolder {
         // Set other kind of props with 'FIX' Data in the meantime
         rateTextView.setText("5");
         runtimeTextView.setText("Romance / 55mn");
+
+        // OnClick Listener
+        viewItem.setOnClickListener(event -> {
+            helper.launchNewViewWithModel(serie, viewItem.getContext(), FilmDetails.class);
+        });
     }
 
     /**

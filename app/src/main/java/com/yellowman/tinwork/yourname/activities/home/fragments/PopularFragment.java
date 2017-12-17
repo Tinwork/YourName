@@ -82,8 +82,6 @@ public class PopularFragment extends Fragment implements FragmentListener {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // /!\ Just for testing
-        getPopularSeries(getActivity());
     }
 
     /**

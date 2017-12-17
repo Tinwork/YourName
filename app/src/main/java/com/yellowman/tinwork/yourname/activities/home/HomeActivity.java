@@ -1,8 +1,8 @@
 package com.yellowman.tinwork.yourname.activities.home;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -15,21 +15,25 @@ import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentCommunication;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.UIKit.misc.GradientGenerator;
+import com.yellowman.tinwork.yourname.activities.home.fragments.FavoriteFragment;
+import com.yellowman.tinwork.yourname.activities.home.fragments.PopularFragment;
 import com.yellowman.tinwork.yourname.activities.home.fragments.TrendingFragment;
 import com.yellowman.tinwork.yourname.activities.login.LoginActivity;
 import com.yellowman.tinwork.yourname.utils.Utils;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 
 public class HomeActivity extends AppCompatActivity implements FragmentCommunication {
 
+    protected ArrayList<FragmentListener> listeners;
+
     private GradientGenerator gd;
-    private TrendingFragment trendFrag;
-    private FragmentListener listener;
     private HashMap<String, Parcelable> parcelMap;
 
 
@@ -48,7 +52,7 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
         isUserSubscribe();
 
         if (savedInstanceState == null) {
-            listener.notifyData(null);
+            fireFragmentEvent(null);
         }
     }
 
@@ -101,10 +105,10 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
         // restore data
         if (savedInstanceBundle != null) {
             parcelMap = (HashMap<String, Parcelable>) savedInstanceBundle.getSerializable("HomeFragmentData");
-            listener.notifyData(parcelMap);
+            fireFragmentEvent(parcelMap);
         } else {
             Log.d("Debug", "Notify data w/o payload");
-            listener.notifyData(null);
+            fireFragmentEvent(null);
         }
     }
 
@@ -131,21 +135,51 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
     }
 
     /**
+     * Init Fragment Listeners
+     *      Listeners are used by each of these 3 fragments
+     */
+    public void initFragmentListeners() {
+        TrendingFragment trFg = (TrendingFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_trending);
+        PopularFragment  poFg = (PopularFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_popular);
+        FavoriteFragment faFg = (FavoriteFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_favorite);
+
+        // Put the listeners in the ArrayList which will be used later..
+        listeners.add((FragmentListener) trFg);
+        listeners.add((FragmentListener) poFg);
+        listeners.add((FragmentListener) faFg);
+    }
+
+    /**
+     * Fire Fragment Event
+     *
+     * @param parcels
+     * @TODO should upgrade min version of the App
+     */
+    public void fireFragmentEvent(@Nullable HashMap<String, Parcelable> parcels) {
+        listeners.forEach(listener -> {
+            listener.notifyData(parcels);
+        });
+    }
+
+    /**
      * Init View
+     *      Init the Activity
      */
     private void initView() {
         // Parcel map
         this.parcelMap = new HashMap<>();
+        this.listeners = new ArrayList<>();
 
+        // Set the gradient background color to the LinearLayout
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
         this.gd = new GradientGenerator(this, null, mainLayout);
         int color = this.gd.buildBackgroundGradientColor();
+
+        // Set the bg color of the status bar
         Utils.colorizeStatusBar(this.getWindow(), this, color);
 
-
-        // Get the fragment
-        trendFrag = (TrendingFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_trending);
-        listener  = (FragmentListener) trendFrag;
+        // Prepare the listeners
+        initFragmentListeners();
     }
 
     /**

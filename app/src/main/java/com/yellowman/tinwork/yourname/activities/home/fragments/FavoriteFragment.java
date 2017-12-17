@@ -81,8 +81,6 @@ public class FavoriteFragment extends Fragment implements FragmentListener {
     @Override
     public void onActivityCreated(Bundle savedInstanceBundle) {
         super.onActivityCreated(savedInstanceBundle);
-        // /!\ Just for testing purposes
-        getFavoriteSeries();
     }
 
     /**
