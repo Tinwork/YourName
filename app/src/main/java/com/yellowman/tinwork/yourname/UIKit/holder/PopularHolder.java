@@ -51,6 +51,8 @@ public class PopularHolder extends RecyclerView.ViewHolder {
 
         if (!serie.getBanner().isEmpty()) {
             Glide.with(viewItem).load(Utils.buildMiscURI(Routes.IMG_PATH, serie.getBanner())).into(imgView);
+        } else {
+            Glide.with(viewItem).load(R.drawable.yourname_bg).into(imgView);
         }
 
         // Set listeners

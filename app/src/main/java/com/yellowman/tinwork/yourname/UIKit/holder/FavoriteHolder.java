@@ -1,5 +1,6 @@
 package com.yellowman.tinwork.yourname.UIKit.holder;
 
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -53,6 +54,8 @@ public class FavoriteHolder extends RecyclerView.ViewHolder {
 
         if (!serie.getBanner().isEmpty()) {
             Glide.with(viewItem).load(Utils.buildMiscURI(Routes.IMG_PATH, serie.getBanner())).into(imgView);
+        } else {
+            Glide.with(viewItem).load(R.drawable.yourname_bg).into(imgView);
         }
 
         // Set other kind of props with 'FIX' Data in the meantime
@@ -71,7 +74,7 @@ public class FavoriteHolder extends RecyclerView.ViewHolder {
     private void prepareElements() {
         imgView = viewItem.findViewById(R.id.banner);
         filmTextView = viewItem.findViewById(R.id.film_name);
-        rateTextView = viewItem.findViewById(R.id.genre_time);
-        runtimeTextView = viewItem.findViewById(R.id.rating);
+        rateTextView = viewItem.findViewById(R.id.rating);
+        runtimeTextView = viewItem.findViewById(R.id.genre_time);
     }
 }

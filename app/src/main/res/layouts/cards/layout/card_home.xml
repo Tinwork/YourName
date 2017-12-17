@@ -34,7 +34,8 @@
                 android:id="@+id/firstAired"
                 android:layout_below="@id/film_name"
                 android:layout_toLeftOf="@+id/status"
-                style="@style/CardViewDateText"/>
+                style="@style/CardViewDateText"
+                android:drawableTint="@color/starBlue"/>
 
             <TextView
                 android:id="@+id/status"
