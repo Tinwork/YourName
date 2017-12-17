@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.yellowman.tinwork.yourname.R;
+import com.yellowman.tinwork.yourname.UIKit.helpers.Helper;
+import com.yellowman.tinwork.yourname.activities.filmDetail.FilmDetails;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.utils.Utils;
@@ -23,6 +25,7 @@ public class PopularHolder extends RecyclerView.ViewHolder {
     private View viewItem;
     private ImageView imgView;
     private TextView filmTextView;
+    protected Helper helper;
 
     /**
      * Popular Holder
@@ -32,6 +35,7 @@ public class PopularHolder extends RecyclerView.ViewHolder {
     public PopularHolder(final View viewItem) {
         super(viewItem);
         this.viewItem = viewItem;
+        this.helper = new Helper();
 
         // Prepare the Layout Elements
         prepareElements();
@@ -47,7 +51,14 @@ public class PopularHolder extends RecyclerView.ViewHolder {
 
         if (!serie.getBanner().isEmpty()) {
             Glide.with(viewItem).load(Utils.buildMiscURI(Routes.IMG_PATH, serie.getBanner())).into(imgView);
+        } else {
+            Glide.with(viewItem).load(R.drawable.yourname_bg).into(imgView);
         }
+
+        // Set listeners
+        viewItem.setOnClickListener(event -> {
+            helper.launchNewViewWithModel(serie, viewItem.getContext(), FilmDetails.class);
+        });
     }
 
     /**

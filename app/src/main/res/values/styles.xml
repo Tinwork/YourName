@@ -49,8 +49,6 @@
 
     <!-- Card View Favorite -->
     <style name="CardViewFavorite" parent="@style/CardViewHome">
-        <item name="android:layout_width">113dp</item>
-        <item name="android:layout_height">230dp</item>
     </style>
 
     <!-- Generic card view -->

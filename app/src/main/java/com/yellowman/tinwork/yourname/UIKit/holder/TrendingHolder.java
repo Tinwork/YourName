@@ -46,7 +46,7 @@ public class TrendingHolder extends RecyclerView.ViewHolder{
 
         // Set the Icon of the Date
         helper = new Helper();
-        com.yellowman.tinwork.yourname.UIKit.helpers.Utils.setTextViewIcon(airedTextView, R.drawable.ic_access_time_black_24dp, null);
+        com.yellowman.tinwork.yourname.UIKit.helpers.Utils.setTextViewIcon(airedTextView, R.drawable.ic_access_time_white_18dp, null);
     }
 
     /**
@@ -55,14 +55,20 @@ public class TrendingHolder extends RecyclerView.ViewHolder{
      */
     public void bindData(final Series seriesModel) {
         series = seriesModel;
+        // Set basic text
         filmTextView.setText(seriesModel.getSeriesName());
         airedTextView.setText(seriesModel.getFirstAired());
 
+        // Set image
         String bannerURL = seriesModel.getBanner();
+
         if (!bannerURL.isEmpty()) {
             Glide.with(v).load(Utils.buildMiscURI(Routes.IMG_PATH, bannerURL)).into(imgView);
+        } else {
+            Glide.with(v).load(R.drawable.yourname_bg).into(imgView);
         }
 
+        // Set status
         String status = seriesModel.getStatus().toLowerCase().contains("ended") ? "End" : "On going";
         typeTextView.setText(status);
 

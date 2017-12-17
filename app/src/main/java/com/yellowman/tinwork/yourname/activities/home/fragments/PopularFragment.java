@@ -6,14 +6,17 @@ import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.adapters.CardSeriesAdapter;
+import com.yellowman.tinwork.yourname.UIKit.iface.FragmentCommunication;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.UIKit.helpers.Utils;
+import com.yellowman.tinwork.yourname.UIKit.misc.ProgressSpinner;
 import com.yellowman.tinwork.yourname.model.Search;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
@@ -31,7 +34,10 @@ import java.util.List;
 
 public class PopularFragment extends Fragment implements FragmentListener {
 
+    protected final String parcelID = "popular";
     protected RecyclerView recyclerView;
+    protected View spinner;
+    private FragmentCommunication mLink;
 
     /**
      * On Create
@@ -63,6 +69,8 @@ public class PopularFragment extends Fragment implements FragmentListener {
 
         recyclerView.setHasFixedSize(true);
 
+        // Set the spinner here
+        spinner = (View) popular.findViewById(R.id.popular_spinner);
         return popular;
     }
 
@@ -74,8 +82,6 @@ public class PopularFragment extends Fragment implements FragmentListener {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // /!\ Just for testing
-        getPopularSeries(getActivity());
     }
 
     /**
@@ -85,7 +91,13 @@ public class PopularFragment extends Fragment implements FragmentListener {
      */
     @Override
     public void onAttach(Context ctx) {
-       super.onAttach(ctx);
+        super.onAttach(ctx);
+
+        try {
+            mLink = (FragmentCommunication) ctx;
+        } catch (ClassCastException e) {
+            Log.d("Error", "Error while casting "+e.getMessage());
+        }
     }
 
     /**
@@ -99,11 +111,18 @@ public class PopularFragment extends Fragment implements FragmentListener {
     /**
      * Notify Data
      *
-     * @param parcel
+     * @param parcels
      */
     @Override
-    public void notifyData(Parcelable parcel) {
+    public void notifyData(HashMap<String, Parcelable> parcels) {
         // dumb test
+        if (parcels == null) {
+            getPopularSeries(getActivity());
+        } else if (parcels.get(parcelID) == null) {
+            getPopularSeries(getActivity());
+        } else {
+            restoreData((Search) parcels.get(parcelID));
+        }
     }
 
     /**
@@ -129,6 +148,7 @@ public class PopularFragment extends Fragment implements FragmentListener {
      * @param ctx
      */
     private void getPopularSeries(Context ctx) {
+        ProgressSpinner.setVisible(spinner);
         HashMap<String, String> payload = new HashMap<>();
         payload.put("name","your name");
 
@@ -144,6 +164,10 @@ public class PopularFragment extends Fragment implements FragmentListener {
                 }
 
                 self.bindRecycleView(response.getData());
+                // Set the parcelable here
+                mLink.setParcelable(response, parcelID);
+                // Hide the spinner here
+                ProgressSpinner.setHidden(spinner);
             }
 
             @Override
@@ -152,4 +176,11 @@ public class PopularFragment extends Fragment implements FragmentListener {
             }
         });
     }
+
+    /**
+     * Restore Data
+     *
+     * @param payload
+     */
+    private void restoreData(Search payload) {  bindRecycleView(payload.getData());  }
 }

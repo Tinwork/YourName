@@ -3,4 +3,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="margin_between_fragment">16dp</dimen>
+
+    <!-- icon dimens (card favorite) -->
+    <dimen name="cinema_icon_width">18dp</dimen>
+    <dimen name="cinema_icon_height">18dp</dimen>
 </resources>

@@ -1,8 +1,8 @@
 package com.yellowman.tinwork.yourname.activities.home;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -15,18 +15,32 @@ import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentCommunication;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.UIKit.misc.GradientGenerator;
+import com.yellowman.tinwork.yourname.activities.home.fragments.FavoriteFragment;
+import com.yellowman.tinwork.yourname.activities.home.fragments.PopularFragment;
 import com.yellowman.tinwork.yourname.activities.home.fragments.TrendingFragment;
 import com.yellowman.tinwork.yourname.activities.login.LoginActivity;
 import com.yellowman.tinwork.yourname.utils.Utils;
 
-public class HomeActivity extends AppCompatActivity implements TrendingFragment.OnFragmentInteractionListener, FragmentCommunication{
+import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
+
+public class HomeActivity extends AppCompatActivity implements FragmentCommunication {
+
+    protected ArrayList<FragmentListener> listeners;
 
     private GradientGenerator gd;
-    private Parcelable searchParcel;
-    private TrendingFragment trendFrag;
-    private FragmentListener listener;
+    private HashMap<String, Parcelable> parcelMap;
 
 
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +52,7 @@ public class HomeActivity extends AppCompatActivity implements TrendingFragment.
         isUserSubscribe();
 
         if (savedInstanceState == null) {
-            listener.notifyData(null);
+            fireFragmentEvent(null);
         }
     }
 
@@ -70,9 +84,14 @@ public class HomeActivity extends AppCompatActivity implements TrendingFragment.
      * @param parcel
      */
     @Override
-    public void setParcelable(Parcelable parcel) {
+    public void setParcelable(Parcelable parcel, String key) {
+        if (parcelMap == null) {
+            parcelMap = new HashMap<>();
+        }
+
         Log.d("Debug", "Set parcel");
-        searchParcel = parcel;
+        Log.d("Debug", "Parcel list is empty ?? "+parcelMap.isEmpty());
+        parcelMap.put(key, parcel);
     }
 
     /**
@@ -85,11 +104,11 @@ public class HomeActivity extends AppCompatActivity implements TrendingFragment.
 
         // restore data
         if (savedInstanceBundle != null) {
-            searchParcel = savedInstanceBundle.getParcelable("Search::entity");
-            listener.notifyData(searchParcel);
+            parcelMap = (HashMap<String, Parcelable>) savedInstanceBundle.getSerializable("HomeFragmentData");
+            fireFragmentEvent(parcelMap);
         } else {
             Log.d("Debug", "Notify data w/o payload");
-            listener.notifyData(null);
+            fireFragmentEvent(null);
         }
     }
 
@@ -101,7 +120,7 @@ public class HomeActivity extends AppCompatActivity implements TrendingFragment.
     protected void onSaveInstanceState(Bundle savedInstancedBundle) {
         savedInstancedBundle.putString("username", "mintha");
         savedInstancedBundle.putString("yourname_token", Utils.getSharedPreference(this, "yourname_token"));
-        savedInstancedBundle.putParcelable("Search::entity", searchParcel);
+        savedInstancedBundle.putSerializable("HomeFragmentData", parcelMap);
 
         // call the super method to save the view
         super.onSaveInstanceState(savedInstancedBundle);
@@ -116,17 +135,51 @@ public class HomeActivity extends AppCompatActivity implements TrendingFragment.
     }
 
     /**
+     * Init Fragment Listeners
+     *      Listeners are used by each of these 3 fragments
+     */
+    public void initFragmentListeners() {
+        TrendingFragment trFg = (TrendingFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_trending);
+        PopularFragment  poFg = (PopularFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_popular);
+        FavoriteFragment faFg = (FavoriteFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_favorite);
+
+        // Put the listeners in the ArrayList which will be used later..
+        listeners.add((FragmentListener) trFg);
+        listeners.add((FragmentListener) poFg);
+        listeners.add((FragmentListener) faFg);
+    }
+
+    /**
+     * Fire Fragment Event
+     *
+     * @param parcels
+     * @TODO should upgrade min version of the App
+     */
+    public void fireFragmentEvent(@Nullable HashMap<String, Parcelable> parcels) {
+        listeners.forEach(listener -> {
+            listener.notifyData(parcels);
+        });
+    }
+
+    /**
      * Init View
+     *      Init the Activity
      */
     private void initView() {
+        // Parcel map
+        this.parcelMap = new HashMap<>();
+        this.listeners = new ArrayList<>();
+
+        // Set the gradient background color to the LinearLayout
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
         this.gd = new GradientGenerator(this, null, mainLayout);
         int color = this.gd.buildBackgroundGradientColor();
+
+        // Set the bg color of the status bar
         Utils.colorizeStatusBar(this.getWindow(), this, color);
 
-        // Get the fragment
-        trendFrag = (TrendingFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_trending);
-        listener  = (FragmentListener) trendFrag;
+        // Prepare the listeners
+        initFragmentListeners();
     }
 
     /**
@@ -152,10 +205,4 @@ public class HomeActivity extends AppCompatActivity implements TrendingFragment.
             startActivity(view);
         }
     }
-
-    /**
-     *
-     * @param uri
-     */
-    public void onFragmentInteraction(Uri uri) {}
 }

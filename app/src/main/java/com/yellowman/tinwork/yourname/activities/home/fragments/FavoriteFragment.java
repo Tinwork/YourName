@@ -1,5 +1,6 @@
 package com.yellowman.tinwork.yourname.activities.home.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
@@ -13,7 +14,9 @@ import android.view.ViewGroup;
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.adapters.CardSeriesAdapter;
 import com.yellowman.tinwork.yourname.UIKit.helpers.Utils;
+import com.yellowman.tinwork.yourname.UIKit.iface.FragmentCommunication;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
+import com.yellowman.tinwork.yourname.UIKit.misc.ProgressSpinner;
 import com.yellowman.tinwork.yourname.model.Search;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
@@ -32,6 +35,9 @@ import java.util.List;
 public class FavoriteFragment extends Fragment implements FragmentListener {
 
     protected RecyclerView recyclerView;
+    protected View spinner;
+    protected FragmentCommunication mLink;
+    private final String parcelID = "favorite";
 
     /**
      * Favorite Fragment :: Constructor
@@ -62,6 +68,8 @@ public class FavoriteFragment extends Fragment implements FragmentListener {
         // Improve performance
         recyclerView.setHasFixedSize(true);
 
+        // Spinner
+        spinner = favorite.findViewById(R.id.favorite_spinner);
         return favorite;
     }
 
@@ -73,8 +81,6 @@ public class FavoriteFragment extends Fragment implements FragmentListener {
     @Override
     public void onActivityCreated(Bundle savedInstanceBundle) {
         super.onActivityCreated(savedInstanceBundle);
-        // /!\ Just for testing purposes
-        getFavoriteSeries();
     }
 
     /**
@@ -83,8 +89,30 @@ public class FavoriteFragment extends Fragment implements FragmentListener {
      * @param parcel
      */
     @Override
-    public void notifyData(Parcelable parcel) {
+    public void notifyData(HashMap<String, Parcelable> parcel) {
+        if (parcel == null) {
+            getFavoriteSeries();
+        } else if (parcel.get(parcelID) == null) {
+            getFavoriteSeries();
+        } else {
+            restoreData((Search) parcel.get(parcelID));
+        }
+    }
 
+    /**
+     * On Attach
+     *
+     * @param ctx
+     */
+    @Override
+    public void onAttach(Context ctx) {
+        super.onAttach(ctx);
+
+        try {
+            mLink = (FragmentCommunication) ctx;
+        } catch (ClassCastException e) {
+            Log.d("Error", e.getMessage());
+        }
     }
 
     /**
@@ -110,6 +138,7 @@ public class FavoriteFragment extends Fragment implements FragmentListener {
      *
      */
     private void getFavoriteSeries() {
+        ProgressSpinner.setVisible(spinner);
         FavoriteFragment self = this;
         HashMap<String, String> payload = new HashMap<>();
         payload.put("name", "lollipop");
@@ -124,6 +153,8 @@ public class FavoriteFragment extends Fragment implements FragmentListener {
                 }
 
                 self.bindRecycleView(response.getData());
+                mLink.setParcelable(response, parcelID);
+                ProgressSpinner.setHidden(spinner);
             }
 
             @Override
@@ -132,4 +163,10 @@ public class FavoriteFragment extends Fragment implements FragmentListener {
             }
         });
     }
+
+    /**
+     *
+     * @param payload
+     */
+    private void restoreData(Search payload) { bindRecycleView(payload.getData()); }
 }

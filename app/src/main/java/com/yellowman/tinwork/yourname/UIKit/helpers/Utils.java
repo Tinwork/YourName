@@ -42,4 +42,8 @@ public class Utils {
 
         return LinearLayout.HORIZONTAL;
     }
+
+    public static void colorizeDrawable() {
+
+    }
 }
