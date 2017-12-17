@@ -19,14 +19,24 @@ import com.yellowman.tinwork.yourname.activities.home.fragments.TrendingFragment
 import com.yellowman.tinwork.yourname.activities.login.LoginActivity;
 import com.yellowman.tinwork.yourname.utils.Utils;
 
-public class HomeActivity extends AppCompatActivity implements TrendingFragment.OnFragmentInteractionListener, FragmentCommunication{
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+
+public class HomeActivity extends AppCompatActivity implements FragmentCommunication {
 
     private GradientGenerator gd;
-    private Parcelable searchParcel;
     private TrendingFragment trendFrag;
     private FragmentListener listener;
+    private HashMap<String, Parcelable> parcelMap;
 
 
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,9 +80,14 @@ public class HomeActivity extends AppCompatActivity implements TrendingFragment.
      * @param parcel
      */
     @Override
-    public void setParcelable(Parcelable parcel) {
+    public void setParcelable(Parcelable parcel, String key) {
+        if (parcelMap == null) {
+            parcelMap = new HashMap<>();
+        }
+
         Log.d("Debug", "Set parcel");
-        searchParcel = parcel;
+        Log.d("Debug", "Parcel list is empty ?? "+parcelMap.isEmpty());
+        parcelMap.put(key, parcel);
     }
 
     /**
@@ -85,8 +100,8 @@ public class HomeActivity extends AppCompatActivity implements TrendingFragment.
 
         // restore data
         if (savedInstanceBundle != null) {
-            searchParcel = savedInstanceBundle.getParcelable("Search::entity");
-            listener.notifyData(searchParcel);
+            parcelMap = (HashMap<String, Parcelable>) savedInstanceBundle.getSerializable("HomeFragmentData");
+            listener.notifyData(parcelMap);
         } else {
             Log.d("Debug", "Notify data w/o payload");
             listener.notifyData(null);
@@ -101,7 +116,7 @@ public class HomeActivity extends AppCompatActivity implements TrendingFragment.
     protected void onSaveInstanceState(Bundle savedInstancedBundle) {
         savedInstancedBundle.putString("username", "mintha");
         savedInstancedBundle.putString("yourname_token", Utils.getSharedPreference(this, "yourname_token"));
-        savedInstancedBundle.putParcelable("Search::entity", searchParcel);
+        savedInstancedBundle.putSerializable("HomeFragmentData", parcelMap);
 
         // call the super method to save the view
         super.onSaveInstanceState(savedInstancedBundle);
@@ -119,10 +134,14 @@ public class HomeActivity extends AppCompatActivity implements TrendingFragment.
      * Init View
      */
     private void initView() {
+        // Parcel map
+        this.parcelMap = new HashMap<>();
+
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
         this.gd = new GradientGenerator(this, null, mainLayout);
         int color = this.gd.buildBackgroundGradientColor();
         Utils.colorizeStatusBar(this.getWindow(), this, color);
+
 
         // Get the fragment
         trendFrag = (TrendingFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_trending);
@@ -152,10 +171,4 @@ public class HomeActivity extends AppCompatActivity implements TrendingFragment.
             startActivity(view);
         }
     }
-
-    /**
-     *
-     * @param uri
-     */
-    public void onFragmentInteraction(Uri uri) {}
 }

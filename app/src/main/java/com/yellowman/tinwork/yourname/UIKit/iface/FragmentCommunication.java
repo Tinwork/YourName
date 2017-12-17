@@ -14,6 +14,7 @@ public interface FragmentCommunication {
      * Set Parcelable
      *
      * @param parcel
+     * @param key
      */
-    void setParcelable(Parcelable parcel);
+    void setParcelable(Parcelable parcel, String key);
 }

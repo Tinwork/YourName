@@ -26,13 +26,19 @@ import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Created by Marc Intha-amnouay on 29/11/2017.
+ * Created by Didier Youn on 29/11/2017.
+ * Created by Abdel-Atif Mabrouck on 29/11/2017.
+ * Created by Antoine Renault on 29/11/2017.
+ */
 
 public class TrendingFragment extends Fragment implements FragmentListener {
 
-    private OnFragmentInteractionListener mListener;
+    protected final String parcelID = "trending";
+    protected View spinner;
     private FragmentCommunication mCommunication;
     private RecyclerView recyclerView;
-    protected View spinner;
 
     /**
      *  TrendingFragment::Constructor
@@ -99,12 +105,11 @@ public class TrendingFragment extends Fragment implements FragmentListener {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+
+        try {
             mCommunication = (FragmentCommunication) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+        } catch (ClassCastException e) {
+            Log.d("Error", e.getMessage());
         }
     }
 
@@ -116,21 +121,21 @@ public class TrendingFragment extends Fragment implements FragmentListener {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     /**
      * Notify Data
      *
-     * @param parcel
+     * @param parcels
      */
     @Override
-    public void notifyData(Parcelable parcel) {
-        if (parcel == null) {
-            Log.d("Debug", "Parcel is null");
+    public void notifyData(HashMap<String, Parcelable> parcels) {
+        if (parcels == null) {
+            getSeries(getActivity());
+        } else if (parcels.get(parcelID) == null) {
             getSeries(getActivity());
         } else {
-            Search data = (Search) parcel;
+            Search data = (Search) parcels.get(parcelID);
             restoreData(data);
         }
     }
@@ -150,13 +155,6 @@ public class TrendingFragment extends Fragment implements FragmentListener {
         }
 
         recyclerView.setAdapter(adapter);
-    }
-
-    /**
-     * On Fragment Interaction Listener
-     */
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
     }
 
     /**
@@ -196,7 +194,7 @@ public class TrendingFragment extends Fragment implements FragmentListener {
                     return;
 
                 self.bindRecycleView(response.getData());
-                mCommunication.setParcelable(response);
+                mCommunication.setParcelable(response, parcelID);
                 ProgressSpinner.setHidden(spinner);
             }
 

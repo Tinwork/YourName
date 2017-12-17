@@ -1,8 +1,10 @@
 package com.yellowman.tinwork.yourname.UIKit.iface;
 
+import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -16,9 +18,10 @@ public interface FragmentListener {
     /**
      * Notify Data
      *
-     * @param parcel
+     * /!\ Need review though...
+     * @param parcels
      */
-    void notifyData(Parcelable parcel);
+    void notifyData(HashMap<String, Parcelable> parcels);
 
     /**
      * Bind Recycle View

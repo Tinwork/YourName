@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.yellowman.tinwork.yourname.networkTest.NetworkActivity">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -66,7 +65,6 @@
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="8dp" />
 
-
         <Button
             android:id="@+id/getEpisodesFromSeries"
             android:layout_width="match_parent"
@@ -75,5 +73,6 @@
             android:text="Get episodes from series"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="8dp" />
+
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

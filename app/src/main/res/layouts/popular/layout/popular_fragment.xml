@@ -6,6 +6,15 @@
     android:paddingTop="@dimen/margin_between_fragment"
     tools:context=".activities.home.fragments.PopularFragment">
 
+    <ProgressBar
+        android:id="@+id/popular_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:indeterminateTint="@color/white"
+        android:visibility="gone"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
