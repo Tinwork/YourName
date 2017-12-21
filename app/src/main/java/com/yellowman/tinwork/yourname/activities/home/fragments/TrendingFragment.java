@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.adapters.CardSeriesAdapter;
@@ -37,6 +38,7 @@ public class TrendingFragment extends Fragment implements FragmentListener {
 
     protected final String parcelID = "trending";
     protected View spinner;
+    protected int viewResources;
     private FragmentCommunication mCommunication;
     private RecyclerView recyclerView;
 
@@ -73,7 +75,7 @@ public class TrendingFragment extends Fragment implements FragmentListener {
         recyclerView.setLayoutManager(
                 new LinearLayoutManager(
                         trending.getContext(),
-                        Utils.getLinearLayoutOrientation(this.getActivity()),
+                        LinearLayout.HORIZONTAL,
                         false
                 )
         );
@@ -83,6 +85,8 @@ public class TrendingFragment extends Fragment implements FragmentListener {
         bindRecycleView(null);
         // Instantiate the Loader
         spinner = trending.findViewById(R.id.trending_spinner);
+        // Set the Layout ID to be use
+        getResourcesID();
 
         return trending;
     }
@@ -149,9 +153,9 @@ public class TrendingFragment extends Fragment implements FragmentListener {
     public void bindRecycleView(List<?> data) {
         CardSeriesAdapter adapter;
         if (data == null) {
-            adapter = new CardSeriesAdapter(null, R.layout.card_home);
+            adapter = new CardSeriesAdapter(null, viewResources);
         } else {
-            adapter = new CardSeriesAdapter((List<Series>) data, R.layout.card_home);
+            adapter = new CardSeriesAdapter((List<Series>) data, viewResources);
         }
 
         recyclerView.setAdapter(adapter);
@@ -202,5 +206,17 @@ public class TrendingFragment extends Fragment implements FragmentListener {
                 Log.d("Error", "err: "+err);
             }
         });
+    }
+
+    /**
+     * Get Resources ID
+     */
+    private void getResourcesID() {
+        if (Utils.getLinearLayoutOrientation(getActivity()) == LinearLayout.HORIZONTAL) {
+            this.viewResources = R.layout.card_home;
+            return;
+        }
+
+        this.viewResources = R.layout.card_home_landscape;
     }
 }
