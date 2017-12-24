@@ -32,6 +32,7 @@ android {
                 'src/main/res/layouts/film_details',
                 'src/main/res/layouts/network',
                 'src/main/res/layouts/cards',
+                'src/main/res/layouts/actors',
                 'src/main/res/layouts/misc',
                 'src/main/res/layouts',
                 'src/main/res'

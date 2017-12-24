@@ -1,6 +1,5 @@
 package com.yellowman.tinwork.yourname.UIKit.holder;
 
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,7 +8,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.helpers.Helper;
-import com.yellowman.tinwork.yourname.activities.filmDetail.FilmDetails;
+import com.yellowman.tinwork.yourname.activities.filmDetail.FilmDetailsActivity;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.utils.Utils;
@@ -64,7 +63,7 @@ public class FavoriteHolder extends RecyclerView.ViewHolder {
 
         // OnClick Listener
         viewItem.setOnClickListener(event -> {
-            helper.launchNewViewWithModel(serie, viewItem.getContext(), FilmDetails.class);
+            helper.launchNewViewWithModel(serie, viewItem.getContext(), FilmDetailsActivity.class);
         });
     }
 

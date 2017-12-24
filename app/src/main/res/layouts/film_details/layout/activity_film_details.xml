@@ -4,23 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.filmDetail.FilmDetails">
+    tools:context=".activities.filmDetail.FilmDetailsActivity">
 
+    <!-- Toolbar -->
+    <include android:id="@+id/mytoolbar"
+        layout="@layout/toolbar" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/refresh"
-            android:layout_width="138dp"
-            android:layout_height="495dp"
-            android:layout_weight="1"
-            android:text="Test refresh"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="8dp" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
+            android:id="@+id/film_banner"/>
 
-    </LinearLayout>
+        <fragment
+            class="com.yellowman.tinwork.yourname.activities.filmDetail.fragments.FilmContentFragment"
+            android:id="@+id/fragment_film_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none" />
+
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -111,24 +111,6 @@ public class NetworkActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Test Get OneSerie API
-     */
-    protected void testGetSerieAPI() {
-        HashMap<String, String> payload = new HashMap<>();
-        payload.put("series_id", "328840");
-
-        GetSerie serie = new GetSerie(this);
-        serie.get(payload, new GsonCallback<SerieWrapper>() {
-            @Override
-            public void onSuccess(SerieWrapper response) {
-                Log.d("Debug", "Serie name for search API "+response.getData().getSeriesName());
-            }
-
-            public void onError(String err) {}
-        });
-    }
-
     protected void testFilterSerieAPI() {
         HashMap<String, String> payload = new HashMap<>();
         payload.put("series_id", "328840");
@@ -232,8 +214,8 @@ public class NetworkActivity extends AppCompatActivity {
         Button placeHolder           = (Button) findViewById(R.id.testPlaceHolder);
         Button getActors             = (Button) findViewById(R.id.getActors);
         Button getEpisodesFromSeries = (Button) findViewById(R.id.getEpisodesFromSeries);
-        Button getEpisodes = (Button) findViewById(R.id.getEpisodes);
-        Button filterSeries = (Button) findViewById(R.id.filterSeries);
+        Button getEpisodes           = (Button) findViewById(R.id.getEpisodes);
+        Button filterSeries          = (Button) findViewById(R.id.filterSeries);
 
         // Add a listeners
         refresh.setOnClickListener(event -> NetworkActivity.this.testRefreshTokenAPI());
