@@ -7,4 +7,8 @@
     <!-- icon dimens (card favorite) -->
     <dimen name="cinema_icon_width">18dp</dimen>
     <dimen name="cinema_icon_height">18dp</dimen>
+
+    <!-- animation dimens -->
+    <dimen name="android_card_anim_start">-20%</dimen>
+    <dimen name="android_card_anim_end">0%</dimen>
 </resources>
