@@ -145,23 +145,6 @@ public class NetworkActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Test Get OneSerie API
-     */
-    protected void testGetSerieAPI() {
-        HashMap<String, String> payload = new HashMap<>();
-        payload.put("series_id", "328840");
-
-        GetSerie serie = new GetSerie(this);
-        serie.get(payload, new GsonCallback<SerieWrapper>() {
-            @Override
-            public void onSuccess(SerieWrapper response) {
-                Log.d("Debug", "Serie name for search API "+response.getData().getSeriesName());
-            }
-
-            public void onError(String err) {}
-        });
-    }
 
     /**
      * Test Placeholder URI
