@@ -60,6 +60,7 @@ public class CardSeriesAdapter extends RecyclerView.Adapter{
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch (layoutID) {
             case R.layout.card_home:
+            case R.layout.card_home_landscape:
                 ((TrendingHolder) holder).bindData(series.get(position));
                 break;
             case R.layout.card_generic:
@@ -108,6 +109,7 @@ public class CardSeriesAdapter extends RecyclerView.Adapter{
 
         switch (layoutID) {
             case R.layout.card_home:
+            case R.layout.card_home_landscape:
                 holder = new TrendingHolder(v);
                 break;
             case R.layout.card_generic:

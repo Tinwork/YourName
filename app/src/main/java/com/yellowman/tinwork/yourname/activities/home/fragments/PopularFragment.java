@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.adapters.CardSeriesAdapter;
@@ -63,7 +64,7 @@ public class PopularFragment extends Fragment implements FragmentListener {
         recyclerView = popular.findViewById(R.id.popularFrag_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(
                 popular.getContext(),
-                Utils.getLinearLayoutOrientation(this.getActivity()),
+                LinearLayout.HORIZONTAL,
                 false
         ));
 
