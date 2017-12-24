@@ -6,10 +6,20 @@ import android.util.Log;
 import android.widget.Button;
 
 import com.yellowman.tinwork.yourname.R;
+import com.yellowman.tinwork.yourname.entity.Episode;
 import com.yellowman.tinwork.yourname.model.Serie.Actors;
 import com.yellowman.tinwork.yourname.model.Search;
 import com.yellowman.tinwork.yourname.model.Serie.Episodes;
 import com.yellowman.tinwork.yourname.model.Serie.SerieWrapper;
+import com.yellowman.tinwork.yourname.model.Serie.SingleEpisodeWrapper;
+import com.yellowman.tinwork.yourname.network.api.Routes;
+import com.yellowman.tinwork.yourname.model.Token;
+import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
+import com.yellowman.tinwork.yourname.network.api.series.FilterSeries;
+import com.yellowman.tinwork.yourname.network.api.series.GetSerie;
+import com.yellowman.tinwork.yourname.network.api.series.ListActors;
+import com.yellowman.tinwork.yourname.network.api.search.SearchEpisodes;
+
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.model.Token;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
@@ -80,6 +90,55 @@ public class NetworkActivity extends AppCompatActivity {
             public void onSuccess(Search response) {
                 String serie = response.getData().get(0).getSeriesName();
                 Log.d("Debug", "Serie name for search API "+serie);
+            }
+
+            public void onError(String err) {}
+        });
+    }
+
+    protected void testGetEpisodesAPI() {
+        HashMap<String, String> payload = new HashMap<>();
+
+        SearchEpisodes search = new SearchEpisodes(this);
+        search.get(payload, new GsonCallback<SingleEpisodeWrapper>() {
+            @Override
+            public void onSuccess(SingleEpisodeWrapper response) {
+                Episode episode = response.getData();
+                Log.d("Debug", "Serie name for search API "+episode.getEpisodeName());
+            }
+
+            public void onError(String err) {}
+        });
+    }
+
+    /**
+     * Test Get OneSerie API
+     */
+    protected void testGetSerieAPI() {
+        HashMap<String, String> payload = new HashMap<>();
+        payload.put("series_id", "328840");
+
+        GetSerie serie = new GetSerie(this);
+        serie.get(payload, new GsonCallback<SerieWrapper>() {
+            @Override
+            public void onSuccess(SerieWrapper response) {
+                Log.d("Debug", "Serie name for search API "+response.getData().getSeriesName());
+            }
+
+            public void onError(String err) {}
+        });
+    }
+
+    protected void testFilterSerieAPI() {
+        HashMap<String, String> payload = new HashMap<>();
+        payload.put("series_id", "328840");
+        payload.put("key?", "seriesName");
+
+        FilterSeries serie = new FilterSeries(this);
+        serie.get(payload, new GsonCallback<SerieWrapper>() {
+            @Override
+            public void onSuccess(SerieWrapper response) {
+                Log.d("Debug", "Serie name for search API "+response.getData().getSeriesName());
             }
 
             public void onError(String err) {}
@@ -173,6 +232,8 @@ public class NetworkActivity extends AppCompatActivity {
         Button placeHolder           = (Button) findViewById(R.id.testPlaceHolder);
         Button getActors             = (Button) findViewById(R.id.getActors);
         Button getEpisodesFromSeries = (Button) findViewById(R.id.getEpisodesFromSeries);
+        Button getEpisodes = (Button) findViewById(R.id.getEpisodes);
+        Button filterSeries = (Button) findViewById(R.id.filterSeries);
 
         // Add a listeners
         refresh.setOnClickListener(event -> NetworkActivity.this.testRefreshTokenAPI());
@@ -182,6 +243,8 @@ public class NetworkActivity extends AppCompatActivity {
         placeHolder.setOnClickListener(event -> NetworkActivity.this.testPlaceholderURI());
         getActors.setOnClickListener(event -> NetworkActivity.this.testGetActorsAPI());
         getEpisodesFromSeries.setOnClickListener(event -> NetworkActivity.this.testGetEpisodesFromSeriesById());
+        getEpisodes.setOnClickListener(event -> NetworkActivity.this.testGetEpisodesAPI());
+        filterSeries.setOnClickListener(event -> NetworkActivity.this.testFilterSerieAPI());
     }
 
 }

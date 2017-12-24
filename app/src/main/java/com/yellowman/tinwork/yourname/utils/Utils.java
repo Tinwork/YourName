@@ -80,7 +80,7 @@ public class Utils {
                .authority(Routes.API_AUTHORITY)
                .appendEncodedPath(baseURL);
 
-        Arrays.stream(placeholders).forEach(placeholder -> builder.appendPath(placeholder));
+        Arrays.stream(placeholders).forEach(placeholder -> builder.appendEncodedPath(placeholder));
 
         if (restURL == null)
             return builder.build().toString();
