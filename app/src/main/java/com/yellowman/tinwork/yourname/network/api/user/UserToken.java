@@ -1,13 +1,8 @@
 package com.yellowman.tinwork.yourname.network.api.user;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.google.gson.JsonObject;
-import com.yellowman.tinwork.yourname.home.HomeActivity;
 import com.yellowman.tinwork.yourname.model.Token;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.Routes;
@@ -15,7 +10,6 @@ import com.yellowman.tinwork.yourname.network.fetch.Fetch;
 import com.yellowman.tinwork.yourname.network.fetch.GsonGetManager;
 import com.yellowman.tinwork.yourname.network.fetch.GsonPostManager;
 import com.yellowman.tinwork.yourname.network.fetch.RequestQueueManager;
-import com.yellowman.tinwork.yourname.network.helper.VolleyErrorHelper;
 import com.yellowman.tinwork.yourname.utils.Utils;
 
 

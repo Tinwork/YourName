@@ -20,6 +20,11 @@ import com.yellowman.tinwork.yourname.network.api.series.GetSerie;
 import com.yellowman.tinwork.yourname.network.api.series.ListActors;
 import com.yellowman.tinwork.yourname.network.api.search.SearchEpisodes;
 
+import com.yellowman.tinwork.yourname.network.api.Routes;
+import com.yellowman.tinwork.yourname.model.Token;
+import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
+import com.yellowman.tinwork.yourname.network.api.series.GetSerie;
+import com.yellowman.tinwork.yourname.network.api.series.ListActors;
 import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
 import com.yellowman.tinwork.yourname.network.api.series.ListEpisodes;
 import com.yellowman.tinwork.yourname.network.api.user.UserToken;
@@ -130,6 +135,24 @@ public class NetworkActivity extends AppCompatActivity {
         payload.put("key?", "seriesName");
 
         FilterSeries serie = new FilterSeries(this);
+        serie.get(payload, new GsonCallback<SerieWrapper>() {
+            @Override
+            public void onSuccess(SerieWrapper response) {
+                Log.d("Debug", "Serie name for search API "+response.getData().getSeriesName());
+            }
+
+            public void onError(String err) {}
+        });
+    }
+
+    /**
+     * Test Get OneSerie API
+     */
+    protected void testGetSerieAPI() {
+        HashMap<String, String> payload = new HashMap<>();
+        payload.put("series_id", "328840");
+
+        GetSerie serie = new GetSerie(this);
         serie.get(payload, new GsonCallback<SerieWrapper>() {
             @Override
             public void onSuccess(SerieWrapper response) {
