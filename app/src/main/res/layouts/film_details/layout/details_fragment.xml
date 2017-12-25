@@ -1,7 +1,8 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:id="@+id/detail_fragment">
 
     <TextView
         android:layout_width="wrap_content"
@@ -14,29 +15,29 @@
         android:layout_toLeftOf="@id/film_title"
         android:id="@+id/film_lang"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/actor_title"/>
-
     <!-- use recyclerview for displaying the list of actor -->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/actors_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="horizontal"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/film_lang">
     </android.support.v7.widget.RecyclerView>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/synopsis_title"
-        android:text="@string/synopsis_title"/>
+        android:text="@string/actor_title"
+        android:id="@+id/syn_title"
+        android:layout_below="@+id/actors_recycler_view"/>
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/synopsis"/>
+        android:id="@+id/synopsis"
+        android:text="@string/synopsis_title"
+        android:layout_below="@+id/syn_title"/>
 
 </RelativeLayout>

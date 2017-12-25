@@ -14,18 +14,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!-- Don't set match parent to imageView which can caused OOMs (out of memory) -->
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitCenter"
+            android:layout_height="300dp"
+            android:layout_alignParentTop="true"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
             android:id="@+id/film_banner"/>
 
-        <fragment
-            class="com.yellowman.tinwork.yourname.activities.filmDetail.fragments.FilmContentFragment"
-            android:id="@+id/fragment_film_detail"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none" />
+            android:layout_below="@id/film_banner">
+
+            <fragment
+                class="com.yellowman.tinwork.yourname.activities.filmDetail.fragments.FilmContentFragment"
+                android:id="@+id/fragment_film_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/film_banner"
+                android:scrollbars="none" />
+
+        </ScrollView>
 
     </RelativeLayout>
 

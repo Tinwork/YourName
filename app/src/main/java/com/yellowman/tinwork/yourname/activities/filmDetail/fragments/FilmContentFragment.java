@@ -10,10 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.adapters.ActorAdapter;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
+import com.yellowman.tinwork.yourname.UIKit.misc.GradientGenerator;
 import com.yellowman.tinwork.yourname.model.Serie.Actors;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
@@ -34,7 +37,14 @@ import java.util.List;
 public class FilmContentFragment extends Fragment implements FragmentListener {
 
     protected RecyclerView recyclerView;
+    protected GradientGenerator gd;
     protected final String parcelID = "serie";
+    protected View view;
+
+    // Fragment element
+    private TextView filmTitle;
+    private TextView filmLang;
+    private TextView synopsis;
 
     /**
      * Film Content Fragment::Constructor
@@ -50,18 +60,23 @@ public class FilmContentFragment extends Fragment implements FragmentListener {
      * @return
      */
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceBundle) {
-        View details = inflater.inflate(R.layout.details_fragment, container, false);
+        this.view = inflater.inflate(R.layout.details_fragment, container, false);
 
         // Set recycler view properties
-        this.recyclerView = details.findViewById(R.id.actors_recycler_view);
+        this.recyclerView = view.findViewById(R.id.actors_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(
-                details.getContext(),
-                LinearLayout.HORIZONTAL,
+                view.getContext(),
+                LinearLayout.VERTICAL,
                 false
         ));
 
         recyclerView.setHasFixedSize(true);
-        return details;
+        // Init the other component
+        initFragmentElement();
+        // Add gradient
+        makeGradient();
+
+        return view;
     }
 
     /**
@@ -71,11 +86,15 @@ public class FilmContentFragment extends Fragment implements FragmentListener {
      */
     @Override
     public void notifyData(HashMap<String, Parcelable> data) {
+
         if (data == null) {
             // handle that no actor exist
         } else {
             Log.d("Debug", "RECEIVE DATA");
             Series serie = (Series) data.get(parcelID);
+            // display the already loaded data
+            setFragmentElementData(serie);
+            // Get the serie actor
             getSeriesActorById(serie.getId());
         }
     }
@@ -110,5 +129,37 @@ public class FilmContentFragment extends Fragment implements FragmentListener {
                 Log.d("Error", "Network error !");
             }
         });
+    }
+
+    /**
+     * Init Fragment Element
+     *
+     * @void
+     */
+    private void initFragmentElement() {
+        this.filmTitle = view.findViewById(R.id.film_title);
+        this.filmLang  = view.findViewById(R.id.film_lang);
+        this.synopsis  = view.findViewById(R.id.synopsis);
+    }
+
+    /**
+     * Set Fragment Elements Datas
+     *
+     * @param serie
+     */
+    private void setFragmentElementData(Series serie) {
+        filmTitle.setText(serie.getSeriesName());
+        synopsis.setText(serie.getOverview());
+    }
+
+    /**
+     * Make Gradient
+     *
+     * @void
+     * @private
+     */
+    private void makeGradient() {
+        this.gd = new GradientGenerator(getActivity(), (RelativeLayout) this.view, null);
+        gd.buildBackgroundGradientColor();
     }
 }

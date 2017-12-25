@@ -2,20 +2,25 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp">
 
     <ImageView
-        android:layout_width="match_parent"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:id="@+id/actor_image"/>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/actor_name"/>
+        android:id="@+id/actor_name"
+        android:layout_toEndOf="@id/actor_image"
+        android:layout_toRightOf="@+id/actor_image"
+        style="@style/ActorTextViewStyle"/>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/actor_role"/>
+        android:id="@+id/actor_role"
+        android:layout_below="@+id/actor_name"
+        android:layout_toEndOf="@id/actor_image"
+        android:layout_toRightOf="@+id/actor_image"
+        style="@style/ActorTextViewRole"/>
 </RelativeLayout>

@@ -36,7 +36,7 @@ public class FilmDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_film_details);
-        //setToolbar();
+        setToolbar();
         initActivityComponent();
         getIntentData();
     }
