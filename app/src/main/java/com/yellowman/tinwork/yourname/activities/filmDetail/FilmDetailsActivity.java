@@ -12,11 +12,15 @@ import com.bumptech.glide.Glide;
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.activities.filmDetail.fragments.FilmContentFragment;
+import com.yellowman.tinwork.yourname.entity.Image;
 import com.yellowman.tinwork.yourname.model.Series;
+import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.Routes;
+import com.yellowman.tinwork.yourname.network.api.series.ImagesSeries;
 import com.yellowman.tinwork.yourname.utils.Utils;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * MERRY CHRISTMAS !!!!! ✨ L~~~~~~~~~MM~~~~~~~~~L ✨
@@ -72,19 +76,41 @@ public class FilmDetailsActivity extends AppCompatActivity {
 
         Log.d("Debug", "Series name is "+serie.getSeriesName());
 
-        // set the image for the banner
-        if (!serie.getBanner().isEmpty()) {
-            Glide.with(this).load(Utils.buildMiscURI(Routes.IMG_PATH, serie.getBanner())).into(banner);
-        } else {
-            Glide.with(this).load(R.drawable.yourname_bg).into(banner);
-        }
-
         // Call our fragment and notify that data is available
         if (!serie.getId().isEmpty()) {
             // Get actor
             HashMap<String, Parcelable> data = new HashMap<>();
             data.put("serie", serie);
             fg.notifyData(data);
+            getImageForSerie(serie.getId());
         }
+    }
+
+    /**
+     * Get Image For Serie
+     */
+    private void getImageForSerie(String id) {
+        HashMap<String, String> payload = new HashMap<>();
+        payload.put("series_id", id);
+        ImagesSeries query = new ImagesSeries(this);
+        query.get(payload, new GsonCallback<Image[]>() {
+
+            @Override
+            public void onSuccess(Image[] response) {
+                // set the image for the banner
+                if (response.length > 0) {
+                    Glide.with(FilmDetailsActivity.this).load(Utils.buildMiscURI(Routes.IMG_PATH, response[0].getFileName())).into(banner);
+                } else {
+                    Glide.with(FilmDetailsActivity.this).load(R.drawable.yourname_bg).into(banner);
+                }
+
+            }
+
+            @Override
+            public void onError(String err) {
+                // Handle error here
+                Log.d("Error", err);
+            }
+        });
     }
 }

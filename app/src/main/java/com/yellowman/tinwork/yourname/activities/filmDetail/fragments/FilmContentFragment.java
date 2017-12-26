@@ -17,6 +17,7 @@ import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.adapters.ActorAdapter;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.UIKit.misc.GradientGenerator;
+import com.yellowman.tinwork.yourname.entity.Actor;
 import com.yellowman.tinwork.yourname.model.Serie.Actors;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
@@ -66,7 +67,7 @@ public class FilmContentFragment extends Fragment implements FragmentListener {
         this.recyclerView = view.findViewById(R.id.actors_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(
                 view.getContext(),
-                LinearLayout.VERTICAL,
+                LinearLayout.HORIZONTAL,
                 false
         ));
 
@@ -117,9 +118,9 @@ public class FilmContentFragment extends Fragment implements FragmentListener {
         params.put("series_id", serieID);
 
         ListActors actors = new ListActors(this.getContext());
-        actors.get(params, new GsonCallback<Actors>() {
+        actors.get(params, new GsonCallback<Actor[]>() {
             @Override
-            public void onSuccess(Actors response) {
+            public void onSuccess(Actor[] response) {
                 // Create our adapter
                 ActorAdapter adapter = new ActorAdapter(response);
                 recyclerView.setAdapter(adapter);

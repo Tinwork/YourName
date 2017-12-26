@@ -61,7 +61,7 @@ public class ListEpisodes extends Fetch
         }, error -> {
             this.handleVolleyError(error, episodes, ctx, retry, callback);
             retry++;
-        });
+        }, false);
         // Add API Request to current queue
         queueManager.addToRequestQueue(episodes);
     }

@@ -28,5 +28,6 @@
 
     <!-- Don't forget to translate this -->
     <string name="synopsis_title">Synopsis</string>
-    <string name="actor_title">Synopsis</string>
+    <string name="actor_title">Actors(ess)</string>
+    <string name="seasons">Seasons</string>
 </resources>

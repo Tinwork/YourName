@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="100dp"
     android:layout_height="wrap_content"
     android:layout_marginTop="4dp">
 
@@ -9,18 +9,13 @@
         android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        android:gravity="center_horizontal"
+        android:paddingBottom="20dp"
         android:id="@+id/actor_image"/>
 
     <TextView
         android:id="@+id/actor_name"
-        android:layout_toEndOf="@id/actor_image"
-        android:layout_toRightOf="@+id/actor_image"
+        android:layout_below="@+id/actor_image"
         style="@style/ActorTextViewStyle"/>
-
-    <TextView
-        android:id="@+id/actor_role"
-        android:layout_below="@+id/actor_name"
-        android:layout_toEndOf="@id/actor_image"
-        android:layout_toRightOf="@+id/actor_image"
-        style="@style/ActorTextViewRole"/>
 </RelativeLayout>

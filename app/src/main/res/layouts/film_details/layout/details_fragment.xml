@@ -2,18 +2,38 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/detail_fragment">
+    android:id="@+id/detail_fragment"
+    android:padding="@dimen/detail_padding">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/film_title"/>
+        android:id="@+id/film_title"
+        style="@style/TextViewTitle"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/film_title"
-        android:id="@+id/film_lang"/>
+        android:id="@+id/film_lang"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:layout_marginBottom="15dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/lightGrey"
+        android:layout_below="@+id/film_lang"
+        android:id="@+id/hr"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/hr"
+        android:textColor="@color/white"
+        android:text="@string/actor_title"
+        style="@style/TextViewTitle"/>
 
     <!-- use recyclerview for displaying the list of actor -->
     <android.support.v7.widget.RecyclerView
@@ -22,15 +42,24 @@
         android:layout_height="wrap_content"
         android:scrollbars="horizontal"
         android:layout_marginTop="30dp"
+        android:layout_marginBottom="@dimen/detail_padding"
         android:layout_below="@+id/film_lang">
     </android.support.v7.widget.RecyclerView>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@color/lightGrey"
+        android:layout_below="@+id/actors_recycler_view" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/actor_title"
+        android:text="@string/synopsis_title"
         android:id="@+id/syn_title"
-        android:layout_below="@+id/actors_recycler_view"/>
+        android:layout_below="@+id/actors_recycler_view"
+        style="@style/TextViewTitle"/>
 
 
     <TextView
@@ -38,6 +67,36 @@
         android:layout_height="wrap_content"
         android:id="@+id/synopsis"
         android:text="@string/synopsis_title"
-        android:layout_below="@+id/syn_title"/>
+        android:layout_below="@+id/syn_title"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:layout_marginBottom="@dimen/title_margin"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@color/lightGrey"
+        android:layout_below="@+id/synopsis"
+        android:id="@+id/hr_synopsis"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/episodes"
+        android:text="@string/seasons"
+        android:layout_below="@+id/hr_synopsis"
+        android:textColor="@color/white"
+        style="@style/TextViewTitle"/>
+
+    <!-- use recyclerview for displaying the list of actor -->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/seasons_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="@dimen/detail_padding"
+        android:layout_below="@+id/film_lang">
+    </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>

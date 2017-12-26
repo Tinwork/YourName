@@ -17,7 +17,7 @@
         <!-- Don't set match parent to imageView which can caused OOMs (out of memory) -->
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="200dp"
             android:layout_alignParentTop="true"
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"

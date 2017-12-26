@@ -23,15 +23,15 @@ import java.util.List;
 
 public class ActorAdapter extends RecyclerView.Adapter {
 
-    public final List<Actor> actors;
+    public final Actor[] actors;
 
     /**
      * Actor Adapter::Constructor
      *
      * @param actors
      */
-    public ActorAdapter(Actors actors) {
-        this.actors = actors.getData();
+    public ActorAdapter(Actor[] actors) {
+        this.actors = actors;
     }
 
     /**
@@ -56,7 +56,7 @@ public class ActorAdapter extends RecyclerView.Adapter {
      */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((ActorHolder) holder).bindData(actors.get(position));
+        ((ActorHolder) holder).bindData(actors[position]);
     }
 
     /**
@@ -70,7 +70,7 @@ public class ActorAdapter extends RecyclerView.Adapter {
             return 0;
         }
 
-        return actors.size();
+        return actors.length;
     }
 }
 

@@ -55,7 +55,7 @@ public class UserBasic extends Fetch {
         }, error -> {
             this.handleVolleyError(error, userRequest, ctx, retry, callback);
             retry++;
-        });
+        }, false);
     }
 
 }

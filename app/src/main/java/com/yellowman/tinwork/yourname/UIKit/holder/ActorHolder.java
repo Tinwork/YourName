@@ -25,7 +25,6 @@ public class ActorHolder extends RecyclerView.ViewHolder {
 
     private ImageView actorImg;
     private TextView actorTxt;
-    private TextView actorRole;
     protected final View view;
 
     /**
@@ -45,7 +44,6 @@ public class ActorHolder extends RecyclerView.ViewHolder {
     public void prepareElements() {
         this.actorImg  = view.findViewById(R.id.actor_image);
         this.actorTxt  = view.findViewById(R.id.actor_name);
-        this.actorRole = view.findViewById(R.id.actor_role);
     }
 
     /**
@@ -62,6 +60,5 @@ public class ActorHolder extends RecyclerView.ViewHolder {
         }
 
         actorTxt.setText(actor.getName());
-        actorRole.setText(actor.getRole());
     }
 }
