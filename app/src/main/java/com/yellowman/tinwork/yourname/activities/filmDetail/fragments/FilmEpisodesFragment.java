@@ -14,8 +14,10 @@ import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.adapters.EpisodesAdapter;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.entity.Episode;
+import com.yellowman.tinwork.yourname.entity.EpisodeMisc;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
+import com.yellowman.tinwork.yourname.network.api.series.EpisodeSummary;
 import com.yellowman.tinwork.yourname.network.api.series.ListEpisodes;
 
 import java.util.ArrayList;
@@ -33,7 +35,7 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener {
 
     private RecyclerView recyclerView;
     private List<Episode[]> episodesList = new ArrayList<>();
-    private int retry = 0;
+    private int idx = 0;
 
     /**
      * Film Episodes Fragment::Constructor
@@ -74,7 +76,7 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener {
             // should handle something here
         } else {
             Series serie = (Series) data.get("serie");
-            handleMulSeasons(serie.getId()).start();
+            getSeasons(serie.getId());
         }
     }
 
@@ -86,16 +88,44 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener {
     public void bindRecycleView(List<?> data) {}
 
     /**
-     * Load All Episodes By Seasons
+     * Get Seasons
      *
      * @param serie_id
      */
-    public void loadAllEpisodesBySeasons(String serie_id) {
+    public void getSeasons(String serie_id) {
+        HashMap<String, String> data = new HashMap<>();
+        data.put("series_id", serie_id);
+
+        EpisodeSummary summary = new EpisodeSummary(getContext());
+        summary.get(data, new GsonCallback<EpisodeMisc>() {
+
+            @Override
+            public void onSuccess(EpisodeMisc response) {
+                notifySeasonsLoaded(response, serie_id);
+            }
+
+            @Override
+            public void onError(String err) {
+                // should handle error by a toast
+            }
+        });
+    }
+
+    /**
+     * Load All Episodes By Seasons
+     *
+     * @param seasons
+     * @param serie_id
+     */
+    public void loadAllEpisodesBySeasons(String[] seasons, String serie_id) {
+        if (seasons.length == idx) {
+            return;
+        }
         // this list need to be save using realm
         HashMap<String, String> data = new HashMap<>();
 
         data.put("series_id", serie_id);
-        data.put("season", Integer.toString(retry));
+        data.put("season", seasons[idx]);
 
         ListEpisodes episodes = new ListEpisodes(getContext());
         episodes.get(data, new GsonCallback<Episode[]>() {
@@ -103,23 +133,19 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener {
             @Override
             public void onSuccess(Episode[] response) {
                 episodesList.add(response);
-                retry++;
+                idx++;
 
-                // long retry though..
-                if (retry < 64) {
-                    // we try to get other seasons here
-                    loadAllEpisodesBySeasons(serie_id);
+                if (seasons.length == idx) {
+                    notifySeasonsReady();
+                } else {
+                    loadAllEpisodesBySeasons(seasons, serie_id);
                 }
             }
 
             @Override
             public void onError(String err) {
-                if (err.contains("404") && retry == 0) {
-                    retry++;
-                    loadAllEpisodesBySeasons(serie_id);
-                    // in case if the series does not have a "0" series then make a check that it exist with the param "1"
-                } else if (err.contains("404") && retry > 1) {
-                    // Fail silently --> no more season so we assumed that we have retrieve every seasons
+                 if (err.contains("404")) {
+                    // Fail silently --> we assumed that no more seasons existed
                     notifySeasonsReady();
                 }
             }
@@ -131,12 +157,14 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener {
      * Handle Mul Seasons
      *      Thread that get the episodes by seasons
      *      /!\ Can take a long time ! though we may have use the AsyncTask but as the method is already asynchronious..
+     *
+     * @param seasons
      * @param serie_id
      * @return
      */
-    public Thread handleMulSeasons(String serie_id) {
+    public Thread handleMulSeasons(String[] seasons, String serie_id) {
         Thread thread = new Thread(() -> {
-            loadAllEpisodesBySeasons(serie_id);
+            loadAllEpisodesBySeasons(seasons, serie_id);
         });
 
         return thread;
@@ -147,12 +175,22 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener {
      *
      */
     private void notifySeasonsReady() {
-        Log.d("Debug", "GET ALL SEASONS");
 
         // Maybe it's a good idea to do that as it's called from a runnable ?
         this.recyclerView.post(() -> {
             EpisodesAdapter adapter = new EpisodesAdapter(episodesList);
             this.recyclerView.setAdapter(adapter);
         });
+    }
+
+    /**
+     * Notify Seasons Loaded
+     *
+     * @param misc
+     */
+    private void notifySeasonsLoaded(EpisodeMisc misc, String serie_id) {
+        Log.d("Debug", "HAVE ALL SEASONS");
+
+        handleMulSeasons(misc.getAiredSeasons(), serie_id).start();
     }
 }

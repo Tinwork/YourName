@@ -121,15 +121,14 @@ public class GsonGetManager<T> extends Request<T> {
 
         if (obj.get("data").isJsonNull()) {
             return Response.error(new VolleyError("Data is empty"));
-        }
-
-        JsonArray arr = obj.get("data").getAsJsonArray();
-
-        if (arr.size() > 0) {
-            return Response.success(
-                    gson.fromJson(arr, cls),
-                    HttpHeaderParser.parseCacheHeaders(response)
-            );
+        } else if (obj.get("data").isJsonArray()) {
+            JsonArray arr = obj.get("data").getAsJsonArray();
+            if (arr.size() > 0) {
+                return Response.success(
+                        gson.fromJson(arr, cls),
+                        HttpHeaderParser.parseCacheHeaders(response)
+                );
+            }
         }
 
         return Response.success(
