@@ -4,23 +4,54 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.filmDetail.FilmDetails">
+    tools:context=".activities.filmDetail.FilmDetailsActivity">
 
+    <!-- Toolbar -->
+    <include android:id="@+id/mytoolbar"
+        layout="@layout/toolbar" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:id="@+id/film_details_view">
 
-        <Button
-            android:id="@+id/refresh"
-            android:layout_width="138dp"
-            android:layout_height="495dp"
-            android:layout_weight="1"
-            android:text="Test refresh"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="8dp" />
+        <!-- Don't set match parent to imageView which can caused OOMs (out of memory) -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_alignParentTop="true"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:id="@+id/film_banner"/>
 
-    </LinearLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/film_banner">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/film_banner">
+
+                <fragment
+                    class="com.yellowman.tinwork.yourname.activities.filmDetail.fragments.FilmContentFragment"
+                    android:id="@+id/fragment_film_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none" />
+
+                <fragment
+                    class="com.yellowman.tinwork.yourname.activities.filmDetail.fragments.FilmEpisodesFragment"
+                    android:id="@+id/fragment_episodes_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/fragment_film_detail"
+                    android:scrollbars="none" />
+            </RelativeLayout>
+
+        </ScrollView>
+
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

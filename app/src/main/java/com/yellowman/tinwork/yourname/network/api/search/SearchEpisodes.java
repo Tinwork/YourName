@@ -3,8 +3,6 @@ package com.yellowman.tinwork.yourname.network.api.search;
 import android.content.Context;
 import android.util.Log;
 
-import com.yellowman.tinwork.yourname.model.Search;
-import com.yellowman.tinwork.yourname.model.Serie.Episodes;
 import com.yellowman.tinwork.yourname.model.Serie.SingleEpisodeWrapper;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.Routes;
@@ -13,7 +11,6 @@ import com.yellowman.tinwork.yourname.network.fetch.GsonGetManager;
 import com.yellowman.tinwork.yourname.network.fetch.RequestQueueManager;
 import com.yellowman.tinwork.yourname.utils.Utils;
 
-import java.lang.reflect.Array;
 import java.util.HashMap;
 
 /**
@@ -38,12 +35,13 @@ public class SearchEpisodes extends Fetch {
 
     @Override
     public void get(HashMap<String, String> payload, final GsonCallback callback) {
+        String[] data = {payload.get("series_id")};
+
         String token = Utils.getSharedPreference(ctx, "yourname_token");
         // Headers
         HashMap<String, String> headers = Utils.makeHeaders(null, token);
-        String[] foo = {"6362452"};
         // Bind the GET request params
-        String URL = Utils.buildPlaceholderUrl(Routes.SEARCH_EPISODES, foo , null);
+        String URL = Utils.buildPlaceholderUrl(Routes.SEARCH_EPISODES, data , null);
 
         Log.d("Debug", "URL : "+URL);
 
@@ -52,7 +50,7 @@ public class SearchEpisodes extends Fetch {
         }, error -> {
             this.handleVolleyError(error, series, ctx, retry, callback);
             retry++;
-        });
+        }, false);
 
         queueManager.addToRequestQueue(series);
     }

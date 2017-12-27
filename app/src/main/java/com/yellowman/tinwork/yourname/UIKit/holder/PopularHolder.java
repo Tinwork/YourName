@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.helpers.Helper;
-import com.yellowman.tinwork.yourname.activities.filmDetail.FilmDetails;
+import com.yellowman.tinwork.yourname.activities.filmDetail.FilmDetailsActivity;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.utils.Utils;
@@ -57,7 +57,7 @@ public class PopularHolder extends RecyclerView.ViewHolder {
 
         // Set listeners
         viewItem.setOnClickListener(event -> {
-            helper.launchNewViewWithModel(serie, viewItem.getContext(), FilmDetails.class);
+            helper.launchNewViewWithModel(serie, viewItem.getContext(), FilmDetailsActivity.class);
         });
     }
 

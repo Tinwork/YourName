@@ -35,6 +35,8 @@ public abstract class Fetch {
             if (new Integer(errorPayload.get("code")) == 401) {
                 VolleyRetry re = new VolleyRetry(ctx);
                 re.retry(req);
+            } else {
+                callback.onError(errorPayload.get("code"));
             }
         } else if (!VolleyErrorHelper.isBasicError(error) && errorPayload.get("message") != null) {
             // Log the error

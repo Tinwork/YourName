@@ -11,4 +11,7 @@
     <!-- animation dimens -->
     <dimen name="android_card_anim_start">-20%</dimen>
     <dimen name="android_card_anim_end">0%</dimen>
+
+    <dimen name="detail_padding">5dp</dimen>
+    <dimen name="title_margin">10dp</dimen>
 </resources>

@@ -21,12 +21,13 @@
     <!-- navigation bar -->
     <string name="search_icon">Search Icon</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-
     <!-- Home string property -->
     <string name="trending">trending</string>
     <string name="popular">popular</string>
     <string name="favorite">favorite</string>
+
+    <!-- Don't forget to translate this -->
+    <string name="synopsis_title">Synopsis</string>
+    <string name="actor_title">Actors(ess)</string>
+    <string name="seasons">Seasons</string>
 </resources>

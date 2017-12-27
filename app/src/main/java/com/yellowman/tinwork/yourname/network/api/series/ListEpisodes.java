@@ -3,6 +3,7 @@ package com.yellowman.tinwork.yourname.network.api.series;
 import android.content.Context;
 import android.util.Log;
 
+import com.yellowman.tinwork.yourname.entity.Episode;
 import com.yellowman.tinwork.yourname.model.Serie.Episodes;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.Routes;
@@ -26,7 +27,7 @@ public class ListEpisodes extends Fetch
 {
     private final RequestQueueManager queueManager;
     private Context ctx;
-    private GsonGetManager<Episodes> episodes;
+    private GsonGetManager<Episode[]> episodes;
     private int retry;
 
     /**
@@ -45,6 +46,7 @@ public class ListEpisodes extends Fetch
      *
      * @param payload HashMap
      * @param callback GsonCallback
+     * @TODO Upgrade the buildPlaceHolder method
      */
     @Override
     public void get(HashMap<String, String> payload, final GsonCallback callback)
@@ -55,13 +57,16 @@ public class ListEpisodes extends Fetch
         // Build API URL
         String[] foo = {payload.get("series_id")};
         String URL = Utils.buildPlaceholderUrl(Routes.PREFIX_SERIES, foo, Routes.SUFFIX_ROUTES_EPISODES_FROM_SERIES);
+        // Append the query parameter
+        URL = URL+"?airedSeason="+payload.get("season");
+
         // Call API
-        episodes = new GsonGetManager<>(URL, Episodes.class, headers, response -> {
+        episodes = new GsonGetManager<>(URL, Episode[].class, headers, response -> {
             callback.onSuccess(response);
         }, error -> {
             this.handleVolleyError(error, episodes, ctx, retry, callback);
             retry++;
-        });
+        }, true);
         // Add API Request to current queue
         queueManager.addToRequestQueue(episodes);
     }

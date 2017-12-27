@@ -87,7 +87,7 @@ public class UserToken extends Fetch {
             callback.onSuccess(response);
         }, error -> {
             this.handleVolleyError(error, reqGet, ctx, 1, callback);
-        });
+        }, false);
 
         queueManager.addToRequestQueue(reqGet);
     }

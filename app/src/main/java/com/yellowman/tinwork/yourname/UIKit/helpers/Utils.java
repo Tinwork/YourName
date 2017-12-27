@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -43,7 +45,16 @@ public class Utils {
         return LinearLayout.HORIZONTAL;
     }
 
-    public static void colorizeDrawable() {
+    /**
+     * Get Screen DPI
+     *
+     * @param w
+     * @return
+     */
+    public static int getScreenDPI(Window w) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        w.getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
+        return metrics.densityDpi;
     }
 }

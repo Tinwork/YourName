@@ -57,7 +57,7 @@ public class FilterSeries extends Fetch {
         }, error -> {
             this.handleVolleyError(error, series, ctx, retry, callback);
             retry++;
-        });
+        }, false);
 
         queueManager.addToRequestQueue(series);
     }
