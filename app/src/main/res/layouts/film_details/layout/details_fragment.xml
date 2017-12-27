@@ -14,17 +14,45 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/film_title"
-        android:id="@+id/film_lang"
+        android:layout_below="@+id/film_title"
+        android:id="@+id/film_network"
         android:textColor="@color/white"
         android:textSize="15sp"
-        android:layout_marginBottom="15dp"/>
+        android:layout_marginBottom="5dp"/>
+
+    <!-- misc textview -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/film_network"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/genre"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/genre"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/date"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/date"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/site_rating"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/lightGrey"
-        android:layout_below="@+id/film_lang"
+        android:layout_below="@+id/site_rating"
         android:id="@+id/hr"/>
 
     <TextView
@@ -33,6 +61,7 @@
         android:layout_below="@id/hr"
         android:textColor="@color/white"
         android:text="@string/actor_title"
+        android:id="@+id/actor_title"
         style="@style/TextViewTitle"/>
 
     <!-- use recyclerview for displaying the list of actor -->
@@ -41,9 +70,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="horizontal"
-        android:layout_marginTop="30dp"
         android:layout_marginBottom="@dimen/detail_padding"
-        android:layout_below="@+id/film_lang">
+        android:layout_below="@+id/actor_title">
     </android.support.v7.widget.RecyclerView>
 
 

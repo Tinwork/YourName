@@ -36,6 +36,8 @@ public class Series implements Parcelable {
     private String overview;
     private String seriesName;
     private String status;
+    private String[] genre;
+    private String siteRating;
 
     public Series() {}
 
@@ -52,6 +54,8 @@ public class Series implements Parcelable {
         overview   = parcel.readString();
         seriesName = parcel.readString();
         status     = parcel.readString();
+        genre      = parcel.createStringArray();
+        siteRating = parcel.readString();
     }
 
     /**
@@ -183,6 +187,38 @@ public class Series implements Parcelable {
     }
 
     /**
+     *
+     * @return
+     */
+    public String[] getGenre() {
+        return genre;
+    }
+
+    /**
+     *
+     * @param genre
+     */
+    public void setGenre(String[] genre) {
+        this.genre = genre;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getSiteRating() {
+        return siteRating;
+    }
+
+    /**
+     *
+     * @param siteRating
+     */
+    public void setSiteRating(String siteRating) {
+        this.siteRating = siteRating;
+    }
+
+    /**
      * Describe Contents
      * @return
      */
@@ -207,5 +243,7 @@ public class Series implements Parcelable {
         dest.writeString(overview);
         dest.writeString(seriesName);
         dest.writeString(status);
+        dest.writeStringArray(genre);
+        dest.writeString(siteRating);
     }
 }
