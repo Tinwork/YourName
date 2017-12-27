@@ -6,8 +6,8 @@ import android.util.Log;
 import android.widget.Button;
 
 import com.yellowman.tinwork.yourname.R;
+import com.yellowman.tinwork.yourname.entity.Actor;
 import com.yellowman.tinwork.yourname.entity.Episode;
-import com.yellowman.tinwork.yourname.model.Serie.Actors;
 import com.yellowman.tinwork.yourname.model.Search;
 import com.yellowman.tinwork.yourname.model.Serie.Episodes;
 import com.yellowman.tinwork.yourname.model.Serie.SerieWrapper;
@@ -20,11 +20,6 @@ import com.yellowman.tinwork.yourname.network.api.series.GetSerie;
 import com.yellowman.tinwork.yourname.network.api.series.ListActors;
 import com.yellowman.tinwork.yourname.network.api.search.SearchEpisodes;
 
-import com.yellowman.tinwork.yourname.network.api.Routes;
-import com.yellowman.tinwork.yourname.model.Token;
-import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
-import com.yellowman.tinwork.yourname.network.api.series.GetSerie;
-import com.yellowman.tinwork.yourname.network.api.series.ListActors;
 import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
 import com.yellowman.tinwork.yourname.network.api.series.ListEpisodes;
 import com.yellowman.tinwork.yourname.network.api.user.UserToken;
@@ -172,10 +167,10 @@ public class NetworkActivity extends AppCompatActivity {
         params.put("series_id", "328840");
 
         ListActors actors = new ListActors(this);
-        actors.get(params, new GsonCallback<Actors>() {
+        actors.get(params, new GsonCallback<Actor[]>() {
             @Override
-            public void onSuccess(Actors response) {
-                Log.d("Debug", "Serie name for search API "+response.getData());
+            public void onSuccess(Actor[] response) {
+                Log.d("Debug", "Serie name for search API "+response[0].getName());
             }
 
             public void onError(String err) {}

@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.holder.ActorHolder;
 import com.yellowman.tinwork.yourname.entity.Actor;
-import com.yellowman.tinwork.yourname.model.Serie.Actors;
 
 import java.util.List;
 

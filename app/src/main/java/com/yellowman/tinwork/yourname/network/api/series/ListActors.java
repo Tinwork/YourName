@@ -3,7 +3,6 @@ package com.yellowman.tinwork.yourname.network.api.series;
 import android.content.Context;
 
 import com.yellowman.tinwork.yourname.entity.Actor;
-import com.yellowman.tinwork.yourname.model.Serie.Actors;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.network.fetch.Fetch;
