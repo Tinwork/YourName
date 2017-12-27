@@ -1,14 +1,15 @@
 package com.yellowman.tinwork.yourname.UIKit.holder;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yellowman.tinwork.yourname.R;
+import com.yellowman.tinwork.yourname.UIKit.helpers.Helper;
 import com.yellowman.tinwork.yourname.UIKit.helpers.Utils;
+import com.yellowman.tinwork.yourname.activities.EpisodeDetail.EpisodeDetailActivity;
 import com.yellowman.tinwork.yourname.activities.filmDetail.FilmDetailsActivity;
 import com.yellowman.tinwork.yourname.entity.Episode;
 
@@ -22,6 +23,7 @@ import com.yellowman.tinwork.yourname.entity.Episode;
 public class EpisodesHolder extends RecyclerView.ViewHolder {
 
     private View v;
+    private Helper helper;
     protected TextView seasons;
     protected TextView episodes_nb;
     protected RelativeLayout layout;
@@ -37,6 +39,7 @@ public class EpisodesHolder extends RecyclerView.ViewHolder {
         super(v);
         this.v = v;
         this.listSize = size;
+        this.helper = new Helper<>();
         prepareElements();
     }
 
@@ -68,6 +71,10 @@ public class EpisodesHolder extends RecyclerView.ViewHolder {
             default:
                 params.width = ViewGroup.LayoutParams.WRAP_CONTENT;
         }
+
+        v.setOnClickListener(event -> {
+            helper.launchNewViewWithArrayModel(episodes, v.getContext(), EpisodeDetailActivity.class);
+        });
     }
 
     /**

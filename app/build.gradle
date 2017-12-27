@@ -24,19 +24,20 @@ android {
     sourceSets {
         main {
             res.srcDirs = [
-                'src/main/res/layouts/login',
-                'src/main/res/layouts/home',
-                'src/main/res/layouts/trending',
-                'src/main/res/layouts/popular',
-                'src/main/res/layouts/favorite',
-                'src/main/res/layouts/film_details',
-                'src/main/res/layouts/network',
-                'src/main/res/layouts/cards',
-                'src/main/res/layouts/actors',
-                'src/main/res/layouts/misc',
-                'src/main/res/layouts/episodes',
-                'src/main/res/layouts',
-                'src/main/res'
+                    'src/main/res/layouts/login',
+                    'src/main/res/layouts/home',
+                    'src/main/res/layouts/trending',
+                    'src/main/res/layouts/popular',
+                    'src/main/res/layouts/favorite',
+                    'src/main/res/layouts/film_details',
+                    'src/main/res/layouts/network',
+                    'src/main/res/layouts/cards',
+                    'src/main/res/layouts/actors',
+                    'src/main/res/layouts/misc',
+                    'src/main/res/layouts/episodes',
+                    'src/main/res/layouts/episode_detail',
+                    'src/main/res/layouts',
+                    'src/main/res'
             ]
         }
     }

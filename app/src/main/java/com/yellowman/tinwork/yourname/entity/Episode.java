@@ -1,5 +1,8 @@
 package com.yellowman.tinwork.yourname.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Class Episode
  *
@@ -9,8 +12,26 @@ package com.yellowman.tinwork.yourname.entity;
  *                         Antoine Renault <antoine.renault.mmi@gmail.com>.
  * @link                   https://github.com/Tinwork/YourName
  */
-public class Episode
+public class Episode implements Parcelable
 {
+
+    /**
+     * Creator
+     *
+     */
+    public static final Parcelable.Creator<Episode> CREATOR = new Parcelable.Creator<Episode>() {
+
+        @Override
+        public Episode createFromParcel(Parcel source) {
+            return new Episode(source);
+        }
+
+        @Override
+        public Episode[] newArray(int size) {
+            return new Episode[0];
+        }
+    };
+
     private int id;
     private String episodeName;
     private String firstAired;
@@ -20,6 +41,22 @@ public class Episode
     private int dvdEpisodeNumber;
     private int airedEpisodeNumber;
     private int airedSeason;
+
+    /**
+     * Episode::Constructor (use by Parcel.Creator<T>)
+     * @param parcel
+     */
+    public Episode(Parcel parcel) {
+        id = parcel.readInt();
+        episodeName        = parcel.readString();
+        firstAired         = parcel.readString();
+        overview           = parcel.readString();
+        lastUpdated        = parcel.readInt();
+        dvdSeason          = parcel.readInt();
+        dvdEpisodeNumber   = parcel.readInt();
+        airedEpisodeNumber = parcel.readInt();
+        airedSeason        = parcel.readInt();
+    }
 
     /**
      * @return int
@@ -158,5 +195,23 @@ public class Episode
     public void setAiredSeason(int airedSeason)
     {
         this.airedSeason = airedSeason;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(episodeName);
+        dest.writeString(firstAired);
+        dest.writeString(overview);
+        dest.writeInt(lastUpdated);
+        dest.writeInt(dvdSeason);
+        dest.writeInt(dvdEpisodeNumber);
+        dest.writeInt(airedEpisodeNumber);
+        dest.writeInt(airedSeason);
     }
 }

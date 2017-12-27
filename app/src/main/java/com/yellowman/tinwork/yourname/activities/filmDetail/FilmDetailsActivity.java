@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.yellowman.tinwork.yourname.R;
@@ -121,6 +120,7 @@ public class FilmDetailsActivity extends AppCompatActivity {
             public void onError(String err) {
                 // Handle error here
                 Log.d("Error", err);
+                Glide.with(FilmDetailsActivity.this).load(R.drawable.yourname_bg).into(banner);
             }
         });
     }

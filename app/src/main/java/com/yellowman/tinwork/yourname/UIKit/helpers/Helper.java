@@ -20,11 +20,27 @@ public class Helper<T> {
 
     /**
      * Launch New View With Model
+     *
      * @param model
+     * @param fromAct
+     * @param toAct
      */
     public void launchNewViewWithModel(Parcelable model, Context fromAct, Class<T> toAct) {
         Intent intent = new Intent(fromAct, toAct);
         intent.putExtra("Entity", model);
+        fromAct.startActivity(intent);
+    }
+
+    /**
+     * Launch New View With Array Model
+     *
+     * @param model
+     * @param fromAct
+     * @param toAct
+     */
+    public void launchNewViewWithArrayModel(Parcelable[] model, Context fromAct, Class<T> toAct) {
+        Intent intent = new Intent(fromAct, toAct);
+        intent.putExtra("EntityArray", model);
         fromAct.startActivity(intent);
     }
 }

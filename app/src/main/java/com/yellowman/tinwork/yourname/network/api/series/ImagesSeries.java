@@ -54,7 +54,7 @@ public class ImagesSeries extends Fetch {
         // Bind the GET request params
         // test purposes
         String[] placeholder = {payload.get("series_id")};
-        String URL = Utils.buildPlaceholderUrl(Routes.PREFIX_SERIES, placeholder, "/images/query?keyType=poster");
+        String URL = Utils.buildPlaceholderUrl(Routes.PREFIX_SERIES, placeholder, "images/query?keyType=poster");
 
         imgRequest = new GsonGetManager<>(URL, Image[].class, headers, response -> {
             callback.onSuccess(response);
