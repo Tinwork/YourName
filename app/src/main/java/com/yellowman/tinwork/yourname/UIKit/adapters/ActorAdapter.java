@@ -23,7 +23,7 @@ import java.util.List;
 
 public class ActorAdapter extends RecyclerView.Adapter {
 
-    public final Actor[] actors;
+    protected final Actor[] actors;
 
     /**
      * Actor Adapter::Constructor

@@ -34,6 +34,7 @@ android {
                 'src/main/res/layouts/cards',
                 'src/main/res/layouts/actors',
                 'src/main/res/layouts/misc',
+                'src/main/res/layouts/episodes',
                 'src/main/res/layouts',
                 'src/main/res'
             ]

@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
+import com.yellowman.tinwork.yourname.UIKit.misc.GradientGenerator;
 import com.yellowman.tinwork.yourname.activities.filmDetail.fragments.FilmContentFragment;
 import com.yellowman.tinwork.yourname.activities.filmDetail.fragments.FilmEpisodesFragment;
 import com.yellowman.tinwork.yourname.entity.Image;
@@ -36,6 +38,8 @@ public class FilmDetailsActivity extends AppCompatActivity {
     protected ImageView banner;
     protected FragmentListener fg;
     protected FragmentListener fe;
+    private GradientGenerator gd;
+    private int dpi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,9 @@ public class FilmDetailsActivity extends AppCompatActivity {
         // Create fragment listener
         this.fg = (FilmContentFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_film_detail);
         this.fe = (FilmEpisodesFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_episodes_detail);
+
+        this.gd = new GradientGenerator(this, findViewById(R.id.film_details_view), null);
+        gd.buildBackgroundGradientColor();
     }
 
     /**

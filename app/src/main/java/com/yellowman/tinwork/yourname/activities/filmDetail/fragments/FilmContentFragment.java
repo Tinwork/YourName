@@ -10,13 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.adapters.ActorAdapter;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
-import com.yellowman.tinwork.yourname.UIKit.misc.GradientGenerator;
 import com.yellowman.tinwork.yourname.entity.Actor;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
@@ -37,7 +35,6 @@ import java.util.List;
 public class FilmContentFragment extends Fragment implements FragmentListener {
 
     protected RecyclerView recyclerView;
-    protected GradientGenerator gd;
     protected final String parcelID = "serie";
     protected View view;
 
@@ -73,8 +70,6 @@ public class FilmContentFragment extends Fragment implements FragmentListener {
         recyclerView.setHasFixedSize(true);
         // Init the other component
         initFragmentElement();
-        // Add gradient
-        makeGradient();
 
         return view;
     }
@@ -150,16 +145,5 @@ public class FilmContentFragment extends Fragment implements FragmentListener {
     private void setFragmentElementData(Series serie) {
         filmTitle.setText(serie.getSeriesName());
         synopsis.setText(serie.getOverview());
-    }
-
-    /**
-     * Make Gradient
-     *
-     * @void
-     * @private
-     */
-    private void makeGradient() {
-        this.gd = new GradientGenerator(getActivity(), (RelativeLayout) this.view, null);
-        gd.buildBackgroundGradientColor();
     }
 }

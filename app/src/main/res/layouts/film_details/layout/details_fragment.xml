@@ -72,19 +72,4 @@
         android:textSize="15sp"
         android:layout_marginBottom="@dimen/title_margin"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dip"
-        android:background="@color/lightGrey"
-        android:layout_below="@+id/synopsis"
-        android:id="@+id/hr_synopsis"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/episodes"
-        android:text="@string/seasons"
-        android:layout_below="@+id/hr_synopsis"
-        android:textColor="@color/white"
-        style="@style/TextViewTitle"/>
 </RelativeLayout>

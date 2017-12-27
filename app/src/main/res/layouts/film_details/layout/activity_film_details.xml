@@ -12,7 +12,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/film_details_view">
 
         <!-- Don't set match parent to imageView which can caused OOMs (out of memory) -->
         <ImageView
@@ -45,6 +46,7 @@
                     android:id="@+id/fragment_episodes_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/fragment_film_detail"
                     android:scrollbars="none" />
             </RelativeLayout>
 

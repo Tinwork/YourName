@@ -1,6 +1,5 @@
 package com.yellowman.tinwork.yourname.activities.filmDetail.fragments;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
@@ -12,9 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.yellowman.tinwork.yourname.R;
+import com.yellowman.tinwork.yourname.UIKit.adapters.EpisodesAdapter;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.entity.Episode;
-import com.yellowman.tinwork.yourname.model.Serie.Episodes;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.series.ListEpisodes;
@@ -33,6 +32,8 @@ import java.util.List;
 public class FilmEpisodesFragment extends Fragment implements FragmentListener {
 
     private RecyclerView recyclerView;
+    private List<Episode[]> episodesList = new ArrayList<>();
+    private int retry = 0;
 
     /**
      * Film Episodes Fragment::Constructor
@@ -73,8 +74,7 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener {
             // should handle something here
         } else {
             Series serie = (Series) data.get("serie");
-            AsyncTaskSeasons task = new AsyncTaskSeasons(serie.getId());
-            task.execute();
+            handleMulSeasons(serie.getId()).start();
         }
     }
 
@@ -85,112 +85,74 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener {
      */
     public void bindRecycleView(List<?> data) {}
 
+    /**
+     * Load All Episodes By Seasons
+     *
+     * @param serie_id
+     */
+    public void loadAllEpisodesBySeasons(String serie_id) {
+        // this list need to be save using realm
+        HashMap<String, String> data = new HashMap<>();
+
+        data.put("series_id", serie_id);
+        data.put("season", Integer.toString(retry));
+
+        ListEpisodes episodes = new ListEpisodes(getContext());
+        episodes.get(data, new GsonCallback<Episode[]>() {
+
+            @Override
+            public void onSuccess(Episode[] response) {
+                episodesList.add(response);
+                retry++;
+
+                // long retry though..
+                if (retry < 64) {
+                    // we try to get other seasons here
+                    loadAllEpisodesBySeasons(serie_id);
+                }
+            }
+
+            @Override
+            public void onError(String err) {
+                if (err.contains("404") && retry == 0) {
+                    retry++;
+                    loadAllEpisodesBySeasons(serie_id);
+                    // in case if the series does not have a "0" series then make a check that it exist with the param "1"
+                } else if (err.contains("404") && retry > 1) {
+                    // Fail silently --> no more season so we assumed that we have retrieve every seasons
+                    notifySeasonsReady();
+                }
+            }
+        });
+    }
+
 
     /**
-     * Async Task Seasons
+     * Handle Mul Seasons
+     *      Thread that get the episodes by seasons
+     *      /!\ Can take a long time ! though we may have use the AsyncTask but as the method is already asynchronious..
+     * @param serie_id
+     * @return
      */
-    public class AsyncTaskSeasons extends AsyncTask<List<Episode[]>, Integer, List<Episode[]>> {
+    public Thread handleMulSeasons(String serie_id) {
+        Thread thread = new Thread(() -> {
+            loadAllEpisodesBySeasons(serie_id);
+        });
 
-        private String serie_id;
-        private List<Episode[]> episodesList;
-        private int retry;
-        private Boolean isFinished;
+        return thread;
+    }
 
-        public AsyncTaskSeasons(String serie_id) {
-            this.serie_id = serie_id;
-            this.retry    = 0;
-            this.episodesList = new ArrayList<Episode[]>();
-            this.isFinished   = false;
-        }
+    /**
+     * Notify Seasons Ready
+     *
+     */
+    private void notifySeasonsReady() {
+        Log.d("Debug", "GET ALL SEASONS");
 
-
-        /**
-         * Get List of Seasons
-         *
-         */
-        public void getListOfSeasons() {
-            // this list need to be save using realm
-            HashMap<String, String> data = new HashMap<>();
-
-            data.put("series_id", serie_id);
-            data.put("season", Integer.toString(retry));
-
-            ListEpisodes episodes = new ListEpisodes(getContext());
-            episodes.get(data, new GsonCallback<Episode[]>() {
-
-                @Override
-                public void onSuccess(Episode[] response) {
-                    episodesList.add(retry, response);
-                    retry++;
-                    publishProgress(retry);
-
-                    Log.d("Info", "DATA RECEIVED "+response[0].getEpisodeName());
-                    // long retry though..
-                    if (retry < 64) {
-                        // we try to get other seasons here
-                        getListOfSeasons();
-                    }
-                }
-
-                @Override
-                public void onError(String err) {
-                    isFinished = true;
-                }
-            });
-        }
-
-        /**
-         * Do In Background
-         *
-         * @param params
-         * @return
-         */
-        @Override
-        protected List<Episode[]> doInBackground(List<Episode[]>... params) {
-
-            try {
-                getListOfSeasons();
-            } catch(Exception e) {
-                // Seasons
-                Log.d("Error", "EEEERRRROOO "+e.toString());
-            }
-
-            if (isFinished) {
-                // transform the list to an array
-                return episodesList;
-            }
-
-            return null;
-        }
-
-        /**
-         * On Progress Update
-         *
-         * @param result
-         */
-        @Override
-        protected void onProgressUpdate(Integer... result) {
-            //Log.d("Debug", "loading percent "+result.);
-        }
-
-        /**
-         * On Pre Executes
-         *
-         */
-        @Override
-        protected void onPreExecute() {
-            Log.d("Debug", "PREEE EXECUTE");
-        }
-
-
-        /**
-         * On Post Execute
-         *
-         * @param result
-         */
-        @Override
-        protected void onPostExecute(List<Episode[]> result) {
-            Log.d("Debug", "RESSSSUUULTTTTTT");
-        }
+        // Maybe it's a good idea to do that as it's called from a runnable ?
+        this.recyclerView.post(() -> {
+            EpisodesAdapter adapter = new EpisodesAdapter(episodesList);
+            this.recyclerView.setAdapter(adapter);
+        });
     }
 }
