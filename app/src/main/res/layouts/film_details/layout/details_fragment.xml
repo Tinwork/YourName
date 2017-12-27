@@ -87,16 +87,4 @@
         android:layout_below="@+id/hr_synopsis"
         android:textColor="@color/white"
         style="@style/TextViewTitle"/>
-
-    <!-- use recyclerview for displaying the list of actor -->
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/seasons_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="horizontal"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="@dimen/detail_padding"
-        android:layout_below="@+id/film_lang">
-    </android.support.v7.widget.RecyclerView>
-
 </RelativeLayout>

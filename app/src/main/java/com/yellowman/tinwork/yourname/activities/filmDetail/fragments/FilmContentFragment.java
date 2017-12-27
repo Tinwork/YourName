@@ -18,7 +18,6 @@ import com.yellowman.tinwork.yourname.UIKit.adapters.ActorAdapter;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.UIKit.misc.GradientGenerator;
 import com.yellowman.tinwork.yourname.entity.Actor;
-import com.yellowman.tinwork.yourname.model.Serie.Actors;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.series.ListActors;

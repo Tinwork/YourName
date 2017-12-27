@@ -28,13 +28,25 @@
             android:layout_height="match_parent"
             android:layout_below="@id/film_banner">
 
-            <fragment
-                class="com.yellowman.tinwork.yourname.activities.filmDetail.fragments.FilmContentFragment"
-                android:id="@+id/fragment_film_detail"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/film_banner"
-                android:scrollbars="none" />
+                android:layout_height="match_parent"
+                android:layout_below="@+id/film_banner">
+
+                <fragment
+                    class="com.yellowman.tinwork.yourname.activities.filmDetail.fragments.FilmContentFragment"
+                    android:id="@+id/fragment_film_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none" />
+
+                <fragment
+                    class="com.yellowman.tinwork.yourname.activities.filmDetail.fragments.FilmEpisodesFragment"
+                    android:id="@+id/fragment_episodes_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none" />
+            </RelativeLayout>
 
         </ScrollView>
 
