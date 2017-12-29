@@ -7,9 +7,12 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.yellowman.tinwork.yourname.R;
+import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.entity.Episode;
 
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Created by Marc Intha-amnouay on 27/12/2017.
@@ -20,11 +23,15 @@ import java.util.Iterator;
 
 public class EpisodeDetailActivity extends AppCompatActivity {
 
+    protected FragmentListener listener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_episode_detail);
-        getIntentData();
+        // Set the listener
+        this.listener = (FragmentListener) getSupportFragmentManager().findFragmentById(R.id.fragment_episodes_season_detail);
+        notifyFragment();
     }
 
     /**
@@ -32,19 +39,30 @@ public class EpisodeDetailActivity extends AppCompatActivity {
      *
      * @void
      */
-    protected void getIntentData() {
+    protected List<Episode> getIntentData() {
+        List<Episode> listEpisode = new ArrayList<>();
         Intent intent = getIntent();
         Parcelable[] data =  intent.getParcelableArrayExtra("EntityArray");
 
         if (data == null) {
             Log.d("Info", "PARCEL EPISODE IS NULL");
-            return;
+            return null;
         }
 
-        Episode[] episodes = new Episode[data.length];
         for (int idx = 0; idx < data.length; idx++) {
-            episodes[idx] = (Episode) data[idx];
+            listEpisode.add((Episode) data[idx]);
         }
-        Log.d("Debug", "GET EPISODE "+episodes[0].getEpisodeName());
+
+        return listEpisode;
+    }
+
+    /**
+     * Notify Fragment
+     *      Notify the fragment by passing a list data
+     * @void
+     */
+    protected void notifyFragment() {
+        List<Episode> listEpisodes = getIntentData();
+        listener.bindRecycleView(listEpisodes);
     }
 }
