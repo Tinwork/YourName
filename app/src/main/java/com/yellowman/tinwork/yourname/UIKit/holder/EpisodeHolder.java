@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.yellowman.tinwork.yourname.R;
+import com.yellowman.tinwork.yourname.UIKit.helpers.Helper;
+import com.yellowman.tinwork.yourname.activities.singleEpisode.SingleEpisodeActivity;
 import com.yellowman.tinwork.yourname.entity.Episode;
 
 /**
@@ -19,6 +21,7 @@ public class EpisodeHolder extends RecyclerView.ViewHolder {
     protected TextView episodeNb;
     protected TextView episodeTitle;
     protected TextView episodeContent;
+    protected Helper helper;
     private final View view;
 
     /**
@@ -28,7 +31,8 @@ public class EpisodeHolder extends RecyclerView.ViewHolder {
      */
     public EpisodeHolder(final View itemView) {
         super(itemView);
-        this.view = itemView;
+        this.view   = itemView;
+        this.helper = new Helper();
         prepareElements();
     }
 
@@ -52,5 +56,9 @@ public class EpisodeHolder extends RecyclerView.ViewHolder {
         episodeNb.setText(String.valueOf(episode.getAiredEpisodeNumber()));
         episodeTitle.setText(episode.getEpisodeName());
         episodeContent.setText(episode.getOverview());
+
+        view.setOnClickListener(event -> {
+            helper.launchNewViewWithModel(episode, view.getContext(), SingleEpisodeActivity.class);
+        });
     }
 }

@@ -30,4 +30,9 @@
     <string name="synopsis_title">Synopsis</string>
     <string name="actor_title">Actors(ess)</string>
     <string name="seasons">Seasons</string>
+
+    <!-- view episode single detail -->
+    <string name="episodeInfoTitle">Episode information</string>
+    <string name="overviewTitle">Overview / Details</string>
+    <string name="ratingTitle">Rating</string>
 </resources>

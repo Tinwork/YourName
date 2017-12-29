@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.singleEpisode.SingleEpisodeActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/single_episode_detail">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:layout_alignParentTop="true"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:id="@+id/img_episode"/>
+
+        <!-- Basic info -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/filmInfoTitle"
+            android:text="@string/episodeInfoTitle"
+            android:textColor="@color/white"
+            android:layout_below="@+id/img_episode"
+            android:textSize="20sp"
+            android:padding="5dp"/>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dip"
+            android:background="@color/white"
+            android:layout_below="@+id/filmInfoTitle"
+            android:id="@+id/hr_title"
+            android:padding="5dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/episode_title"
+            android:layout_below="@+id/hr_title"
+            android:textColor="@color/white"
+            android:padding="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/season_id"
+            android:textColor="@color/white"
+            android:layout_below="@+id/episode_title"
+            android:padding="5dp"/>
+
+        <!-- Overview -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/overviewTitle"
+            android:text="@string/overviewTitle"
+            android:textColor="@color/white"
+            android:layout_below="@+id/season_id"
+            android:textSize="20sp"
+            android:padding="5dp"/>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dip"
+            android:background="@color/white"
+            android:layout_below="@+id/overviewTitle"
+            android:id="@+id/hr_overview"
+            android:padding="5dp"/>
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/overview"
+            android:textColor="@color/white"
+            android:layout_below="@+id/hr_overview"
+            android:padding="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/directors"
+            android:textColor="@color/white"
+            android:layout_below="@+id/overview"
+            android:padding="5dp"/>
+
+        <!-- Rating -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ratingTitle"
+            android:text="@string/ratingTitle"
+            android:textColor="@color/white"
+            android:layout_below="@id/directors"
+            android:textSize="20sp"
+            android:padding="5dp"/>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dip"
+            android:background="@color/white"
+            android:layout_below="@+id/ratingTitle"
+            android:id="@+id/hr_rating"
+            android:padding="5dp"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/episode_rating"
+            android:textColor="@color/white"
+            android:layout_below="@+id/hr_rating"
+            android:padding="5dp"/>
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>
