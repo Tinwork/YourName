@@ -1,4 +1,4 @@
-package com.yellowman.tinwork.yourname.activities.EpisodeDetail.fragments;
+package com.yellowman.tinwork.yourname.activities.episodeDetail.fragments;
 
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -10,7 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.yellowman.tinwork.yourname.R;
+import com.yellowman.tinwork.yourname.UIKit.adapters.EpisodeAdapter;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
+import com.yellowman.tinwork.yourname.entity.Episode;
 
 import java.util.HashMap;
 import java.util.List;
@@ -56,13 +58,12 @@ public class EpisodesListFragment extends Fragment implements FragmentListener {
 
     /**
      * Notify Data
+     *      Not used in this case
      *
      * @param parcels
      */
     @Override
-    public void notifyData(HashMap<String, Parcelable> parcels) {
-
-    }
+    public void notifyData(HashMap<String, Parcelable> parcels) {}
 
     /**
      * Bind Recycler View
@@ -71,6 +72,12 @@ public class EpisodesListFragment extends Fragment implements FragmentListener {
      */
     @Override
     public void bindRecycleView(List<?> data) {
-
+        if (data == null) {
+            recyclerView.setAdapter(null);
+        } else {
+            // /!\ We do an implicit cast
+            EpisodeAdapter adapter = new EpisodeAdapter((List<Episode>) data);
+            recyclerView.setAdapter(adapter);
+        }
     }
 }
