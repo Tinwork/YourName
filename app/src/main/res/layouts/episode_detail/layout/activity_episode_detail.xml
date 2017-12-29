@@ -4,6 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.yellowman.tinwork.yourname.activities.EpisodeDetail.EpisodeDetailActivity">
+    tools:context="com.yellowman.tinwork.yourname.activities.episodeDetail.EpisodeDetailActivity">
+
+    <include android:id="@+id/mytoolbar"
+        layout="@layout/toolbar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/episode_detail_layout">
+
+        <fragment
+            class="com.yellowman.tinwork.yourname.activities.episodeDetail.fragments.EpisodesListFragment"
+            android:id="@+id/fragment_episodes_season_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none" />
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

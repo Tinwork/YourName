@@ -199,7 +199,6 @@ public class NetworkActivity extends AppCompatActivity {
         refresh.setOnClickListener(event -> NetworkActivity.this.testRefreshTokenAPI());
         getToken.setOnClickListener(event -> NetworkActivity.this.testFetch());
         getSeries.setOnClickListener(event -> NetworkActivity.this.testGetSeriesAPI());
-        getSerie.setOnClickListener(event -> NetworkActivity.this.testGetSerieAPI());
         placeHolder.setOnClickListener(event -> NetworkActivity.this.testPlaceholderURI());
         getActors.setOnClickListener(event -> NetworkActivity.this.testGetActorsAPI());
         getEpisodesFromSeries.setOnClickListener(event -> NetworkActivity.this.testGetEpisodesFromSeriesById());

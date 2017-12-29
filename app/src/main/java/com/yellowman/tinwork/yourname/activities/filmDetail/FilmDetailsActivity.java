@@ -118,8 +118,11 @@ public class FilmDetailsActivity extends AppCompatActivity {
 
             @Override
             public void onError(String err) {
-                // Handle error here
-                Log.d("Error", err);
+                if (err != null) {
+                    // Handle error here
+                    Log.d("Error", err);
+                }
+
                 Glide.with(FilmDetailsActivity.this).load(R.drawable.yourname_bg).into(banner);
             }
         });

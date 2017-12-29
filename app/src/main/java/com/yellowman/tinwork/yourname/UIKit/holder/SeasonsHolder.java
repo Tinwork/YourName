@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.helpers.Helper;
 import com.yellowman.tinwork.yourname.UIKit.helpers.Utils;
-import com.yellowman.tinwork.yourname.activities.EpisodeDetail.EpisodeDetailActivity;
+import com.yellowman.tinwork.yourname.activities.episodeDetail.EpisodeDetailActivity;
 import com.yellowman.tinwork.yourname.activities.filmDetail.FilmDetailsActivity;
 import com.yellowman.tinwork.yourname.entity.Episode;
 
@@ -20,7 +20,7 @@ import com.yellowman.tinwork.yourname.entity.Episode;
  * Created by Antoine Renault on 27/12/2017.
  */
 
-public class EpisodesHolder extends RecyclerView.ViewHolder {
+public class SeasonsHolder extends RecyclerView.ViewHolder {
 
     private View v;
     private Helper helper;
@@ -35,7 +35,7 @@ public class EpisodesHolder extends RecyclerView.ViewHolder {
      *
      * @param v
      */
-    public EpisodesHolder(View v, int size) {
+    public SeasonsHolder(View v, int size) {
         super(v);
         this.v = v;
         this.listSize = size;

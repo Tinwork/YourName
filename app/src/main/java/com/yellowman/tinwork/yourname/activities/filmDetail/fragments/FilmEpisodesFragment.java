@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.yellowman.tinwork.yourname.R;
-import com.yellowman.tinwork.yourname.UIKit.adapters.EpisodesAdapter;
+import com.yellowman.tinwork.yourname.UIKit.adapters.SeasonsAdapter;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.entity.Episode;
 import com.yellowman.tinwork.yourname.entity.EpisodeMisc;
@@ -178,7 +178,7 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener {
 
         // Maybe it's a good idea to do that as it's called from a runnable ?
         this.recyclerView.post(() -> {
-            EpisodesAdapter adapter = new EpisodesAdapter(episodesList);
+            SeasonsAdapter adapter = new SeasonsAdapter(episodesList);
             this.recyclerView.setAdapter(adapter);
         });
     }
