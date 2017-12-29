@@ -32,6 +32,9 @@
         <activity
             android:name=".activities.episodeDetail.EpisodeDetailActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activities.singleEpisode.SingleEpisodeActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

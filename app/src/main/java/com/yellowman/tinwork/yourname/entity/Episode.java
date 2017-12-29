@@ -41,6 +41,9 @@ public class Episode implements Parcelable
     private int dvdEpisodeNumber;
     private int airedEpisodeNumber;
     private int airedSeason;
+    private String[] directors;
+    private String siteRating;
+    private String filename;
 
     /**
      * Episode::Constructor (use by Parcel.Creator<T>)
@@ -56,6 +59,9 @@ public class Episode implements Parcelable
         dvdEpisodeNumber   = parcel.readInt();
         airedEpisodeNumber = parcel.readInt();
         airedSeason        = parcel.readInt();
+        directors          = parcel.createStringArray();
+        siteRating         = parcel.readString();
+        filename           = parcel.readString();
     }
 
     /**
@@ -197,6 +203,54 @@ public class Episode implements Parcelable
         this.airedSeason = airedSeason;
     }
 
+    /**
+     *
+     * @return
+     */
+    public String[] getDirectors() {
+        return directors;
+    }
+
+    /**
+     *
+     * @param directors
+     */
+    public void setDirectors(String[] directors) {
+        this.directors = directors;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getSiteRating() {
+        return siteRating;
+    }
+
+    /**
+     *
+     * @param siteRating
+     */
+    public void setSiteRating(String siteRating) {
+        this.siteRating = siteRating;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getFilename() {
+        return filename;
+    }
+
+    /**
+     *
+     * @param filename
+     */
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -213,5 +267,8 @@ public class Episode implements Parcelable
         dest.writeInt(dvdEpisodeNumber);
         dest.writeInt(airedEpisodeNumber);
         dest.writeInt(airedSeason);
+        dest.writeStringArray(directors);
+        dest.writeString(siteRating);
+        dest.writeString(filename);
     }
 }
