@@ -28,7 +28,7 @@
         android:scrollbars="horizontal"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="@dimen/detail_padding"
-        android:layout_below="@+id/film_lang">
+        android:layout_below="@+id/episodes">
     </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>
