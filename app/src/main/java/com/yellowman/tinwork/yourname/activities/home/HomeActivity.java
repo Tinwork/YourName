@@ -1,5 +1,7 @@
 package com.yellowman.tinwork.yourname.activities.home;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -10,29 +12,27 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
+import android.widget.SearchView;
 
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentCommunication;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.UIKit.misc.GradientGenerator;
+import com.yellowman.tinwork.yourname.UIKit.misc.ToolbarManager;
 import com.yellowman.tinwork.yourname.activities.home.fragments.FavoriteFragment;
 import com.yellowman.tinwork.yourname.activities.home.fragments.PopularFragment;
 import com.yellowman.tinwork.yourname.activities.home.fragments.TrendingFragment;
 import com.yellowman.tinwork.yourname.activities.login.LoginActivity;
 import com.yellowman.tinwork.yourname.utils.Utils;
 
-import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 
 public class HomeActivity extends AppCompatActivity implements FragmentCommunication {
 
     protected ArrayList<FragmentListener> listeners;
-
+    protected ToolbarManager toolbarManager;
     private GradientGenerator gd;
     private HashMap<String, Parcelable> parcelMap;
 
@@ -64,6 +64,15 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
+        // Associate the searchbar with the activity
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName())
+        );
+
+        // save the toolbar
+        toolbarManager.setMenuComponent(menu);
         return true;
     }
 
@@ -74,9 +83,8 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        return super.onOptionsItemSelected(item);
+       // return toolbarManager.toolbarItemSelectAction(item);
+       return true;
     }
 
     /**
@@ -186,8 +194,8 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
      * Set ToolBar
      */
     private void setToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.mytoolbar);
-        toolbar.setTitle("TRENDING");
+        this.toolbarManager = new ToolbarManager(this);
+        Toolbar toolbar = toolbarManager.setToolbar().setTitle("TRENDING").getToolbar();
         setSupportActionBar(toolbar);
     }
 
@@ -205,4 +213,6 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
             startActivity(view);
         }
     }
+
+
 }
