@@ -37,8 +37,9 @@ public class RequestQueueManager {
      * @return
      */
     public static synchronized RequestQueueManager getInstance(Context ctx) {
-        if (mInstance == null)
-            return new RequestQueueManager(ctx);
+        if (mInstance == null) {
+            mInstance = new RequestQueueManager(ctx);
+        }
 
         return mInstance;
     }

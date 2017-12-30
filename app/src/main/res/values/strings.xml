@@ -38,4 +38,9 @@
 
     <!-- search text -->
     <string name="result_search">Results</string>
+
+    <!-- Text use by the ErrorUIManager -->
+    <string name="retry_mode">Retry</string>
+    <string name="end_mode">Ok</string>
+    <string name="cancel_mode">Cancel</string>
 </resources>
