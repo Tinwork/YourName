@@ -35,4 +35,7 @@
     <string name="episodeInfoTitle">Episode information</string>
     <string name="overviewTitle">Overview / Details</string>
     <string name="ratingTitle">Rating</string>
+
+    <!-- search text -->
+    <string name="result_search">Results</string>
 </resources>

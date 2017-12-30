@@ -1,0 +1,31 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/result_activity_layout">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/lightGrey"
+        android:textSize="20sp"
+        android:id="@+id/title_search"
+        android:text="@string/result_search"/>
+
+    <ProgressBar
+        android:id="@+id/search_result_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:indeterminateTint="@color/white"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/result_search_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutAnimation="@anim/layout_animation_vertical"
+        android:layout_below="@+id/title_search">
+    </android.support.v7.widget.RecyclerView>
+
+</RelativeLayout>
