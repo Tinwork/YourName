@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.yellowman.tinwork.yourname.R;
+import com.yellowman.tinwork.yourname.UIKit.errors.UIErrorManager;
 import com.yellowman.tinwork.yourname.UIKit.misc.GradientGenerator;
 import com.yellowman.tinwork.yourname.entity.Episode;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
@@ -34,6 +35,7 @@ public class SingleEpisodeActivity extends AppCompatActivity {
     private TextView rating;
     private TextView directors;
     private ImageView imgview;
+    private UIErrorManager uiErrorManager;
 
     /**
      * On Create
@@ -64,6 +66,7 @@ public class SingleEpisodeActivity extends AppCompatActivity {
         this.rating       = findViewById(R.id.episode_rating);
         this.directors    = findViewById(R.id.directors);
         this.imgview      = findViewById(R.id.img_episode);
+        this.uiErrorManager = new UIErrorManager(this);
     }
 
     /**
@@ -137,8 +140,9 @@ public class SingleEpisodeActivity extends AppCompatActivity {
 
             @Override
             public void onError(String err) {
-                // @TODO Handle the error like using a toast
-                Log.d("Debug", "Errrrooorr");
+                uiErrorManager
+                        .setError("", err)
+                        .setErrorStrategy(UIErrorManager.SNACKBAR);
             }
         });
     }

@@ -1,5 +1,6 @@
 package com.yellowman.tinwork.yourname.UIKit.errors;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.support.design.widget.Snackbar;
@@ -7,7 +8,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.yellowman.tinwork.yourname.R;
-import com.yellowman.tinwork.yourname.activities.login.LoginActivity;
 
 /**
  * ❤️ Happy new year️ !!! 🎊 L∞∞∞∞∞∞∞∞MM∞∞∞∞∞∞∞∞L 🎊 ❤️
@@ -31,7 +31,6 @@ public class UIErrorManager {
     public static final int RETRY = 11;
 
     // Private field
-    private static UIErrorManager uiErrorManager;
     private Context ctx;
     private String errCode;
     private String errMessage;
@@ -130,7 +129,7 @@ public class UIErrorManager {
      */
     private void snackBar() {
         Snackbar snackbar = Snackbar.make(
-                    ((LoginActivity) ctx).findViewById(R.id.coordinator_layout),
+                    ((Activity) ctx).findViewById(R.id.coordinator_layout),
                     errMessage,
                     Snackbar.LENGTH_SHORT
                 );

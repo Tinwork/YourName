@@ -149,13 +149,12 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener {
             @Override
             public void onError(String err) {
 
-
                 if (err.contains("404")) {
                     // Fail silently --> we assumed that no more seasons existed
                     notifySeasonsReady();
                 } else {
                      uiErrorManager.setError("", err).setErrorStrategy(UIErrorManager.TOAST);
-                 }
+                }
             }
         });
     }

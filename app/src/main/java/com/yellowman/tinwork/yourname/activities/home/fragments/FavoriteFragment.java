@@ -118,7 +118,7 @@ public class FavoriteFragment extends Fragment implements FragmentListener {
         try {
             mLink = (FragmentCommunication) ctx;
         } catch (ClassCastException e) {
-            Log.d("Error", e.getMessage());
+            uiErrorManager.setError("", e.getMessage()).setErrorStrategy(UIErrorManager.TOAST);
         }
     }
 

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.yellowman.tinwork.yourname.R;
+import com.yellowman.tinwork.yourname.UIKit.errors.UIErrorManager;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.UIKit.misc.GradientGenerator;
 import com.yellowman.tinwork.yourname.activities.filmDetail.fragments.FilmContentFragment;
@@ -38,6 +39,7 @@ public class FilmDetailsActivity extends AppCompatActivity {
     protected FragmentListener fg;
     protected FragmentListener fe;
     private GradientGenerator gd;
+    private UIErrorManager uiErrorManager;
     private int dpi;
 
     @Override
@@ -62,6 +64,7 @@ public class FilmDetailsActivity extends AppCompatActivity {
 
         this.gd = new GradientGenerator(this, findViewById(R.id.film_details_view), null);
         gd.buildBackgroundGradientColor();
+        this.uiErrorManager = new UIErrorManager(this);
     }
 
     /**
@@ -120,7 +123,9 @@ public class FilmDetailsActivity extends AppCompatActivity {
             public void onError(String err) {
                 if (err != null) {
                     // Handle error here
-                    Log.d("Error", err);
+                    uiErrorManager
+                            .setError("", err)
+                            .setErrorStrategy(UIErrorManager.SNACKBAR);
                 }
 
                 Glide.with(FilmDetailsActivity.this).load(R.drawable.yourname_bg).into(banner);

@@ -122,8 +122,6 @@ public class TrendingFragment extends Fragment implements FragmentListener {
                     .setError("", e.toString())
                     .setOptsMode(UIErrorManager.RETRY)
                     .setErrorStrategy(UIErrorManager.ALERT);
-
-            Log.d("Error", e.getMessage());
         }
     }
 
@@ -213,7 +211,9 @@ public class TrendingFragment extends Fragment implements FragmentListener {
             }
 
             public void onError(String err) {
-                Log.d("Error", "err: "+err);
+                uiErrorManager
+                        .setError("", err)
+                        .setErrorStrategy(UIErrorManager.TOAST);
             }
         });
     }

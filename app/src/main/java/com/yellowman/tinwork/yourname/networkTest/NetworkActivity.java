@@ -9,14 +9,11 @@ import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.entity.Actor;
 import com.yellowman.tinwork.yourname.entity.Episode;
 import com.yellowman.tinwork.yourname.model.Search;
-import com.yellowman.tinwork.yourname.model.Serie.Episodes;
 import com.yellowman.tinwork.yourname.model.Serie.SerieWrapper;
-import com.yellowman.tinwork.yourname.model.Serie.SingleEpisodeWrapper;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.model.Token;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.series.FilterSeries;
-import com.yellowman.tinwork.yourname.network.api.series.GetSerie;
 import com.yellowman.tinwork.yourname.network.api.series.ListActors;
 import com.yellowman.tinwork.yourname.network.api.search.SearchEpisodes;
 
@@ -95,11 +92,10 @@ public class NetworkActivity extends AppCompatActivity {
         HashMap<String, String> payload = new HashMap<>();
 
         SearchEpisodes search = new SearchEpisodes(this);
-        search.get(payload, new GsonCallback<SingleEpisodeWrapper>() {
+        search.get(payload, new GsonCallback<Episode>() {
             @Override
-            public void onSuccess(SingleEpisodeWrapper response) {
-                Episode episode = response.getData();
-                Log.d("Debug", "Serie name for search API "+episode.getEpisodeName());
+            public void onSuccess(Episode response) {
+                Log.d("Debug", "Serie name for search API "+response.getEpisodeName());
             }
 
             public void onError(String err) {}
@@ -169,10 +165,10 @@ public class NetworkActivity extends AppCompatActivity {
         params.put("series_id", "328840");
 
         ListEpisodes episodes = new ListEpisodes(this);
-        episodes.get(params, new GsonCallback<Episodes>() {
+        episodes.get(params, new GsonCallback<Episode[]>() {
             @Override
-            public void onSuccess(Episodes response) {
-                Log.d("Debug", "Serie name for search API " + response.getData());
+            public void onSuccess(Episode[] response) {
+                Log.d("Debug", "Serie name for search API " + response[0].getEpisodeName());
             }
 
             public void onError(String err) {}
