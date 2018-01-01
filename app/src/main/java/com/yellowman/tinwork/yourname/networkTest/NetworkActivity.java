@@ -6,13 +6,16 @@ import android.util.Log;
 import android.widget.Button;
 
 import com.yellowman.tinwork.yourname.R;
+import com.yellowman.tinwork.yourname.entity.IdSeries;
 import com.yellowman.tinwork.yourname.model.Serie.Actors;
 import com.yellowman.tinwork.yourname.model.Search;
 import com.yellowman.tinwork.yourname.model.Serie.Episodes;
+import com.yellowman.tinwork.yourname.model.Serie.Favorites;
 import com.yellowman.tinwork.yourname.model.Serie.SerieWrapper;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.model.Token;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
+import com.yellowman.tinwork.yourname.network.api.series.AddFavorites;
 import com.yellowman.tinwork.yourname.network.api.series.GetSerie;
 import com.yellowman.tinwork.yourname.network.api.series.ListActors;
 import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
@@ -147,9 +150,9 @@ public class NetworkActivity extends AppCompatActivity {
      */
     protected void testGetEpisodesFromSeriesById() {
         HashMap<String, String> params = new HashMap<>();
-        params.put("series_id", "328840");
+        params.put("series_id", "336771");
 
-        ListEpisodes episodes = new ListEpisodes(this);
+        /*ListEpisodes episodes = new ListEpisodes(this);
         episodes.get(params, new GsonCallback<Episodes>() {
             @Override
             public void onSuccess(Episodes response) {
@@ -157,6 +160,17 @@ public class NetworkActivity extends AppCompatActivity {
             }
 
             public void onError(String err) {}
+        });*/
+        AddFavorites favorites = new AddFavorites(this);
+        favorites.get(params, new GsonCallback<Favorites>() {
+            @Override
+            public void onSuccess(Favorites response) {
+                Log.d("Debug", "Serie name for search API " + response.getData());
+            }
+
+            public void onError(String err) {
+                Log.d("Debug test", "Test "+err.toString());
+            }
         });
     }
 

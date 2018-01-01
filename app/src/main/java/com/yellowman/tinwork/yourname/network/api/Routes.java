@@ -21,6 +21,7 @@ public class Routes {
     public static final String SERIES = "series";
     private static final String PREFIX = "https://api.thetvdb.com";
     public static final String SUFFIX_ROUTES_EPISODES_FROM_SERIES = "episodes";
+    public static final String FAVORITES = "user/favorites";
 
     // User auth
     public static final String LOGIN = PREFIX+"/login";
