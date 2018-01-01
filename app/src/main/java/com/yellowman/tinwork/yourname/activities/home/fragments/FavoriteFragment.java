@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.adapters.CardSeriesAdapter;
+import com.yellowman.tinwork.yourname.UIKit.errors.UIErrorManager;
 import com.yellowman.tinwork.yourname.UIKit.helpers.Utils;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentCommunication;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
@@ -39,6 +40,8 @@ public class FavoriteFragment extends Fragment implements FragmentListener {
     protected View spinner;
     protected FragmentCommunication mLink;
     private final String parcelID = "favorite";
+    private UIErrorManager uiErrorManager;
+
 
     /**
      * Favorite Fragment :: Constructor
@@ -71,6 +74,9 @@ public class FavoriteFragment extends Fragment implements FragmentListener {
 
         // Spinner
         spinner = favorite.findViewById(R.id.favorite_spinner);
+
+        // UIErrorMananager
+        this.uiErrorManager = new UIErrorManager(getContext());
         return favorite;
     }
 
@@ -112,7 +118,7 @@ public class FavoriteFragment extends Fragment implements FragmentListener {
         try {
             mLink = (FragmentCommunication) ctx;
         } catch (ClassCastException e) {
-            Log.d("Error", e.getMessage());
+            uiErrorManager.setError("", e.getMessage()).setErrorStrategy(UIErrorManager.TOAST);
         }
     }
 
@@ -160,7 +166,7 @@ public class FavoriteFragment extends Fragment implements FragmentListener {
 
             @Override
             public void onError(String err) {
-
+                uiErrorManager.setError("", err).setErrorStrategy(UIErrorManager.TOAST);
             }
         });
     }

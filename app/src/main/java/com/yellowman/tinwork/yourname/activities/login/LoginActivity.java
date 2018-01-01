@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -15,6 +16,7 @@ import android.widget.RelativeLayout;
 
 import com.google.gson.Gson;
 import com.yellowman.tinwork.yourname.R;
+import com.yellowman.tinwork.yourname.UIKit.errors.UIErrorManager;
 import com.yellowman.tinwork.yourname.UIKit.misc.GradientGenerator;
 import com.yellowman.tinwork.yourname.UIKit.misc.ProgressSpinner;
 import com.yellowman.tinwork.yourname.activities.home.HomeActivity;
@@ -38,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     private Gson gson;
     private View focusView;
     private UserToken tokenReq;
+    private UIErrorManager uiErrorManager;
 
 
     @Override
@@ -55,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         // focus view
         this.focusView = null;
         this.tokenReq = new UserToken(this);
+        this.uiErrorManager = new UIErrorManager(this);
     }
 
     /**
@@ -172,7 +176,12 @@ public class LoginActivity extends AppCompatActivity {
 
            @Override
            public void onError(String err) {
-               //ProgressSpinner.setHidden(mProgressView);
+               Log.d("Debug", "CATTTCHHH ERRRROOORRR");
+               ProgressSpinner.setHidden(mProgressView);
+               uiErrorManager
+                       .setError("", err)
+                       .setOptsMode(UIErrorManager.RETRY)
+                       .setErrorStrategy(UIErrorManager.SNACKBAR);
            }
        });
    }

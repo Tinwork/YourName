@@ -97,8 +97,6 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
             parcelMap = new HashMap<>();
         }
 
-        Log.d("Debug", "Set parcel");
-        Log.d("Debug", "Parcel list is empty ?? "+parcelMap.isEmpty());
         parcelMap.put(key, parcel);
     }
 
@@ -115,7 +113,6 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
             parcelMap = (HashMap<String, Parcelable>) savedInstanceBundle.getSerializable("HomeFragmentData");
             fireFragmentEvent(parcelMap);
         } else {
-            Log.d("Debug", "Notify data w/o payload");
             fireFragmentEvent(null);
         }
     }
@@ -206,10 +203,10 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
         String token  = Utils.getSharedPreference(this, "yourname_token");
 
         // Create an intent to redirect to an other view
-        Intent view = new Intent();
+        Intent view = new Intent(this, LoginActivity.class);
 
         if (token.isEmpty()) {
-            view.setClass(this, LoginActivity.class);
+            //view.setClass(this, LoginActivity.class);
             startActivity(view);
         }
     }

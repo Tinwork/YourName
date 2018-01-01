@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.adapters.CardSeriesAdapter;
+import com.yellowman.tinwork.yourname.UIKit.errors.UIErrorManager;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentCommunication;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.UIKit.helpers.Utils;
@@ -41,6 +42,8 @@ public class TrendingFragment extends Fragment implements FragmentListener {
     protected int viewResources;
     private FragmentCommunication mCommunication;
     private RecyclerView recyclerView;
+    private UIErrorManager uiErrorManager;
+
 
     /**
      *  TrendingFragment::Constructor
@@ -87,6 +90,8 @@ public class TrendingFragment extends Fragment implements FragmentListener {
         spinner = trending.findViewById(R.id.trending_spinner);
         // Set the Layout ID to be use
         getResourcesID();
+        // set the UIErrorManager
+        this.uiErrorManager = new UIErrorManager(getContext());
 
         return trending;
     }
@@ -113,7 +118,10 @@ public class TrendingFragment extends Fragment implements FragmentListener {
         try {
             mCommunication = (FragmentCommunication) context;
         } catch (ClassCastException e) {
-            Log.d("Error", e.getMessage());
+            uiErrorManager
+                    .setError("", e.toString())
+                    .setOptsMode(UIErrorManager.RETRY)
+                    .setErrorStrategy(UIErrorManager.ALERT);
         }
     }
 
@@ -203,7 +211,9 @@ public class TrendingFragment extends Fragment implements FragmentListener {
             }
 
             public void onError(String err) {
-                Log.d("Error", "err: "+err);
+                uiErrorManager
+                        .setError("", err)
+                        .setErrorStrategy(UIErrorManager.TOAST);
             }
         });
     }

@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.adapters.CardSeriesAdapter;
+import com.yellowman.tinwork.yourname.UIKit.errors.UIErrorManager;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentCommunication;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.UIKit.helpers.Utils;
@@ -39,6 +40,7 @@ public class PopularFragment extends Fragment implements FragmentListener {
     protected RecyclerView recyclerView;
     protected View spinner;
     private FragmentCommunication mLink;
+    private UIErrorManager uiErrorManager;
 
     /**
      * On Create
@@ -72,6 +74,9 @@ public class PopularFragment extends Fragment implements FragmentListener {
 
         // Set the spinner here
         spinner = (View) popular.findViewById(R.id.popular_spinner);
+
+        // UIErrorManager
+        this.uiErrorManager = new UIErrorManager(getContext());
         return popular;
     }
 
@@ -97,7 +102,10 @@ public class PopularFragment extends Fragment implements FragmentListener {
         try {
             mLink = (FragmentCommunication) ctx;
         } catch (ClassCastException e) {
-            Log.d("Error", "Error while casting "+e.getMessage());
+            uiErrorManager
+                    .setError("100", "Error while converting datas")
+                    .setOptsMode(UIErrorManager.RETRY)
+                    .setErrorStrategy(UIErrorManager.ALERT);
         }
     }
 
@@ -173,7 +181,9 @@ public class PopularFragment extends Fragment implements FragmentListener {
 
             @Override
             public void onError(String err) {
-
+                uiErrorManager
+                        .setError("", err)
+                        .setErrorStrategy(UIErrorManager.TOAST);
             }
         });
     }

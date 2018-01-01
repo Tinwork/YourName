@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.adapters.SeasonsAdapter;
+import com.yellowman.tinwork.yourname.UIKit.errors.UIErrorManager;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.entity.Episode;
 import com.yellowman.tinwork.yourname.entity.EpisodeMisc;
@@ -36,6 +37,7 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener {
     private RecyclerView recyclerView;
     private List<Episode[]> episodesList = new ArrayList<>();
     private int idx = 0;
+    private UIErrorManager uiErrorManager;
 
     /**
      * Film Episodes Fragment::Constructor
@@ -61,6 +63,8 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener {
                 false
         ));
         recyclerView.setHasFixedSize(true);
+        // get the UIErrorManager
+        this.uiErrorManager = new UIErrorManager(getContext());
 
         return episodes;
     }
@@ -106,7 +110,7 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener {
 
             @Override
             public void onError(String err) {
-                // should handle error by a toast
+                uiErrorManager.setError("", err).setErrorStrategy(UIErrorManager.TOAST);
             }
         });
     }
@@ -144,9 +148,12 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener {
 
             @Override
             public void onError(String err) {
-                 if (err.contains("404")) {
+
+                if (err.contains("404")) {
                     // Fail silently --> we assumed that no more seasons existed
                     notifySeasonsReady();
+                } else {
+                     uiErrorManager.setError("", err).setErrorStrategy(UIErrorManager.TOAST);
                 }
             }
         });
@@ -189,8 +196,6 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener {
      * @param misc
      */
     private void notifySeasonsLoaded(EpisodeMisc misc, String serie_id) {
-        Log.d("Debug", "HAVE ALL SEASONS");
-
         handleMulSeasons(misc.getAiredSeasons(), serie_id).start();
     }
 }

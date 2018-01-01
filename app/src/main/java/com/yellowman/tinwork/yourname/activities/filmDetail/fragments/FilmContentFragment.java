@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.adapters.ActorAdapter;
+import com.yellowman.tinwork.yourname.UIKit.errors.UIErrorManager;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.entity.Actor;
 import com.yellowman.tinwork.yourname.model.Series;
@@ -35,10 +36,14 @@ import java.util.List;
 
 public class FilmContentFragment extends Fragment implements FragmentListener {
 
+    // protected fields
     protected RecyclerView recyclerView;
     protected final String parcelID = "serie";
-    private Series serie;
     protected View view;
+
+    // private fields
+    private Series serie;
+    private UIErrorManager uiErrorManager;
 
     // Fragment element
     private TextView filmTitle;
@@ -63,7 +68,7 @@ public class FilmContentFragment extends Fragment implements FragmentListener {
      */
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceBundle) {
         this.view = inflater.inflate(R.layout.details_fragment, container, false);
-
+        this.uiErrorManager = new UIErrorManager(getContext());
         // Set recycler view properties
         this.recyclerView = view.findViewById(R.id.actors_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(
@@ -90,7 +95,6 @@ public class FilmContentFragment extends Fragment implements FragmentListener {
         if (data == null) {
             // handle that no actor exist
         } else {
-            Log.d("Debug", "RECEIVE DATA");
             this.serie = (Series) data.get(parcelID);
             // display the already loaded data
             setFragmentElementData();
@@ -128,7 +132,9 @@ public class FilmContentFragment extends Fragment implements FragmentListener {
             }
 
             public void onError(String err) {
-                Log.d("Error", "Network error !");
+                uiErrorManager
+                        .setError("", err)
+                        .setErrorStrategy(UIErrorManager.SNACKBAR);
             }
         });
     }

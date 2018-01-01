@@ -3,7 +3,7 @@ package com.yellowman.tinwork.yourname.network.api.search;
 import android.content.Context;
 import android.util.Log;
 
-import com.yellowman.tinwork.yourname.model.Serie.SingleEpisodeWrapper;
+import com.yellowman.tinwork.yourname.entity.Episode;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.network.fetch.Fetch;
@@ -20,7 +20,7 @@ import java.util.HashMap;
 public class SearchEpisodes extends Fetch {
     private final RequestQueueManager queueManager;
     private Context ctx;
-    private GsonGetManager<SingleEpisodeWrapper> series;
+    private GsonGetManager<Episode> series;
     private int retry;
 
     /**
@@ -43,14 +43,12 @@ public class SearchEpisodes extends Fetch {
         // Bind the GET request params
         String URL = Utils.buildPlaceholderUrl(Routes.SEARCH_EPISODES, data , null);
 
-        Log.d("Debug", "URL : "+URL);
-
-        series = new GsonGetManager<>(URL, SingleEpisodeWrapper.class, headers, response -> {
+        series = new GsonGetManager<>(URL, Episode.class, headers, response -> {
             callback.onSuccess(response);
         }, error -> {
             this.handleVolleyError(error, series, ctx, retry, callback);
             retry++;
-        }, false);
+        }, true);
 
         queueManager.addToRequestQueue(series);
     }

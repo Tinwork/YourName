@@ -43,7 +43,7 @@ public abstract class Fetch {
             callback.onError(errorPayload.get("message"));
         } else {
             // Log the error with basic VolleyError code
-            callback.onError(errorPayload.get("code"));
+            callback.onError("unknown error");
         }
     }
 

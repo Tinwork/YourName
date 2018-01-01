@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 
 import com.yellowman.tinwork.yourname.entity.Episode;
-import com.yellowman.tinwork.yourname.model.Serie.Episodes;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.network.fetch.Fetch;

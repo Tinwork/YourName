@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.adapters.SearchAdapter;
+import com.yellowman.tinwork.yourname.UIKit.errors.UIErrorManager;
 import com.yellowman.tinwork.yourname.UIKit.misc.GradientGenerator;
 import com.yellowman.tinwork.yourname.model.Search;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
@@ -27,6 +28,7 @@ import java.util.HashMap;
 public class SearchResultsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
+    private UIErrorManager uiErrorManager;
     private View spinner;
 
     /**
@@ -69,6 +71,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     private void initComponent() {
         this.spinner = findViewById(R.id.search_result_spinner);
         this.recyclerView = findViewById(R.id.result_search_recyclerView);
+        this.uiErrorManager = new UIErrorManager(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(
                 this,
                 LinearLayoutManager.VERTICAL,
@@ -99,6 +102,10 @@ public class SearchResultsActivity extends AppCompatActivity {
             public void onError(String err) {
                 spinner.setVisibility(View.GONE);
                 // one day we should handle error
+                uiErrorManager
+                        .setError("", err)
+                        .setOptsMode(UIErrorManager.RETRY)
+                        .setErrorStrategy(UIErrorManager.SNACKBAR);
             }
         });
     }
