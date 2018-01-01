@@ -25,6 +25,7 @@ public class Routes {
 
     public static final String IMG_PATH = "www.thetvdb.com/banners";
     private static final String PREFIX = "https://api.thetvdb.com";
+
     public static final String SUFFIX_ROUTES_EPISODES_FROM_SERIES = "episodes/query";
     public static final String SUFFIX_ROUTES_EPISODES_SUMMARY = "episodes/summary";
 
@@ -36,6 +37,7 @@ public class Routes {
     // User
     // Route that not need params
     public static final String USER = PREFIX+"/user";
+    public static final String FAVORITES = "user/favorites";
 
     public static String getEpisode(String id) {
         return SEARCH_EPISODES+id;

@@ -3,20 +3,22 @@ package com.yellowman.tinwork.yourname.networkTest;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 
 import com.yellowman.tinwork.yourname.R;
-import com.yellowman.tinwork.yourname.entity.Actor;
-import com.yellowman.tinwork.yourname.entity.Episode;
+import com.yellowman.tinwork.yourname.entity.IdSeries;
+import com.yellowman.tinwork.yourname.model.Serie.Actors;
 import com.yellowman.tinwork.yourname.model.Search;
+import com.yellowman.tinwork.yourname.model.Serie.Episodes;
+import com.yellowman.tinwork.yourname.model.Serie.Favorites;
 import com.yellowman.tinwork.yourname.model.Serie.SerieWrapper;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.model.Token;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
-import com.yellowman.tinwork.yourname.network.api.series.FilterSeries;
+import com.yellowman.tinwork.yourname.network.api.series.AddFavorites;
+import com.yellowman.tinwork.yourname.network.api.series.GetSerie;
 import com.yellowman.tinwork.yourname.network.api.series.ListActors;
-import com.yellowman.tinwork.yourname.network.api.search.SearchEpisodes;
-
 import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
 import com.yellowman.tinwork.yourname.network.api.series.ListEpisodes;
 import com.yellowman.tinwork.yourname.network.api.user.UserToken;
@@ -88,26 +90,14 @@ public class NetworkActivity extends AppCompatActivity {
         });
     }
 
-    protected void testGetEpisodesAPI() {
-        HashMap<String, String> payload = new HashMap<>();
-
-        SearchEpisodes search = new SearchEpisodes(this);
-        search.get(payload, new GsonCallback<Episode>() {
-            @Override
-            public void onSuccess(Episode response) {
-                Log.d("Debug", "Serie name for search API "+response.getEpisodeName());
-            }
-
-            public void onError(String err) {}
-        });
-    }
-
-    protected void testFilterSerieAPI() {
+    /**
+     * Test Get OneSerie API
+     */
+    protected void testGetSerieAPI() {
         HashMap<String, String> payload = new HashMap<>();
         payload.put("series_id", "328840");
-        payload.put("key?", "seriesName");
 
-        FilterSeries serie = new FilterSeries(this);
+        GetSerie serie = new GetSerie(this);
         serie.get(payload, new GsonCallback<SerieWrapper>() {
             @Override
             public void onSuccess(SerieWrapper response) {
@@ -117,7 +107,6 @@ public class NetworkActivity extends AppCompatActivity {
             public void onError(String err) {}
         });
     }
-
 
     /**
      * Test Placeholder URI
@@ -146,10 +135,10 @@ public class NetworkActivity extends AppCompatActivity {
         params.put("series_id", "328840");
 
         ListActors actors = new ListActors(this);
-        actors.get(params, new GsonCallback<Actor[]>() {
+        actors.get(params, new GsonCallback<Actors>() {
             @Override
-            public void onSuccess(Actor[] response) {
-                Log.d("Debug", "Serie name for search API "+response[0].getName());
+            public void onSuccess(Actors response) {
+                Log.d("Debug", "Serie name for search API "+response.getData());
             }
 
             public void onError(String err) {}
@@ -162,16 +151,37 @@ public class NetworkActivity extends AppCompatActivity {
      */
     protected void testGetEpisodesFromSeriesById() {
         HashMap<String, String> params = new HashMap<>();
-        params.put("series_id", "328840");
+        params.put("series_id", "252534");
 
         ListEpisodes episodes = new ListEpisodes(this);
-        episodes.get(params, new GsonCallback<Episode[]>() {
+        episodes.get(params, new GsonCallback<Episodes>() {
             @Override
-            public void onSuccess(Episode[] response) {
-                Log.d("Debug", "Serie name for search API " + response[0].getEpisodeName());
+            public void onSuccess(Episodes response) {
+                Log.d("Debug", "Serie name for search API " + response.getData());
             }
 
             public void onError(String err) {}
+        });
+    }
+
+    /**
+     * Test API Request [Put]
+     * Add favorites from series by ID
+     */
+    protected void testPutAddFavoritesBySeriesId() {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("series_id", "252534");
+
+        AddFavorites favorites = new AddFavorites(this);
+        favorites.get(params, new GsonCallback<IdSeries[]>() {
+            @Override
+            public void onSuccess(IdSeries[] response) {
+                Log.d("Debug", "Serie name for search API " + response);
+            }
+
+            public void onError(String err) {
+                Log.d("Debug test", "Test "+err.toString());
+            }
         });
     }
 
@@ -188,18 +198,18 @@ public class NetworkActivity extends AppCompatActivity {
         Button placeHolder           = (Button) findViewById(R.id.testPlaceHolder);
         Button getActors             = (Button) findViewById(R.id.getActors);
         Button getEpisodesFromSeries = (Button) findViewById(R.id.getEpisodesFromSeries);
-        Button getEpisodes           = (Button) findViewById(R.id.getEpisodes);
-        Button filterSeries          = (Button) findViewById(R.id.filterSeries);
+        Button putFavoriteFromSeries = (Button) findViewById(R.id.putFavoritesFromSeries);
 
         // Add a listeners
         refresh.setOnClickListener(event -> NetworkActivity.this.testRefreshTokenAPI());
         getToken.setOnClickListener(event -> NetworkActivity.this.testFetch());
         getSeries.setOnClickListener(event -> NetworkActivity.this.testGetSeriesAPI());
+        getSerie.setOnClickListener(event -> NetworkActivity.this.testGetSerieAPI());
         placeHolder.setOnClickListener(event -> NetworkActivity.this.testPlaceholderURI());
         getActors.setOnClickListener(event -> NetworkActivity.this.testGetActorsAPI());
         getEpisodesFromSeries.setOnClickListener(event -> NetworkActivity.this.testGetEpisodesFromSeriesById());
-        getEpisodes.setOnClickListener(event -> NetworkActivity.this.testGetEpisodesAPI());
-        filterSeries.setOnClickListener(event -> NetworkActivity.this.testFilterSerieAPI());
+        putFavoriteFromSeries.setOnClickListener(event -> NetworkActivity.this.testPutAddFavoritesBySeriesId());
     }
 
 }
+
