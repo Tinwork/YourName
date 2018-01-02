@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.adapters.ActorAdapter;
 import com.yellowman.tinwork.yourname.UIKit.errors.UIErrorManager;
+import com.yellowman.tinwork.yourname.UIKit.helpers.Utils;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.entity.Actor;
 import com.yellowman.tinwork.yourname.model.Series;
@@ -155,7 +156,8 @@ public class FilmContentFragment extends Fragment implements FragmentListener {
             @Override
             public void onSuccess(Series response) {
                 // Aggregate the datas
-                serie.setGenre(response.getGenre());
+
+                serie.setGenre(Utils.getArrayListFromRealm(response.getGenre()));
                 serie.setSiteRating(response.getSiteRating());
                 // update the related textview
                 setUpdateElementData();

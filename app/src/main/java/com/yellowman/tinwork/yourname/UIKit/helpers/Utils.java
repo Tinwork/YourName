@@ -10,6 +10,10 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
+import io.realm.RealmList;
+
 /**
  * Created by Marc Intha-amnouay on 14/12/2017.
  * Created by Didier Youn on 14/12/2017.
@@ -56,5 +60,21 @@ public class Utils {
         w.getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
         return metrics.densityDpi;
+    }
+
+    /**
+     * Get Array List From Realm
+     *
+     * @param data
+     * @return
+     */
+    public static ArrayList<String> getArrayListFromRealm(RealmList<String> data) {
+        ArrayList<String> list = new ArrayList<>();
+
+        for (String d: data) {
+            list.add(d);
+        }
+
+        return list;
     }
 }

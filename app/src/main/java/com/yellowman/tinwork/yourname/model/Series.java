@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.yellowman.tinwork.yourname.entity.Episode;
 import com.yellowman.tinwork.yourname.entity.Season;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import io.realm.RealmList;
@@ -37,25 +38,16 @@ public class Series extends RealmObject implements Parcelable {
         }
     };
 
-    private String[] aliases;
-
-    private String banner;
-
-    private String firstAired;
-
     @PrimaryKey
     private String id;
-
+    private RealmList<String> aliases;
+    private String banner;
+    private String firstAired;
     private String network;
-
     private String overview;
-
     private String seriesName;
-
     private String status;
-
-    private ArrayList<String> genre;
-
+    private RealmList<String> genre;
     private String siteRating;
 
     /**
@@ -73,7 +65,6 @@ public class Series extends RealmObject implements Parcelable {
      * @param parcel
      */
     public Series(Parcel parcel) {
-        aliases    = parcel.createStringArray();
         banner     = parcel.readString();
         firstAired = parcel.readString();
         id         = parcel.readString();
@@ -81,15 +72,28 @@ public class Series extends RealmObject implements Parcelable {
         overview   = parcel.readString();
         seriesName = parcel.readString();
         status     = parcel.readString();
-        genre      = parcel.createStringArrayList();
         siteRating = parcel.readString();
+        aliases    = new RealmList<>();
+        genre      = new RealmList<>();
+
+        // set the list to the RealmList
+        ArrayList<String> intermAliases = parcel.createStringArrayList();
+        ArrayList<String> intermGenre   = parcel.createStringArrayList();
+
+        if (intermAliases != null) {
+            aliases.addAll(parcel.createStringArrayList());
+        }
+
+        if (intermGenre != null) {
+            genre.addAll(parcel.createStringArrayList());
+        }
     }
 
     /**
      * Get Aliases
      * @return
      */
-    public String[] getAliases() {
+    public RealmList<String> getAliases() {
         return aliases;
     }
 
@@ -97,8 +101,9 @@ public class Series extends RealmObject implements Parcelable {
      * Set Aliases
      * @param aliases
      */
-    public void setAliases(String[] aliases) {
-        this.aliases = aliases;
+    public void setAliases(ArrayList<String> aliases) {
+        this.aliases = new RealmList<>();
+        this.aliases.addAll(aliases);
     }
 
     /**
@@ -217,7 +222,7 @@ public class Series extends RealmObject implements Parcelable {
      *
      * @return
      */
-    public ArrayList<String> getGenre() {
+    public RealmList<String> getGenre() {
         return genre;
     }
 
@@ -226,7 +231,8 @@ public class Series extends RealmObject implements Parcelable {
      * @param genre
      */
     public void setGenre(ArrayList<String> genre) {
-        this.genre = genre;
+        this.genre = new RealmList<>();
+        this.genre.addAll(genre);
     }
 
     /**
@@ -262,7 +268,6 @@ public class Series extends RealmObject implements Parcelable {
      */
     @Override
     public void writeToParcel(Parcel dest, int i) {
-        dest.writeStringArray(aliases);
         dest.writeString(banner);
         dest.writeString(firstAired);
         dest.writeString(id);
@@ -270,7 +275,10 @@ public class Series extends RealmObject implements Parcelable {
         dest.writeString(overview);
         dest.writeString(seriesName);
         dest.writeString(status);
-        dest.writeStringList(genre);
         dest.writeString(siteRating);
+
+        // Special case for Realm
+        dest.writeStringList(aliases);
+        dest.writeStringList(genre);
     }
 }

@@ -105,7 +105,8 @@ public interface RealmDefaultBehavior<E extends RealmObject> {
         }, new Realm.Transaction.OnError() {
             @Override
             public void onError(Throwable error) {
-                Log.d("Debug", "Data List has not been saved");
+                Log.println(Log.WARN, "Warn", error.getMessage());
+                Log.println(Log.ERROR, "Error", "Data List has not been saved");
             }
         });
     }

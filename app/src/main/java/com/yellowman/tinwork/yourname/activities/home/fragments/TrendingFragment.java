@@ -214,6 +214,7 @@ public class TrendingFragment extends Fragment implements FragmentListener {
 
                 // Persist the series with realm
                 realmManager.commitMultipleEntities(response.getData());
+                realmManager.closeRealm();
             }
 
             public void onError(String err) {

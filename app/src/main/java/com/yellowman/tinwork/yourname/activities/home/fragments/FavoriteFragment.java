@@ -23,6 +23,7 @@ import com.yellowman.tinwork.yourname.model.Search;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
+import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +42,7 @@ public class FavoriteFragment extends Fragment implements FragmentListener {
     protected FragmentCommunication mLink;
     private final String parcelID = "favorite";
     private UIErrorManager uiErrorManager;
+    private CommonManager realmManager;
 
 
     /**
@@ -77,6 +79,9 @@ public class FavoriteFragment extends Fragment implements FragmentListener {
 
         // UIErrorMananager
         this.uiErrorManager = new UIErrorManager(getContext());
+        // init the realm manager
+        this.realmManager   = new CommonManager();
+
         return favorite;
     }
 
@@ -162,6 +167,10 @@ public class FavoriteFragment extends Fragment implements FragmentListener {
                 self.bindRecycleView(response.getData());
                 mLink.setParcelable(response, parcelID);
                 ProgressSpinner.setHidden(spinner);
+
+                // Persist the data
+                realmManager.commitMultipleEntities(response.getData());
+                realmManager.closeRealm();
             }
 
             @Override

@@ -20,9 +20,12 @@ import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.network.api.series.ImagesSeries;
+import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
 import com.yellowman.tinwork.yourname.utils.Utils;
 
 import java.util.HashMap;
+
+import io.realm.RealmResults;
 
 /**
  * MERRY CHRISTMAS !!!!! ✨ L~~~~~~~~~MM~~~~~~~~~L ✨
@@ -40,6 +43,7 @@ public class FilmDetailsActivity extends AppCompatActivity {
     protected FragmentListener fe;
     private GradientGenerator gd;
     private UIErrorManager uiErrorManager;
+    private CommonManager realmManager;
     private int dpi;
 
     @Override
@@ -65,6 +69,7 @@ public class FilmDetailsActivity extends AppCompatActivity {
         this.gd = new GradientGenerator(this, findViewById(R.id.film_details_view), null);
         gd.buildBackgroundGradientColor();
         this.uiErrorManager = new UIErrorManager(this);
+        this.realmManager   = new CommonManager();
     }
 
     /**
@@ -85,6 +90,8 @@ public class FilmDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Series serie = intent.getParcelableExtra("Entity");
 
+
+
         Log.d("Debug", "Series name is "+serie.getSeriesName());
 
         // Call our fragment and notify that data is available
@@ -95,6 +102,9 @@ public class FilmDetailsActivity extends AppCompatActivity {
             fg.notifyData(data);
             fe.notifyData(data);
             getImageForSerie(serie.getId());
+
+            // test retrieving realm object
+            retrieveRealmObject(serie.getId());
         }
     }
 
@@ -131,5 +141,16 @@ public class FilmDetailsActivity extends AppCompatActivity {
                 Glide.with(FilmDetailsActivity.this).load(R.drawable.yourname_bg).into(banner);
             }
         });
+    }
+
+    /**
+     * Retrieve Realm Object
+     *
+     * @param id
+     */
+    private void retrieveRealmObject(String id) {
+        RealmResults<Series> series = realmManager.getEntitiesBySingleCriterion(Series.class, "id", id);
+        Log.println(Log.INFO, "Series", series.get(0).getSeriesName());
+        Log.println(Log.WARN, "Series from realm", series.get(0).getBanner());
     }
 }

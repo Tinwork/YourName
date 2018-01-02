@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -47,7 +48,7 @@ public class Episode extends RealmObject implements Parcelable
     private int dvdEpisodeNumber;
     private int airedEpisodeNumber;
     private int airedSeason;
-    private ArrayList<String> directors;
+    private RealmList<String> directors;
     private String siteRating;
     private String filename;
 
@@ -67,9 +68,15 @@ public class Episode extends RealmObject implements Parcelable
         dvdEpisodeNumber   = parcel.readInt();
         airedEpisodeNumber = parcel.readInt();
         airedSeason        = parcel.readInt();
-        directors          = parcel.createStringArrayList();
         siteRating         = parcel.readString();
         filename           = parcel.readString();
+        directors          = new RealmList<>();
+
+        ArrayList<String> intermDirectors = parcel.createStringArrayList();
+
+        if (intermDirectors != null) {
+            directors.addAll(intermDirectors);
+        }
     }
 
     /**
@@ -215,7 +222,7 @@ public class Episode extends RealmObject implements Parcelable
      *
      * @return
      */
-    public ArrayList<String> getDirectors() {
+    public RealmList<String> getDirectors() {
         return directors;
     }
 
@@ -224,7 +231,8 @@ public class Episode extends RealmObject implements Parcelable
      * @param directors
      */
     public void setDirectors(ArrayList<String> directors) {
-        this.directors = directors;
+        this.directors = new RealmList<>();
+        this.directors.addAll(directors);
     }
 
     /**
@@ -275,8 +283,10 @@ public class Episode extends RealmObject implements Parcelable
         dest.writeInt(dvdEpisodeNumber);
         dest.writeInt(airedEpisodeNumber);
         dest.writeInt(airedSeason);
-        dest.writeStringList(directors);
         dest.writeString(siteRating);
         dest.writeString(filename);
+
+        // Special case for Realm
+        dest.writeStringList(directors);
     }
 }
