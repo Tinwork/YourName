@@ -31,20 +31,6 @@ public interface RealmDefaultBehavior<E extends RealmObject> {
      */
     public Realm getRealmInstance();
 
-    /**
-     * Update Series
-     *
-     * @void
-     */
-    public void updateSeriesMisc(Series serie);
-
-    /**
-     * Update Series Actor
-     *
-     * @param serie_id
-     * @param actor
-     */
-    public void updateSeriesActor(String serie_id, Actor[] actor);
 
     /**
      * Close Realm

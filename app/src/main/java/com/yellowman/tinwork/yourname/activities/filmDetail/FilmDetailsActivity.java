@@ -159,27 +159,5 @@ public class FilmDetailsActivity extends AppCompatActivity {
         ArrayList<String> d = com.yellowman.tinwork.yourname.UIKit.helpers.Utils.getArrayListFromRealm(series.get(0).getGenre());
         Log.println(Log.INFO, "Series", series.get(0).getSeriesName());
         Log.println(Log.WARN, "Series from realm", d.toString());
-
-        // output realm file
-        outputRealmFile();
-    }
-
-    private void outputRealmFile() {
-        final Realm realm = realmManager.getRealmInstance();
-
-        try {
-            final File file = new File(Environment.getExternalStorageDirectory().getPath().concat("/sample.realm"));
-            if (file.exists()) {
-                //noinspection ResultOfMethodCallIgnored
-                file.delete();
-            }
-
-            Log.println(Log.WARN, "STORAGE", "Export path "+Environment.getExternalStorageDirectory().getPath().concat("/sample.realm"));
-            realm.writeCopyTo(file);
-            Toast.makeText(this, "Success export realm file", Toast.LENGTH_SHORT).show();
-        } catch (IOException e) {
-            realm.close();
-            e.printStackTrace();
-        }
     }
 }

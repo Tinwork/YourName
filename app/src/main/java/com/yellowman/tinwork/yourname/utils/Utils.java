@@ -5,19 +5,25 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.yellowman.tinwork.yourname.network.api.Routes;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+import io.realm.Realm;
+import io.realm.internal.IOException;
 
 /**
  * Created by Marc Intha-amnouay on 18/11/2017.
@@ -189,6 +195,30 @@ public class Utils {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             w.setStatusBarColor(ContextCompat.getColor(ctx, color));
+        }
+    }
+
+    /**
+     * Output Realm File
+     *
+     * @Credits @Budi Oktaviyan Suryanto
+     * This code refer to the following article: https://medium.com/@budioktaviyans/android-realm-database-export-24753503b0c7
+     */
+    public static void outputRealmFile() {
+        final Realm realm = Realm.getDefaultInstance();
+
+        try {
+            final File file = new File(Environment.getExternalStorageDirectory().getPath().concat("/sample.realm"));
+            if (file.exists()) {
+                //noinspection ResultOfMethodCallIgnored
+                file.delete();
+            }
+
+            Log.println(Log.WARN, "STORAGE", "Export path "+Environment.getExternalStorageDirectory().getPath().concat("/sample.realm"));
+            realm.writeCopyTo(file);
+        } catch (IOException e) {
+            realm.close();
+            e.printStackTrace();
         }
     }
 }

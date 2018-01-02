@@ -1,5 +1,6 @@
 package com.yellowman.tinwork.yourname.activities.filmDetail.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
@@ -40,6 +41,7 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener {
     private int idx = 0;
     private UIErrorManager uiErrorManager;
     private String serie_id;
+    private Context ctx;
 
     /**
      * Film Episodes Fragment::Constructor
@@ -67,6 +69,7 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener {
         recyclerView.setHasFixedSize(true);
         // get the UIErrorManager
         this.uiErrorManager = new UIErrorManager(getContext());
+        this.ctx = getContext();
 
         return episodes;
     }
@@ -132,7 +135,7 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener {
         data.put("series_id", serie_id);
         data.put("season", seasons[idx]);
 
-        ListEpisodes episodes = new ListEpisodes(getContext());
+        ListEpisodes episodes = new ListEpisodes(ctx);
         episodes.get(data, new GsonCallback<Episode[]>() {
 
             @Override

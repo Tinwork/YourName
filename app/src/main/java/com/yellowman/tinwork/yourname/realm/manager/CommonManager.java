@@ -38,7 +38,6 @@ public class CommonManager implements RealmDefaultBehavior {
      *
      * @param serie
      */
-    @Override
     public void updateSeriesMisc(Series serie) {
         getRealmInstance().executeTransactionAsync(realm -> {
             RealmObject realmObj = this.getEntitiesById(Series.class, serie.getId());
@@ -56,7 +55,7 @@ public class CommonManager implements RealmDefaultBehavior {
 
 
             // finally update the series
-            getRealmInstance().insertOrUpdate(serieToUpdate);
+            realm.insertOrUpdate(serieToUpdate);
         }, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
@@ -76,7 +75,6 @@ public class CommonManager implements RealmDefaultBehavior {
      * @param serie_id
      * @param actors
      */
-    @Override
     public void updateSeriesActor(String serie_id, Actor[] actors) {
         getRealmInstance().executeTransactionAsync(realm -> {
             RealmObject realmObj = this.getEntitiesById(Series.class, serie_id);
@@ -91,7 +89,7 @@ public class CommonManager implements RealmDefaultBehavior {
             actorsList.addAll(Arrays.asList(actors));
             serieToUpdate.setActors(actorsList);
 
-            getRealmInstance().insertOrUpdate(serieToUpdate);
+            realm.insertOrUpdate(serieToUpdate);
         }, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
