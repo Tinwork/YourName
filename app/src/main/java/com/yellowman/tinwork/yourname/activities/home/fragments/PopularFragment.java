@@ -23,6 +23,7 @@ import com.yellowman.tinwork.yourname.model.Search;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
+import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +42,7 @@ public class PopularFragment extends Fragment implements FragmentListener {
     protected View spinner;
     private FragmentCommunication mLink;
     private UIErrorManager uiErrorManager;
+    private CommonManager realmManager;
 
     /**
      * On Create
@@ -77,6 +79,10 @@ public class PopularFragment extends Fragment implements FragmentListener {
 
         // UIErrorManager
         this.uiErrorManager = new UIErrorManager(getContext());
+
+        // set the CommonManager
+        this.realmManager   = new CommonManager();
+
         return popular;
     }
 
@@ -177,6 +183,9 @@ public class PopularFragment extends Fragment implements FragmentListener {
                 mLink.setParcelable(response, parcelID);
                 // Hide the spinner here
                 ProgressSpinner.setHidden(spinner);
+                // persist the data
+                realmManager.commitMultipleEntities(response.getData());
+                realmManager.closeRealm();
             }
 
             @Override

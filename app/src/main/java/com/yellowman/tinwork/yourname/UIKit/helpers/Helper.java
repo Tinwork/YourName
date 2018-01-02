@@ -9,6 +9,11 @@ import android.os.Parcelable;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import io.realm.RealmList;
+
 /**
  * Created by Marc Intha-amnouay on 11/12/2017.
  * Created by Didier Youn on 11/12/2017.

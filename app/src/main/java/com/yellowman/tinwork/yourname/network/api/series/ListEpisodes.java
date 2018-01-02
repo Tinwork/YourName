@@ -1,7 +1,6 @@
 package com.yellowman.tinwork.yourname.network.api.series;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.yellowman.tinwork.yourname.entity.Episode;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
@@ -36,7 +35,7 @@ public class ListEpisodes extends Fetch
      */
     public ListEpisodes(Context context) {
         this.ctx = context;
-        this.queueManager = RequestQueueManager.getInstance(this.ctx.getApplicationContext());
+        this.queueManager = RequestQueueManager.getInstance(context.getApplicationContext());
         this.retry = 0;
     }
 
