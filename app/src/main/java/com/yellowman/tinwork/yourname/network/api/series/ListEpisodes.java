@@ -36,7 +36,7 @@ public class ListEpisodes extends Fetch
      */
     public ListEpisodes(Context context) {
         this.ctx = context;
-        this.queueManager = RequestQueueManager.getInstance(this.ctx.getApplicationContext());
+        this.queueManager = RequestQueueManager.getInstance(context.getApplicationContext());
         this.retry = 0;
     }
 
