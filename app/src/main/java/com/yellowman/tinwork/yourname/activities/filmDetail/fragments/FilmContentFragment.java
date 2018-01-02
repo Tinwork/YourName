@@ -22,7 +22,9 @@ import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.series.ListActors;
 import com.yellowman.tinwork.yourname.network.api.series.SingleSerie;
+import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -53,6 +55,7 @@ public class FilmContentFragment extends Fragment implements FragmentListener {
     private TextView filmDate;
     private TextView synopsis;
     private TextView siteRating;
+    private CommonManager realmManager;
 
     /**
      * Film Content Fragment::Constructor
@@ -81,6 +84,8 @@ public class FilmContentFragment extends Fragment implements FragmentListener {
         recyclerView.setHasFixedSize(true);
         // Init the other component
         initFragmentElement();
+        // set the common manager
+        this.realmManager = new CommonManager();
 
         return view;
     }
@@ -130,6 +135,9 @@ public class FilmContentFragment extends Fragment implements FragmentListener {
                 // Create our adapter
                 ActorAdapter adapter = new ActorAdapter(response);
                 recyclerView.setAdapter(adapter);
+                // set realm data
+                realmManager.setActors(response);
+                realmManager.updateSeriesActor(serieID, response);
             }
 
             public void onError(String err) {
@@ -161,11 +169,15 @@ public class FilmContentFragment extends Fragment implements FragmentListener {
                 serie.setSiteRating(response.getSiteRating());
                 // update the related textview
                 setUpdateElementData();
+                // set data
+                realmManager.updateSeriesMisc(serie);
             }
 
             @Override
             public void onError(String err) {
-                // Handle the error
+                uiErrorManager
+                        .setError("", err)
+                        .setErrorStrategy(UIErrorManager.SNACKBAR);
             }
         });
     }

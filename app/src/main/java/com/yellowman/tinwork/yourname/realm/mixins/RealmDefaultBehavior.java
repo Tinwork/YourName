@@ -2,6 +2,10 @@ package com.yellowman.tinwork.yourname.realm.mixins;
 
 import android.util.Log;
 
+
+import com.yellowman.tinwork.yourname.entity.Actor;
+import com.yellowman.tinwork.yourname.model.Series;
+
 import java.util.List;
 
 import io.realm.Realm;
@@ -10,6 +14,8 @@ import io.realm.RealmResults;
 import io.realm.Sort;
 
 /**
+ * ❤️ Happy new year !!! 🎊 L∞∞∞∞∞∞∞∞MM∞∞∞∞∞∞∞∞L 🎊 ❤️
+ *
  * Created by Marc Intha-amnouay on 02/01/2018.
  * Created by Didier Youn on 02/01/2018.
  * Created by Abdel-Atif Mabrouck on 02/01/2018.
@@ -24,6 +30,21 @@ public interface RealmDefaultBehavior<E extends RealmObject> {
      * @return
      */
     public Realm getRealmInstance();
+
+    /**
+     * Update Series
+     *
+     * @void
+     */
+    public void updateSeriesMisc(Series serie);
+
+    /**
+     * Update Series Actor
+     *
+     * @param serie_id
+     * @param actor
+     */
+    public void updateSeriesActor(String serie_id, Actor[] actor);
 
     /**
      * Close Realm
@@ -41,11 +62,11 @@ public interface RealmDefaultBehavior<E extends RealmObject> {
      * @param id
      * @return
      */
-    default RealmResults<E> getEntitiesById(Class<E> instance, int id) {
-        RealmResults<E> res = getRealmInstance()
+    default RealmObject getEntitiesById(Class<E> instance, String id) {
+        RealmObject res = getRealmInstance()
                 .where(instance)
                 .equalTo("id", id)
-                .findAll();
+                .findFirst();
 
         return res;
     }
@@ -96,7 +117,7 @@ public interface RealmDefaultBehavior<E extends RealmObject> {
     default void commitMultipleEntities(List<E> data) {
 
         getRealmInstance().executeTransactionAsync(realm -> {
-            realm.insert(data);
+            realm.insertOrUpdate(data);
         }, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {

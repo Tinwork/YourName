@@ -1,12 +1,14 @@
 package com.yellowman.tinwork.yourname.activities.filmDetail;
 
 import android.content.Intent;
+import android.os.Environment;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.yellowman.tinwork.yourname.R;
@@ -23,9 +25,13 @@ import com.yellowman.tinwork.yourname.network.api.series.ImagesSeries;
 import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
 import com.yellowman.tinwork.yourname.utils.Utils;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.internal.IOException;
 
 /**
  * MERRY CHRISTMAS !!!!! ✨ L~~~~~~~~~MM~~~~~~~~~L ✨
@@ -150,7 +156,30 @@ public class FilmDetailsActivity extends AppCompatActivity {
      */
     private void retrieveRealmObject(String id) {
         RealmResults<Series> series = realmManager.getEntitiesBySingleCriterion(Series.class, "id", id);
+        ArrayList<String> d = com.yellowman.tinwork.yourname.UIKit.helpers.Utils.getArrayListFromRealm(series.get(0).getGenre());
         Log.println(Log.INFO, "Series", series.get(0).getSeriesName());
-        Log.println(Log.WARN, "Series from realm", series.get(0).getBanner());
+        Log.println(Log.WARN, "Series from realm", d.toString());
+
+        // output realm file
+        outputRealmFile();
+    }
+
+    private void outputRealmFile() {
+        final Realm realm = realmManager.getRealmInstance();
+
+        try {
+            final File file = new File(Environment.getExternalStorageDirectory().getPath().concat("/sample.realm"));
+            if (file.exists()) {
+                //noinspection ResultOfMethodCallIgnored
+                file.delete();
+            }
+
+            Log.println(Log.WARN, "STORAGE", "Export path "+Environment.getExternalStorageDirectory().getPath().concat("/sample.realm"));
+            realm.writeCopyTo(file);
+            Toast.makeText(this, "Success export realm file", Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            realm.close();
+            e.printStackTrace();
+        }
     }
 }

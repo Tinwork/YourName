@@ -18,7 +18,7 @@ import io.realm.annotations.PrimaryKey;
  *                         Antoine Renault <antoine.renault.mmi@gmail.com>.
  * @link                   https://github.com/Tinwork/YourName
  */
-public class Episode extends RealmObject implements Parcelable
+public class Episode implements Parcelable
 {
 
     /**

@@ -20,6 +20,7 @@ import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.series.EpisodeSummary;
 import com.yellowman.tinwork.yourname.network.api.series.ListEpisodes;
+import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,6 +39,7 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener {
     private List<Episode[]> episodesList = new ArrayList<>();
     private int idx = 0;
     private UIErrorManager uiErrorManager;
+    private String serie_id;
 
     /**
      * Film Episodes Fragment::Constructor
@@ -80,7 +82,8 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener {
             // should handle something here
         } else {
             Series serie = (Series) data.get("serie");
-            getSeasons(serie.getId());
+            this.serie_id = serie.getId();
+            getSeasons();
         }
     }
 
@@ -94,9 +97,8 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener {
     /**
      * Get Seasons
      *
-     * @param serie_id
      */
-    public void getSeasons(String serie_id) {
+    public void getSeasons() {
         HashMap<String, String> data = new HashMap<>();
         data.put("series_id", serie_id);
 
@@ -105,7 +107,7 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener {
 
             @Override
             public void onSuccess(EpisodeMisc response) {
-                notifySeasonsLoaded(response, serie_id);
+                notifySeasonsLoaded(response);
             }
 
             @Override
@@ -119,9 +121,8 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener {
      * Load All Episodes By Seasons
      *
      * @param seasons
-     * @param serie_id
      */
-    public void loadAllEpisodesBySeasons(String[] seasons, String serie_id) {
+    public void loadAllEpisodesBySeasons(String[] seasons) {
         if (seasons.length == idx) {
             return;
         }
@@ -142,7 +143,7 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener {
                 if (seasons.length == idx) {
                     notifySeasonsReady();
                 } else {
-                    loadAllEpisodesBySeasons(seasons, serie_id);
+                    loadAllEpisodesBySeasons(seasons);
                 }
             }
 
@@ -166,12 +167,11 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener {
      *      /!\ Can take a long time ! though we may have use the AsyncTask but as the method is already asynchronious..
      *
      * @param seasons
-     * @param serie_id
      * @return
      */
-    public Thread handleMulSeasons(String[] seasons, String serie_id) {
+    public Thread handleMulSeasons(String[] seasons) {
         Thread thread = new Thread(() -> {
-            loadAllEpisodesBySeasons(seasons, serie_id);
+            loadAllEpisodesBySeasons(seasons);
         });
 
         return thread;
@@ -195,7 +195,7 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener {
      *
      * @param misc
      */
-    private void notifySeasonsLoaded(EpisodeMisc misc, String serie_id) {
-        handleMulSeasons(misc.getAiredSeasons(), serie_id).start();
+    private void notifySeasonsLoaded(EpisodeMisc misc) {
+        handleMulSeasons(misc.getAiredSeasons()).start();
     }
 }

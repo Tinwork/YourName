@@ -3,11 +3,11 @@ package com.yellowman.tinwork.yourname.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.yellowman.tinwork.yourname.entity.Actor;
 import com.yellowman.tinwork.yourname.entity.Episode;
-import com.yellowman.tinwork.yourname.entity.Season;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -48,15 +48,9 @@ public class Series extends RealmObject implements Parcelable {
     private String seriesName;
     private String status;
     private RealmList<String> genre;
+    private RealmList<Actor> actors;
     private String siteRating;
 
-    /**
-     * @OneToMany relationship
-     *
-     * One series have many seasons
-     * A season is only link to one series
-     */
-    private RealmList<Season> seasons;
 
     public Series() {}
 
@@ -75,17 +69,23 @@ public class Series extends RealmObject implements Parcelable {
         siteRating = parcel.readString();
         aliases    = new RealmList<>();
         genre      = new RealmList<>();
+        actors     = new RealmList<>();
 
         // set the list to the RealmList
         ArrayList<String> intermAliases = parcel.createStringArrayList();
         ArrayList<String> intermGenre   = parcel.createStringArrayList();
+        List<Actor> intermActors        = parcel.createTypedArrayList(Actor.CREATOR);
 
         if (intermAliases != null) {
-            aliases.addAll(parcel.createStringArrayList());
+            aliases.addAll(intermAliases);
         }
 
         if (intermGenre != null) {
-            genre.addAll(parcel.createStringArrayList());
+            genre.addAll(intermGenre);
+        }
+
+        if (intermActors != null) {
+            actors.addAll(intermActors);
         }
     }
 
@@ -261,6 +261,25 @@ public class Series extends RealmObject implements Parcelable {
     }
 
     /**
+     * Get Actors
+     *
+     * @return
+     */
+    public RealmList<Actor> getActors() {
+        return actors;
+    }
+
+    /**
+     * Set Actors
+     *
+     * @param actors
+     */
+    public void setActors(ArrayList<Actor> actors) {
+        this.actors = new RealmList<>();
+        this.actors.addAll(actors);
+    }
+
+    /**
      * Write To Parcel
      *      Write the class properties into the Parcel
      * @param dest
@@ -280,5 +299,6 @@ public class Series extends RealmObject implements Parcelable {
         // Special case for Realm
         dest.writeStringList(aliases);
         dest.writeStringList(genre);
+        dest.writeTypedList(actors);
     }
 }
