@@ -11,7 +11,7 @@ import io.realm.Realm;
  * Created by Antoine Renault on 02/01/2018.
  */
 
-public class CommonManager implements RealmDefaultBehavior {
+public class CommonManager<E> implements RealmDefaultBehavior {
 
     /**
      * Get Realm Instance

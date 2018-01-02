@@ -3,6 +3,11 @@ package com.yellowman.tinwork.yourname.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Class Episode
  *
@@ -12,7 +17,7 @@ import android.os.Parcelable;
  *                         Antoine Renault <antoine.renault.mmi@gmail.com>.
  * @link                   https://github.com/Tinwork/YourName
  */
-public class Episode implements Parcelable
+public class Episode extends RealmObject implements Parcelable
 {
 
     /**
@@ -32,6 +37,7 @@ public class Episode implements Parcelable
         }
     };
 
+    @PrimaryKey
     private int id;
     private String episodeName;
     private String firstAired;
@@ -41,9 +47,11 @@ public class Episode implements Parcelable
     private int dvdEpisodeNumber;
     private int airedEpisodeNumber;
     private int airedSeason;
-    private String[] directors;
+    private ArrayList<String> directors;
     private String siteRating;
     private String filename;
+
+    public Episode() {}
 
     /**
      * Episode::Constructor (use by Parcel.Creator<T>)
@@ -59,7 +67,7 @@ public class Episode implements Parcelable
         dvdEpisodeNumber   = parcel.readInt();
         airedEpisodeNumber = parcel.readInt();
         airedSeason        = parcel.readInt();
-        directors          = parcel.createStringArray();
+        directors          = parcel.createStringArrayList();
         siteRating         = parcel.readString();
         filename           = parcel.readString();
     }
@@ -207,7 +215,7 @@ public class Episode implements Parcelable
      *
      * @return
      */
-    public String[] getDirectors() {
+    public ArrayList<String> getDirectors() {
         return directors;
     }
 
@@ -215,7 +223,7 @@ public class Episode implements Parcelable
      *
      * @param directors
      */
-    public void setDirectors(String[] directors) {
+    public void setDirectors(ArrayList<String> directors) {
         this.directors = directors;
     }
 
@@ -267,7 +275,7 @@ public class Episode implements Parcelable
         dest.writeInt(dvdEpisodeNumber);
         dest.writeInt(airedEpisodeNumber);
         dest.writeInt(airedSeason);
-        dest.writeStringArray(directors);
+        dest.writeStringList(directors);
         dest.writeString(siteRating);
         dest.writeString(filename);
     }

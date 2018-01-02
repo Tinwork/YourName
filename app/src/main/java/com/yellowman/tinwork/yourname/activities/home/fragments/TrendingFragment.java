@@ -24,6 +24,7 @@ import com.yellowman.tinwork.yourname.model.Search;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
+import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
 
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +41,7 @@ public class TrendingFragment extends Fragment implements FragmentListener {
     protected final String parcelID = "trending";
     protected View spinner;
     protected int viewResources;
+    private CommonManager realmManager;
     private FragmentCommunication mCommunication;
     private RecyclerView recyclerView;
     private UIErrorManager uiErrorManager;
@@ -92,6 +94,7 @@ public class TrendingFragment extends Fragment implements FragmentListener {
         getResourcesID();
         // set the UIErrorManager
         this.uiErrorManager = new UIErrorManager(getContext());
+        this.realmManager   = new CommonManager();
 
         return trending;
     }
@@ -208,6 +211,9 @@ public class TrendingFragment extends Fragment implements FragmentListener {
                 self.bindRecycleView(response.getData());
                 mCommunication.setParcelable(response, parcelID);
                 ProgressSpinner.setHidden(spinner);
+
+                // Persist the series with realm
+                realmManager.commitMultipleEntities(response.getData());
             }
 
             public void onError(String err) {

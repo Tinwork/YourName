@@ -1,5 +1,7 @@
 package com.yellowman.tinwork.yourname.entity;
 
+import io.realm.RealmObject;
+
 /**
  * Created by Marc Intha-amnouay on 11/12/2017.
  * Created by Didier Youn on 11/12/20177.
@@ -7,7 +9,7 @@ package com.yellowman.tinwork.yourname.entity;
  * Created by Antoine Renault on 11/12/2017.
  */
 
-public class Actor {
+public class Actor extends RealmObject {
     private int id;
     private String name;
     private String role;

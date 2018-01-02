@@ -3,6 +3,15 @@ package com.yellowman.tinwork.yourname.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.yellowman.tinwork.yourname.entity.Episode;
+import com.yellowman.tinwork.yourname.entity.Season;
+
+import java.util.ArrayList;
+
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by Marc Intha-amnouay on 19/11/2017.
  * Created by Didier Youn on 19/11/2017.
@@ -10,7 +19,7 @@ import android.os.Parcelable;
  * Created by Antoine Renault on 19/11/2017.
  */
 
-public class Series implements Parcelable {
+public class Series extends RealmObject implements Parcelable {
 
     /**
      * Creator
@@ -29,15 +38,33 @@ public class Series implements Parcelable {
     };
 
     private String[] aliases;
+
     private String banner;
+
     private String firstAired;
+
+    @PrimaryKey
     private String id;
+
     private String network;
+
     private String overview;
+
     private String seriesName;
+
     private String status;
-    private String[] genre;
+
+    private ArrayList<String> genre;
+
     private String siteRating;
+
+    /**
+     * @OneToMany relationship
+     *
+     * One series have many seasons
+     * A season is only link to one series
+     */
+    private RealmList<Season> seasons;
 
     public Series() {}
 
@@ -54,7 +81,7 @@ public class Series implements Parcelable {
         overview   = parcel.readString();
         seriesName = parcel.readString();
         status     = parcel.readString();
-        genre      = parcel.createStringArray();
+        genre      = parcel.createStringArrayList();
         siteRating = parcel.readString();
     }
 
@@ -190,7 +217,7 @@ public class Series implements Parcelable {
      *
      * @return
      */
-    public String[] getGenre() {
+    public ArrayList<String> getGenre() {
         return genre;
     }
 
@@ -198,7 +225,7 @@ public class Series implements Parcelable {
      *
      * @param genre
      */
-    public void setGenre(String[] genre) {
+    public void setGenre(ArrayList<String> genre) {
         this.genre = genre;
     }
 
@@ -243,7 +270,7 @@ public class Series implements Parcelable {
         dest.writeString(overview);
         dest.writeString(seriesName);
         dest.writeString(status);
-        dest.writeStringArray(genre);
+        dest.writeStringList(genre);
         dest.writeString(siteRating);
     }
 }
