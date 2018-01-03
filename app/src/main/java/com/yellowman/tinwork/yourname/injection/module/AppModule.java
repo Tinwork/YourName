@@ -1,4 +1,4 @@
-package com.yellowman.tinwork.yourname.injection;
+package com.yellowman.tinwork.yourname.injection.module;
 
 import android.app.Application;
 

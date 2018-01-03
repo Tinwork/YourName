@@ -1,4 +1,4 @@
-package com.yellowman.tinwork.yourname.injection;
+package com.yellowman.tinwork.yourname.injection.module;
 
 import android.content.Context;
 
@@ -32,123 +32,124 @@ import dagger.Provides;
 @Module
 public class NetworkModule {
 
+    private Context ctx;
+
+    /**
+     * Network Module::Constructor
+     *
+     * @param ctx
+     */
+    public NetworkModule(Context ctx) {
+        this.ctx = ctx;
+    }
+
     /**
      * Provide Search Series
      *
-     * @param ctx
      * @return
      */
     @Provides @Named("SearchSeries")
     @Singleton
-    Fetch provideSearchSeries(Context ctx) {
+    Fetch provideSearchSeries() {
         return new SearchSeries(ctx);
     }
 
     /**
      * Provide Search Episodes
      *
-     * @param ctx
      * @return
      */
     @Provides @Named("SearchEpisodes")
     @Singleton
-    Fetch provideSearchEpisodes(Context ctx) {
+    Fetch provideSearchEpisodes() {
         return new SearchEpisodes(ctx);
     }
 
     /**
      * Provide Series Episode
      *
-     * @param ctx
      * @return
      */
     @Provides @Named("EpisodeData")
     @Singleton
-    Fetch provideSeriesEpisode(Context ctx) {
+    Fetch provideSeriesEpisode() {
         return new EpisodeData(ctx);
     }
 
     /**
      * Provide Series Episode Summary
      *
-     * @param ctx
      * @return
      */
     @Provides @Named("EpisodeSummary")
     @Singleton
-    Fetch provideSeriesEpisodeSummary(Context ctx) {
+    Fetch provideSeriesEpisodeSummary() {
         return new EpisodeSummary(ctx);
     }
 
     /**
      * Provide Series Filter Series
      *
-     * @param ctx
      * @return
      */
     @Provides @Named("FilterSeries")
     @Singleton
-    Fetch provideSeriesFilterSeries(Context ctx) {
+    Fetch provideSeriesFilterSeries() {
         return new FilterSeries(ctx);
     }
 
     /**
      * Provide Series Get Serie
      *
-     * @param ctx
      * @return
      */
     @Provides @Named("GetSerie")
     @Singleton
-    Fetch provideSeriesGetSeries(Context ctx) {
+    Fetch provideSeriesGetSeries() {
         return new GetSerie(ctx);
     }
 
     /**
      * Provide Series Image Series
      *
-     * @param ctx
      * @return
      */
     @Provides @Named("ImageSeries")
     @Singleton
-    Fetch provideSeriesImageSeries(Context ctx) {
+    Fetch provideSeriesImageSeries() {
         return new ImagesSeries(ctx);
     }
 
     /**
      * Provide Series List Actors
      *
-     * @param ctx
      * @return
      */
     @Provides @Named("ListActors")
     @Singleton
-    Fetch provideSeriesListActors(Context ctx) {
+    Fetch provideSeriesListActors() {
         return new ListActors(ctx);
     }
 
     /**
      * Provide Series List Episodes
      *
-     * @param ctx
      * @return
      */
     @Provides @Named("ListEpisodes")
     @Singleton
-    Fetch provideSeriesListEpisodes(Context ctx) {
+    Fetch provideSeriesListEpisodes() {
         return new ListEpisodes(ctx);
     }
 
     /**
      * Provide Series Single Serie
      *
-     * @param ctx
      * @return
      */
     @Provides @Named("SingleSerie")
     @Singleton
-    Fetch provideSeriesSingleSerie(Context ctx) {
+    Fetch provideSeriesSingleSerie() {
         return new SingleSerie(ctx);
     }
 }

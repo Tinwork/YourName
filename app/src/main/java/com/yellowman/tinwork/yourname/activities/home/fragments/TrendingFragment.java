@@ -1,7 +1,6 @@
 package com.yellowman.tinwork.yourname.activities.home.fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
@@ -20,14 +19,22 @@ import com.yellowman.tinwork.yourname.UIKit.iface.FragmentCommunication;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.UIKit.helpers.Utils;
 import com.yellowman.tinwork.yourname.UIKit.misc.ProgressSpinner;
+import com.yellowman.tinwork.yourname.activities.home.HomeActivity;
+import com.yellowman.tinwork.yourname.application.YourName;
+import com.yellowman.tinwork.yourname.injection.module.CacheModule;
+import com.yellowman.tinwork.yourname.injection.module.NetworkAnalysisModule;
 import com.yellowman.tinwork.yourname.model.Search;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
+import com.yellowman.tinwork.yourname.network.fetch.Fetch;
 import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
 
 import java.util.HashMap;
 import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * Created by Marc Intha-amnouay on 29/11/2017.
@@ -37,6 +44,9 @@ import java.util.List;
  */
 
 public class TrendingFragment extends Fragment implements FragmentListener {
+
+    @Inject @Named("SearchSeries")
+    Fetch searchSeries;
 
     protected final String parcelID = "trending";
     protected View spinner;
@@ -62,6 +72,7 @@ public class TrendingFragment extends Fragment implements FragmentListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((YourName) getActivity().getApplicationContext()).getmNetworkComponent().inject(this);
     }
 
     /**
@@ -200,8 +211,8 @@ public class TrendingFragment extends Fragment implements FragmentListener {
         // Ok i guess this is not a good thing
         TrendingFragment self = this;
 
-        SearchSeries search = new SearchSeries(ctx);
-        search.get(payload, new GsonCallback<Search>() {
+        //SearchSeries search = new SearchSeries(ctx);
+        searchSeries.get(payload, new GsonCallback<Search>() {
             @Override
             public void onSuccess(Search response) {
                 // Create adapter
@@ -227,6 +238,8 @@ public class TrendingFragment extends Fragment implements FragmentListener {
 
     /**
      * Get Resources ID
+     *
+     * @void
      */
     private void getResourcesID() {
         if (Utils.getLinearLayoutOrientation(getActivity()) == LinearLayout.HORIZONTAL) {

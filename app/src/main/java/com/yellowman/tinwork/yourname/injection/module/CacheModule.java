@@ -1,8 +1,6 @@
-package com.yellowman.tinwork.yourname.injection;
+package com.yellowman.tinwork.yourname.injection.module;
 
-import android.content.Context;
-
-import com.yellowman.tinwork.yourname.network.helper.ConnectivityHelper;
+import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
 
 import javax.inject.Singleton;
 
@@ -15,18 +13,20 @@ import dagger.Provides;
  * Created by Abdel-Atif Mabrouck on 03/01/2018.
  * Created by Antoine Renault on 03/01/2018.
  */
+
 @Module
-public class NetworkAnalysisModule {
+public class CacheModule {
 
     /**
-     * Provide Connectivity Helper
+     * Provides Realm
      *
-     * @param ctx
      * @return
      */
     @Provides
     @Singleton
-    ConnectivityHelper provideConnectivityHelper(Context ctx) {
-        return new ConnectivityHelper(ctx);
+    CommonManager providesRealm() {
+        CommonManager realmManager = new CommonManager();
+
+        return realmManager;
     }
 }
