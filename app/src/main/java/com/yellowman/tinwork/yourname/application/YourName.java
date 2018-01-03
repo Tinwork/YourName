@@ -6,7 +6,6 @@ import com.yellowman.tinwork.yourname.injection.component.DaggerNetworkComponent
 import com.yellowman.tinwork.yourname.injection.component.NetworkComponent;
 import com.yellowman.tinwork.yourname.injection.module.NetworkModule;
 
-import dagger.internal.DaggerCollections;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 

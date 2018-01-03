@@ -3,6 +3,7 @@ package com.yellowman.tinwork.yourname.activities.home;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -23,10 +24,12 @@ import com.yellowman.tinwork.yourname.activities.home.fragments.FavoriteFragment
 import com.yellowman.tinwork.yourname.activities.home.fragments.PopularFragment;
 import com.yellowman.tinwork.yourname.activities.home.fragments.TrendingFragment;
 import com.yellowman.tinwork.yourname.activities.login.LoginActivity;
+import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 public class HomeActivity extends AppCompatActivity implements FragmentCommunication {
@@ -34,7 +37,7 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
     protected ArrayList<FragmentListener> listeners;
     protected ToolbarManager toolbarManager;
     private GradientGenerator gd;
-    private HashMap<String, Parcelable> parcelMap;
+    private HashMap<String, List<Series>> parcelMap;
 
 
     /**
@@ -83,7 +86,6 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-       // return toolbarManager.toolbarItemSelectAction(item);
        return true;
     }
 
@@ -92,7 +94,7 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
      * @param parcel
      */
     @Override
-    public void setParcelable(Parcelable parcel, String key) {
+    public void setParcelable(List<Series> parcel, String key) {
         if (parcelMap == null) {
             parcelMap = new HashMap<>();
         }
@@ -110,7 +112,7 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
 
         // restore data
         if (savedInstanceBundle != null) {
-            parcelMap = (HashMap<String, Parcelable>) savedInstanceBundle.getSerializable("HomeFragmentData");
+            parcelMap = (HashMap<String, List<Series>>) savedInstanceBundle.getSerializable("HomeFragmentData");
             fireFragmentEvent(parcelMap);
         } else {
             fireFragmentEvent(null);
@@ -149,20 +151,27 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
         FavoriteFragment faFg = (FavoriteFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_favorite);
 
         // Put the listeners in the ArrayList which will be used later..
-        listeners.add((FragmentListener) trFg);
-        listeners.add((FragmentListener) poFg);
-        listeners.add((FragmentListener) faFg);
+        listeners.add(trFg);
+        listeners.add(poFg);
+        listeners.add(faFg);
     }
 
     /**
      * Fire Fragment Event
      *
      * @param parcels
-     * @TODO should upgrade min version of the App
      */
-    public void fireFragmentEvent(@Nullable HashMap<String, Parcelable> parcels) {
+    @Override
+    public void fireFragmentEvent(HashMap<String, List<Series>> parcels) {
+        int idx = 0;
+        String[] parcelID = {"trending", "popular", "favorite"};
         listeners.forEach(listener -> {
-            listener.notifyData(parcels);
+            if (parcels == null) {
+                listener.notifyData(null);
+            } else {
+                List<Series> data = parcels.get(parcelID[idx]);
+                listener.notifyData(data);
+            }
         });
     }
 
@@ -176,7 +185,7 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
         this.listeners = new ArrayList<>();
 
         // Set the gradient background color to the LinearLayout
-        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
+        LinearLayout mainLayout = findViewById(R.id.mainLayout);
         this.gd = new GradientGenerator(this, null, mainLayout);
         int color = this.gd.buildBackgroundGradientColor();
 
@@ -210,6 +219,4 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
             startActivity(view);
         }
     }
-
-
 }

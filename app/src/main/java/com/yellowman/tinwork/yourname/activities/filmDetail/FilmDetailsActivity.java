@@ -28,8 +28,10 @@ import com.yellowman.tinwork.yourname.utils.Utils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmObject;
 import io.realm.RealmResults;
 import io.realm.internal.IOException;
 
@@ -49,8 +51,6 @@ public class FilmDetailsActivity extends AppCompatActivity {
     protected FragmentListener fe;
     private GradientGenerator gd;
     private UIErrorManager uiErrorManager;
-    private CommonManager realmManager;
-    private int dpi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,14 +75,13 @@ public class FilmDetailsActivity extends AppCompatActivity {
         this.gd = new GradientGenerator(this, findViewById(R.id.film_details_view), null);
         gd.buildBackgroundGradientColor();
         this.uiErrorManager = new UIErrorManager(this);
-        this.realmManager   = new CommonManager();
     }
 
     /**
      * Set ToolBar
      */
     private void setToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.mytoolbar);
+        Toolbar toolbar = findViewById(R.id.mytoolbar);
         toolbar.setTitle("TRENDING");
         setSupportActionBar(toolbar);
     }
@@ -96,21 +95,16 @@ public class FilmDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Series serie = intent.getParcelableExtra("Entity");
 
-
-
         Log.d("Debug", "Series name is "+serie.getSeriesName());
 
         // Call our fragment and notify that data is available
         if (!serie.getId().isEmpty()) {
             // Get actor
-            HashMap<String, Parcelable> data = new HashMap<>();
-            data.put("serie", serie);
+            List<Series> data = new ArrayList<>();
+            data.add(serie);
             fg.notifyData(data);
             fe.notifyData(data);
             getImageForSerie(serie.getId());
-
-            // test retrieving realm object
-            retrieveRealmObject(serie.getId());
         }
     }
 
@@ -147,17 +141,5 @@ public class FilmDetailsActivity extends AppCompatActivity {
                 Glide.with(FilmDetailsActivity.this).load(R.drawable.yourname_bg).into(banner);
             }
         });
-    }
-
-    /**
-     * Retrieve Realm Object
-     *
-     * @param id
-     */
-    private void retrieveRealmObject(String id) {
-        RealmResults<Series> series = realmManager.getEntitiesBySingleCriterion(Series.class, "id", id);
-        ArrayList<String> d = com.yellowman.tinwork.yourname.UIKit.helpers.Utils.getArrayListFromRealm(series.get(0).getGenre());
-        Log.println(Log.INFO, "Series", series.get(0).getSeriesName());
-        Log.println(Log.WARN, "Series from realm", d.toString());
     }
 }

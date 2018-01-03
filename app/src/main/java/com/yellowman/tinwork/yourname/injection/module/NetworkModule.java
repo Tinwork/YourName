@@ -2,6 +2,7 @@ package com.yellowman.tinwork.yourname.injection.module;
 
 import android.content.Context;
 
+import com.yellowman.tinwork.yourname.application.CommonNetwork;
 import com.yellowman.tinwork.yourname.network.api.search.SearchEpisodes;
 import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
 import com.yellowman.tinwork.yourname.network.api.series.EpisodeData;
@@ -13,6 +14,10 @@ import com.yellowman.tinwork.yourname.network.api.series.ListActors;
 import com.yellowman.tinwork.yourname.network.api.series.ListEpisodes;
 import com.yellowman.tinwork.yourname.network.api.series.SingleSerie;
 import com.yellowman.tinwork.yourname.network.fetch.Fetch;
+import com.yellowman.tinwork.yourname.network.helper.ConnectivityHelper;
+import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
+import com.yellowman.tinwork.yourname.realm.manager.SeriesRealmManager;
+import com.yellowman.tinwork.yourname.realm.mixins.RealmDefaultBehavior;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -33,6 +38,7 @@ import dagger.Provides;
 public class NetworkModule {
 
     private Context ctx;
+    private CommonManager realmManager;
 
     /**
      * Network Module::Constructor
@@ -41,6 +47,7 @@ public class NetworkModule {
      */
     public NetworkModule(Context ctx) {
         this.ctx = ctx;
+        this.realmManager = new CommonManager();
     }
 
     /**
@@ -50,8 +57,8 @@ public class NetworkModule {
      */
     @Provides @Named("SearchSeries")
     @Singleton
-    Fetch provideSearchSeries() {
-        return new SearchSeries(ctx);
+    SeriesRealmManager provideSearchSeries() {
+        return new SeriesRealmManager(ctx);
     }
 
     /**
@@ -61,7 +68,7 @@ public class NetworkModule {
      */
     @Provides @Named("SearchEpisodes")
     @Singleton
-    Fetch provideSearchEpisodes() {
+    CommonNetwork provideSearchEpisodes() {
         return new SearchEpisodes(ctx);
     }
 
@@ -72,7 +79,7 @@ public class NetworkModule {
      */
     @Provides @Named("EpisodeData")
     @Singleton
-    Fetch provideSeriesEpisode() {
+    CommonNetwork provideSeriesEpisode() {
         return new EpisodeData(ctx);
     }
 
@@ -83,7 +90,7 @@ public class NetworkModule {
      */
     @Provides @Named("EpisodeSummary")
     @Singleton
-    Fetch provideSeriesEpisodeSummary() {
+    CommonNetwork provideSeriesEpisodeSummary() {
         return new EpisodeSummary(ctx);
     }
 
@@ -94,8 +101,9 @@ public class NetworkModule {
      */
     @Provides @Named("FilterSeries")
     @Singleton
-    Fetch provideSeriesFilterSeries() {
-        return new FilterSeries(ctx);
+    RealmDefaultBehavior provideSeriesFilterSeries() {
+        return realmManager;
+        //return new FilterSeries(ctx);
     }
 
     /**
@@ -105,8 +113,9 @@ public class NetworkModule {
      */
     @Provides @Named("GetSerie")
     @Singleton
-    Fetch provideSeriesGetSeries() {
-        return new GetSerie(ctx);
+    RealmDefaultBehavior provideSeriesGetSeries() {
+        return realmManager;
+        //return new GetSerie(ctx);
     }
 
     /**
@@ -116,7 +125,7 @@ public class NetworkModule {
      */
     @Provides @Named("ImageSeries")
     @Singleton
-    Fetch provideSeriesImageSeries() {
+    CommonNetwork provideSeriesImageSeries() {
         return new ImagesSeries(ctx);
     }
 
@@ -127,8 +136,9 @@ public class NetworkModule {
      */
     @Provides @Named("ListActors")
     @Singleton
-    Fetch provideSeriesListActors() {
-        return new ListActors(ctx);
+    RealmDefaultBehavior provideSeriesListActors() {
+        return realmManager;
+        //return new ListActors(ctx);
     }
 
     /**
@@ -138,7 +148,7 @@ public class NetworkModule {
      */
     @Provides @Named("ListEpisodes")
     @Singleton
-    Fetch provideSeriesListEpisodes() {
+    CommonNetwork provideSeriesListEpisodes() {
         return new ListEpisodes(ctx);
     }
 
@@ -149,7 +159,7 @@ public class NetworkModule {
      */
     @Provides @Named("SingleSerie")
     @Singleton
-    Fetch provideSeriesSingleSerie() {
+    CommonNetwork provideSeriesSingleSerie() {
         return new SingleSerie(ctx);
     }
 }

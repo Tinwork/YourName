@@ -96,12 +96,11 @@ public class FilmContentFragment extends Fragment implements FragmentListener {
      * @param data
      */
     @Override
-    public void notifyData(HashMap<String, Parcelable> data) {
-
+    public void notifyData(List<Series> data) {
         if (data == null) {
             // handle that no actor exist
         } else {
-            this.serie = (Series) data.get(parcelID);
+            this.serie = data.get(0);
             // display the already loaded data
             setFragmentElementData();
             // Get the serie actor

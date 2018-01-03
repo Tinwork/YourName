@@ -14,6 +14,8 @@ import java.util.List;
 
 public class Search implements Parcelable {
 
+    public Search() {}
+
     private List<Series> data;
     public static final Parcelable.Creator<Search> CREATOR = new Parcelable.Creator<Search>() {
 

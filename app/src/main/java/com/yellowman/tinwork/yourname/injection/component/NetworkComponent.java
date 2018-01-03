@@ -1,7 +1,5 @@
 package com.yellowman.tinwork.yourname.injection.component;
 
-import android.app.Activity;
-
 import com.yellowman.tinwork.yourname.activities.episodeDetail.EpisodeDetailActivity;
 import com.yellowman.tinwork.yourname.activities.episodeDetail.fragments.EpisodesListFragment;
 import com.yellowman.tinwork.yourname.activities.filmDetail.FilmDetailsActivity;
@@ -15,7 +13,6 @@ import com.yellowman.tinwork.yourname.activities.login.LoginActivity;
 import com.yellowman.tinwork.yourname.activities.search.SearchResultsActivity;
 import com.yellowman.tinwork.yourname.activities.singleEpisode.SingleEpisodeActivity;
 import com.yellowman.tinwork.yourname.injection.module.AppModule;
-import com.yellowman.tinwork.yourname.injection.module.NetworkAnalysisModule;
 import com.yellowman.tinwork.yourname.injection.module.NetworkModule;
 
 import javax.inject.Singleton;
@@ -30,7 +27,7 @@ import dagger.Component;
  */
 
 @Singleton
-@Component(modules={AppModule.class, NetworkModule.class, NetworkAnalysisModule.class})
+@Component(modules={AppModule.class, NetworkModule.class})
 public interface NetworkComponent {
     // Home activity & Fragments
     void inject(HomeActivity activity);

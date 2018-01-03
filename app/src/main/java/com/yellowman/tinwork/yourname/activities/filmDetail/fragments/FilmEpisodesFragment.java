@@ -80,11 +80,11 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener {
      * @param data
      */
     @Override
-    public void notifyData(HashMap<String, Parcelable> data) {
+    public void notifyData(List<Series> data) {
         if (data == null){
             // should handle something here
         } else {
-            Series serie = (Series) data.get("serie");
+            Series serie = data.get(0);
             this.serie_id = serie.getId();
             getSeasons();
         }
