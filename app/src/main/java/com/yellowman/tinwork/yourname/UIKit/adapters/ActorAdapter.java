@@ -22,14 +22,14 @@ import java.util.List;
 
 public class ActorAdapter extends RecyclerView.Adapter {
 
-    protected final Actor[] actors;
+    protected final List<Actor> actors;
 
     /**
      * Actor Adapter::Constructor
      *
      * @param actors
      */
-    public ActorAdapter(Actor[] actors) {
+    public ActorAdapter(List<Actor> actors) {
         this.actors = actors;
     }
 
@@ -55,7 +55,7 @@ public class ActorAdapter extends RecyclerView.Adapter {
      */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((ActorHolder) holder).bindData(actors[position]);
+        ((ActorHolder) holder).bindData(actors.get(position));
     }
 
     /**
@@ -69,7 +69,7 @@ public class ActorAdapter extends RecyclerView.Adapter {
             return 0;
         }
 
-        return actors.length;
+        return actors.size();
     }
 }
 

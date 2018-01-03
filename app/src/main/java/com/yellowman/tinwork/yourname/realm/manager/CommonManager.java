@@ -46,10 +46,11 @@ public class CommonManager<E> implements RealmDefaultBehavior {
      * Update Series Misc
      *
      * @param serie
+     * @param id
      */
-    public void updateSeriesMisc(Series serie) {
+    public void updateSeriesMisc(Series serie, String id) {
         getRealmInstance().executeTransactionAsync(realm -> {
-            RealmObject realmObj = this.getEntitiesById(Series.class, serie.getId());
+            RealmObject realmObj = this.getEntitiesById(Series.class, id);
 
             if (realmObj == null) {
                 Log.println(Log.WARN, "Realm", "Series cannot be update");
@@ -89,7 +90,7 @@ public class CommonManager<E> implements RealmDefaultBehavior {
             RealmObject realmObj = this.getEntitiesById(Series.class, serie_id);
 
             if (realmObj == null) {
-                Log.println(Log.WARN, "Realm", "Series cannot be update");
+                Log.println(Log.WARN, "Realm", "Series Actors cannot be update");
                 return;
             }
 

@@ -8,6 +8,7 @@ import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.network.fetch.Fetch;
 import com.yellowman.tinwork.yourname.network.fetch.GsonGetManager;
 import com.yellowman.tinwork.yourname.network.fetch.RequestQueueManager;
+import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
 import com.yellowman.tinwork.yourname.utils.Utils;
 
 import java.util.HashMap;
@@ -24,6 +25,7 @@ public class SingleSerie extends Fetch {
     private Context ctx;
     protected GsonGetManager<Series> request;
     protected RequestQueueManager queueManager;
+    protected CommonManager realmManager;
     protected int retry;
 
     /**
@@ -35,6 +37,7 @@ public class SingleSerie extends Fetch {
         this.ctx   = ctx;
         this.retry = 0;
         this.queueManager = RequestQueueManager.getInstance(this.ctx.getApplicationContext());
+        this.realmManager = new CommonManager();
     }
 
     /**
@@ -51,6 +54,7 @@ public class SingleSerie extends Fetch {
 
         String URL = Utils.buildPlaceholderUrl(Routes.PREFIX_SERIES, data, null);
         request = new GsonGetManager<>(URL, Series.class, headers, response -> {
+            realmManager.updateSeriesMisc(response, payload.get("series_id"));
             callback.onSuccess(response);
         }, error -> {
             this.handleVolleyError(error, request, ctx, retry, callback);

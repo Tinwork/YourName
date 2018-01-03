@@ -5,11 +5,13 @@ import android.content.Context;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
+import com.yellowman.tinwork.yourname.network.api.series.SingleSerie;
 import com.yellowman.tinwork.yourname.network.helper.ConnectivityHelper;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import io.realm.Case;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
@@ -55,7 +57,9 @@ public class SeriesRealmManager extends CommonManager  {
         RealmQuery<Series> realmQuery = getRealmInstance().where(Series.class);
 
         for (Map.Entry<String, String> pair: query.entrySet()) {
-            realmQuery.equalTo(pair.getKey(), pair.getValue());
+            if (pair.getKey() == "name") {
+                realmQuery.contains("seriesName", pair.getValue(), Case.INSENSITIVE);
+            }
 
             if (idx < query.size()) {
                 realmQuery.and();
@@ -67,6 +71,11 @@ public class SeriesRealmManager extends CommonManager  {
         RealmResults<Series> res = realmQuery.findAll();
 
         if (res == null) {
+            callback.onError("404, Unavailable to retrieve data");
+            return;
+        }
+
+        if (res.size() == 0) {
             callback.onError("404, Unavailable to retrieve data");
             return;
         }

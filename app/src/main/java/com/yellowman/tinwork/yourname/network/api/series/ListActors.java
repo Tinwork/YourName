@@ -1,6 +1,7 @@
 package com.yellowman.tinwork.yourname.network.api.series;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.yellowman.tinwork.yourname.entity.Actor;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
@@ -8,8 +9,10 @@ import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.network.fetch.Fetch;
 import com.yellowman.tinwork.yourname.network.fetch.GsonGetManager;
 import com.yellowman.tinwork.yourname.network.fetch.RequestQueueManager;
+import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
 import com.yellowman.tinwork.yourname.utils.Utils;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -24,6 +27,7 @@ public class ListActors extends Fetch {
     private final RequestQueueManager queueManager;
     private Context ctx;
     private GsonGetManager<Actor[]> actors;
+    private CommonManager realmManager;
     private int retry;
 
 
@@ -35,6 +39,7 @@ public class ListActors extends Fetch {
     public ListActors(Context context) {
         this.ctx = context;
         this.queueManager = RequestQueueManager.getInstance(this.ctx.getApplicationContext());
+        this.realmManager = new CommonManager();
         this.retry = 0;
     }
 
@@ -46,17 +51,23 @@ public class ListActors extends Fetch {
      */
     @Override
     public void get(HashMap<String, String> payload, final GsonCallback callback) {
-        String token = Utils.getSharedPreference(ctx, "yourname_token");
+        String token   = Utils.getSharedPreference(ctx, "yourname_token");
+        String seriesID = payload.get("series_id");
         // Headers
         HashMap<String, String> headers = Utils.makeHeaders(null, token);
-        // Bind the GET request params
 
-       // buildPlaceholderUrl(AUTHOR, {"ID"}, "actors");
-        String[] foo = {payload.get("series_id")};
+        String[] foo = {seriesID};
         String URL = Utils.buildPlaceholderUrl(Routes.PREFIX_SERIES, foo, "actors");
-
+        Log.d("Debug", "SERIE ID "+seriesID);
         actors = new GsonGetManager<>(URL, Actor[].class, headers, response -> {
-            callback.onSuccess(response);
+            if (response.length == 0) {
+                callback.onError("Actor is empty");
+                return;
+            }
+
+            realmManager.setActors(response);
+            realmManager.updateSeriesActor(seriesID, response);
+            callback.onSuccess(Arrays.asList(response));
         }, error -> {
             this.handleVolleyError(error, actors, ctx, retry, callback);
             retry++;

@@ -15,6 +15,7 @@ import com.yellowman.tinwork.yourname.network.api.series.ListEpisodes;
 import com.yellowman.tinwork.yourname.network.api.series.SingleSerie;
 import com.yellowman.tinwork.yourname.network.fetch.Fetch;
 import com.yellowman.tinwork.yourname.network.helper.ConnectivityHelper;
+import com.yellowman.tinwork.yourname.realm.manager.ActorRealmManager;
 import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
 import com.yellowman.tinwork.yourname.realm.manager.SeriesRealmManager;
 import com.yellowman.tinwork.yourname.realm.mixins.RealmDefaultBehavior;
@@ -59,6 +60,17 @@ public class NetworkModule {
     @Singleton
     SeriesRealmManager provideSearchSeries() {
         return new SeriesRealmManager(ctx);
+    }
+
+    /**
+     * Provide Series List Actors
+     *
+     * @return
+     */
+    @Provides @Named("ListActors")
+    @Singleton
+    ActorRealmManager provideSeriesListActors() {
+        return new ActorRealmManager(ctx);
     }
 
     /**
@@ -127,18 +139,6 @@ public class NetworkModule {
     @Singleton
     CommonNetwork provideSeriesImageSeries() {
         return new ImagesSeries(ctx);
-    }
-
-    /**
-     * Provide Series List Actors
-     *
-     * @return
-     */
-    @Provides @Named("ListActors")
-    @Singleton
-    RealmDefaultBehavior provideSeriesListActors() {
-        return realmManager;
-        //return new ListActors(ctx);
     }
 
     /**
