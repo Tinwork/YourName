@@ -217,7 +217,6 @@ public class TrendingFragment extends Fragment implements FragmentListener, Frag
                         .setErrorStrategy(UIErrorManager.TOAST);
 
                 ProgressSpinner.setHidden(spinner);
-                com.yellowman.tinwork.yourname.utils.Utils.outputRealmFile();
             }
         });
     }
