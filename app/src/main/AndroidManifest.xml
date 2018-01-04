@@ -41,6 +41,10 @@
             android:name=".activities.singleEpisode.SingleEpisodeActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
+            android:name=".activities.search.ActorWebViewActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
             android:name=".activities.search.SearchResultsActivity"
             android:theme="@style/AppTheme.NoActionBar">
 
