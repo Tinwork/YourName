@@ -1,5 +1,6 @@
 package com.yellowman.tinwork.yourname.activities.episodeDetail;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.yellowman.tinwork.yourname.R;
+import com.yellowman.tinwork.yourname.UIKit.iface.FragmentBinder;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.UIKit.misc.GradientGenerator;
 import com.yellowman.tinwork.yourname.entity.Episode;
@@ -24,7 +26,7 @@ import java.util.List;
 
 public class EpisodeDetailActivity extends AppCompatActivity {
 
-    protected FragmentListener listener;
+    protected FragmentBinder listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +36,7 @@ public class EpisodeDetailActivity extends AppCompatActivity {
         gd.buildBackgroundGradientColor();
 
         // Set the listener
-        this.listener = (FragmentListener) getSupportFragmentManager().findFragmentById(R.id.fragment_episodes_season_detail);
+        this.listener = (FragmentBinder) getSupportFragmentManager().findFragmentById(R.id.fragment_episodes_season_detail);
         notifyFragment();
     }
 

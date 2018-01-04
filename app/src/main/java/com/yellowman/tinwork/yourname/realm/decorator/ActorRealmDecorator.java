@@ -1,4 +1,4 @@
-package com.yellowman.tinwork.yourname.realm.manager;
+package com.yellowman.tinwork.yourname.realm.decorator;
 
 import android.content.Context;
 
@@ -7,6 +7,7 @@ import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.series.ListActors;
 import com.yellowman.tinwork.yourname.network.helper.ConnectivityHelper;
+import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +21,7 @@ import io.realm.RealmResults;
  * Created by Antoine Renault on 03/01/2018.
  */
 
-public class ActorRealmManager extends CommonManager {
+public class ActorRealmDecorator extends CommonManager {
 
     private Context ctx;
     private ConnectivityHelper conHelper;
@@ -30,7 +31,7 @@ public class ActorRealmManager extends CommonManager {
      *
      * @param ctx
      */
-    public ActorRealmManager(Context ctx) {
+    public ActorRealmDecorator(Context ctx) {
         this.ctx = ctx;
         this.conHelper = new ConnectivityHelper(ctx);
     }

@@ -1,12 +1,12 @@
-package com.yellowman.tinwork.yourname.realm.manager;
+package com.yellowman.tinwork.yourname.realm.decorator;
 
 import android.content.Context;
 
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
-import com.yellowman.tinwork.yourname.network.api.series.SingleSerie;
 import com.yellowman.tinwork.yourname.network.helper.ConnectivityHelper;
+import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +22,7 @@ import io.realm.RealmResults;
  * Created by Antoine Renault on 03/01/2018.
  */
 
-public class SeriesRealmManager extends CommonManager  {
+public class SeriesRealmDecorator extends CommonManager {
 
     private Context ctx;
     private ConnectivityHelper conHelper;
@@ -32,7 +32,7 @@ public class SeriesRealmManager extends CommonManager  {
      *
      * @param ctx
      */
-    public SeriesRealmManager(Context ctx) {
+    public SeriesRealmDecorator(Context ctx) {
         this.ctx = ctx;
         this.conHelper = new ConnectivityHelper(ctx);
     }

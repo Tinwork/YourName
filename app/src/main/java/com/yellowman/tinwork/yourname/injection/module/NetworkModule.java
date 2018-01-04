@@ -2,23 +2,17 @@ package com.yellowman.tinwork.yourname.injection.module;
 
 import android.content.Context;
 
-import com.yellowman.tinwork.yourname.application.CommonNetwork;
 import com.yellowman.tinwork.yourname.network.api.search.SearchEpisodes;
-import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
 import com.yellowman.tinwork.yourname.network.api.series.EpisodeData;
 import com.yellowman.tinwork.yourname.network.api.series.EpisodeSummary;
 import com.yellowman.tinwork.yourname.network.api.series.FilterSeries;
-import com.yellowman.tinwork.yourname.network.api.series.GetSerie;
 import com.yellowman.tinwork.yourname.network.api.series.ImagesSeries;
-import com.yellowman.tinwork.yourname.network.api.series.ListActors;
 import com.yellowman.tinwork.yourname.network.api.series.ListEpisodes;
 import com.yellowman.tinwork.yourname.network.api.series.SingleSerie;
 import com.yellowman.tinwork.yourname.network.fetch.Fetch;
-import com.yellowman.tinwork.yourname.network.helper.ConnectivityHelper;
-import com.yellowman.tinwork.yourname.realm.manager.ActorRealmManager;
+import com.yellowman.tinwork.yourname.realm.decorator.ActorRealmDecorator;
 import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
-import com.yellowman.tinwork.yourname.realm.manager.SeriesRealmManager;
-import com.yellowman.tinwork.yourname.realm.mixins.RealmDefaultBehavior;
+import com.yellowman.tinwork.yourname.realm.decorator.SeriesRealmDecorator;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -58,8 +52,8 @@ public class NetworkModule {
      */
     @Provides @Named("SearchSeries")
     @Singleton
-    SeriesRealmManager provideSearchSeries() {
-        return new SeriesRealmManager(ctx);
+    SeriesRealmDecorator provideSearchSeries() {
+        return new SeriesRealmDecorator(ctx);
     }
 
     /**
@@ -69,8 +63,8 @@ public class NetworkModule {
      */
     @Provides @Named("ListActors")
     @Singleton
-    ActorRealmManager provideSeriesListActors() {
-        return new ActorRealmManager(ctx);
+    ActorRealmDecorator provideSeriesListActors() {
+        return new ActorRealmDecorator(ctx);
     }
 
     /**
@@ -80,7 +74,7 @@ public class NetworkModule {
      */
     @Provides @Named("SearchEpisodes")
     @Singleton
-    CommonNetwork provideSearchEpisodes() {
+    Fetch provideSearchEpisodes() {
         return new SearchEpisodes(ctx);
     }
 
@@ -91,7 +85,7 @@ public class NetworkModule {
      */
     @Provides @Named("EpisodeData")
     @Singleton
-    CommonNetwork provideSeriesEpisode() {
+    Fetch provideSeriesEpisode() {
         return new EpisodeData(ctx);
     }
 
@@ -102,7 +96,7 @@ public class NetworkModule {
      */
     @Provides @Named("EpisodeSummary")
     @Singleton
-    CommonNetwork provideSeriesEpisodeSummary() {
+    Fetch provideSeriesEpisodeSummary() {
         return new EpisodeSummary(ctx);
     }
 
@@ -113,21 +107,8 @@ public class NetworkModule {
      */
     @Provides @Named("FilterSeries")
     @Singleton
-    RealmDefaultBehavior provideSeriesFilterSeries() {
-        return realmManager;
-        //return new FilterSeries(ctx);
-    }
-
-    /**
-     * Provide Series Get Serie
-     *
-     * @return
-     */
-    @Provides @Named("GetSerie")
-    @Singleton
-    RealmDefaultBehavior provideSeriesGetSeries() {
-        return realmManager;
-        //return new GetSerie(ctx);
+    Fetch provideSeriesFilterSeries() {
+        return new FilterSeries(ctx);
     }
 
     /**
@@ -137,7 +118,7 @@ public class NetworkModule {
      */
     @Provides @Named("ImageSeries")
     @Singleton
-    CommonNetwork provideSeriesImageSeries() {
+    Fetch provideSeriesImageSeries() {
         return new ImagesSeries(ctx);
     }
 
@@ -148,7 +129,7 @@ public class NetworkModule {
      */
     @Provides @Named("ListEpisodes")
     @Singleton
-    CommonNetwork provideSeriesListEpisodes() {
+    Fetch provideSeriesListEpisodes() {
         return new ListEpisodes(ctx);
     }
 
@@ -159,7 +140,7 @@ public class NetworkModule {
      */
     @Provides @Named("SingleSerie")
     @Singleton
-    CommonNetwork provideSeriesSingleSerie() {
+    Fetch provideSeriesSingleSerie() {
         return new SingleSerie(ctx);
     }
 }

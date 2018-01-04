@@ -1,11 +1,9 @@
 package com.yellowman.tinwork.yourname.network.fetch;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
-import com.yellowman.tinwork.yourname.application.CommonNetwork;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.helper.VolleyErrorHelper;
 import com.yellowman.tinwork.yourname.network.helper.VolleyRetry;
@@ -19,7 +17,7 @@ import java.util.HashMap;
  * Created by Antoine Renault on 25/11/2017.
  */
 
-public abstract class Fetch implements CommonNetwork {
+public abstract class Fetch {
 
     /**
      * Handle Volley Error

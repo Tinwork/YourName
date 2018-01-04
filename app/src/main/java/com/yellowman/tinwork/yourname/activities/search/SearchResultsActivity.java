@@ -13,10 +13,12 @@ import com.yellowman.tinwork.yourname.UIKit.adapters.SearchAdapter;
 import com.yellowman.tinwork.yourname.UIKit.errors.UIErrorManager;
 import com.yellowman.tinwork.yourname.UIKit.misc.GradientGenerator;
 import com.yellowman.tinwork.yourname.model.Search;
+import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Marc Intha-amnouay on 30/12/2017.
@@ -89,11 +91,11 @@ public class SearchResultsActivity extends AppCompatActivity {
         payload.put("name", criteria);
 
         SearchSeries request = new SearchSeries(this);
-        request.get(payload, new GsonCallback<Search>() {
+        request.get(payload, new GsonCallback<List<Series>>() {
 
             @Override
-            public void onSuccess(Search response) {
-                SearchAdapter adapter = new SearchAdapter(response.getData());
+            public void onSuccess(List<Series> response) {
+                SearchAdapter adapter = new SearchAdapter(response);
                 recyclerView.setAdapter(adapter);
                 spinner.setVisibility(View.GONE);
             }

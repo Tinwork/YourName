@@ -2,7 +2,6 @@ package com.yellowman.tinwork.yourname.activities.home.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,16 +14,15 @@ import android.widget.LinearLayout;
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.adapters.CardSeriesAdapter;
 import com.yellowman.tinwork.yourname.UIKit.errors.UIErrorManager;
+import com.yellowman.tinwork.yourname.UIKit.iface.FragmentBinder;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentCommunication;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.UIKit.helpers.Utils;
 import com.yellowman.tinwork.yourname.UIKit.misc.ProgressSpinner;
 import com.yellowman.tinwork.yourname.application.YourName;
-import com.yellowman.tinwork.yourname.model.Search;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
-import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
-import com.yellowman.tinwork.yourname.realm.manager.SeriesRealmManager;
+import com.yellowman.tinwork.yourname.realm.decorator.SeriesRealmDecorator;
 
 import java.util.HashMap;
 import java.util.List;
@@ -39,11 +37,11 @@ import javax.inject.Named;
  * Created by Antoine Renault on 29/11/2017.
  */
 
-public class TrendingFragment extends Fragment implements FragmentListener {
+public class TrendingFragment extends Fragment implements FragmentListener, FragmentBinder {
 
     @Inject
     @Named("SearchSeries")
-    SeriesRealmManager searchSeries;
+    SeriesRealmDecorator searchSeries;
 
     protected final String parcelID = "trending";
     protected View spinner;

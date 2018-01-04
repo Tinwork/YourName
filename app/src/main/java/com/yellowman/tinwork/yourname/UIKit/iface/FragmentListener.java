@@ -24,9 +24,4 @@ public interface FragmentListener {
      * @param parcels
      */
     void notifyData(List<Series> parcels);
-
-    /**
-     * Bind Recycle View
-     */
-    void bindRecycleView(List<?> data);
 }

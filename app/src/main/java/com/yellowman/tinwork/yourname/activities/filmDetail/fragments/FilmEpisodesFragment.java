@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.adapters.SeasonsAdapter;
 import com.yellowman.tinwork.yourname.UIKit.errors.UIErrorManager;
+import com.yellowman.tinwork.yourname.UIKit.iface.FragmentBinder;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.entity.Episode;
 import com.yellowman.tinwork.yourname.entity.EpisodeMisc;
@@ -34,7 +35,7 @@ import java.util.List;
  * Created by Antoine Renault on 27/12/2017.
  */
 
-public class FilmEpisodesFragment extends Fragment implements FragmentListener {
+public class FilmEpisodesFragment extends Fragment implements FragmentListener, FragmentBinder {
 
     private RecyclerView recyclerView;
     private List<Episode[]> episodesList = new ArrayList<>();
