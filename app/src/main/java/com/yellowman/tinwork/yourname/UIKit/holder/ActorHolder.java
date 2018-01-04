@@ -8,6 +8,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.yellowman.tinwork.yourname.R;
+import com.yellowman.tinwork.yourname.UIKit.helpers.Helper;
+import com.yellowman.tinwork.yourname.activities.search.ActorWebViewActivity;
 import com.yellowman.tinwork.yourname.entity.Actor;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.utils.Utils;
@@ -20,20 +22,22 @@ import com.yellowman.tinwork.yourname.utils.Utils;
  * Created by Abdel-Atif Mabrouck on 24/12/2017.
  * Created by Antoine Renault on 24/12/2017.
  */
-
 public class ActorHolder extends RecyclerView.ViewHolder {
 
     private ImageView actorImg;
     private TextView actorTxt;
     protected final View view;
+    private Helper redirect;
 
     /**
      * Actor Holder::Constructor
-     * @param viewItem
+     * @param viewItem View
      */
     public ActorHolder(final View viewItem) {
         super(viewItem);
         this.view = viewItem;
+        this.redirect = new Helper();
+
         prepareElements();
     }
 
@@ -49,7 +53,7 @@ public class ActorHolder extends RecyclerView.ViewHolder {
     /**
      * Bind Data
      *
-     * @param actor
+     * @param actor Actor
      * @void
      */
     public void bindData(final Actor actor) {
@@ -60,5 +64,8 @@ public class ActorHolder extends RecyclerView.ViewHolder {
         }
 
         actorTxt.setText(actor.getName());
+        view.setOnClickListener(event -> {
+            redirect.launchNewViewWithModel(actor, view.getContext(), ActorWebViewActivity.class);
+        });
     }
 }
