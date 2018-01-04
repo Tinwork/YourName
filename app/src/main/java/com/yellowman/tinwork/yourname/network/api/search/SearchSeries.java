@@ -1,17 +1,19 @@
 package com.yellowman.tinwork.yourname.network.api.search;
 
 import android.content.Context;
-import android.util.Log;
 
-import com.yellowman.tinwork.yourname.model.Search;
+import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.network.fetch.Fetch;
 import com.yellowman.tinwork.yourname.network.fetch.GsonGetManager;
 import com.yellowman.tinwork.yourname.network.fetch.RequestQueueManager;
+import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
 import com.yellowman.tinwork.yourname.utils.Utils;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Marc Intha-amnouay on 19/11/2017.
@@ -23,8 +25,9 @@ import java.util.HashMap;
 public class SearchSeries extends Fetch {
 
     private final RequestQueueManager queueManager;
+    private CommonManager realmManager;
     private Context ctx;
-    private GsonGetManager<Search> series;
+    private GsonGetManager<Series[]> series;
     private int retry;
 
 
@@ -36,6 +39,7 @@ public class SearchSeries extends Fetch {
     public SearchSeries(Context context) {
         this.ctx = context;
         this.queueManager = RequestQueueManager.getInstance(this.ctx.getApplicationContext());
+        this.realmManager = new CommonManager();
         this.retry = 0;
     }
 
@@ -47,19 +51,34 @@ public class SearchSeries extends Fetch {
      */
     @Override
     public void get(HashMap<String, String> payload, final GsonCallback callback) {
+        Boolean notSave = payload.containsKey("notsave");
         String token = Utils.getSharedPreference(ctx, "yourname_token");
         // Headers
         HashMap<String, String> headers = Utils.makeHeaders(null, token);
         // Bind the GET request params
-        String URL = Utils.buildGetUrl(Routes.SEARCH_SERIES, payload);
-        Log.d("Debug", URL);
+        if (notSave) {
+            payload.remove("notsave");
+        }
 
-        series = new GsonGetManager<>(URL, Search.class, headers, response -> {
-            callback.onSuccess(response);
+        String URL = Utils.buildGetUrl(Routes.SEARCH_SERIES, payload);
+
+        series = new GsonGetManager<>(URL, Series[].class, headers, response -> {
+            if (response.length == 0) {
+                return;
+            }
+
+            List<Series> seriesList = Arrays.asList(response);
+
+            if (!notSave) {
+                realmManager.commitMultipleEntities(seriesList);
+                realmManager.closeRealm();
+            }
+
+            callback.onSuccess(seriesList);
         }, error -> {
             this.handleVolleyError(error, series, ctx, retry, callback);
             retry++;
-        }, false);
+        }, true);
 
         queueManager.addToRequestQueue(series);
     }

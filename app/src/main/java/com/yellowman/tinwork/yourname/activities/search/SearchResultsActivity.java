@@ -12,20 +12,31 @@ import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.adapters.SearchAdapter;
 import com.yellowman.tinwork.yourname.UIKit.errors.UIErrorManager;
 import com.yellowman.tinwork.yourname.UIKit.misc.GradientGenerator;
+import com.yellowman.tinwork.yourname.application.YourName;
 import com.yellowman.tinwork.yourname.model.Search;
+import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
+import com.yellowman.tinwork.yourname.network.fetch.Fetch;
 
 import java.util.HashMap;
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * Created by Marc Intha-amnouay on 30/12/2017.
- * Created by Didier Youn on 30/12/2017.
+ * Created by Didier Youn on 30/12/2017.s
  * Created by Abdel-Atif Mabrouck on 30/12/2017.
  * Created by Antoine Renault on 30/12/2017.
  */
 
 public class SearchResultsActivity extends AppCompatActivity {
+
+    @Inject
+    @Named("FetchSearchSeries")
+    Fetch searchSeries;
 
     private RecyclerView recyclerView;
     private UIErrorManager uiErrorManager;
@@ -40,6 +51,8 @@ public class SearchResultsActivity extends AppCompatActivity {
     public void onCreate(Bundle savedBundleInstance) {
         super.onCreate(savedBundleInstance);
         setContentView(R.layout.search_result_activity);
+        // Inject NetworkPresenter
+        ((YourName) getApplicationContext()).getmNetworkComponent().inject(this);
         // gradient
         GradientGenerator gd = new GradientGenerator(this, findViewById(R.id.result_activity_layout), null);
         gd.buildBackgroundGradientColor();
@@ -87,13 +100,12 @@ public class SearchResultsActivity extends AppCompatActivity {
     private void makeRequest(String criteria) {
         HashMap<String, String> payload = new HashMap<>();
         payload.put("name", criteria);
+        payload.put("notsave", null);
 
-        SearchSeries request = new SearchSeries(this);
-        request.get(payload, new GsonCallback<Search>() {
-
+        searchSeries.get(payload, new GsonCallback<List<Series>>() {
             @Override
-            public void onSuccess(Search response) {
-                SearchAdapter adapter = new SearchAdapter(response.getData());
+            public void onSuccess(List<Series> response) {
+                SearchAdapter adapter = new SearchAdapter(response);
                 recyclerView.setAdapter(adapter);
                 spinner.setVisibility(View.GONE);
             }

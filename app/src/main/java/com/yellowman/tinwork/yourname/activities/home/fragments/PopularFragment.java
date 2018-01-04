@@ -2,11 +2,9 @@ package com.yellowman.tinwork.yourname.activities.home.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,18 +13,20 @@ import android.widget.LinearLayout;
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.adapters.CardSeriesAdapter;
 import com.yellowman.tinwork.yourname.UIKit.errors.UIErrorManager;
+import com.yellowman.tinwork.yourname.UIKit.iface.FragmentBinder;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentCommunication;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
-import com.yellowman.tinwork.yourname.UIKit.helpers.Utils;
 import com.yellowman.tinwork.yourname.UIKit.misc.ProgressSpinner;
-import com.yellowman.tinwork.yourname.model.Search;
+import com.yellowman.tinwork.yourname.application.YourName;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
-import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
-import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
+import com.yellowman.tinwork.yourname.realm.decorator.SeriesRealmDecorator;
 
 import java.util.HashMap;
 import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * Created by Marc Intha-amnouay on 16/12/2017.
@@ -35,14 +35,17 @@ import java.util.List;
  * Created by Antoine Renault on 16/12/2017.
  */
 
-public class PopularFragment extends Fragment implements FragmentListener {
+public class PopularFragment extends Fragment implements FragmentListener, FragmentBinder {
+
+    @Inject
+    @Named("SearchSeries")
+    SeriesRealmDecorator searchSeries;
 
     protected final String parcelID = "popular";
     protected RecyclerView recyclerView;
     protected View spinner;
     private FragmentCommunication mLink;
     private UIErrorManager uiErrorManager;
-    private CommonManager realmManager;
 
     /**
      * On Create
@@ -50,7 +53,10 @@ public class PopularFragment extends Fragment implements FragmentListener {
      * @param savedInstanceState
      */
     @Override
-    public void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); }
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ((YourName) getActivity().getApplicationContext()).getmNetworkComponent().inject(this);
+    }
 
     /**
      * On Create View
@@ -73,27 +79,12 @@ public class PopularFragment extends Fragment implements FragmentListener {
         ));
 
         recyclerView.setHasFixedSize(true);
-
         // Set the spinner here
-        spinner = (View) popular.findViewById(R.id.popular_spinner);
-
+        spinner = popular.findViewById(R.id.popular_spinner);
         // UIErrorManager
         this.uiErrorManager = new UIErrorManager(getContext());
 
-        // set the CommonManager
-        this.realmManager   = new CommonManager();
-
         return popular;
-    }
-
-    /**
-     * On Activity Created
-     *
-     * @param savedInstanceState
-     */
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
     }
 
     /**
@@ -126,17 +117,15 @@ public class PopularFragment extends Fragment implements FragmentListener {
     /**
      * Notify Data
      *
-     * @param parcels
+     * @param parcel
      */
     @Override
-    public void notifyData(HashMap<String, Parcelable> parcels) {
+    public void notifyData(List<Series> parcel) {
         // dumb test
-        if (parcels == null) {
-            getPopularSeries(getActivity());
-        } else if (parcels.get(parcelID) == null) {
-            getPopularSeries(getActivity());
+        if (parcel == null) {
+            getPopularSeries();
         } else {
-            restoreData((Search) parcels.get(parcelID));
+            restoreData(parcel);
         }
     }
 
@@ -160,9 +149,8 @@ public class PopularFragment extends Fragment implements FragmentListener {
     /**
      * Get Popular Series
      *
-     * @param ctx
      */
-    private void getPopularSeries(Context ctx) {
+    private void getPopularSeries() {
         ProgressSpinner.setVisible(spinner);
         HashMap<String, String> payload = new HashMap<>();
         payload.put("name","your name");
@@ -170,22 +158,18 @@ public class PopularFragment extends Fragment implements FragmentListener {
         // get the reference of our class so we can use in our callback..
         PopularFragment self = this;
 
-        SearchSeries querySeries = new SearchSeries(ctx);
-        querySeries.get(payload, new GsonCallback<Search>() {
+        searchSeries.get(payload, new GsonCallback<List<Series>>() {
             @Override
-            public void onSuccess(Search response) {
-                if (response.getData() == null) {
+            public void onSuccess(List<Series> response) {
+                if (response == null) {
                     return;
                 }
 
-                self.bindRecycleView(response.getData());
+                self.bindRecycleView(response);
                 // Set the parcelable here
                 mLink.setParcelable(response, parcelID);
                 // Hide the spinner here
                 ProgressSpinner.setHidden(spinner);
-                // persist the data
-                realmManager.commitMultipleEntities(response.getData());
-                realmManager.closeRealm();
             }
 
             @Override
@@ -202,5 +186,5 @@ public class PopularFragment extends Fragment implements FragmentListener {
      *
      * @param payload
      */
-    private void restoreData(Search payload) {  bindRecycleView(payload.getData());  }
+    private void restoreData(List<Series> payload) {  bindRecycleView(payload);  }
 }

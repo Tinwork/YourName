@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.adapters.EpisodeAdapter;
+import com.yellowman.tinwork.yourname.UIKit.iface.FragmentBinder;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.entity.Episode;
 
@@ -24,7 +25,7 @@ import java.util.List;
  * Created by Antoine Renault on 29/12/2017.
  */
 
-public class EpisodesListFragment extends Fragment implements FragmentListener {
+public class EpisodesListFragment extends Fragment implements FragmentBinder {
 
     private RecyclerView recyclerView;
 
@@ -55,15 +56,6 @@ public class EpisodesListFragment extends Fragment implements FragmentListener {
 
         return episodesList;
     }
-
-    /**
-     * Notify Data
-     *      Not used in this case
-     *
-     * @param parcels
-     */
-    @Override
-    public void notifyData(HashMap<String, Parcelable> parcels) {}
 
     /**
      * Bind Recycler View

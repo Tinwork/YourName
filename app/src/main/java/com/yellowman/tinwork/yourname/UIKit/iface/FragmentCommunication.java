@@ -4,7 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
+import com.yellowman.tinwork.yourname.model.Series;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Marc Intha-amnouay on 14/12/2017.
@@ -22,13 +26,13 @@ public interface FragmentCommunication {
      * @param parcel
      * @param key
      */
-    void setParcelable(Parcelable parcel, String key);
+    void setParcelable(List<Series> parcel, String key);
 
     /**
      * Fire Fragment Event
      *      Fire an event to the listener of the Holder
      */
-    void fireFragmentEvent(@Nullable HashMap<String, Parcelable> parcels);
+    void fireFragmentEvent(HashMap<String, List<Series>> parcels);
 
     /**
      * Init Fragment Listeners

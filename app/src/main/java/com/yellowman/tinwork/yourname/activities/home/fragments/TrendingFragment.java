@@ -1,9 +1,7 @@
 package com.yellowman.tinwork.yourname.activities.home.fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,18 +14,21 @@ import android.widget.LinearLayout;
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.adapters.CardSeriesAdapter;
 import com.yellowman.tinwork.yourname.UIKit.errors.UIErrorManager;
+import com.yellowman.tinwork.yourname.UIKit.iface.FragmentBinder;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentCommunication;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.UIKit.helpers.Utils;
 import com.yellowman.tinwork.yourname.UIKit.misc.ProgressSpinner;
-import com.yellowman.tinwork.yourname.model.Search;
+import com.yellowman.tinwork.yourname.application.YourName;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
-import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
-import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
+import com.yellowman.tinwork.yourname.realm.decorator.SeriesRealmDecorator;
 
 import java.util.HashMap;
 import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * Created by Marc Intha-amnouay on 29/11/2017.
@@ -36,12 +37,15 @@ import java.util.List;
  * Created by Antoine Renault on 29/11/2017.
  */
 
-public class TrendingFragment extends Fragment implements FragmentListener {
+public class TrendingFragment extends Fragment implements FragmentListener, FragmentBinder {
+
+    @Inject
+    @Named("SearchSeries")
+    SeriesRealmDecorator searchSeries;
 
     protected final String parcelID = "trending";
     protected View spinner;
     protected int viewResources;
-    private CommonManager realmManager;
     private FragmentCommunication mCommunication;
     private RecyclerView recyclerView;
     private UIErrorManager uiErrorManager;
@@ -62,6 +66,7 @@ public class TrendingFragment extends Fragment implements FragmentListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((YourName) getActivity().getApplicationContext()).getmNetworkComponent().inject(this);
     }
 
     /**
@@ -94,7 +99,6 @@ public class TrendingFragment extends Fragment implements FragmentListener {
         getResourcesID();
         // set the UIErrorManager
         this.uiErrorManager = new UIErrorManager(getContext());
-        this.realmManager   = new CommonManager();
 
         return trending;
     }
@@ -144,14 +148,11 @@ public class TrendingFragment extends Fragment implements FragmentListener {
      * @param parcels
      */
     @Override
-    public void notifyData(HashMap<String, Parcelable> parcels) {
+    public void notifyData(List<Series> parcels) {
         if (parcels == null) {
-            getSeries(getActivity());
-        } else if (parcels.get(parcelID) == null) {
-            getSeries(getActivity());
+            getSeries();
         } else {
-            Search data = (Search) parcels.get(parcelID);
-            restoreData(data);
+            restoreData(parcels);
         }
     }
 
@@ -177,12 +178,12 @@ public class TrendingFragment extends Fragment implements FragmentListener {
      *
      * @param payload
      */
-    public void restoreData(Search payload) {
+    public void restoreData(List<Series> payload) {
         if (payload == null) {
-            getSeries(getActivity());
+            getSeries();
         } else {
             Log.d("Debug", "Restoring series");
-            bindRecycleView(payload.getData());
+            bindRecycleView(payload);
             ProgressSpinner.setHidden(spinner);
         }
     }
@@ -190,43 +191,41 @@ public class TrendingFragment extends Fragment implements FragmentListener {
     /**
      * Get Series
      *
-     * @param ctx
      */
-    private void getSeries(Context ctx) {
+    private void getSeries() {
         ProgressSpinner.setVisible(spinner);
         HashMap<String, String> payload = new HashMap<>();
         payload.put("name", "star wars");
 
         // Ok i guess this is not a good thing
         TrendingFragment self = this;
-
-        SearchSeries search = new SearchSeries(ctx);
-        search.get(payload, new GsonCallback<Search>() {
+        searchSeries.get(payload, new GsonCallback<List<Series>>() {
             @Override
-            public void onSuccess(Search response) {
-                // Create adapter
-                if (response.getData() == null)
+            public void onSuccess(List<Series> response) {
+                if (response == null) {
                     return;
+                }
 
-                self.bindRecycleView(response.getData());
+                self.bindRecycleView(response);
                 mCommunication.setParcelable(response, parcelID);
                 ProgressSpinner.setHidden(spinner);
-
-                // Persist the series with realm
-                realmManager.commitMultipleEntities(response.getData());
-                realmManager.closeRealm();
             }
 
             public void onError(String err) {
                 uiErrorManager
                         .setError("", err)
                         .setErrorStrategy(UIErrorManager.TOAST);
+
+                ProgressSpinner.setHidden(spinner);
+                com.yellowman.tinwork.yourname.utils.Utils.outputRealmFile();
             }
         });
     }
 
     /**
      * Get Resources ID
+     *
+     * @void
      */
     private void getResourcesID() {
         if (Utils.getLinearLayoutOrientation(getActivity()) == LinearLayout.HORIZONTAL) {

@@ -1,7 +1,6 @@
 package com.yellowman.tinwork.yourname.activities.filmDetail.fragments;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,17 +15,21 @@ import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.adapters.ActorAdapter;
 import com.yellowman.tinwork.yourname.UIKit.errors.UIErrorManager;
 import com.yellowman.tinwork.yourname.UIKit.helpers.Utils;
+import com.yellowman.tinwork.yourname.UIKit.iface.FragmentBinder;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
+import com.yellowman.tinwork.yourname.application.YourName;
 import com.yellowman.tinwork.yourname.entity.Actor;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
-import com.yellowman.tinwork.yourname.network.api.series.ListActors;
 import com.yellowman.tinwork.yourname.network.api.series.SingleSerie;
-import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
+import com.yellowman.tinwork.yourname.network.fetch.Fetch;
+import com.yellowman.tinwork.yourname.realm.decorator.ActorRealmDecorator;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * MERRY CHRISTMAS !!!!! ✨ L~~~~~~~~~MM~~~~~~~~~L ✨
@@ -37,11 +40,18 @@ import java.util.List;
  * Created by Antoine Renault on 24/12/2017.
  */
 
-public class FilmContentFragment extends Fragment implements FragmentListener {
+public class FilmContentFragment extends Fragment implements FragmentListener, FragmentBinder {
+
+    @Inject
+    @Named("ListActors")
+    ActorRealmDecorator listActors;
+
+    @Inject
+    @Named("SingleSerie")
+    Fetch singleSerie;
 
     // protected fields
     protected RecyclerView recyclerView;
-    protected final String parcelID = "serie";
     protected View view;
 
     // private fields
@@ -55,12 +65,17 @@ public class FilmContentFragment extends Fragment implements FragmentListener {
     private TextView filmDate;
     private TextView synopsis;
     private TextView siteRating;
-    private CommonManager realmManager;
 
     /**
      * Film Content Fragment::Constructor
      */
     public FilmContentFragment() {}
+
+    @Override
+    public void onCreate(Bundle savedInstanceBundle) {
+        super.onCreate(savedInstanceBundle);
+        ((YourName) getActivity().getApplicationContext()).getmNetworkComponent().inject(this);
+    }
 
     /**
      * On Create View
@@ -84,8 +99,6 @@ public class FilmContentFragment extends Fragment implements FragmentListener {
         recyclerView.setHasFixedSize(true);
         // Init the other component
         initFragmentElement();
-        // set the common manager
-        this.realmManager = new CommonManager();
 
         return view;
     }
@@ -96,12 +109,11 @@ public class FilmContentFragment extends Fragment implements FragmentListener {
      * @param data
      */
     @Override
-    public void notifyData(HashMap<String, Parcelable> data) {
-
+    public void notifyData(List<Series> data) {
         if (data == null) {
             // handle that no actor exist
         } else {
-            this.serie = (Series) data.get(parcelID);
+            this.serie = data.get(0);
             // display the already loaded data
             setFragmentElementData();
             // Get the serie actor
@@ -125,19 +137,12 @@ public class FilmContentFragment extends Fragment implements FragmentListener {
      * @param serieID
      */
     private void getSeriesActorById(String serieID) {
-        HashMap<String, String> params = new HashMap<>();
-        params.put("series_id", serieID);
-
-        ListActors actors = new ListActors(this.getContext());
-        actors.get(params, new GsonCallback<Actor[]>() {
+        listActors.get(serieID, new GsonCallback<List<Actor>>() {
             @Override
-            public void onSuccess(Actor[] response) {
+            public void onSuccess(List<Actor> response) {
                 // Create our adapter
                 ActorAdapter adapter = new ActorAdapter(response);
                 recyclerView.setAdapter(adapter);
-                // set realm data
-                realmManager.setActors(response);
-                realmManager.updateSeriesActor(serieID, response);
             }
 
             public void onError(String err) {
@@ -158,19 +163,14 @@ public class FilmContentFragment extends Fragment implements FragmentListener {
         data.put("series_id", serie_id);
 
         // Call our service
-        SingleSerie serieServices = new SingleSerie(getContext());
-        serieServices.get(data, new GsonCallback<Series>() {
-
+        singleSerie.get(data, new GsonCallback<Series>() {
             @Override
             public void onSuccess(Series response) {
                 // Aggregate the datas
-
                 serie.setGenre(Utils.getArrayListFromRealm(response.getGenre()));
                 serie.setSiteRating(response.getSiteRating());
                 // update the related textview
                 setUpdateElementData();
-                // set data
-                realmManager.updateSeriesMisc(serie);
             }
 
             @Override

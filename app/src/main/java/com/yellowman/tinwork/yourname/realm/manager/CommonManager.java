@@ -14,6 +14,7 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmObject;
 
+
 /**
  * Created by Marc Intha-amnouay on 02/01/2018.
  * Created by Didier Youn on 02/01/2018.
@@ -21,7 +22,7 @@ import io.realm.RealmObject;
  * Created by Antoine Renault on 02/01/2018.
  */
 
-public class CommonManager implements RealmDefaultBehavior {
+public class CommonManager<E> implements RealmDefaultBehavior {
 
     /**
      * Get Realm Instance
@@ -37,10 +38,11 @@ public class CommonManager implements RealmDefaultBehavior {
      * Update Series Misc
      *
      * @param serie
+     * @param id
      */
-    public void updateSeriesMisc(Series serie) {
+    public void updateSeriesMisc(Series serie, String id) {
         getRealmInstance().executeTransactionAsync(realm -> {
-            RealmObject realmObj = this.getEntitiesById(Series.class, serie.getId());
+            RealmObject realmObj = this.getEntitiesById(Series.class, id);
 
             if (realmObj == null) {
                 Log.println(Log.WARN, "Realm", "Series cannot be update");
@@ -80,7 +82,7 @@ public class CommonManager implements RealmDefaultBehavior {
             RealmObject realmObj = this.getEntitiesById(Series.class, serie_id);
 
             if (realmObj == null) {
-                Log.println(Log.WARN, "Realm", "Series cannot be update");
+                Log.println(Log.WARN, "Realm", "Series Actors cannot be update");
                 return;
             }
 

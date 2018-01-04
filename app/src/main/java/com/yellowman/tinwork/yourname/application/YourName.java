@@ -2,6 +2,10 @@ package com.yellowman.tinwork.yourname.application;
 
 import android.app.Application;
 
+import com.yellowman.tinwork.yourname.injection.component.DaggerNetworkComponent;
+import com.yellowman.tinwork.yourname.injection.component.NetworkComponent;
+import com.yellowman.tinwork.yourname.injection.module.NetworkModule;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -13,6 +17,8 @@ import io.realm.RealmConfiguration;
  */
 
 public class YourName extends Application {
+
+    private NetworkComponent mNetworkComponent;
 
     /**
      * On Create
@@ -26,5 +32,18 @@ public class YourName extends Application {
                 .name("yourname.db")
                 .build();
         Realm.setDefaultConfiguration(config);
+
+        mNetworkComponent = DaggerNetworkComponent.builder()
+                .networkModule(new NetworkModule(getApplicationContext()))
+                .build();
+    }
+
+    /**
+     * Get mNetwork Component
+     *
+     * @return
+     */
+    public NetworkComponent getmNetworkComponent() {
+        return mNetworkComponent;
     }
 }

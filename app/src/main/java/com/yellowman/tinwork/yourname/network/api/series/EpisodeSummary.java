@@ -1,6 +1,7 @@
 package com.yellowman.tinwork.yourname.network.api.series;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.yellowman.tinwork.yourname.entity.EpisodeMisc;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;

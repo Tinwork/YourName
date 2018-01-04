@@ -4,6 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
+import com.yellowman.tinwork.yourname.model.Series;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,10 +23,5 @@ public interface FragmentListener {
      * /!\ Need review though...
      * @param parcels
      */
-    void notifyData(HashMap<String, Parcelable> parcels);
-
-    /**
-     * Bind Recycle View
-     */
-    void bindRecycleView(List<?> data);
+    void notifyData(List<Series> parcels);
 }

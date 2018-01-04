@@ -2,11 +2,9 @@ package com.yellowman.tinwork.yourname.activities.home.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,18 +13,20 @@ import android.widget.LinearLayout;
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.adapters.CardSeriesAdapter;
 import com.yellowman.tinwork.yourname.UIKit.errors.UIErrorManager;
-import com.yellowman.tinwork.yourname.UIKit.helpers.Utils;
+import com.yellowman.tinwork.yourname.UIKit.iface.FragmentBinder;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentCommunication;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.UIKit.misc.ProgressSpinner;
-import com.yellowman.tinwork.yourname.model.Search;
+import com.yellowman.tinwork.yourname.application.YourName;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
-import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
-import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
+import com.yellowman.tinwork.yourname.realm.decorator.SeriesRealmDecorator;
 
 import java.util.HashMap;
 import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * Created by Marc Intha-amnouay on 16/12/2017.
@@ -35,14 +35,17 @@ import java.util.List;
  * Created by Antoine Renault on 16/12/2017.
  */
 
-public class FavoriteFragment extends Fragment implements FragmentListener {
+public class FavoriteFragment extends Fragment implements FragmentListener, FragmentBinder {
+
+    @Inject
+    @Named("SearchSeries")
+    SeriesRealmDecorator searchSeries;
 
     protected RecyclerView recyclerView;
     protected View spinner;
     protected FragmentCommunication mLink;
     private final String parcelID = "favorite";
     private UIErrorManager uiErrorManager;
-    private CommonManager realmManager;
 
 
     /**
@@ -50,6 +53,18 @@ public class FavoriteFragment extends Fragment implements FragmentListener {
      * A default constructor is always need when creating a fragment
      */
     public FavoriteFragment() {}
+
+    /**
+     * On Create
+     *
+     * @param savedInstanceBundle
+     */
+    @Override
+    public void onCreate(Bundle savedInstanceBundle) {
+        super.onCreate(savedInstanceBundle);
+        // Inject dependencies
+        ((YourName) getActivity().getApplicationContext()).getmNetworkComponent().inject(this);
+    }
 
     /**
      * On Create View
@@ -73,14 +88,10 @@ public class FavoriteFragment extends Fragment implements FragmentListener {
 
         // Improve performance
         recyclerView.setHasFixedSize(true);
-
         // Spinner
         spinner = favorite.findViewById(R.id.favorite_spinner);
-
         // UIErrorMananager
         this.uiErrorManager = new UIErrorManager(getContext());
-        // init the realm manager
-        this.realmManager   = new CommonManager();
 
         return favorite;
     }
@@ -101,13 +112,11 @@ public class FavoriteFragment extends Fragment implements FragmentListener {
      * @param parcel
      */
     @Override
-    public void notifyData(HashMap<String, Parcelable> parcel) {
+    public void notifyData(List<Series> parcel) {
         if (parcel == null) {
             getFavoriteSeries();
-        } else if (parcel.get(parcelID) == null) {
-            getFavoriteSeries();
         } else {
-            restoreData((Search) parcel.get(parcelID));
+            restoreData(parcel);
         }
     }
 
@@ -155,22 +164,16 @@ public class FavoriteFragment extends Fragment implements FragmentListener {
         HashMap<String, String> payload = new HashMap<>();
         payload.put("name", "lollipop");
 
-        SearchSeries searchQuery = new SearchSeries(getActivity());
-        searchQuery.get(payload, new GsonCallback<Search>() {
+        searchSeries.get(payload, new GsonCallback<List<Series>>() {
             @Override
-            public void onSuccess(Search response) {
-                Log.d("Debug", "Response length "+response.getData().size());
+            public void onSuccess(List<Series> response) {
                 if (response == null) {
                     return;
                 }
 
-                self.bindRecycleView(response.getData());
+                self.bindRecycleView(response);
                 mLink.setParcelable(response, parcelID);
                 ProgressSpinner.setHidden(spinner);
-
-                // Persist the data
-                realmManager.commitMultipleEntities(response.getData());
-                realmManager.closeRealm();
             }
 
             @Override
@@ -184,5 +187,5 @@ public class FavoriteFragment extends Fragment implements FragmentListener {
      *
      * @param payload
      */
-    private void restoreData(Search payload) { bindRecycleView(payload.getData()); }
+    private void restoreData(List<Series> payload) { bindRecycleView(payload); }
 }
