@@ -3,6 +3,7 @@ package com.yellowman.tinwork.yourname.injection.module;
 import android.content.Context;
 
 import com.yellowman.tinwork.yourname.network.api.search.SearchEpisodes;
+import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
 import com.yellowman.tinwork.yourname.network.api.series.EpisodeData;
 import com.yellowman.tinwork.yourname.network.api.series.EpisodeSummary;
 import com.yellowman.tinwork.yourname.network.api.series.FilterSeries;
@@ -143,4 +144,13 @@ public class NetworkModule {
     Fetch provideSeriesSingleSerie() {
         return new SingleSerie(ctx);
     }
+
+    /**
+     * Provide Fetch Search Series
+     *
+     * @return
+     */
+    @Provides @Named("FetchSearchSeries")
+    @Singleton
+    Fetch provideFetchSearchSeries() { return new SearchSeries(ctx); }
 }

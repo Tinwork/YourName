@@ -51,10 +51,15 @@ public class SearchSeries extends Fetch {
      */
     @Override
     public void get(HashMap<String, String> payload, final GsonCallback callback) {
+        Boolean notSave = payload.containsKey("notsave");
         String token = Utils.getSharedPreference(ctx, "yourname_token");
         // Headers
         HashMap<String, String> headers = Utils.makeHeaders(null, token);
         // Bind the GET request params
+        if (notSave) {
+            payload.remove("notsave");
+        }
+
         String URL = Utils.buildGetUrl(Routes.SEARCH_SERIES, payload);
 
         series = new GsonGetManager<>(URL, Series[].class, headers, response -> {
@@ -63,8 +68,12 @@ public class SearchSeries extends Fetch {
             }
 
             List<Series> seriesList = Arrays.asList(response);
-            realmManager.commitMultipleEntities(seriesList);
-            realmManager.closeRealm();
+
+            if (!notSave) {
+                realmManager.commitMultipleEntities(seriesList);
+                realmManager.closeRealm();
+            }
+
             callback.onSuccess(seriesList);
         }, error -> {
             this.handleVolleyError(error, series, ctx, retry, callback);

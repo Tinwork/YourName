@@ -141,13 +141,11 @@ public class FilmContentFragment extends Fragment implements FragmentListener, F
             @Override
             public void onSuccess(List<Actor> response) {
                 // Create our adapter
-                Log.d("Debug", "UPDATE ACTORS");
                 ActorAdapter adapter = new ActorAdapter(response);
                 recyclerView.setAdapter(adapter);
             }
 
             public void onError(String err) {
-                Log.d("Debug", "ACTORS DID NOT UPDATE");
                 uiErrorManager
                         .setError("", err)
                         .setErrorStrategy(UIErrorManager.SNACKBAR);

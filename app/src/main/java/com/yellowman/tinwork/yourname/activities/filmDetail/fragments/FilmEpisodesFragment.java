@@ -16,17 +16,22 @@ import com.yellowman.tinwork.yourname.UIKit.adapters.SeasonsAdapter;
 import com.yellowman.tinwork.yourname.UIKit.errors.UIErrorManager;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentBinder;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
+import com.yellowman.tinwork.yourname.application.YourName;
 import com.yellowman.tinwork.yourname.entity.Episode;
 import com.yellowman.tinwork.yourname.entity.EpisodeMisc;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.series.EpisodeSummary;
 import com.yellowman.tinwork.yourname.network.api.series.ListEpisodes;
+import com.yellowman.tinwork.yourname.network.fetch.Fetch;
 import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * Created by Marc Intha-amnouay on 27/12/2017.
@@ -36,6 +41,14 @@ import java.util.List;
  */
 
 public class FilmEpisodesFragment extends Fragment implements FragmentListener, FragmentBinder {
+
+    @Inject
+    @Named("EpisodeSummary")
+    Fetch episodeSummary;
+
+    @Inject
+    @Named("ListEpisodes")
+    Fetch listEpisodes;
 
     private RecyclerView recyclerView;
     private List<Episode[]> episodesList = new ArrayList<>();
@@ -48,6 +61,17 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener, 
      * Film Episodes Fragment::Constructor
      */
     public void FilmEpisodesFragment() {}
+
+    /**
+     * On Create
+     *
+     * @param savedInstanceBundle
+     */
+    @Override
+    public void onCreate(Bundle savedInstanceBundle) {
+        super.onCreate(savedInstanceBundle);
+        ((YourName) getActivity().getApplicationContext()).getmNetworkComponent().inject(this);
+    }
 
     /**
      * On Create View
@@ -106,9 +130,7 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener, 
         HashMap<String, String> data = new HashMap<>();
         data.put("series_id", serie_id);
 
-        EpisodeSummary summary = new EpisodeSummary(getContext());
-        summary.get(data, new GsonCallback<EpisodeMisc>() {
-
+        episodeSummary.get(data, new GsonCallback<EpisodeMisc>() {
             @Override
             public void onSuccess(EpisodeMisc response) {
                 notifySeasonsLoaded(response);
@@ -136,8 +158,7 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener, 
         data.put("series_id", serie_id);
         data.put("season", seasons[idx]);
 
-        ListEpisodes episodes = new ListEpisodes(ctx);
-        episodes.get(data, new GsonCallback<Episode[]>() {
+        listEpisodes.get(data, new GsonCallback<Episode[]>() {
 
             @Override
             public void onSuccess(Episode[] response) {
