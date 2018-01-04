@@ -1,6 +1,7 @@
 package com.yellowman.tinwork.yourname.network.api.update;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.yellowman.tinwork.yourname.entity.Update;
 import com.yellowman.tinwork.yourname.model.Series;
@@ -18,6 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
+ * As someone said 'I always feel good !'. Then I should either do the same
+ * Night thinking.
+ *
  * Created by Marc Intha-amnouay on 04/01/2018.
  * Created by Didier Youn on 04/01/2018.
  * Created by Abdel-Atif Mabrouck on 04/01/2018.
@@ -39,7 +43,7 @@ public class LastUpdate extends Fetch {
     /**
      * Last Update
      *
-     * @param ctx
+     * @param ctx Context
      */
     public LastUpdate(Context ctx) {
         this.ctx   = ctx;
@@ -51,11 +55,12 @@ public class LastUpdate extends Fetch {
     /**
      * Get
      *
-     * @param payload
-     * @param callback
+     * @param payload Empty Hashmap !
+     * @param callback GsonCallback use by main thread
      */
     @Override
     public void get(HashMap<String, String> payload, GsonCallback callback) {
+        payload.put("fromTime", String.valueOf(Utils.getYesterdayTimestamp()));
         // Set the callback
         this.UICallback = callback;
         // Get the token
@@ -78,6 +83,8 @@ public class LastUpdate extends Fetch {
             this.handleVolleyError(error, lastUpdated, ctx, retry, callback);
             retry++;
         }, true);
+
+        requestQueueManager.addToRequestQueue(lastUpdated);
     }
 
     /**
@@ -88,19 +95,22 @@ public class LastUpdate extends Fetch {
      * Each request is add when the previous one is fullfill.
      * We want to avoid multiple return of success or error
      *
-     * @param updates
-     * @param idx
+     * @param updates List<Update> Contains Update Entities
+     * @param idx index
      */
     private void getSeriesFromListSeries(List<Update> updates, int idx) {
         final int ivx = idx + 1;
         HashMap<String, String> payload = new HashMap<>();
         payload.put("series_id", updates.get(idx).getId());
+        // just dummy data for a flag system
+        payload.put("full", null);
 
         SingleSerie series = new SingleSerie(ctx);
-        series.get(payload, new GsonCallback() {
+        series.get(payload, new GsonCallback<Series>() {
             @Override
-            public void onSuccess(Object response) {
+            public void onSuccess(Series response) {
                 if (idx < ITEM_SIZE && idx < updates.size()) {
+                    seriesList.add(response);
                     getSeriesFromListSeries(updates, ivx);
                 } else {
                     UICallback.onSuccess(seriesList);
@@ -110,6 +120,7 @@ public class LastUpdate extends Fetch {
 
             @Override
             public void onError(String err) {
+                Log.d("LOL", err);
                 if (seriesList.size() != 0) {
                     UICallback.onSuccess(seriesList);
                 } else {
@@ -125,7 +136,7 @@ public class LastUpdate extends Fetch {
     /**
      * Populate Series
      *
-     * @param updates
+     * @param updates List of Update entities
      */
     private void populateSeries(List<Update> updates) {
         this.loadLastEpisodes = new Thread(new Runnable() {
@@ -134,5 +145,7 @@ public class LastUpdate extends Fetch {
                 getSeriesFromListSeries(updates, 0);
             }
         });
+
+        loadLastEpisodes.start();
     }
 }

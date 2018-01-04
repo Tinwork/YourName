@@ -31,7 +31,7 @@ public class SingleSerie extends Fetch {
     /**
      * Single Serie::Constructor
      *
-     * @param ctx
+     * @param ctx Context
      */
     public SingleSerie(Context ctx) {
         this.ctx   = ctx;
@@ -43,18 +43,29 @@ public class SingleSerie extends Fetch {
     /**
      * Get
      *
-     * @param payload
-     * @param callback
+     * @param payload Hashmap
+     * @param callback GsonCallback
      */
     public void get(HashMap<String, String> payload, GsonCallback callback) {
         String[] data = {payload.get("series_id")};
+        // Flag....
+        Boolean fullGet  = payload.containsKey("full");
         String token = Utils.getSharedPreference(ctx, "yourname_token");
         // Headers
         HashMap<String, String> headers = Utils.makeHeaders(null, token);
 
+        if (fullGet) {
+            payload.remove("full");
+        }
+
         String URL = Utils.buildPlaceholderUrl(Routes.PREFIX_SERIES, data, null);
         request = new GsonGetManager<>(URL, Series.class, headers, response -> {
-            realmManager.updateSeriesMisc(response, payload.get("series_id"));
+            if (!fullGet) {
+                realmManager.updateSeriesMisc(response, payload.get("series_id"));
+            } else {
+                realmManager.commitCreatedEntity(response);
+            }
+
             callback.onSuccess(response);
         }, error -> {
             this.handleVolleyError(error, request, ctx, retry, callback);

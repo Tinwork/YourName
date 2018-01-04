@@ -61,7 +61,7 @@ public class TrendingFragment extends Fragment implements FragmentListener, Frag
     /**
      * On Create
      *
-     * @param savedInstanceState
+     * @param savedInstanceState Bundle
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,10 +73,10 @@ public class TrendingFragment extends Fragment implements FragmentListener, Frag
      * On Create View
      *      Inflate the Fragment
      *
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
+     * @param inflater LayoutInflater
+     * @param container ViewGroup
+     * @param savedInstanceState Bundle
+     * @return View
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -107,7 +107,7 @@ public class TrendingFragment extends Fragment implements FragmentListener, Frag
      * On Activity Created
      *      Pass the adapter to bind the component
      *
-     * @param savedInstanceState
+     * @param savedInstanceState Bundle
      */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) { super.onActivityCreated(savedInstanceState); }
@@ -115,8 +115,7 @@ public class TrendingFragment extends Fragment implements FragmentListener, Frag
     /**
      * On Attach
      *
-     * @param context
-     * @public
+     * @param context Context
      */
     @Override
     public void onAttach(Context context) {
@@ -135,7 +134,6 @@ public class TrendingFragment extends Fragment implements FragmentListener, Frag
     /**
      * On Detach
      *
-     * @public
      */
     @Override
     public void onDetach() {
@@ -145,7 +143,7 @@ public class TrendingFragment extends Fragment implements FragmentListener, Frag
     /**
      * Notify Data
      *
-     * @param parcels
+     * @param parcels List<Series>
      */
     @Override
     public void notifyData(List<Series> parcels) {
@@ -159,7 +157,7 @@ public class TrendingFragment extends Fragment implements FragmentListener, Frag
     /**
      * Bind Recycler View
      *
-     * @param data
+     * @param data List of unknown type can be Series
      */
     @Override
     public void bindRecycleView(List<?> data) {
@@ -176,7 +174,7 @@ public class TrendingFragment extends Fragment implements FragmentListener, Frag
     /**
      * Restore Data
      *
-     * @param payload
+     * @param payload List of Series
      */
     public void restoreData(List<Series> payload) {
         if (payload == null) {
@@ -195,11 +193,10 @@ public class TrendingFragment extends Fragment implements FragmentListener, Frag
     private void getSeries() {
         ProgressSpinner.setVisible(spinner);
         HashMap<String, String> payload = new HashMap<>();
-        payload.put("name", "star wars");
 
         // Ok i guess this is not a good thing
         TrendingFragment self = this;
-        searchSeries.get(payload, new GsonCallback<List<Series>>() {
+        searchSeries.getLatestUpdateSeries(payload, new GsonCallback<List<Series>>() {
             @Override
             public void onSuccess(List<Series> response) {
                 if (response == null) {
@@ -224,7 +221,6 @@ public class TrendingFragment extends Fragment implements FragmentListener, Frag
     /**
      * Get Resources ID
      *
-     * @void
      */
     private void getResourcesID() {
         if (Utils.getLinearLayoutOrientation(getActivity()) == LinearLayout.HORIZONTAL) {

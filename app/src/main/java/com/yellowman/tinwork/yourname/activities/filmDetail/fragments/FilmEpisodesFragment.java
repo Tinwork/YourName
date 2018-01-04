@@ -55,7 +55,8 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener, 
     private int idx = 0;
     private UIErrorManager uiErrorManager;
     private String serie_id;
-    private Context ctx;
+    private Thread thread;
+
 
     /**
      * Film Episodes Fragment::Constructor
@@ -65,7 +66,7 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener, 
     /**
      * On Create
      *
-     * @param savedInstanceBundle
+     * @param savedInstanceBundle bundle
      */
     @Override
     public void onCreate(Bundle savedInstanceBundle) {
@@ -76,9 +77,9 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener, 
     /**
      * On Create View
      *
-     * @param inflater
-     * @param container
-     * @param savedInstanceBundle
+     * @param inflater Layout Inflater
+     * @param container ViewContainer
+     * @param savedInstanceBundle Bundle
      * @return
      */
     @Override
@@ -94,7 +95,6 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener, 
         recyclerView.setHasFixedSize(true);
         // get the UIErrorManager
         this.uiErrorManager = new UIErrorManager(getContext());
-        this.ctx = getContext();
 
         return episodes;
     }
@@ -102,7 +102,7 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener, 
     /**
      * Notify Data
      *
-     * @param data
+     * @param data List<Series>
      */
     @Override
     public void notifyData(List<Series> data) {
@@ -118,7 +118,7 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener, 
     /**
      * Bind Recycler View
      *
-     * @param data
+     * @param data List of any type
      */
     public void bindRecycleView(List<?> data) {}
 
@@ -146,7 +146,7 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener, 
     /**
      * Load All Episodes By Seasons
      *
-     * @param seasons
+     * @param seasons Array of seasons
      */
     public void loadAllEpisodesBySeasons(String[] seasons) {
         if (seasons.length == idx) {
@@ -169,18 +169,20 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener, 
                     notifySeasonsReady();
                 } else {
                     loadAllEpisodesBySeasons(seasons);
+                    thread.interrupt();
                 }
             }
 
             @Override
             public void onError(String err) {
-
                 if (err.contains("404")) {
                     // Fail silently --> we assumed that no more seasons existed
                     notifySeasonsReady();
                 } else {
                      uiErrorManager.setError("", err).setErrorStrategy(UIErrorManager.TOAST);
                 }
+
+                thread.interrupt();
             }
         });
     }
@@ -191,15 +193,15 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener, 
      *      Thread that get the episodes by seasons
      *      /!\ Can take a long time ! though we may have use the AsyncTask but as the method is already asynchronious..
      *
-     * @param seasons
+     * @param seasons Array of seasons
      * @return
      */
-    public Thread handleMulSeasons(String[] seasons) {
-        Thread thread = new Thread(() -> {
+    public void handleMulSeasons(String[] seasons) {
+        this.thread = new Thread(() -> {
             loadAllEpisodesBySeasons(seasons);
         });
 
-        return thread;
+        thread.start();
     }
 
     /**
@@ -218,9 +220,9 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener, 
     /**
      * Notify Seasons Loaded
      *
-     * @param misc
+     * @param misc EpisodeMisc Entity
      */
     private void notifySeasonsLoaded(EpisodeMisc misc) {
-        handleMulSeasons(misc.getAiredSeasons()).start();
+        handleMulSeasons(misc.getAiredSeasons());
     }
 }
