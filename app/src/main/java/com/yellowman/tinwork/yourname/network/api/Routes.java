@@ -38,6 +38,10 @@ public class Routes {
     // Route that not need params
     public static final String USER = PREFIX+"/user";
 
+    // IMDB Base URL
+    public static final String IMDB_BASE_URL = "http://www.imdb.com/";
+    public static final String IMDB_URI_SEARCH = "find?s=nm&q=";
+
     public static String getEpisode(String id) {
         return SEARCH_EPISODES+id;
     }
