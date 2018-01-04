@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.yellowman.tinwork.yourname.networkTest.NetworkActivity">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -75,24 +76,12 @@
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="8dp" />
         <Button
-            android:id="@+id/getEpisodes"
+            android:id="@+id/putFavoritesFromSeries"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Test episodes URL /episodes/{id}"
+            android:text="Add favorites from series"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="8dp" />
-
-        <Button
-            android:id="@+id/filterSeries"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Filter series URL /series/{id}/filter"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="8dp" />
-
-
-
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
