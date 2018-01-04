@@ -43,6 +43,7 @@ public class Series extends RealmObject implements Parcelable {
     private RealmList<String> aliases;
     private String banner;
     private String firstAired;
+    private int    lastUpdated;
     private String network;
     private String overview;
     private String seriesName;
@@ -67,6 +68,7 @@ public class Series extends RealmObject implements Parcelable {
         seriesName = parcel.readString();
         status     = parcel.readString();
         siteRating = parcel.readString();
+        lastUpdated= parcel.readInt();
         aliases    = new RealmList<>();
         genre      = new RealmList<>();
         actors     = new RealmList<>();
@@ -280,6 +282,24 @@ public class Series extends RealmObject implements Parcelable {
     }
 
     /**
+     * Get Last Updated
+     *
+     * @return
+     */
+    public int getLastUpdated() {
+        return lastUpdated;
+    }
+
+    /**
+     * Set Last Updated
+     *
+     * @param lastUpdated
+     */
+    public void setLastUpdated(int lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+
+    /**
      * Write To Parcel
      *      Write the class properties into the Parcel
      * @param dest
@@ -295,6 +315,7 @@ public class Series extends RealmObject implements Parcelable {
         dest.writeString(seriesName);
         dest.writeString(status);
         dest.writeString(siteRating);
+        dest.writeInt(lastUpdated);
 
         // Special case for Realm
         dest.writeStringList(aliases);
