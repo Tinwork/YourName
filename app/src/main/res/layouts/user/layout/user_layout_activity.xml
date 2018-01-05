@@ -26,9 +26,12 @@
                 android:id="@+id/badge"
                 android:layout_centerHorizontal="true" />
 
+
             <android.support.v7.widget.Toolbar
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:layout_collapseMode="pin"
+                app:layout_anchorGravity="bottom">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -43,31 +46,33 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:fillViewport="true"
         android:id="@+id/nestScrollView">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/containerUser">
+            android:id="@+id/containerUser"
+            android:orientation="vertical">
 
             <!-- Put fragment here -->
             <fragment
                 class="com.yellowman.tinwork.yourname.activities.home.fragments.FavoriteFragment"
                 android:id="@+id/user_frag"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:scrollbars="none" />
 
             <Button
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:text="@string/disconnect"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:backgroundTint="@color/deepRed"
                 android:layout_below="@+id/user_frag"/>
 
-        </RelativeLayout>
+        </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

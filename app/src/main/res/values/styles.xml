@@ -54,7 +54,7 @@
 
     <style name="CardViewFavoriteHoziontal" parent="@style/CardViewHome">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">150dp</item>
+        <item name="android:layout_height">90dp</item>
     </style>
 
     <!-- Card View Favorite -->
@@ -85,7 +85,7 @@
         <item name="android:layout_height">160dp</item>
     </style>
 
-    <style name="CardImgFavoriteHor">
+    <style name="CardImgFavoriteHor" parent="@style/CardImgGeneric">
         <item name="android:layout_width">100dp</item>
         <item name="android:layout_height">match_parent</item>
     </style>

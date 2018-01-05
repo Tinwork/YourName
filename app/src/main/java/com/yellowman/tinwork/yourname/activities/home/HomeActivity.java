@@ -44,7 +44,7 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
 
     /**
      *
-     * @param savedInstanceState
+     * @param savedInstanceState bundle
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +58,9 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
 
     /**
      * On Create Options Menu
-     * @param menu
-     * @return
+     * @param menu Menu
+     *
+     * @return Boolean
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -78,8 +79,8 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
 
     /**
      * On Options Item Selected
-     * @param item
-     * @return
+     * @param item an item
+     * @return Boolean
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -88,8 +89,10 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
     }
 
     /**
+     * Set Parcelable
      *
-     * @param parcel
+     * @param parcel List<Series> (used to be a parcel)
+     * @param key identifier
      */
     @Override
     public void setParcelable(List<Series> parcel, String key) {
@@ -101,8 +104,9 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
     }
 
     /**
+     * On Restore Instance State
      *
-     * @param savedInstanceBundle
+     * @param savedInstanceBundle bundle
      */
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceBundle) {
@@ -118,8 +122,9 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
     }
 
     /**
+     * On Save Instance State
      *
-     * @param savedInstancedBundle
+     * @param savedInstancedBundle bundle
      */
     @Override
     protected void onSaveInstanceState(Bundle savedInstancedBundle) {
@@ -158,7 +163,7 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
     /**
      * Fire Fragment Event
      *
-     * @param parcels
+     * @param parcels Hashmap
      */
     @Override
     public void fireFragmentEvent(HashMap<String, List<Series>> parcels) {

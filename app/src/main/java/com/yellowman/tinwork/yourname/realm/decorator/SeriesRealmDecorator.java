@@ -1,6 +1,7 @@
 package com.yellowman.tinwork.yourname.realm.decorator;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
@@ -107,7 +108,7 @@ public class SeriesRealmDecorator extends CommonManager {
         RealmResults<Series> realmSeries = this.sortEntitiesByCriterion(
                 Series.class,
                 "lastUpdated",
-                Sort.ASCENDING,
+                Sort.DESCENDING,
                 AppUtils.getYesterdayTimestamp()
         );
 

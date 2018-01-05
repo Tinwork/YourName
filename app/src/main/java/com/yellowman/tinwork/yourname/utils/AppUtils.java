@@ -233,7 +233,7 @@ public class AppUtils {
      */
     public static int getYesterdayTimestamp() {
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, -1);
+        cal.add(Calendar.DATE, -2);
 
         int timestamp = (int) (cal.getTimeInMillis() / 1000);
 
