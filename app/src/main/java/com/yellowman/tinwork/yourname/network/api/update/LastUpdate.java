@@ -35,7 +35,7 @@ public class LastUpdate extends Fetch {
     private RequestQueueManager requestQueueManager;
     private GsonGetManager<Update[]> lastUpdated;
     private int retry;
-    private List<Series> seriesList;
+    private List<Series> queue;
 
     protected int ITEM_SIZE = 10;
     protected Thread loadLastEpisodes;
@@ -48,7 +48,7 @@ public class LastUpdate extends Fetch {
     public LastUpdate(Context ctx) {
         this.ctx   = ctx;
         this.retry = 0;
-        this.seriesList = new ArrayList<>();
+        this.queue = new ArrayList<>();
         this.requestQueueManager = RequestQueueManager.getInstance(ctx);
     }
 
@@ -88,20 +88,15 @@ public class LastUpdate extends Fetch {
     }
 
     /**
+     *
      * Get Series From List Series
      *
-     * /!\ Caution this is a recursive Loop which does async request
-     * which has been transformed into a Sync request method
-     * Each request is add when the previous one is fullfill.
-     * We want to avoid multiple return of success or error
-     *
-     * @param updates List<Update> Contains Update Entities
-     * @param idx index
+     * Did's idea for the queue system thanks ! better than recursive the datas
+     * @param update Update entity
      */
-    private void getSeriesFromListSeries(List<Update> updates, int idx) {
-        final int ivx = idx + 1;
+    private void getSeriesFromListSeries(Update update) {
         HashMap<String, String> payload = new HashMap<>();
-        payload.put("series_id", updates.get(idx).getId());
+        payload.put("series_id", update.getId());
         // just dummy data for a flag system
         payload.put("full", null);
 
@@ -109,25 +104,20 @@ public class LastUpdate extends Fetch {
         series.get(payload, new GsonCallback<Series>() {
             @Override
             public void onSuccess(Series response) {
-                if (idx < ITEM_SIZE && idx < updates.size()) {
-                    seriesList.add(response);
-                    getSeriesFromListSeries(updates, ivx);
+                if (queue.size() < ITEM_SIZE) {
+                    queue.add(response);
                 } else {
-                    UICallback.onSuccess(seriesList);
-                    loadLastEpisodes.interrupt();
+                    parseRequestQueue();
                 }
             }
 
             @Override
             public void onError(String err) {
-                Log.d("LOL", err);
-                if (seriesList.size() != 0) {
-                    UICallback.onSuccess(seriesList);
+                if (queue.size() < ITEM_SIZE) {
+                    queue.add(null);
                 } else {
-                    UICallback.onError(err);
+                    parseRequestQueue();
                 }
-
-                loadLastEpisodes.interrupt();
             }
         });
 
@@ -142,10 +132,34 @@ public class LastUpdate extends Fetch {
         this.loadLastEpisodes = new Thread(new Runnable() {
             @Override
             public void run() {
-                getSeriesFromListSeries(updates, 0);
+                // Loop threw the datas
+                for (int idx = 0; idx < 11; idx++) {
+                    getSeriesFromListSeries(updates.get(idx));
+                }
             }
         });
 
         loadLastEpisodes.start();
+    }
+
+    /**
+     * Parse Request Queue
+     *
+     */
+    private void parseRequestQueue() {
+        List<Series> seriesList = new ArrayList<>();
+        for (Series data: queue) {
+            if (data != null) {
+                seriesList.add(data);
+            }
+        }
+
+        if (seriesList.size() == 0) {
+            UICallback.onError("Can not retrieve last update Series");
+            return;
+        }
+
+        UICallback.onSuccess(seriesList);
+        loadLastEpisodes.interrupt();
     }
 }
