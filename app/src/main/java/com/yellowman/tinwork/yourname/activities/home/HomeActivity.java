@@ -3,9 +3,6 @@ package com.yellowman.tinwork.yourname.activities.home;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -25,13 +22,18 @@ import com.yellowman.tinwork.yourname.activities.home.fragments.PopularFragment;
 import com.yellowman.tinwork.yourname.activities.home.fragments.TrendingFragment;
 import com.yellowman.tinwork.yourname.activities.login.LoginActivity;
 import com.yellowman.tinwork.yourname.model.Series;
-import com.yellowman.tinwork.yourname.utils.Utils;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
+/**
+ * Created by Marc Intha-amnouay two months ago.
+ * Created by Didier Youn two months ago.
+ * Created by Abdel-Atif Mabrouck two months ago.
+ * Created by Antoine Renault two months ago.
+ */
 public class HomeActivity extends AppCompatActivity implements FragmentCommunication {
 
     protected ArrayList<FragmentListener> listeners;
@@ -127,7 +129,7 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
     @Override
     protected void onSaveInstanceState(Bundle savedInstancedBundle) {
         savedInstancedBundle.putString("username", "mintha");
-        savedInstancedBundle.putString("yourname_token", Utils.getSharedPreference(this, "yourname_token"));
+        savedInstancedBundle.putString("yourname_token", AppUtils.getSharedPreference(this, "yourname_token"));
         savedInstancedBundle.putSerializable("HomeFragmentData", parcelMap);
 
         // call the super method to save the view
@@ -140,6 +142,13 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
     @Override
     public void onBackPressed() {
         moveTaskToBack(true);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("Debug", "DESTROY");
+        AppUtils.saveSharedPreference(this, "yourname_token", "");
     }
 
     /**
@@ -192,7 +201,7 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
         int color = this.gd.buildBackgroundGradientColor();
 
         // Set the bg color of the status bar
-        Utils.colorizeStatusBar(this.getWindow(), this, color);
+        AppUtils.colorizeStatusBar(this.getWindow(), this, color);
 
         // Prepare the listeners
         initFragmentListeners();
@@ -211,13 +220,13 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
      * Is User Subscribe
      */
     private void isUserSubscribe() {
-        String token  = Utils.getSharedPreference(this, "yourname_token");
+        String token  = AppUtils.getSharedPreference(this, "yourname_token");
 
         // Create an intent to redirect to an other view
         Intent view = new Intent(this, LoginActivity.class);
 
         if (token.isEmpty()) {
-            //view.setClass(this, LoginActivity.class);
+            finish();
             startActivity(view);
         }
     }

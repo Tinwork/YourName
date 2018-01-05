@@ -1,14 +1,11 @@
 package com.yellowman.tinwork.yourname.activities.filmDetail;
 
 import android.content.Intent;
-import android.os.Environment;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.yellowman.tinwork.yourname.R;
@@ -22,18 +19,11 @@ import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.network.api.series.ImagesSeries;
-import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
-import com.yellowman.tinwork.yourname.utils.Utils;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import io.realm.Realm;
-import io.realm.RealmObject;
-import io.realm.RealmResults;
-import io.realm.internal.IOException;
 
 /**
  * MERRY CHRISTMAS !!!!! ✨ L~~~~~~~~~MM~~~~~~~~~L ✨
@@ -123,7 +113,7 @@ public class FilmDetailsActivity extends AppCompatActivity {
             public void onSuccess(Image[] response) {
                 // set the image for the banner
                 if (response.length > 0) {
-                    Glide.with(FilmDetailsActivity.this).load(Utils.buildMiscURI(Routes.IMG_PATH, response[0].getFileName())).into(banner);
+                    Glide.with(FilmDetailsActivity.this).load(AppUtils.buildMiscURI(Routes.IMG_PATH, response[0].getFileName())).into(banner);
                 } else {
                     Glide.with(FilmDetailsActivity.this).load(R.drawable.yourname_bg).into(banner);
                 }

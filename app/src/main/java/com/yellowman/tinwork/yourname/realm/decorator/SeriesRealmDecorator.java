@@ -1,7 +1,6 @@
 package com.yellowman.tinwork.yourname.realm.decorator;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
@@ -9,7 +8,7 @@ import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
 import com.yellowman.tinwork.yourname.network.api.update.LastUpdate;
 import com.yellowman.tinwork.yourname.network.helper.ConnectivityHelper;
 import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
-import com.yellowman.tinwork.yourname.utils.Utils;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -109,7 +108,7 @@ public class SeriesRealmDecorator extends CommonManager {
                 Series.class,
                 "lastUpdated",
                 Sort.ASCENDING,
-                Utils.getYesterdayTimestamp()
+                AppUtils.getYesterdayTimestamp()
         );
 
         if (realmSeries != null) {

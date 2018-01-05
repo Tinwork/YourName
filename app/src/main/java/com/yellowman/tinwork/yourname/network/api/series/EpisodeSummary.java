@@ -1,7 +1,6 @@
 package com.yellowman.tinwork.yourname.network.api.series;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.yellowman.tinwork.yourname.entity.EpisodeMisc;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
@@ -9,7 +8,7 @@ import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.network.fetch.Fetch;
 import com.yellowman.tinwork.yourname.network.fetch.GsonGetManager;
 import com.yellowman.tinwork.yourname.network.fetch.RequestQueueManager;
-import com.yellowman.tinwork.yourname.utils.Utils;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 import java.util.HashMap;
 
@@ -45,12 +44,12 @@ public class EpisodeSummary extends Fetch {
      * @param callback
      */
     public void get(HashMap<String, String> payload, GsonCallback callback) {
-        String token = Utils.getSharedPreference(ctx, "yourname_token");
+        String token = AppUtils.getSharedPreference(ctx, "yourname_token");
         // Headers
-        HashMap<String, String> headers = Utils.makeHeaders(null, token);
+        HashMap<String, String> headers = AppUtils.makeHeaders(null, token);
         String[] data = {payload.get("series_id")};
 
-        String URL = Utils.buildPlaceholderUrl(Routes.SERIES, data, Routes.SUFFIX_ROUTES_EPISODES_SUMMARY);
+        String URL = AppUtils.buildPlaceholderUrl(Routes.SERIES, data, Routes.SUFFIX_ROUTES_EPISODES_SUMMARY);
         request = new GsonGetManager<>(URL, EpisodeMisc.class, headers, response -> {
             callback.onSuccess(response);
         }, error ->  {

@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.yellowman.tinwork.yourname.R;
-import com.yellowman.tinwork.yourname.utils.Utils;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 /**
  * Created by Marc Intha-amnouay on 27/11/2017.
@@ -58,7 +58,7 @@ public class GradientGenerator {
      * @return
      */
     public int buildBackgroundGradientColor() {
-        int idx  = Utils.getRandomNumber(0, 1);
+        int idx  = AppUtils.getRandomNumber(0, 1);
 
         int colors[] = {colorsID[idx][0], colorsID[idx][1]};
 

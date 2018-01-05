@@ -30,7 +30,7 @@ public class CardSeriesAdapter extends RecyclerView.Adapter{
 
     /**
      * Trend Adapter
-     * @param seriesList
+     * @param seriesList List of Series
      */
     public CardSeriesAdapter(List<Series> seriesList, int layoutID) {
         this.series   = seriesList;
@@ -39,13 +39,12 @@ public class CardSeriesAdapter extends RecyclerView.Adapter{
 
     /**
      *
-     * @param parent
-     * @param viewType
+     * @param parent ViewGroup
+     * @param viewType ViewType
      * @return
      */
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.d("Debug", "LAYOUT ID "+layoutID);
         final View view = LayoutInflater.from(parent.getContext()).inflate(layoutID, parent, false);
 
         // Create viewHolder here
@@ -55,8 +54,8 @@ public class CardSeriesAdapter extends RecyclerView.Adapter{
     /**
      * On Bind View Holder
      *
-     * @param holder
-     * @param position
+     * @param holder ViewHolder
+     * @param position cursor
      */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
@@ -78,7 +77,7 @@ public class CardSeriesAdapter extends RecyclerView.Adapter{
     /**
      * Get Item Count
      *
-     * @return
+     * @return int size
      */
     @Override
     public int getItemCount() {
@@ -92,8 +91,8 @@ public class CardSeriesAdapter extends RecyclerView.Adapter{
     /**
      * Get Item View Type
      *
-     * @param position
-     * @return
+     * @param position int
+     * @return Layout
      */
     @Override
     public int getItemViewType(final int position) {
@@ -104,8 +103,8 @@ public class CardSeriesAdapter extends RecyclerView.Adapter{
     /**
      * Get Holder Based From Layout ID
      *
-     * @param v
-     * @return
+     * @param v View
+     * @return ViewHolder
      */
     private RecyclerView.ViewHolder getHolderBaseFromLayoutID(View v) {
         RecyclerView.ViewHolder holder = null;

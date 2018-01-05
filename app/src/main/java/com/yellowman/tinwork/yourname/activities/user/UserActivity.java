@@ -1,7 +1,6 @@
 package com.yellowman.tinwork.yourname.activities.user;
 
 import android.os.Bundle;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -32,7 +31,7 @@ public class UserActivity extends AppCompatActivity implements FragmentCommunica
     /**
      * On Create
      *
-     * @param savedInstanceBundle
+     * @param savedInstanceBundle Bundle
      */
     public void onCreate(Bundle savedInstanceBundle) {
         super.onCreate(savedInstanceBundle);

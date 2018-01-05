@@ -9,7 +9,7 @@ import com.yellowman.tinwork.yourname.network.fetch.Fetch;
 import com.yellowman.tinwork.yourname.network.fetch.GsonGetManager;
 import com.yellowman.tinwork.yourname.network.fetch.RequestQueueManager;
 import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
-import com.yellowman.tinwork.yourname.utils.Utils;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 import java.util.HashMap;
 
@@ -50,15 +50,15 @@ public class SingleSerie extends Fetch {
         String[] data = {payload.get("series_id")};
         // Flag....
         Boolean fullGet  = payload.containsKey("full");
-        String token = Utils.getSharedPreference(ctx, "yourname_token");
+        String token = AppUtils.getSharedPreference(ctx, "yourname_token");
         // Headers
-        HashMap<String, String> headers = Utils.makeHeaders(null, token);
+        HashMap<String, String> headers = AppUtils.makeHeaders(null, token);
 
         if (fullGet) {
             payload.remove("full");
         }
 
-        String URL = Utils.buildPlaceholderUrl(Routes.PREFIX_SERIES, data, null);
+        String URL = AppUtils.buildPlaceholderUrl(Routes.PREFIX_SERIES, data, null);
         request = new GsonGetManager<>(URL, Series.class, headers, response -> {
             if (!fullGet) {
                 realmManager.updateSeriesMisc(response, payload.get("series_id"));

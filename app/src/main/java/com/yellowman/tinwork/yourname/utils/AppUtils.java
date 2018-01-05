@@ -34,7 +34,7 @@ import io.realm.internal.IOException;
  * Created by Antoine Renault on 18/11/2017.
  */
 
-public class Utils {
+public class AppUtils {
 
     /**
      * Build Get Url

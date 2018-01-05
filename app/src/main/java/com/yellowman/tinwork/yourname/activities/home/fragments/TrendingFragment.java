@@ -23,6 +23,7 @@ import com.yellowman.tinwork.yourname.application.YourName;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.realm.decorator.SeriesRealmDecorator;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -132,12 +133,13 @@ public class TrendingFragment extends Fragment implements FragmentListener, Frag
     }
 
     /**
-     * On Detach
+     * On Destroy View
      *
      */
     @Override
-    public void onDetach() {
-        super.onDetach();
+    public void onDestroy() {
+        super.onDestroy();
+        AppUtils.saveSharedPreference(getContext(), "yourname_token", "");
     }
 
     /**

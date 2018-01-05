@@ -20,7 +20,7 @@ import com.yellowman.tinwork.yourname.network.api.search.SearchEpisodes;
 import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
 import com.yellowman.tinwork.yourname.network.api.series.ListEpisodes;
 import com.yellowman.tinwork.yourname.network.api.user.UserToken;
-import com.yellowman.tinwork.yourname.utils.Utils;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 import java.util.HashMap;
 
@@ -43,7 +43,7 @@ public class NetworkActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Token response) {
                 // Save the token in the sharedPreference
-                Utils.saveSharedPreference(NetworkActivity.this, "yourname_token", response.getToken());
+                AppUtils.saveSharedPreference(NetworkActivity.this, "yourname_token", response.getToken());
                 Log.d("Debug", "Token "+response.getToken());
             }
 
@@ -57,7 +57,7 @@ public class NetworkActivity extends AppCompatActivity {
     protected void testRefreshTokenAPI() {
         UserToken fetch = new UserToken(this.getApplicationContext());
         // Get back the token saved from shared preference
-        String token = Utils.getSharedPreference(this, "yourname_token");
+        String token = AppUtils.getSharedPreference(this, "yourname_token");
 
         fetch.refreshToken(token, new GsonCallback<Token>() {
             @Override
@@ -128,8 +128,8 @@ public class NetworkActivity extends AppCompatActivity {
         String[] params = {"bar", "lol"};
         String[] single = {"foo"};
 
-        String paramsURI = Utils.buildPlaceholderUrl(Routes.SEARCH_SERIES, params, null);
-        String paramURI  = Utils.buildPlaceholderUrl(Routes.SEARCH_SERIES, single, "yourname/lyly/mama");
+        String paramsURI = AppUtils.buildPlaceholderUrl(Routes.SEARCH_SERIES, params, null);
+        String paramURI  = AppUtils.buildPlaceholderUrl(Routes.SEARCH_SERIES, single, "yourname/lyly/mama");
         Log.d("Debug", paramsURI);
         Log.d("Debug", paramURI);
     }
