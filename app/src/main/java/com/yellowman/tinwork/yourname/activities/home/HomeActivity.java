@@ -164,14 +164,16 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
     public void fireFragmentEvent(HashMap<String, List<Series>> parcels) {
         int idx = 0;
         String[] parcelID = {"trending", "popular", "favorite"};
-        listeners.forEach(listener -> {
+
+        for (FragmentListener listener: listeners) {
             if (parcels == null) {
                 listener.notifyData(null);
             } else {
                 List<Series> data = parcels.get(parcelID[idx]);
                 listener.notifyData(data);
+                idx++;
             }
-        });
+        }
     }
 
     /**
