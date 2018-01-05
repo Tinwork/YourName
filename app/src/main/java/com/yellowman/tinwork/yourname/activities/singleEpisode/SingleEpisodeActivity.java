@@ -3,9 +3,12 @@ package com.yellowman.tinwork.yourname.activities.singleEpisode;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -37,6 +40,11 @@ public class SingleEpisodeActivity extends AppCompatActivity {
     private ImageView imgview;
     private UIErrorManager uiErrorManager;
 
+    private boolean fabSubMenuIsExpanded = false;
+    private FloatingActionButton fabMenu;
+    private LinearLayout layoutFabFavorite;
+    private LinearLayout layoutFabShare;
+
     /**
      * On Create
      *
@@ -52,6 +60,25 @@ public class SingleEpisodeActivity extends AppCompatActivity {
         initComponent();
         // get the datas
         getIntentData();
+
+        // Hold fab menu button
+        fabMenu = this.findViewById(R.id.fabMenu);
+        // Get the submenu to render/hide
+        layoutFabFavorite = this.findViewById(R.id.layoutFabFavorite);
+        layoutFabShare = this.findViewById(R.id.layoutFabShare);
+
+        fabMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (fabSubMenuIsExpanded){
+                    closeFabMenu();
+                } else {
+                    openFabMenu();
+                }
+            }
+        });
+
+        closeFabMenu();
     }
 
     /**
@@ -145,5 +172,25 @@ public class SingleEpisodeActivity extends AppCompatActivity {
                         .setErrorStrategy(UIErrorManager.SNACKBAR);
             }
         });
+    }
+
+    /**
+     * Close FAB Menu
+     */
+    private void closeFabMenu(){
+        layoutFabFavorite.setVisibility(View.INVISIBLE);
+        layoutFabShare.setVisibility(View.INVISIBLE);
+        fabMenu.setImageResource(R.drawable.ic_star_rate_white_18dp);
+        fabSubMenuIsExpanded = false;
+    }
+
+    /**
+     * Open FAB Menu
+     */
+    private void openFabMenu(){
+        layoutFabFavorite.setVisibility(View.VISIBLE);
+        layoutFabShare.setVisibility(View.VISIBLE);
+        fabMenu.setImageResource(R.drawable.ic_account_circle_white_18dp);
+        fabSubMenuIsExpanded = true;
     }
 }
