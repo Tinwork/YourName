@@ -53,12 +53,7 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
         setToolbar();
 
         // Init the view by adding bg colors, status bar..
-        initView();
-        isUserSubscribe();
-
-        if (savedInstanceState == null) {
-            fireFragmentEvent(null);
-        }
+        isUserSubscribe(savedInstanceState);
     }
 
     /**
@@ -144,13 +139,6 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
         moveTaskToBack(true);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d("Debug", "DESTROY");
-        AppUtils.saveSharedPreference(this, "yourname_token", "");
-    }
-
     /**
      * Init Fragment Listeners
      *      Listeners are used by each of these 3 fragments
@@ -219,15 +207,21 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
     /**
      * Is User Subscribe
      */
-    private void isUserSubscribe() {
+    private void isUserSubscribe(Bundle savedInstanceState) {
         String token  = AppUtils.getSharedPreference(this, "yourname_token");
 
         // Create an intent to redirect to an other view
         Intent view = new Intent(this, LoginActivity.class);
 
         if (token.isEmpty()) {
-            finish();
             startActivity(view);
+            finish();
+        } else {
+            initView();
+
+            if (savedInstanceState == null) {
+              fireFragmentEvent(null);
+            }
         }
     }
 }

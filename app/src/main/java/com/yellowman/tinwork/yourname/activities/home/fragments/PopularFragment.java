@@ -108,15 +108,6 @@ public class PopularFragment extends Fragment implements FragmentListener, Fragm
     }
 
     /**
-     * On Destroy View
-     */
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        AppUtils.saveSharedPreference(getContext(), "yourname_token", "");
-    }
-
-    /**
      * Notify Data
      *
      * @param parcel List of series

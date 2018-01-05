@@ -145,12 +145,6 @@ public class FavoriteFragment extends Fragment implements FragmentListener, Frag
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        AppUtils.saveSharedPreference(getContext(), "yourname_token", "");
-    }
-
     /**
      * Bind Recycle View
      *

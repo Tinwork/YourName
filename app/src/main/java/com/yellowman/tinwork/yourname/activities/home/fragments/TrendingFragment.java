@@ -133,16 +133,6 @@ public class TrendingFragment extends Fragment implements FragmentListener, Frag
     }
 
     /**
-     * On Destroy View
-     *
-     */
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        AppUtils.saveSharedPreference(getContext(), "yourname_token", "");
-    }
-
-    /**
      * Notify Data
      *
      * @param parcels List<Series>
