@@ -64,6 +64,8 @@ public class FavoriteFragment extends Fragment implements FragmentListener, Frag
         super.onCreate(savedInstanceBundle);
         // Inject dependencies
         ((YourName) getActivity().getApplicationContext()).getmNetworkComponent().inject(this);
+        // UIErrorMananager
+        this.uiErrorManager = new UIErrorManager(getContext());
     }
 
     /**
@@ -77,21 +79,27 @@ public class FavoriteFragment extends Fragment implements FragmentListener, Frag
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View favorite = inflater.inflate(R.layout.favorite_fragment, container, false);
-
         // Create the recycler view
         recyclerView = favorite.findViewById(R.id.favoriteFrag_recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(
-                favorite.getContext(),
-                LinearLayout.HORIZONTAL,
-                false
-        ));
+
+        if (this.getId() == R.id.user_frag) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(
+                    favorite.getContext(),
+                    LinearLayout.VERTICAL,
+                    false
+            ));
+        } else {
+            recyclerView.setLayoutManager(new LinearLayoutManager(
+                    favorite.getContext(),
+                    LinearLayout.HORIZONTAL,
+                    false
+            ));
+        }
 
         // Improve performance
         recyclerView.setHasFixedSize(true);
         // Spinner
         spinner = favorite.findViewById(R.id.favorite_spinner);
-        // UIErrorMananager
-        this.uiErrorManager = new UIErrorManager(getContext());
 
         return favorite;
     }
@@ -144,11 +152,18 @@ public class FavoriteFragment extends Fragment implements FragmentListener, Frag
      */
     public void bindRecycleView(List<?> data) {
         CardSeriesAdapter adapter;
+        int layoutID;
+
+        if (this.getId() == R.id.user_frag) {
+            layoutID = R.layout.card_favorite_hor;
+        } else {
+            layoutID = R.layout.card_favorite;
+        }
 
         if (data == null) {
-            adapter = new CardSeriesAdapter(null, R.layout.card_favorite);
+            adapter = new CardSeriesAdapter(null, layoutID);
         } else {
-            adapter = new CardSeriesAdapter((List<Series>) data, R.layout.card_favorite);
+            adapter = new CardSeriesAdapter((List<Series>) data, layoutID);
         }
 
         recyclerView.setAdapter(adapter);

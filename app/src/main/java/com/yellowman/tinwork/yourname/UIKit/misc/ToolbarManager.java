@@ -1,5 +1,6 @@
 package com.yellowman.tinwork.yourname.UIKit.misc;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.yellowman.tinwork.yourname.R;
+import com.yellowman.tinwork.yourname.activities.user.UserActivity;
 
 /**
  * Created by Marc Intha-amnouay on 30/12/2017.
@@ -70,30 +72,22 @@ public class ToolbarManager {
      */
     public Boolean toolbarItemSelectAction(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.search_bar:
-                searchAction();
-                return true;
             case R.id.account:
+                accountAction();
                 return true;
             default:
-                return activity.onOptionsItemSelected(item);
+                return true;
         }
     }
 
     /**
-     * Search Action
+     * Account Action
      *
-     * @return
+     * @return Boolean
      */
-    public Boolean searchAction() {
-        //this.searchBar = (EditText) menu.findItem(R.id.toolbar_search);
-
-       // Log.d("Debug", "toolbar edit text "+searchBar.toString());
-
-        /**
-        if (searchBar.getVisibility() == View.INVISIBLE) {
-            searchBar.setVisibility(View.VISIBLE);
-        }**/
+    public Boolean accountAction() {
+        Intent intent = new Intent(this.activity, UserActivity.class);
+        this.activity.startActivity(intent);
 
         return true;
     }

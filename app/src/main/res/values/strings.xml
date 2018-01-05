@@ -43,4 +43,6 @@
     <string name="retry_mode">Retry</string>
     <string name="end_mode">Ok</string>
     <string name="cancel_mode">Cancel</string>
+
+    <string name="disconnect">Disconnect</string>
 </resources>

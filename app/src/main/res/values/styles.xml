@@ -52,6 +52,11 @@
         <item name="android:layout_marginRight">4dp</item>
     </style>
 
+    <style name="CardViewFavoriteHoziontal" parent="@style/CardViewHome">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">150dp</item>
+    </style>
+
     <!-- Card View Favorite -->
     <style name="CardViewFavorite" parent="@style/CardViewHome">
     </style>
@@ -78,6 +83,11 @@
     <style name="CardImgView" parent="@style/CardImgGeneric">
         <item name="android:layout_width">170dp</item>
         <item name="android:layout_height">160dp</item>
+    </style>
+
+    <style name="CardImgFavoriteHor">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">match_parent</item>
     </style>
 
     <style name="CardTextViewTitle">

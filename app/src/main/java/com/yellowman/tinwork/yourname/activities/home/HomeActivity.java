@@ -86,6 +86,7 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+       toolbarManager.toolbarItemSelectAction(item);
        return true;
     }
 
@@ -145,6 +146,7 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
      * Init Fragment Listeners
      *      Listeners are used by each of these 3 fragments
      */
+    @Override
     public void initFragmentListeners() {
         TrendingFragment trFg = (TrendingFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_trending);
         PopularFragment  poFg = (PopularFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_popular);

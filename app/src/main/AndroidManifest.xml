@@ -45,6 +45,10 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
+            android:name=".activities.user.UserActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
             android:name=".activities.search.SearchResultsActivity"
             android:theme="@style/AppTheme.NoActionBar">
 

@@ -1,6 +1,7 @@
 package com.yellowman.tinwork.yourname.UIKit.adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,7 @@ public class CardSeriesAdapter extends RecyclerView.Adapter{
      */
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Log.d("Debug", "LAYOUT ID "+layoutID);
         final View view = LayoutInflater.from(parent.getContext()).inflate(layoutID, parent, false);
 
         // Create viewHolder here
@@ -67,6 +69,7 @@ public class CardSeriesAdapter extends RecyclerView.Adapter{
                 ((PopularHolder) holder).bindData(series.get(position));
                 break;
             case R.layout.card_favorite:
+            case R.layout.card_favorite_hor:
                 ((FavoriteHolder) holder).bindData(series.get(position));
         }
     }
@@ -116,6 +119,7 @@ public class CardSeriesAdapter extends RecyclerView.Adapter{
                 holder = new PopularHolder(v);
                 break;
             case R.layout.card_favorite:
+            case R.layout.card_favorite_hor:
                 holder = new FavoriteHolder(v);
                 break;
             default:
