@@ -51,8 +51,7 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener, 
     Fetch listEpisodes;
 
     private RecyclerView recyclerView;
-    private List<Episode[]> episodesList = new ArrayList<>();
-    private int idx = 0;
+    private List<Episode[]> queue = new ArrayList<>();
     private UIErrorManager uiErrorManager;
     private String serie_id;
     private Thread thread;
@@ -146,43 +145,35 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener, 
     /**
      * Load All Episodes By Seasons
      *
-     * @param seasons Array of seasons
+     * @param season String id of season
      */
-    public void loadAllEpisodesBySeasons(String[] seasons) {
-        if (seasons.length == idx) {
-            return;
-        }
+    public void loadAllEpisodesBySeasons(String season, int size) {
         // this list need to be save using realm
         HashMap<String, String> data = new HashMap<>();
 
         data.put("series_id", serie_id);
-        data.put("season", seasons[idx]);
+        data.put("season", season);
 
         listEpisodes.get(data, new GsonCallback<Episode[]>() {
 
             @Override
             public void onSuccess(Episode[] response) {
-                episodesList.add(response);
-                idx++;
+                if (queue.size() < size) {
+                    queue.add(response);
+                }
 
-                if (seasons.length == idx) {
+                if (queue.size() == size) {
                     notifySeasonsReady();
-                } else {
-                    loadAllEpisodesBySeasons(seasons);
-                    thread.interrupt();
                 }
             }
 
             @Override
             public void onError(String err) {
-                if (err.contains("404")) {
-                    // Fail silently --> we assumed that no more seasons existed
-                    notifySeasonsReady();
+                if (queue.size() < size) {
+                    queue.add(null);
                 } else {
-                     uiErrorManager.setError("", err).setErrorStrategy(UIErrorManager.TOAST);
+                    notifySeasonsReady();
                 }
-
-                thread.interrupt();
             }
         });
     }
@@ -198,7 +189,9 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener, 
      */
     public void handleMulSeasons(String[] seasons) {
         this.thread = new Thread(() -> {
-            loadAllEpisodesBySeasons(seasons);
+            for (String season: seasons) {
+                loadAllEpisodesBySeasons(season, seasons.length);
+            }
         });
 
         thread.start();
@@ -212,8 +205,17 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener, 
 
         // Maybe it's a good idea to do that as it's called from a runnable ?
         this.recyclerView.post(() -> {
-            SeasonsAdapter adapter = new SeasonsAdapter(episodesList);
+            List<Episode[]> data = new ArrayList<>();
+
+            for (Episode[] episode: queue) {
+                if (episode != null) {
+                    data.add(episode);
+                }
+            }
+
+            SeasonsAdapter adapter = new SeasonsAdapter(data);
             this.recyclerView.setAdapter(adapter);
+            thread.interrupt();
         });
     }
 
