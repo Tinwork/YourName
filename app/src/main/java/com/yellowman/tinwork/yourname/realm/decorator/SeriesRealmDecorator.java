@@ -9,7 +9,7 @@ import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
 import com.yellowman.tinwork.yourname.network.api.update.LastUpdate;
 import com.yellowman.tinwork.yourname.network.helper.ConnectivityHelper;
 import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
-import com.yellowman.tinwork.yourname.utils.Utils;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -108,8 +108,8 @@ public class SeriesRealmDecorator extends CommonManager {
         RealmResults<Series> realmSeries = this.sortEntitiesByCriterion(
                 Series.class,
                 "lastUpdated",
-                Sort.ASCENDING,
-                Utils.getYesterdayTimestamp()
+                Sort.DESCENDING,
+                AppUtils.getYesterdayTimestamp()
         );
 
         if (realmSeries != null) {

@@ -8,7 +8,7 @@ import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.network.fetch.Fetch;
 import com.yellowman.tinwork.yourname.network.fetch.GsonGetManager;
 import com.yellowman.tinwork.yourname.network.fetch.RequestQueueManager;
-import com.yellowman.tinwork.yourname.utils.Utils;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 import java.util.HashMap;
 
@@ -50,11 +50,11 @@ public class ListEpisodes extends Fetch
     public void get(HashMap<String, String> payload, final GsonCallback callback)
     {
         // Prepare token and headers
-        String token = Utils.getSharedPreference(ctx, "yourname_token");
-        HashMap<String, String> headers = Utils.makeHeaders(null, token);
+        String token = AppUtils.getSharedPreference(ctx, "yourname_token");
+        HashMap<String, String> headers = AppUtils.makeHeaders(null, token);
         // Build API URL
         String[] foo = {payload.get("series_id")};
-        String URL = Utils.buildPlaceholderUrl(Routes.PREFIX_SERIES, foo, Routes.SUFFIX_ROUTES_EPISODES_FROM_SERIES);
+        String URL = AppUtils.buildPlaceholderUrl(Routes.PREFIX_SERIES, foo, Routes.SUFFIX_ROUTES_EPISODES_FROM_SERIES);
         // Append the query parameter
         URL = URL+"?airedSeason="+payload.get("season");
 

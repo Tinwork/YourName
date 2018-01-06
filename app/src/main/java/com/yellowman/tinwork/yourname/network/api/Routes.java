@@ -19,9 +19,7 @@ public class Routes {
     public static final String API_AUTHORITY = "api.thetvdb.com";
     // Series
     public static final String SEARCH_SERIES = "search/series";
-
     public static final String SERIES = "series";
-
     public static final String SEARCH_EPISODES = "episodes";
 
     public static final String IMG_PATH = "www.thetvdb.com/banners";

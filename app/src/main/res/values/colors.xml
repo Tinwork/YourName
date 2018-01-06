@@ -12,7 +12,9 @@
 
     <!-- Colors below is use for shadow on the App -->
     <color name="starBlue">#4d6ede</color>
+    <color name="sunsetBlue">#476EDE</color>
     <color name="orchidPink">#d03d69</color>
+    <color name="dynasty">#D43D69</color>
     <color name="deepPurple">#7542ea</color>
     <color name="neonPurple">#9d42ea</color>
 

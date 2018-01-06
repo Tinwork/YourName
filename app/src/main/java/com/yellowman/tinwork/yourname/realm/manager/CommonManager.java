@@ -118,4 +118,14 @@ public class CommonManager<E> implements RealmDefaultBehavior {
         List<Actor> actorList = Arrays.asList(actors);
         this.commitMultipleEntities(actorList);
     }
+
+    /**
+     * Destroy All
+     *     /!\ Caution this drop the database
+     */
+    public void destroyAll() {
+        getRealmInstance().executeTransaction(realm -> {
+            realm.deleteAll();
+        });
+    }
 }

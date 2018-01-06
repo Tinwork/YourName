@@ -11,7 +11,7 @@ import com.yellowman.tinwork.yourname.UIKit.helpers.Helper;
 import com.yellowman.tinwork.yourname.activities.filmDetail.FilmDetailsActivity;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.api.Routes;
-import com.yellowman.tinwork.yourname.utils.Utils;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 
 /**
@@ -63,7 +63,7 @@ public class TrendingHolder extends RecyclerView.ViewHolder{
         String bannerURL = seriesModel.getBanner();
 
         if (!bannerURL.isEmpty()) {
-            Glide.with(v).load(Utils.buildMiscURI(Routes.IMG_PATH, bannerURL)).into(imgView);
+            Glide.with(v).load(AppUtils.buildMiscURI(Routes.IMG_PATH, bannerURL)).into(imgView);
         } else {
             Glide.with(v).load(R.drawable.yourname_bg).into(imgView);
         }

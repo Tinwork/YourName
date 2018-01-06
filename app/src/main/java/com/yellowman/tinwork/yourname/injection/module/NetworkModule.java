@@ -10,8 +10,10 @@ import com.yellowman.tinwork.yourname.network.api.series.FilterSeries;
 import com.yellowman.tinwork.yourname.network.api.series.ImagesSeries;
 import com.yellowman.tinwork.yourname.network.api.series.ListEpisodes;
 import com.yellowman.tinwork.yourname.network.api.series.SingleSerie;
+import com.yellowman.tinwork.yourname.network.api.user.GetUser;
 import com.yellowman.tinwork.yourname.network.fetch.Fetch;
 import com.yellowman.tinwork.yourname.realm.decorator.ActorRealmDecorator;
+import com.yellowman.tinwork.yourname.realm.decorator.UserRealmDecorator;
 import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
 import com.yellowman.tinwork.yourname.realm.decorator.SeriesRealmDecorator;
 
@@ -27,29 +29,26 @@ import dagger.Provides;
  * Created by Abdel-Atif Mabrouck on 03/01/2018.
  * Created by Antoine Renault on 03/01/2018.
  *
- * Well...
  */
 
 @Module
 public class NetworkModule {
 
     private Context ctx;
-    private CommonManager realmManager;
 
     /**
      * Network Module::Constructor
      *
-     * @param ctx
+     * @param ctx Application Context
      */
     public NetworkModule(Context ctx) {
         this.ctx = ctx;
-        this.realmManager = new CommonManager();
     }
 
     /**
      * Provide Search Series
      *
-     * @return
+     * @return SeriesRealmDecorator
      */
     @Provides @Named("SearchSeries")
     @Singleton
@@ -60,7 +59,7 @@ public class NetworkModule {
     /**
      * Provide Series List Actors
      *
-     * @return
+     * @return ActorRealmDecorator
      */
     @Provides @Named("ListActors")
     @Singleton
@@ -69,9 +68,18 @@ public class NetworkModule {
     }
 
     /**
+     * Fetch Get User
+     *
+     * @return Fetch instance
+     */
+    @Provides @Named("FetchGetUser")
+    @Singleton
+    UserRealmDecorator provideFetchGetUser() { return new UserRealmDecorator(ctx); }
+
+    /**
      * Provide Search Episodes
      *
-     * @return
+     * @return Fetch instance
      */
     @Provides @Named("SearchEpisodes")
     @Singleton
@@ -82,7 +90,7 @@ public class NetworkModule {
     /**
      * Provide Series Episode
      *
-     * @return
+     * @return Fetch instance
      */
     @Provides @Named("EpisodeData")
     @Singleton
@@ -93,7 +101,7 @@ public class NetworkModule {
     /**
      * Provide Series Episode Summary
      *
-     * @return
+     * @return Fetch instance
      */
     @Provides @Named("EpisodeSummary")
     @Singleton
@@ -104,7 +112,7 @@ public class NetworkModule {
     /**
      * Provide Series Filter Series
      *
-     * @return
+     * @return Fetch instance
      */
     @Provides @Named("FilterSeries")
     @Singleton
@@ -115,7 +123,7 @@ public class NetworkModule {
     /**
      * Provide Series Image Series
      *
-     * @return
+     * @return Fetch instance
      */
     @Provides @Named("ImageSeries")
     @Singleton
@@ -126,7 +134,7 @@ public class NetworkModule {
     /**
      * Provide Series List Episodes
      *
-     * @return
+     * @return Fetch instance
      */
     @Provides @Named("ListEpisodes")
     @Singleton
@@ -137,7 +145,7 @@ public class NetworkModule {
     /**
      * Provide Series Single Serie
      *
-     * @return
+     * @return Fetch instance
      */
     @Provides @Named("SingleSerie")
     @Singleton
@@ -148,7 +156,7 @@ public class NetworkModule {
     /**
      * Provide Fetch Search Series
      *
-     * @return
+     * @return Fetch instance
      */
     @Provides @Named("FetchSearchSeries")
     @Singleton

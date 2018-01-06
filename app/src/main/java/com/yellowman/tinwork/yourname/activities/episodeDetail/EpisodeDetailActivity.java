@@ -28,6 +28,11 @@ public class EpisodeDetailActivity extends AppCompatActivity {
 
     protected FragmentBinder listener;
 
+    /**
+     * On Create
+     *
+     * @param savedInstanceState Bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +48,7 @@ public class EpisodeDetailActivity extends AppCompatActivity {
     /**
      * Get Intent Data
      *
-     * @void
+     * @return List of episodes
      */
     protected List<Episode> getIntentData() {
         List<Episode> listEpisode = new ArrayList<>();
@@ -65,7 +70,6 @@ public class EpisodeDetailActivity extends AppCompatActivity {
     /**
      * Notify Fragment
      *      Notify the fragment by passing a list data
-     * @void
      */
     protected void notifyFragment() {
         List<Episode> listEpisodes = getIntentData();

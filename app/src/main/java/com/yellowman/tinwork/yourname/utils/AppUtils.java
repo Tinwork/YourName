@@ -34,7 +34,7 @@ import io.realm.internal.IOException;
  * Created by Antoine Renault on 18/11/2017.
  */
 
-public class Utils {
+public class AppUtils {
 
     /**
      * Build Get Url
@@ -233,7 +233,7 @@ public class Utils {
      */
     public static int getYesterdayTimestamp() {
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, -1);
+        cal.add(Calendar.DATE, -2);
 
         int timestamp = (int) (cal.getTimeInMillis() / 1000);
 

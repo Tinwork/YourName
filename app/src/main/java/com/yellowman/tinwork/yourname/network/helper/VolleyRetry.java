@@ -9,7 +9,7 @@ import com.yellowman.tinwork.yourname.model.Token;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.user.UserToken;
 import com.yellowman.tinwork.yourname.network.fetch.RequestQueueManager;
-import com.yellowman.tinwork.yourname.utils.Utils;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 import java.util.HashMap;
 
@@ -45,8 +45,8 @@ public class VolleyRetry<T> {
      */
     public void retry(Request<T> req) {
         HashMap<String, String> usrPayload = new HashMap<>();
-        usrPayload.put("username", Utils.getSharedPreference(ctx, "username"));
-        usrPayload.put("accountID", Utils.getSharedPreference(ctx, "accountID"));
+        usrPayload.put("username", AppUtils.getSharedPreference(ctx, "username"));
+        usrPayload.put("accountID", AppUtils.getSharedPreference(ctx, "accountID"));
 
         // /!\ Refresh token timestamp is not implemented yet. Use the /login route in the meantime
         // Though the refresh token is pretty strange... on the api side..
@@ -62,7 +62,7 @@ public class VolleyRetry<T> {
                 }
 
                 Log.d("Debug", "Retry with new token");
-                Utils.saveSharedPreference(ctx, "yourname_token", response.getToken());
+                AppUtils.saveSharedPreference(ctx, "yourname_token", response.getToken());
                 queue.addToRequestQueue(req);
             }
 

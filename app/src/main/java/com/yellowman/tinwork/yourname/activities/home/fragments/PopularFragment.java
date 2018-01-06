@@ -21,6 +21,7 @@ import com.yellowman.tinwork.yourname.application.YourName;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.realm.decorator.SeriesRealmDecorator;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -50,7 +51,7 @@ public class PopularFragment extends Fragment implements FragmentListener, Fragm
     /**
      * On Create
      *
-     * @param savedInstanceState
+     * @param savedInstanceState Bundle
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,10 +62,10 @@ public class PopularFragment extends Fragment implements FragmentListener, Fragm
     /**
      * On Create View
      *
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
+     * @param inflater LayoutInflater
+     * @param container ViewGroup
+     * @param savedInstanceState Bundle
+     * @return View
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -90,7 +91,7 @@ public class PopularFragment extends Fragment implements FragmentListener, Fragm
     /**
      * On Attach
      *
-     * @param ctx
+     * @param ctx Context
      */
     @Override
     public void onAttach(Context ctx) {
@@ -107,17 +108,9 @@ public class PopularFragment extends Fragment implements FragmentListener, Fragm
     }
 
     /**
-     * On Detach
-     */
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
-    /**
      * Notify Data
      *
-     * @param parcel
+     * @param parcel List of series
      */
     @Override
     public void notifyData(List<Series> parcel) {
@@ -132,7 +125,7 @@ public class PopularFragment extends Fragment implements FragmentListener, Fragm
     /**
      * Bind Recycle View
      *
-     * @param data
+     * @param data List of datas
      */
     @Override
     public void bindRecycleView(List<?> data) {
@@ -184,7 +177,7 @@ public class PopularFragment extends Fragment implements FragmentListener, Fragm
     /**
      * Restore Data
      *
-     * @param payload
+     * @param payload List of series
      */
     private void restoreData(List<Series> payload) {  bindRecycleView(payload);  }
 }

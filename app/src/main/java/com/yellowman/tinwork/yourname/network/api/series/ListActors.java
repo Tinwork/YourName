@@ -10,7 +10,7 @@ import com.yellowman.tinwork.yourname.network.fetch.Fetch;
 import com.yellowman.tinwork.yourname.network.fetch.GsonGetManager;
 import com.yellowman.tinwork.yourname.network.fetch.RequestQueueManager;
 import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
-import com.yellowman.tinwork.yourname.utils.Utils;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -51,13 +51,13 @@ public class ListActors extends Fetch {
      */
     @Override
     public void get(HashMap<String, String> payload, final GsonCallback callback) {
-        String token   = Utils.getSharedPreference(ctx, "yourname_token");
+        String token   = AppUtils.getSharedPreference(ctx, "yourname_token");
         String seriesID = payload.get("series_id");
         // Headers
-        HashMap<String, String> headers = Utils.makeHeaders(null, token);
+        HashMap<String, String> headers = AppUtils.makeHeaders(null, token);
 
         String[] foo = {seriesID};
-        String URL = Utils.buildPlaceholderUrl(Routes.PREFIX_SERIES, foo, "actors");
+        String URL = AppUtils.buildPlaceholderUrl(Routes.PREFIX_SERIES, foo, "actors");
         Log.d("Debug", "SERIE ID "+seriesID);
         actors = new GsonGetManager<>(URL, Actor[].class, headers, response -> {
             if (response.length == 0) {

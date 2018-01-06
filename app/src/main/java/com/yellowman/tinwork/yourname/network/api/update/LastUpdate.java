@@ -1,7 +1,6 @@
 package com.yellowman.tinwork.yourname.network.api.update;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.yellowman.tinwork.yourname.entity.Update;
 import com.yellowman.tinwork.yourname.model.Series;
@@ -11,7 +10,7 @@ import com.yellowman.tinwork.yourname.network.api.series.SingleSerie;
 import com.yellowman.tinwork.yourname.network.fetch.Fetch;
 import com.yellowman.tinwork.yourname.network.fetch.GsonGetManager;
 import com.yellowman.tinwork.yourname.network.fetch.RequestQueueManager;
-import com.yellowman.tinwork.yourname.utils.Utils;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,15 +59,15 @@ public class LastUpdate extends Fetch {
      */
     @Override
     public void get(HashMap<String, String> payload, GsonCallback callback) {
-        payload.put("fromTime", String.valueOf(Utils.getYesterdayTimestamp()));
+        payload.put("fromTime", String.valueOf(AppUtils.getYesterdayTimestamp()));
         // Set the callback
         this.UICallback = callback;
         // Get the token
-        String token = Utils.getSharedPreference(ctx, "yourname_token");
+        String token = AppUtils.getSharedPreference(ctx, "yourname_token");
         // Headers
-        HashMap<String, String> headers = Utils.makeHeaders(null, token);
+        HashMap<String, String> headers = AppUtils.makeHeaders(null, token);
         // Bind the GET request params
-        String URL = Utils.buildGetUrl(Routes.UPDATE_SERIES, payload);
+        String URL = AppUtils.buildGetUrl(Routes.UPDATE_SERIES, payload);
 
         // make the request toward the ids
         lastUpdated = new GsonGetManager<>(URL, Update[].class, headers, response -> {

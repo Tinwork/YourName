@@ -11,7 +11,7 @@ import com.yellowman.tinwork.yourname.UIKit.helpers.Helper;
 import com.yellowman.tinwork.yourname.activities.filmDetail.FilmDetailsActivity;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.api.Routes;
-import com.yellowman.tinwork.yourname.utils.Utils;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 /**
  * Created by Marc Intha-amnouay on 16/12/2017.
@@ -50,7 +50,7 @@ public class PopularHolder extends RecyclerView.ViewHolder {
         filmTextView.setText(serie.getSeriesName());
 
         if (!serie.getBanner().isEmpty()) {
-            Glide.with(viewItem).load(Utils.buildMiscURI(Routes.IMG_PATH, serie.getBanner())).into(imgView);
+            Glide.with(viewItem).load(AppUtils.buildMiscURI(Routes.IMG_PATH, serie.getBanner())).into(imgView);
         } else {
             Glide.with(viewItem).load(R.drawable.yourname_bg).into(imgView);
         }
