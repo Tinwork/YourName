@@ -85,6 +85,7 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
        toolbarManager.toolbarItemSelectAction(item);
+
        return true;
     }
 

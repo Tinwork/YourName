@@ -9,9 +9,16 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.yellowman.tinwork.yourname.R;
+import com.yellowman.tinwork.yourname.UIKit.helpers.Helper;
+import com.yellowman.tinwork.yourname.activities.login.LoginActivity;
 import com.yellowman.tinwork.yourname.activities.user.UserActivity;
+import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 /**
+ * Sometimes you have to stop over thinking and make the big step
+ * otherwise you'll keep thinking and do nothing...
+ *
  * Created by Marc Intha-amnouay on 30/12/2017.
  * Created by Didier Youn on 30/12/2017.
  * Created by Abdel-Atif Mabrouck on 30/12/2017.
@@ -22,8 +29,8 @@ public class ToolbarManager {
 
     private AppCompatActivity activity;
     private Toolbar toolbar;
-    protected EditText searchBar;
     protected Menu menu;
+    protected Helper helper;
 
     /**
      * Toolbar Manager::Constructor
@@ -31,6 +38,7 @@ public class ToolbarManager {
      * @param instance
      */
     public ToolbarManager(AppCompatActivity instance) {
+        this.helper   = new Helper();
         this.activity = instance;
     }
 
@@ -75,6 +83,9 @@ public class ToolbarManager {
             case R.id.account:
                 accountAction();
                 return true;
+            case R.id.logout:
+                logoutAction();
+                return true;
             default:
                 return true;
         }
@@ -88,6 +99,25 @@ public class ToolbarManager {
     public Boolean accountAction() {
         Intent intent = new Intent(this.activity, UserActivity.class);
         this.activity.startActivity(intent);
+
+        return true;
+    }
+
+    /**
+     * Logout Action
+     *
+     * @return boolean
+     */
+    public Boolean logoutAction() {
+        CommonManager realmManager = new CommonManager();
+        realmManager.destroyAll();
+
+        AppUtils.saveSharedPreference(activity, "yourname_token", "");
+        AppUtils.saveSharedPreference(activity, "username", "");
+        AppUtils.saveSharedPreference(activity, "accountID", "");
+
+        // Redirect the user to the Login Activity
+        helper.launchWithEmptyData(activity, LoginActivity.class);
 
         return true;
     }

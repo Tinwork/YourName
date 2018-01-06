@@ -38,10 +38,10 @@ public class EpisodesListFragment extends Fragment implements FragmentBinder {
     /**
      * On Create View
      *
-     * @param inflater
-     * @param container
-     * @param savedInstanceBundle
-     * @return
+     * @param inflater Layout Inflater
+     * @param container ViewGroup
+     * @param savedInstanceBundle Bundle
+     * @return View
      */
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceBundle) {
         View episodesList = inflater.inflate(R.layout.fragment_episodes_season, container, false);
@@ -60,7 +60,7 @@ public class EpisodesListFragment extends Fragment implements FragmentBinder {
     /**
      * Bind Recycler View
      *
-     * @param data
+     * @param data List of any Type
      */
     @Override
     public void bindRecycleView(List<?> data) {

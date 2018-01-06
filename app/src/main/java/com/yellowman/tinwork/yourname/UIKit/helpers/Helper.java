@@ -48,4 +48,16 @@ public class Helper<T> {
         intent.putExtra("EntityArray", model);
         fromAct.startActivity(intent);
     }
+
+    /**
+     * Launch With Empty Data
+     *
+     * @param from From
+     * @param dest Destination
+     */
+    public void launchWithEmptyData(Context from, Class<T> dest) {
+        Intent intent = new Intent(from, dest);
+
+        from.startActivity(intent);
+    }
 }

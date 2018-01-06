@@ -42,6 +42,11 @@ public class FilmDetailsActivity extends AppCompatActivity {
     private GradientGenerator gd;
     private UIErrorManager uiErrorManager;
 
+    /**
+     * On Create
+     *
+     * @param savedInstanceState bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +59,6 @@ public class FilmDetailsActivity extends AppCompatActivity {
     /**
      * Init Activity Component
      *
-     * @void
      */
     protected void initActivityComponent() {
         this.banner = findViewById(R.id.film_banner);
@@ -79,7 +83,7 @@ public class FilmDetailsActivity extends AppCompatActivity {
     /**
      * Get Intent Data
      *
-     * @void
+     *
      */
     protected void getIntentData() {
         Intent intent = getIntent();
@@ -101,7 +105,7 @@ public class FilmDetailsActivity extends AppCompatActivity {
     /**
      * Get Image For Serie
      *
-     * @param id
+     * @param id id_seriess
      */
     private void getImageForSerie(String id) {
         HashMap<String, String> payload = new HashMap<>();

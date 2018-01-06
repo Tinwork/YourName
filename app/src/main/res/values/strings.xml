@@ -20,6 +20,7 @@
 
     <!-- navigation bar -->
     <string name="search_icon">Search Icon</string>
+    <string name="exit_icon">Exit icon</string>
 
     <!-- Home string property -->
     <string name="trending">trending</string>
@@ -45,4 +46,6 @@
     <string name="cancel_mode">Cancel</string>
 
     <string name="disconnect">Disconnect</string>
+    <string name="profile">Profile</string>
+    <string name="welcome">Welcome %1$s !</string>
 </resources>

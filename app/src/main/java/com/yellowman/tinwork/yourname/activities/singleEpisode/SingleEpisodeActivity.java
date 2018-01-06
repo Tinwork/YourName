@@ -39,7 +39,7 @@ public class SingleEpisodeActivity extends AppCompatActivity {
     /**
      * On Create
      *
-     * @param savedInstanceBundle
+     * @param savedInstanceBundle bundle
      */
     @Override
     public void onCreate(Bundle savedInstanceBundle) {
@@ -56,7 +56,6 @@ public class SingleEpisodeActivity extends AppCompatActivity {
     /**
      * Init Components
      *
-     * @void
      */
     private void initComponent() {
         this.episodeTitle = findViewById(R.id.episode_title);
@@ -88,7 +87,7 @@ public class SingleEpisodeActivity extends AppCompatActivity {
     /**
      * Set Current Data
      *
-     * @param episode
+     * @param episode Episode
      */
     private void setCurrentData(Episode episode) {
         episodeTitle.setText(episode.getEpisodeName());
@@ -99,8 +98,7 @@ public class SingleEpisodeActivity extends AppCompatActivity {
     /**
      * Set Extra Data
      *
-     * @param episode
-     * @TODO set a label before the rating...
+     * @param episode Episode
      */
     private void setExtraData(Episode episode) {
         String directorsStr = "";
@@ -123,6 +121,7 @@ public class SingleEpisodeActivity extends AppCompatActivity {
     /**
      * Get Extra Information
      *
+     * @param id Int
      */
     private void getExtraInforamtion(int id) {
         // Prepare the data to be send

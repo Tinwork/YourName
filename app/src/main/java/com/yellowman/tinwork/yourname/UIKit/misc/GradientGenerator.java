@@ -23,6 +23,7 @@ public class GradientGenerator {
     private int[][] colorsID;
     private RelativeLayout rLayout;
     private LinearLayout lLayout;
+    private int relatedColor;
 
     /**
      * Constructor
@@ -81,6 +82,18 @@ public class GradientGenerator {
                 lLayout.setBackgroundColor(colorsID[idx][0]);
         }
 
+        // quick addition..
+        relatedColor = idx == 0 ? R.color.sunsetBlue : R.color.dynasty;
+
         return idx == 0 ? R.color.starBlue : R.color.orchidPink;
+    }
+
+    /**
+     * Get Related Color
+     *
+     * @return
+     */
+    public int getRelatedColor() {
+        return relatedColor;
     }
 }

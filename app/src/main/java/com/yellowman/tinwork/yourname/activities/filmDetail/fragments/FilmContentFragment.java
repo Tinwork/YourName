@@ -80,10 +80,10 @@ public class FilmContentFragment extends Fragment implements FragmentListener, F
     /**
      * On Create View
      *
-     * @param inflater
-     * @param container
-     * @param savedInstanceBundle
-     * @return
+     * @param inflater Layout Inflater
+     * @param container ViewGroup
+     * @param savedInstanceBundle Bundle
+     * @return View
      */
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceBundle) {
         this.view = inflater.inflate(R.layout.details_fragment, container, false);
@@ -106,7 +106,7 @@ public class FilmContentFragment extends Fragment implements FragmentListener, F
     /**
      * Notify Data
      *
-     * @param data
+     * @param data List of Series
      */
     @Override
     public void notifyData(List<Series> data) {
@@ -126,7 +126,7 @@ public class FilmContentFragment extends Fragment implements FragmentListener, F
     /**
      * Bind Recycler View
      *  Not used in this case
-     * @param data
+     * @param data List of unknown type
      */
     @Override
     public void bindRecycleView(List<?> data) {}
@@ -134,7 +134,7 @@ public class FilmContentFragment extends Fragment implements FragmentListener, F
     /**
      * Get Series Actor By Id
      *
-     * @param serieID
+     * @param serieID String
      */
     private void getSeriesActorById(String serieID) {
         listActors.get(serieID, new GsonCallback<List<Actor>>() {
@@ -156,7 +156,7 @@ public class FilmContentFragment extends Fragment implements FragmentListener, F
     /**
      * Get Upgrade Series Info
      *
-     * @param serie_id
+     * @param serie_id id serie
      */
     private void agreggateSerie(String serie_id) {
         HashMap<String, String> data = new HashMap<>();
@@ -185,7 +185,7 @@ public class FilmContentFragment extends Fragment implements FragmentListener, F
     /**
      * Init Fragment Element
      *
-     * @void
+     *
      */
     private void initFragmentElement() {
         this.filmTitle    = view.findViewById(R.id.film_title);
