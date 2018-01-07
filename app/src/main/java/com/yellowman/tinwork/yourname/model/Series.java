@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.yellowman.tinwork.yourname.entity.Actor;
-import com.yellowman.tinwork.yourname.entity.Episode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,13 +50,15 @@ public class Series extends RealmObject implements Parcelable {
     private RealmList<String> genre;
     private RealmList<Actor> actors;
     private String siteRating;
+    private Boolean favorite = false;
 
 
     public Series() {}
 
     /**
      * Series Constructor for Parcelable
-     * @param parcel
+     *
+     * @param parcel Parcel
      */
     public Series(Parcel parcel) {
         banner     = parcel.readString();
@@ -69,6 +70,7 @@ public class Series extends RealmObject implements Parcelable {
         status     = parcel.readString();
         siteRating = parcel.readString();
         lastUpdated= parcel.readInt();
+        favorite   = parcel.readByte() != 0;
         aliases    = new RealmList<>();
         genre      = new RealmList<>();
         actors     = new RealmList<>();
@@ -93,7 +95,8 @@ public class Series extends RealmObject implements Parcelable {
 
     /**
      * Get Aliases
-     * @return
+     *
+     * @return RealmList<String>
      */
     public RealmList<String> getAliases() {
         return aliases;
@@ -101,7 +104,8 @@ public class Series extends RealmObject implements Parcelable {
 
     /**
      * Set Aliases
-     * @param aliases
+     *
+     * @param aliases ArrayList<String>
      */
     public void setAliases(ArrayList<String> aliases) {
         this.aliases = new RealmList<>();
@@ -110,7 +114,8 @@ public class Series extends RealmObject implements Parcelable {
 
     /**
      * Get Banner
-     * @return
+     *
+     * @return String
      */
     public String getBanner() {
         return banner;
@@ -118,7 +123,8 @@ public class Series extends RealmObject implements Parcelable {
 
     /**
      * Set Banner
-     * @param banner
+     *
+     * @param banner String
      */
     public void setBanner(String banner) {
         this.banner = banner;
@@ -126,7 +132,8 @@ public class Series extends RealmObject implements Parcelable {
 
     /**
      * Get First Aired
-     * @return
+     *
+     * @return String
      */
     public String getFirstAired() {
         return firstAired;
@@ -134,7 +141,8 @@ public class Series extends RealmObject implements Parcelable {
 
     /**
      * Set First Aired
-     * @param firstAired
+     *
+     * @param firstAired String
      */
     public void setFirstAired(String firstAired) {
         this.firstAired = firstAired;
@@ -142,7 +150,8 @@ public class Series extends RealmObject implements Parcelable {
 
     /**
      * Get Id
-     * @return
+     *
+     * @return String id
      */
     public String getId() {
         return id;
@@ -150,7 +159,8 @@ public class Series extends RealmObject implements Parcelable {
 
     /**
      * Set Id
-     * @param id
+     *
+     * @param id Strings
      */
     public void setId(String id) {
         this.id = id;
@@ -158,7 +168,8 @@ public class Series extends RealmObject implements Parcelable {
 
     /**
      * Get Network
-     * @return
+     *
+     * @return String
      */
     public String getNetwork() {
         return network;
@@ -166,7 +177,8 @@ public class Series extends RealmObject implements Parcelable {
 
     /**
      * Set Network
-     * @param network
+     *
+     * @param network String
      */
     public void setNetwork(String network) {
         this.network = network;
@@ -182,7 +194,8 @@ public class Series extends RealmObject implements Parcelable {
 
     /**
      * Set Overview
-     * @param overview
+     *
+     * @param overview String
      */
     public void setOverview(String overview) {
         this.overview = overview;
@@ -198,7 +211,8 @@ public class Series extends RealmObject implements Parcelable {
 
     /**
      * Set Series Name
-     * @param seriesName
+     *
+     * @param seriesName string
      */
     public void setSeriesName(String seriesName) {
         this.seriesName = seriesName;
@@ -206,7 +220,8 @@ public class Series extends RealmObject implements Parcelable {
 
     /**
      * Get Status
-     * @return
+     *
+     * @return String status
      */
     public String getStatus() {
         return status;
@@ -214,23 +229,26 @@ public class Series extends RealmObject implements Parcelable {
 
     /**
      * Set Status
-     * @param status
+     *
+     * @param status String
      */
     public void setStatus(String status) {
         this.status = status;
     }
 
     /**
+     * Get Genre
      *
-     * @return
+     * @return RealmList<String>
      */
     public RealmList<String> getGenre() {
         return genre;
     }
 
     /**
+     * Set Genre
      *
-     * @param genre
+     * @param genre ArrayList<String>
      */
     public void setGenre(ArrayList<String> genre) {
         this.genre = new RealmList<>();
@@ -238,16 +256,18 @@ public class Series extends RealmObject implements Parcelable {
     }
 
     /**
+     * Get Site Rating
      *
-     * @return
+     * @return string
      */
     public String getSiteRating() {
         return siteRating;
     }
 
     /**
+     * Set Site Ratings
      *
-     * @param siteRating
+     * @param siteRating int
      */
     public void setSiteRating(String siteRating) {
         this.siteRating = siteRating;
@@ -255,7 +275,7 @@ public class Series extends RealmObject implements Parcelable {
 
     /**
      * Describe Contents
-     * @return
+     * @return int
      */
     @Override
     public int describeContents() {
@@ -265,7 +285,7 @@ public class Series extends RealmObject implements Parcelable {
     /**
      * Get Actors
      *
-     * @return
+     * @return RealmList<Actors>
      */
     public RealmList<Actor> getActors() {
         return actors;
@@ -274,7 +294,7 @@ public class Series extends RealmObject implements Parcelable {
     /**
      * Set Actors
      *
-     * @param actors
+     * @param actors ArrayList<Actors>
      */
     public void setActors(ArrayList<Actor> actors) {
         this.actors = new RealmList<>();
@@ -284,7 +304,7 @@ public class Series extends RealmObject implements Parcelable {
     /**
      * Get Last Updated
      *
-     * @return
+     * @return int
      */
     public int getLastUpdated() {
         return lastUpdated;
@@ -293,10 +313,28 @@ public class Series extends RealmObject implements Parcelable {
     /**
      * Set Last Updated
      *
-     * @param lastUpdated
+     * @param lastUpdated int
      */
     public void setLastUpdated(int lastUpdated) {
         this.lastUpdated = lastUpdated;
+    }
+
+    /**
+     * Get Favorite
+     *
+     * @return Boolean favorite
+     */
+    public Boolean getFavorite() {
+        return favorite;
+    }
+
+    /**
+     * Set Favorite
+     *
+     * @param favorite Boolean
+     */
+    public void setFavorite(Boolean favorite) {
+        this.favorite = favorite;
     }
 
     /**
@@ -316,6 +354,7 @@ public class Series extends RealmObject implements Parcelable {
         dest.writeString(status);
         dest.writeString(siteRating);
         dest.writeInt(lastUpdated);
+        dest.writeByte((byte) (favorite ? 1 : 0));
 
         // Special case for Realm
         dest.writeStringList(aliases);

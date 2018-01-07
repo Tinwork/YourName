@@ -6,10 +6,12 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.adapters.CardSeriesAdapter;
@@ -42,11 +44,13 @@ public class FavoriteFragment extends Fragment implements FragmentListener, Frag
 
     @Inject
     @Named("SearchSeries")
-    SeriesRealmDecorator searchSeries;
+    SeriesRealmDecorator realmDecorator;
 
     protected RecyclerView recyclerView;
     protected View spinner;
     protected FragmentCommunication mLink;
+    protected TextView noFavorite;
+
     private final String parcelID = "favorite";
     private UIErrorManager uiErrorManager;
 
@@ -104,7 +108,9 @@ public class FavoriteFragment extends Fragment implements FragmentListener, Frag
         // Improve performance
         recyclerView.setHasFixedSize(true);
         // Spinner
-        spinner = favorite.findViewById(R.id.favorite_spinner);
+        this.spinner = favorite.findViewById(R.id.favorite_spinner);
+        // set the textview
+        this.noFavorite = favorite.findViewById(R.id.no_favorite);
 
         return favorite;
     }
@@ -125,13 +131,7 @@ public class FavoriteFragment extends Fragment implements FragmentListener, Frag
      * @param parcel Parcelable of series
      */
     @Override
-    public void notifyData(List<Series> parcel) {
-        if (parcel == null) {
-            getFavoriteSeries();
-        } else {
-            restoreData(parcel);
-        }
-    }
+    public void notifyData(List<Series> parcel) {}
 
     /**
      * On Attach
@@ -147,6 +147,16 @@ public class FavoriteFragment extends Fragment implements FragmentListener, Frag
         } catch (ClassCastException e) {
             uiErrorManager.setError("", e.getMessage()).setErrorStrategy(UIErrorManager.TOAST);
         }
+    }
+
+    /**
+     * On Start
+     *
+     */
+    @Override
+    public void onStart() {
+        super.onStart();
+        getFavoriteSeries();
     }
 
     /**
@@ -180,26 +190,19 @@ public class FavoriteFragment extends Fragment implements FragmentListener, Frag
     private void getFavoriteSeries() {
         ProgressSpinner.setVisible(spinner);
         FavoriteFragment self = this;
-        HashMap<String, String> payload = new HashMap<>();
-        payload.put("name", "lollipop");
+        List<Series> serie = realmDecorator.getFavoriteSeries();
 
-        searchSeries.get(payload, new GsonCallback<List<Series>>() {
-            @Override
-            public void onSuccess(List<Series> response) {
-                if (response == null) {
-                    return;
-                }
-
-                self.bindRecycleView(response);
-                mLink.setParcelable(response, parcelID);
-                ProgressSpinner.setHidden(spinner);
-            }
-
-            @Override
-            public void onError(String err) {
-                uiErrorManager.setError("", err).setErrorStrategy(UIErrorManager.TOAST);
-            }
-        });
+        if (serie.size() == 0) {
+            // Display something here
+            bindRecycleView(null);
+            ProgressSpinner.setHidden(spinner);
+            noFavorite.setVisibility(View.VISIBLE);
+        } else {
+            bindRecycleView(serie);
+            mLink.setParcelable(serie, parcelID);
+            ProgressSpinner.setHidden(spinner);
+            noFavorite.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -217,4 +220,5 @@ public class FavoriteFragment extends Fragment implements FragmentListener, Frag
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(controller);
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
+
 }
