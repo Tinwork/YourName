@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.yellowman.tinwork.yourname.UIKit.iface.FragmentBinder;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentCommunication;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.UIKit.misc.ProgressSpinner;
+import com.yellowman.tinwork.yourname.UIKit.misc.SwipeController;
 import com.yellowman.tinwork.yourname.application.YourName;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
@@ -89,6 +91,8 @@ public class FavoriteFragment extends Fragment implements FragmentListener, Frag
                     LinearLayout.VERTICAL,
                     false
             ));
+            // Set the swipe controller
+            attachSwipeController();
         } else {
             recyclerView.setLayoutManager(new LinearLayoutManager(
                     favorite.getContext(),
@@ -203,4 +207,14 @@ public class FavoriteFragment extends Fragment implements FragmentListener, Frag
      * @param payload List of series
      */
     private void restoreData(List<Series> payload) { bindRecycleView(payload); }
+
+    /**
+     * Attach Swipe Controller
+     *
+     */
+    private void attachSwipeController() {
+        SwipeController controller = new SwipeController();
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(controller);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+    }
 }

@@ -28,6 +28,7 @@ public class FavoriteHolder extends RecyclerView.ViewHolder {
     private TextView  runtimeTextView;
     protected View viewItem;
     protected Helper helper;
+    protected String serieID;
 
 
     /**
@@ -46,9 +47,10 @@ public class FavoriteHolder extends RecyclerView.ViewHolder {
     /**
      * Bind Data
      *
-     * @param serie
+     * @param serie Serie
      */
     public void bindData(final Series serie) {
+        serieID = serie.getId();
         filmTextView.setText(serie.getSeriesName());
 
         if (!serie.getBanner().isEmpty()) {
@@ -75,5 +77,14 @@ public class FavoriteHolder extends RecyclerView.ViewHolder {
         filmTextView = viewItem.findViewById(R.id.film_name);
         rateTextView = viewItem.findViewById(R.id.rating);
         runtimeTextView = viewItem.findViewById(R.id.genre_time);
+    }
+
+    /**
+     * Get Series From Holder
+     *
+     * @return String serie ID
+     */
+    public String getSeriesFromHolder() {
+        return serieID;
     }
 }
