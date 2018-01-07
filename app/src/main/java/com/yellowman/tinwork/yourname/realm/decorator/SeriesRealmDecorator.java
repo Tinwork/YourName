@@ -11,6 +11,7 @@ import com.yellowman.tinwork.yourname.network.helper.ConnectivityHelper;
 import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
 import com.yellowman.tinwork.yourname.utils.AppUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -118,5 +119,24 @@ public class SeriesRealmDecorator extends CommonManager {
         } else {
             callback.onError("Unable to retrieve last series");
         }
+    }
+
+    /**
+     * Get Favorite Series
+     *
+     * @return List<Series>
+     */
+    public List<Series> getFavoriteSeries() {
+        List<Series> serie = new ArrayList<>();
+        RealmResults<Series> realmSeries = this.getRealmInstance()
+                .where(Series.class)
+                .equalTo("favorite", true)
+                .findAll();
+
+        if (realmSeries.size() != 0) {
+            serie = this.getRealmInstance().copyFromRealm(realmSeries);
+        }
+
+        return serie;
     }
 }
