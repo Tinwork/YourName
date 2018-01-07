@@ -2,6 +2,7 @@ package com.yellowman.tinwork.yourname.realm.manager;
 
 import android.util.Log;
 
+import com.yellowman.tinwork.yourname.UIKit.errors.UIErrorManager;
 import com.yellowman.tinwork.yourname.UIKit.helpers.Utils;
 import com.yellowman.tinwork.yourname.entity.Actor;
 import com.yellowman.tinwork.yourname.model.Series;
@@ -13,6 +14,7 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmObject;
+import io.realm.RealmResults;
 
 
 /**
@@ -126,6 +128,31 @@ public class CommonManager<E> implements RealmDefaultBehavior {
     public void destroyAll() {
         getRealmInstance().executeTransaction(realm -> {
             realm.deleteAll();
+        });
+    }
+
+    /**
+     * Remove Series By Id
+     *
+     * @param id series id
+     */
+    public void removeSeriesById(String criterion, String id) {
+        getRealmInstance().executeTransactionAsync((final Realm realm) -> {
+            RealmResults<Series> data = realm.where(Series.class)
+                 .equalTo(criterion, id)
+                 .findAll();
+
+            data.deleteAllFromRealm();
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                Log.println(Log.WARN, "Yourname::Realm", "A serie has been deleted");
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                Log.println(Log.WARN, "Yourname::Realm", "A serie has not been delete reason: "+error.getMessage());
+            }
         });
     }
 }
