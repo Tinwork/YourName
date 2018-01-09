@@ -1,19 +1,25 @@
 package com.yellowman.tinwork.yourname.realm.decorator;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
+import com.yellowman.tinwork.yourname.network.api.update.LastUpdate;
 import com.yellowman.tinwork.yourname.network.helper.ConnectivityHelper;
 import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.realm.Case;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * Created by Marc Intha-amnouay on 03/01/2018.
@@ -30,7 +36,7 @@ public class SeriesRealmDecorator extends CommonManager {
     /**
      * Series Realm Manager
      *
-     * @param ctx
+     * @param ctx Context
      */
     public SeriesRealmDecorator(Context ctx) {
         this.ctx = ctx;
@@ -40,9 +46,10 @@ public class SeriesRealmDecorator extends CommonManager {
 
     /**
      * Get
+     * @TODO re do to implement best series
      *
-     * @param query
-     * @param callback
+     * @param query HashMap of query
+     * @param callback A UICallback
      */
     public void get(HashMap<String, String> query, GsonCallback callback) {
         // Update the datas
@@ -81,5 +88,55 @@ public class SeriesRealmDecorator extends CommonManager {
         }
 
         callback.onSuccess(res);
+    }
+
+    /**
+     * Get Latest Update Series
+     *
+     * @param payload Hashmap of payload
+     * @param callback UICallback
+     */
+    public void getLatestUpdateSeries(HashMap<String, String> payload, GsonCallback callback) {
+
+        if (conHelper.getConnectivityStatus()) {
+            LastUpdate updateServices = new LastUpdate(ctx);
+            updateServices.get(payload, callback);
+
+            return;
+        }
+
+        // First try to retrieve the last films
+        RealmResults<Series> realmSeries = this.sortEntitiesByCriterion(
+                Series.class,
+                "lastUpdated",
+                Sort.DESCENDING,
+                AppUtils.getYesterdayTimestamp()
+        );
+
+        if (realmSeries != null) {
+            List<Series> listSeries = this.getRealmInstance().copyFromRealm(realmSeries);
+            callback.onSuccess(listSeries);
+        } else {
+            callback.onError("Unable to retrieve last series");
+        }
+    }
+
+    /**
+     * Get Favorite Series
+     *
+     * @return List<Series>
+     */
+    public List<Series> getFavoriteSeries() {
+        List<Series> serie = new ArrayList<>();
+        RealmResults<Series> realmSeries = this.getRealmInstance()
+                .where(Series.class)
+                .equalTo("favorite", true)
+                .findAll();
+
+        if (realmSeries.size() != 0) {
+            serie = this.getRealmInstance().copyFromRealm(realmSeries);
+        }
+
+        return serie;
     }
 }

@@ -19,6 +19,8 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,13 +34,13 @@ import io.realm.internal.IOException;
  * Created by Antoine Renault on 18/11/2017.
  */
 
-public class Utils {
+public class AppUtils {
 
     /**
      * Build Get Url
      *      Build a custom GET Url to pass to the GsonGetManager
-     * @param baseURL
-     * @param payload
+     * @param baseURL URL of the API
+     * @param payload Payload of queryStrings
      * @return
      */
     public static String buildGetUrl(String baseURL, HashMap<String, String> payload) {
@@ -73,12 +75,12 @@ public class Utils {
 
     /**
      * Build Placeholder Url
-     * @param baseURL
-     * @param placeholders
-     * @param restURL
+     * @param baseURL Api URL
+     * @param placeholders Array of URL Placeholder
+     * @param restURL String representing the rest of the URL
      *
      * @TODO might change Min API Level...
-     * @return
+     * @return URL
      */
     public static String buildPlaceholderUrl(String baseURL, String[] placeholders, String restURL) {
         Uri.Builder builder = new Uri.Builder();
@@ -86,7 +88,9 @@ public class Utils {
                .authority(Routes.API_AUTHORITY)
                .appendEncodedPath(baseURL);
 
-        Arrays.stream(placeholders).forEach(placeholder -> builder.appendEncodedPath(placeholder));
+        for (String placeholder: placeholders) {
+            builder.appendEncodedPath(placeholder);
+        }
 
         if (restURL == null)
             return builder.build().toString();
@@ -97,9 +101,9 @@ public class Utils {
 
     /**
      * Build Misc URL
-     * @param baseURL
-     * @param patch
-     * @return
+     * @param baseURL Api URL
+     * @param patch Misc URL data
+     * @return URL
      */
     public static Uri buildMiscURI(String baseURL, String patch) {
         Uri.Builder builder = new Uri.Builder();
@@ -113,9 +117,9 @@ public class Utils {
     /**
      * Make Headers
      *      Make Custom headers for request
-     * @param extras
-     * @param token
-     * @return
+     * @param extras Extras data for the headers
+     * @param token Token
+     * @return Headers
      */
     public static HashMap<String, String> makeHeaders(HashMap<String, String> extras, String token) {
         // Init a header with basic properties
@@ -140,9 +144,9 @@ public class Utils {
     /**
      * Save Shared Preference
      *
-     * @param ctx
-     * @param keyName
-     * @param keyValue
+     * @param ctx Context
+     * @param keyName Key
+     * @param keyValue Value
      */
     public static void saveSharedPreference(Context ctx, String keyName, String keyValue) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ctx);
@@ -154,9 +158,9 @@ public class Utils {
     /**
      * Get Shared Preference
      *
-     * @param ctx
-     * @param keyName
-     * @return
+     * @param ctx Context
+     * @param keyName Key
+     * @return String
      */
     public static String getSharedPreference(Context ctx, String keyName) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ctx);
@@ -165,9 +169,9 @@ public class Utils {
 
     /**
      * Get Random Number
-     * @param min
-     * @param max
-     * @return
+     * @param min int
+     * @param max int
+     * @return int random number
      */
     public static int getRandomNumber(int min, int max) {
         return min + (int) (Math.random() * ((max - min) + 1));
@@ -175,10 +179,10 @@ public class Utils {
 
     /**
      * Make Nav Bar Translucent
-     * @param w
+     * @param w Window
      */
     public static void makeNavBarTranslucent(final Window w) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             w.setNavigationBarColor(Color.WHITE);
         }
@@ -187,9 +191,9 @@ public class Utils {
     /**
      * Colorize Status Bar
      *
-     * @param w
-     * @param ctx
-     * @param color
+     * @param w Window
+     * @param ctx Context
+     * @param color R.id.color
      */
     public static void colorizeStatusBar(final Window w, Context ctx ,int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -201,7 +205,7 @@ public class Utils {
     /**
      * Output Realm File
      *
-     * @Credits @Budi Oktaviyan Suryanto
+     * Credits @Budi Oktaviyan Suryanto
      * This code refer to the following article: https://medium.com/@budioktaviyans/android-realm-database-export-24753503b0c7
      */
     public static void outputRealmFile() {
@@ -220,5 +224,19 @@ public class Utils {
             realm.close();
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Get Yesterday Timestamp
+     *
+     * @return int
+     */
+    public static int getYesterdayTimestamp() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -2);
+
+        int timestamp = (int) (cal.getTimeInMillis() / 1000);
+
+        return timestamp;
     }
 }

@@ -3,9 +3,6 @@ package com.yellowman.tinwork.yourname.activities.home;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -25,13 +22,18 @@ import com.yellowman.tinwork.yourname.activities.home.fragments.PopularFragment;
 import com.yellowman.tinwork.yourname.activities.home.fragments.TrendingFragment;
 import com.yellowman.tinwork.yourname.activities.login.LoginActivity;
 import com.yellowman.tinwork.yourname.model.Series;
-import com.yellowman.tinwork.yourname.utils.Utils;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
+/**
+ * Created by Marc Intha-amnouay two months ago.
+ * Created by Didier Youn two months ago.
+ * Created by Abdel-Atif Mabrouck two months ago.
+ * Created by Antoine Renault two months ago.
+ */
 public class HomeActivity extends AppCompatActivity implements FragmentCommunication {
 
     protected ArrayList<FragmentListener> listeners;
@@ -42,7 +44,7 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
 
     /**
      *
-     * @param savedInstanceState
+     * @param savedInstanceState bundle
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,18 +53,14 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
         setToolbar();
 
         // Init the view by adding bg colors, status bar..
-        initView();
-        isUserSubscribe();
-
-        if (savedInstanceState == null) {
-            fireFragmentEvent(null);
-        }
+        isUserSubscribe(savedInstanceState);
     }
 
     /**
      * On Create Options Menu
-     * @param menu
-     * @return
+     * @param menu Menu
+     *
+     * @return Boolean
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -81,17 +79,21 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
 
     /**
      * On Options Item Selected
-     * @param item
-     * @return
+     * @param item an item
+     * @return Boolean
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+       toolbarManager.toolbarItemSelectAction(item);
+
        return true;
     }
 
     /**
+     * Set Parcelable
      *
-     * @param parcel
+     * @param parcel List<Series> (used to be a parcel)
+     * @param key identifier
      */
     @Override
     public void setParcelable(List<Series> parcel, String key) {
@@ -103,8 +105,9 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
     }
 
     /**
+     * On Restore Instance State
      *
-     * @param savedInstanceBundle
+     * @param savedInstanceBundle bundle
      */
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceBundle) {
@@ -120,13 +123,14 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
     }
 
     /**
+     * On Save Instance State
      *
-     * @param savedInstancedBundle
+     * @param savedInstancedBundle bundle
      */
     @Override
     protected void onSaveInstanceState(Bundle savedInstancedBundle) {
         savedInstancedBundle.putString("username", "mintha");
-        savedInstancedBundle.putString("yourname_token", Utils.getSharedPreference(this, "yourname_token"));
+        savedInstancedBundle.putString("yourname_token", AppUtils.getSharedPreference(this, "yourname_token"));
         savedInstancedBundle.putSerializable("HomeFragmentData", parcelMap);
 
         // call the super method to save the view
@@ -145,6 +149,7 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
      * Init Fragment Listeners
      *      Listeners are used by each of these 3 fragments
      */
+    @Override
     public void initFragmentListeners() {
         TrendingFragment trFg = (TrendingFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_trending);
         PopularFragment  poFg = (PopularFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_popular);
@@ -159,20 +164,22 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
     /**
      * Fire Fragment Event
      *
-     * @param parcels
+     * @param parcels Hashmap
      */
     @Override
     public void fireFragmentEvent(HashMap<String, List<Series>> parcels) {
         int idx = 0;
         String[] parcelID = {"trending", "popular", "favorite"};
-        listeners.forEach(listener -> {
+
+        for (FragmentListener listener: listeners) {
             if (parcels == null) {
                 listener.notifyData(null);
             } else {
                 List<Series> data = parcels.get(parcelID[idx]);
                 listener.notifyData(data);
+                idx++;
             }
-        });
+        }
     }
 
     /**
@@ -190,7 +197,7 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
         int color = this.gd.buildBackgroundGradientColor();
 
         // Set the bg color of the status bar
-        Utils.colorizeStatusBar(this.getWindow(), this, color);
+        AppUtils.colorizeStatusBar(this.getWindow(), this, color);
 
         // Prepare the listeners
         initFragmentListeners();
@@ -208,15 +215,21 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
     /**
      * Is User Subscribe
      */
-    private void isUserSubscribe() {
-        String token  = Utils.getSharedPreference(this, "yourname_token");
+    private void isUserSubscribe(Bundle savedInstanceState) {
+        String token  = AppUtils.getSharedPreference(this, "yourname_token");
 
         // Create an intent to redirect to an other view
         Intent view = new Intent(this, LoginActivity.class);
 
         if (token.isEmpty()) {
-            //view.setClass(this, LoginActivity.class);
             startActivity(view);
+            finish();
+        } else {
+            initView();
+
+            if (savedInstanceState == null) {
+              fireFragmentEvent(null);
+            }
         }
     }
 }

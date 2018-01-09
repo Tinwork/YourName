@@ -10,7 +10,7 @@ import com.yellowman.tinwork.yourname.network.fetch.Fetch;
 import com.yellowman.tinwork.yourname.network.fetch.GsonGetManager;
 import com.yellowman.tinwork.yourname.network.fetch.GsonPostManager;
 import com.yellowman.tinwork.yourname.network.fetch.RequestQueueManager;
-import com.yellowman.tinwork.yourname.utils.Utils;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 
 import java.util.HashMap;
@@ -81,7 +81,7 @@ public class UserToken extends Fetch {
      * @param token
      */
     public void refreshToken(String token, final GsonCallback callback) {
-        HashMap<String, String> headers = Utils.makeHeaders(null, token);;
+        HashMap<String, String> headers = AppUtils.makeHeaders(null, token);;
 
         reqGet = new GsonGetManager<>(Routes.REFRESH_TOKEN, Token.class, headers, response -> {
             callback.onSuccess(response);

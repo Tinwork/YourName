@@ -24,6 +24,8 @@ import dagger.Component;
  * Created by Didier Youn on 03/01/2018.
  * Created by Abdel-Atif Mabrouck on 03/01/2018.
  * Created by Antoine Renault on 03/01/2018.
+ *
+ * Injector Presenter
  */
 
 @Singleton

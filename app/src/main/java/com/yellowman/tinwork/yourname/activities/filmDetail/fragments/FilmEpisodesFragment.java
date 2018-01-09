@@ -51,11 +51,11 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener, 
     Fetch listEpisodes;
 
     private RecyclerView recyclerView;
-    private List<Episode[]> episodesList = new ArrayList<>();
-    private int idx = 0;
+    private List<Episode[]> queue = new ArrayList<>();
     private UIErrorManager uiErrorManager;
     private String serie_id;
-    private Context ctx;
+    private Thread thread;
+
 
     /**
      * Film Episodes Fragment::Constructor
@@ -65,7 +65,7 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener, 
     /**
      * On Create
      *
-     * @param savedInstanceBundle
+     * @param savedInstanceBundle bundle
      */
     @Override
     public void onCreate(Bundle savedInstanceBundle) {
@@ -76,9 +76,9 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener, 
     /**
      * On Create View
      *
-     * @param inflater
-     * @param container
-     * @param savedInstanceBundle
+     * @param inflater Layout Inflater
+     * @param container ViewContainer
+     * @param savedInstanceBundle Bundle
      * @return
      */
     @Override
@@ -94,7 +94,6 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener, 
         recyclerView.setHasFixedSize(true);
         // get the UIErrorManager
         this.uiErrorManager = new UIErrorManager(getContext());
-        this.ctx = getContext();
 
         return episodes;
     }
@@ -102,7 +101,7 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener, 
     /**
      * Notify Data
      *
-     * @param data
+     * @param data List<Series>
      */
     @Override
     public void notifyData(List<Series> data) {
@@ -118,7 +117,7 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener, 
     /**
      * Bind Recycler View
      *
-     * @param data
+     * @param data List of any type
      */
     public void bindRecycleView(List<?> data) {}
 
@@ -146,40 +145,34 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener, 
     /**
      * Load All Episodes By Seasons
      *
-     * @param seasons
+     * @param season String id of season
      */
-    public void loadAllEpisodesBySeasons(String[] seasons) {
-        if (seasons.length == idx) {
-            return;
-        }
+    public void loadAllEpisodesBySeasons(String season, int size) {
         // this list need to be save using realm
         HashMap<String, String> data = new HashMap<>();
 
         data.put("series_id", serie_id);
-        data.put("season", seasons[idx]);
+        data.put("season", season);
 
         listEpisodes.get(data, new GsonCallback<Episode[]>() {
 
             @Override
             public void onSuccess(Episode[] response) {
-                episodesList.add(response);
-                idx++;
+                if (queue.size() < size) {
+                    queue.add(response);
+                }
 
-                if (seasons.length == idx) {
+                if (queue.size() == size) {
                     notifySeasonsReady();
-                } else {
-                    loadAllEpisodesBySeasons(seasons);
                 }
             }
 
             @Override
             public void onError(String err) {
-
-                if (err.contains("404")) {
-                    // Fail silently --> we assumed that no more seasons existed
-                    notifySeasonsReady();
+                if (queue.size() < size) {
+                    queue.add(null);
                 } else {
-                     uiErrorManager.setError("", err).setErrorStrategy(UIErrorManager.TOAST);
+                    notifySeasonsReady();
                 }
             }
         });
@@ -191,15 +184,17 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener, 
      *      Thread that get the episodes by seasons
      *      /!\ Can take a long time ! though we may have use the AsyncTask but as the method is already asynchronious..
      *
-     * @param seasons
+     * @param seasons Array of seasons
      * @return
      */
-    public Thread handleMulSeasons(String[] seasons) {
-        Thread thread = new Thread(() -> {
-            loadAllEpisodesBySeasons(seasons);
+    public void handleMulSeasons(String[] seasons) {
+        this.thread = new Thread(() -> {
+            for (String season: seasons) {
+                loadAllEpisodesBySeasons(season, seasons.length);
+            }
         });
 
-        return thread;
+        thread.start();
     }
 
     /**
@@ -210,17 +205,26 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener, 
 
         // Maybe it's a good idea to do that as it's called from a runnable ?
         this.recyclerView.post(() -> {
-            SeasonsAdapter adapter = new SeasonsAdapter(episodesList);
+            List<Episode[]> data = new ArrayList<>();
+
+            for (Episode[] episode: queue) {
+                if (episode != null) {
+                    data.add(episode);
+                }
+            }
+
+            SeasonsAdapter adapter = new SeasonsAdapter(data);
             this.recyclerView.setAdapter(adapter);
+            thread.interrupt();
         });
     }
 
     /**
      * Notify Seasons Loaded
      *
-     * @param misc
+     * @param misc EpisodeMisc Entity
      */
     private void notifySeasonsLoaded(EpisodeMisc misc) {
-        handleMulSeasons(misc.getAiredSeasons()).start();
+        handleMulSeasons(misc.getAiredSeasons());
     }
 }

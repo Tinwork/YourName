@@ -9,7 +9,7 @@ import com.yellowman.tinwork.yourname.network.fetch.Fetch;
 import com.yellowman.tinwork.yourname.network.fetch.GsonGetManager;
 import com.yellowman.tinwork.yourname.network.fetch.RequestQueueManager;
 import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
-import com.yellowman.tinwork.yourname.utils.Utils;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -52,15 +52,15 @@ public class SearchSeries extends Fetch {
     @Override
     public void get(HashMap<String, String> payload, final GsonCallback callback) {
         Boolean notSave = payload.containsKey("notsave");
-        String token = Utils.getSharedPreference(ctx, "yourname_token");
+        String token = AppUtils.getSharedPreference(ctx, "yourname_token");
         // Headers
-        HashMap<String, String> headers = Utils.makeHeaders(null, token);
+        HashMap<String, String> headers = AppUtils.makeHeaders(null, token);
         // Bind the GET request params
         if (notSave) {
             payload.remove("notsave");
         }
 
-        String URL = Utils.buildGetUrl(Routes.SEARCH_SERIES, payload);
+        String URL = AppUtils.buildGetUrl(Routes.SEARCH_SERIES, payload);
 
         series = new GsonGetManager<>(URL, Series[].class, headers, response -> {
             if (response.length == 0) {

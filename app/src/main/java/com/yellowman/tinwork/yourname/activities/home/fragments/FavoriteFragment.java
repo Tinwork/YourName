@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.adapters.CardSeriesAdapter;
@@ -17,10 +20,12 @@ import com.yellowman.tinwork.yourname.UIKit.iface.FragmentBinder;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentCommunication;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.UIKit.misc.ProgressSpinner;
+import com.yellowman.tinwork.yourname.UIKit.misc.SwipeController;
 import com.yellowman.tinwork.yourname.application.YourName;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.realm.decorator.SeriesRealmDecorator;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -39,11 +44,13 @@ public class FavoriteFragment extends Fragment implements FragmentListener, Frag
 
     @Inject
     @Named("SearchSeries")
-    SeriesRealmDecorator searchSeries;
+    SeriesRealmDecorator realmDecorator;
 
     protected RecyclerView recyclerView;
     protected View spinner;
     protected FragmentCommunication mLink;
+    protected TextView noFavorite;
+
     private final String parcelID = "favorite";
     private UIErrorManager uiErrorManager;
 
@@ -57,41 +64,53 @@ public class FavoriteFragment extends Fragment implements FragmentListener, Frag
     /**
      * On Create
      *
-     * @param savedInstanceBundle
+     * @param savedInstanceBundle bundle
      */
     @Override
     public void onCreate(Bundle savedInstanceBundle) {
         super.onCreate(savedInstanceBundle);
         // Inject dependencies
         ((YourName) getActivity().getApplicationContext()).getmNetworkComponent().inject(this);
+        // UIErrorMananager
+        this.uiErrorManager = new UIErrorManager(getContext());
     }
 
     /**
      * On Create View
      *
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
+     * @param inflater LayoutInflater
+     * @param container ViewContainer
+     * @param savedInstanceState Bundle
+     * @return View favorite
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View favorite = inflater.inflate(R.layout.favorite_fragment, container, false);
-
         // Create the recycler view
         recyclerView = favorite.findViewById(R.id.favoriteFrag_recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(
-                favorite.getContext(),
-                LinearLayout.HORIZONTAL,
-                false
-        ));
+
+        if (this.getId() == R.id.user_frag) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(
+                    favorite.getContext(),
+                    LinearLayout.VERTICAL,
+                    false
+            ));
+            // Set the swipe controller
+            attachSwipeController();
+        } else {
+            recyclerView.setLayoutManager(new LinearLayoutManager(
+                    favorite.getContext(),
+                    LinearLayout.HORIZONTAL,
+                    false
+            ));
+        }
 
         // Improve performance
         recyclerView.setHasFixedSize(true);
         // Spinner
-        spinner = favorite.findViewById(R.id.favorite_spinner);
-        // UIErrorMananager
-        this.uiErrorManager = new UIErrorManager(getContext());
+        this.spinner = favorite.findViewById(R.id.favorite_spinner);
+        // set the textview
+        this.noFavorite = favorite.findViewById(R.id.no_favorite);
 
         return favorite;
     }
@@ -99,7 +118,7 @@ public class FavoriteFragment extends Fragment implements FragmentListener, Frag
     /**
      * On Activity Created
      *
-     * @param savedInstanceBundle
+     * @param savedInstanceBundle Bundle
      */
     @Override
     public void onActivityCreated(Bundle savedInstanceBundle) {
@@ -109,21 +128,15 @@ public class FavoriteFragment extends Fragment implements FragmentListener, Frag
     /**
      * Notify Data
      *
-     * @param parcel
+     * @param parcel Parcelable of series
      */
     @Override
-    public void notifyData(List<Series> parcel) {
-        if (parcel == null) {
-            getFavoriteSeries();
-        } else {
-            restoreData(parcel);
-        }
-    }
+    public void notifyData(List<Series> parcel) {}
 
     /**
      * On Attach
      *
-     * @param ctx
+     * @param ctx Context
      */
     @Override
     public void onAttach(Context ctx) {
@@ -137,18 +150,34 @@ public class FavoriteFragment extends Fragment implements FragmentListener, Frag
     }
 
     /**
+     * On Start
+     *
+     */
+    @Override
+    public void onStart() {
+        super.onStart();
+        getFavoriteSeries();
+    }
+
+    /**
      * Bind Recycle View
      *
-     * @TODO Handle cast error
-     * @param data
+     * @param data List of unknown type
      */
     public void bindRecycleView(List<?> data) {
         CardSeriesAdapter adapter;
+        int layoutID;
+
+        if (this.getId() == R.id.user_frag) {
+            layoutID = R.layout.card_favorite_hor;
+        } else {
+            layoutID = R.layout.card_favorite;
+        }
 
         if (data == null) {
-            adapter = new CardSeriesAdapter(null, R.layout.card_favorite);
+            adapter = new CardSeriesAdapter(null, layoutID);
         } else {
-            adapter = new CardSeriesAdapter((List<Series>) data, R.layout.card_favorite);
+            adapter = new CardSeriesAdapter((List<Series>) data, layoutID);
         }
 
         recyclerView.setAdapter(adapter);
@@ -161,31 +190,35 @@ public class FavoriteFragment extends Fragment implements FragmentListener, Frag
     private void getFavoriteSeries() {
         ProgressSpinner.setVisible(spinner);
         FavoriteFragment self = this;
-        HashMap<String, String> payload = new HashMap<>();
-        payload.put("name", "lollipop");
+        List<Series> serie = realmDecorator.getFavoriteSeries();
 
-        searchSeries.get(payload, new GsonCallback<List<Series>>() {
-            @Override
-            public void onSuccess(List<Series> response) {
-                if (response == null) {
-                    return;
-                }
-
-                self.bindRecycleView(response);
-                mLink.setParcelable(response, parcelID);
-                ProgressSpinner.setHidden(spinner);
-            }
-
-            @Override
-            public void onError(String err) {
-                uiErrorManager.setError("", err).setErrorStrategy(UIErrorManager.TOAST);
-            }
-        });
+        if (serie.size() == 0) {
+            // Display something here
+            bindRecycleView(null);
+            ProgressSpinner.setHidden(spinner);
+            noFavorite.setVisibility(View.VISIBLE);
+        } else {
+            bindRecycleView(serie);
+            mLink.setParcelable(serie, parcelID);
+            ProgressSpinner.setHidden(spinner);
+            noFavorite.setVisibility(View.GONE);
+        }
     }
 
     /**
      *
-     * @param payload
+     * @param payload List of series
      */
     private void restoreData(List<Series> payload) { bindRecycleView(payload); }
+
+    /**
+     * Attach Swipe Controller
+     *
+     */
+    private void attachSwipeController() {
+        SwipeController controller = new SwipeController();
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(controller);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+    }
+
 }

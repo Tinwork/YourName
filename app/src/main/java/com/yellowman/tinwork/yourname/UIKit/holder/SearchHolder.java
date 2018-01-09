@@ -11,7 +11,7 @@ import com.yellowman.tinwork.yourname.UIKit.helpers.Helper;
 import com.yellowman.tinwork.yourname.activities.filmDetail.FilmDetailsActivity;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.api.Routes;
-import com.yellowman.tinwork.yourname.utils.Utils;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 /**
  * Created by Marc Intha-amnouay on 30/12/2017.
@@ -59,7 +59,7 @@ public class SearchHolder extends RecyclerView.ViewHolder {
      */
     public void bindData(Series serie) {
         if (!serie.getBanner().isEmpty()) {
-            Glide.with(view.getContext()).load(Utils.buildMiscURI(Routes.IMG_PATH, serie.getBanner())).into(imgView);
+            Glide.with(view.getContext()).load(AppUtils.buildMiscURI(Routes.IMG_PATH, serie.getBanner())).into(imgView);
         } else {
             Glide.with(view.getContext()).load(R.drawable.ic_account_circle_white_18dp).into(imgView);
         }

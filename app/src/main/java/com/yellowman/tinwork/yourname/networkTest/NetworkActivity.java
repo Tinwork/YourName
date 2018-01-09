@@ -8,21 +8,22 @@ import android.widget.Button;
 
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.entity.IdSeries;
-import com.yellowman.tinwork.yourname.model.Serie.Actors;
+import com.yellowman.tinwork.yourname.entity.Actor;
 import com.yellowman.tinwork.yourname.model.Search;
-import com.yellowman.tinwork.yourname.model.Serie.Episodes;
+import com.yellowman.tinwork.yourname.entity.Episode;
 import com.yellowman.tinwork.yourname.model.Serie.Favorites;
 import com.yellowman.tinwork.yourname.model.Serie.SerieWrapper;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.model.Token;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.series.AddFavorites;
-import com.yellowman.tinwork.yourname.network.api.series.GetSerie;
+import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.api.series.ListActors;
 import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
 import com.yellowman.tinwork.yourname.network.api.series.ListEpisodes;
+import com.yellowman.tinwork.yourname.network.api.series.SingleSerie;
 import com.yellowman.tinwork.yourname.network.api.user.UserToken;
-import com.yellowman.tinwork.yourname.utils.Utils;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 import java.util.HashMap;
 
@@ -45,7 +46,7 @@ public class NetworkActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Token response) {
                 // Save the token in the sharedPreference
-                Utils.saveSharedPreference(NetworkActivity.this, "yourname_token", response.getToken());
+                AppUtils.saveSharedPreference(NetworkActivity.this, "yourname_token", response.getToken());
                 Log.d("Debug", "Token "+response.getToken());
             }
 
@@ -59,7 +60,7 @@ public class NetworkActivity extends AppCompatActivity {
     protected void testRefreshTokenAPI() {
         UserToken fetch = new UserToken(this.getApplicationContext());
         // Get back the token saved from shared preference
-        String token = Utils.getSharedPreference(this, "yourname_token");
+        String token = AppUtils.getSharedPreference(this, "yourname_token");
 
         fetch.refreshToken(token, new GsonCallback<Token>() {
             @Override
@@ -97,7 +98,7 @@ public class NetworkActivity extends AppCompatActivity {
         HashMap<String, String> payload = new HashMap<>();
         payload.put("series_id", "328840");
 
-        GetSerie serie = new GetSerie(this);
+        SingleSerie serie = new SingleSerie(this);
         serie.get(payload, new GsonCallback<SerieWrapper>() {
             @Override
             public void onSuccess(SerieWrapper response) {
@@ -117,8 +118,8 @@ public class NetworkActivity extends AppCompatActivity {
         String[] params = {"bar", "lol"};
         String[] single = {"foo"};
 
-        String paramsURI = Utils.buildPlaceholderUrl(Routes.SEARCH_SERIES, params, null);
-        String paramURI  = Utils.buildPlaceholderUrl(Routes.SEARCH_SERIES, single, "yourname/lyly/mama");
+        String paramsURI = AppUtils.buildPlaceholderUrl(Routes.SEARCH_SERIES, params, null);
+        String paramURI  = AppUtils.buildPlaceholderUrl(Routes.SEARCH_SERIES, single, "yourname/lyly/mama");
         Log.d("Debug", paramsURI);
         Log.d("Debug", paramURI);
     }
@@ -135,10 +136,10 @@ public class NetworkActivity extends AppCompatActivity {
         params.put("series_id", "328840");
 
         ListActors actors = new ListActors(this);
-        actors.get(params, new GsonCallback<Actors>() {
+        actors.get(params, new GsonCallback<Actor[]>() {
             @Override
-            public void onSuccess(Actors response) {
-                Log.d("Debug", "Serie name for search API "+response.getData());
+            public void onSuccess(Actor[] response) {
+                Log.d("Debug", "Serie name for search API "+response.toString());
             }
 
             public void onError(String err) {}
@@ -154,10 +155,10 @@ public class NetworkActivity extends AppCompatActivity {
         params.put("series_id", "252534");
 
         ListEpisodes episodes = new ListEpisodes(this);
-        episodes.get(params, new GsonCallback<Episodes>() {
+        episodes.get(params, new GsonCallback<Episode[]>() {
             @Override
-            public void onSuccess(Episodes response) {
-                Log.d("Debug", "Serie name for search API " + response.getData());
+            public void onSuccess(Episode[] response) {
+                Log.d("Debug", "Serie name for search API " + response.toString());
             }
 
             public void onError(String err) {}

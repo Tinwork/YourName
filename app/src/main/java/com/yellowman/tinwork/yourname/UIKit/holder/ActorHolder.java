@@ -12,7 +12,7 @@ import com.yellowman.tinwork.yourname.UIKit.helpers.Helper;
 import com.yellowman.tinwork.yourname.activities.search.ActorWebViewActivity;
 import com.yellowman.tinwork.yourname.entity.Actor;
 import com.yellowman.tinwork.yourname.network.api.Routes;
-import com.yellowman.tinwork.yourname.utils.Utils;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 /**
  * MERRY CHRISTMAS !!!!! ✨ L~~~~~~~~~MM~~~~~~~~~L ✨
@@ -60,7 +60,7 @@ public class ActorHolder extends RecyclerView.ViewHolder {
         if (actor.getImage().isEmpty()) {
             Glide.with(view.getContext()).load(R.drawable.ic_account_circle_white_18dp).apply(RequestOptions.circleCropTransform()).into(actorImg);
         } else {
-            Glide.with(view.getContext()).load(Utils.buildMiscURI(Routes.IMG_PATH, actor.getImage())).apply(RequestOptions.circleCropTransform()).into(actorImg);
+            Glide.with(view.getContext()).load(AppUtils.buildMiscURI(Routes.IMG_PATH, actor.getImage())).apply(RequestOptions.circleCropTransform()).into(actorImg);
         }
 
         actorTxt.setText(actor.getName());

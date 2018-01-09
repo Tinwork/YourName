@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,7 +15,7 @@ import com.yellowman.tinwork.yourname.entity.Episode;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.network.api.series.EpisodeData;
-import com.yellowman.tinwork.yourname.utils.Utils;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 import java.util.HashMap;
 
@@ -40,7 +39,7 @@ public class SingleEpisodeActivity extends AppCompatActivity {
     /**
      * On Create
      *
-     * @param savedInstanceBundle
+     * @param savedInstanceBundle bundle
      */
     @Override
     public void onCreate(Bundle savedInstanceBundle) {
@@ -57,7 +56,6 @@ public class SingleEpisodeActivity extends AppCompatActivity {
     /**
      * Init Components
      *
-     * @void
      */
     private void initComponent() {
         this.episodeTitle = findViewById(R.id.episode_title);
@@ -89,7 +87,7 @@ public class SingleEpisodeActivity extends AppCompatActivity {
     /**
      * Set Current Data
      *
-     * @param episode
+     * @param episode Episode
      */
     private void setCurrentData(Episode episode) {
         episodeTitle.setText(episode.getEpisodeName());
@@ -100,8 +98,7 @@ public class SingleEpisodeActivity extends AppCompatActivity {
     /**
      * Set Extra Data
      *
-     * @param episode
-     * @TODO set a label before the rating...
+     * @param episode Episode
      */
     private void setExtraData(Episode episode) {
         String directorsStr = "";
@@ -115,7 +112,7 @@ public class SingleEpisodeActivity extends AppCompatActivity {
 
         // Set the image https://www.thetvdb.com/banners/episodes/
         if (episode.getFilename() != null) {
-            Glide.with(this).load(Utils.buildMiscURI(Routes.IMG_PATH, episode.getFilename())).into(imgview);
+            Glide.with(this).load(AppUtils.buildMiscURI(Routes.IMG_PATH, episode.getFilename())).into(imgview);
         } else {
             Glide.with(this).load(R.drawable.yourname_bg).into(imgview);
         }
@@ -124,6 +121,7 @@ public class SingleEpisodeActivity extends AppCompatActivity {
     /**
      * Get Extra Information
      *
+     * @param id Int
      */
     private void getExtraInforamtion(int id) {
         // Prepare the data to be send

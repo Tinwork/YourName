@@ -8,7 +8,7 @@ import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.network.fetch.Fetch;
 import com.yellowman.tinwork.yourname.network.fetch.GsonGetManager;
 import com.yellowman.tinwork.yourname.network.fetch.RequestQueueManager;
-import com.yellowman.tinwork.yourname.utils.Utils;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 import java.util.HashMap;
 
@@ -46,12 +46,12 @@ public class EpisodeData extends Fetch {
     @Override
     public void get(HashMap<String, String> payload, GsonCallback callback) {
         // @TODO though we can make an util which can does that for us...
-        String token = Utils.getSharedPreference(ctx, "yourname_token");
+        String token = AppUtils.getSharedPreference(ctx, "yourname_token");
         // Headers
-        HashMap<String, String> headers = Utils.makeHeaders(null, token);
+        HashMap<String, String> headers = AppUtils.makeHeaders(null, token);
         String[] data = {payload.get("episode_id")};
 
-        String URL = Utils.buildPlaceholderUrl(Routes.SEARCH_EPISODES, data, null);
+        String URL = AppUtils.buildPlaceholderUrl(Routes.SEARCH_EPISODES, data, null);
 
         request = new GsonGetManager<>(URL, Episode.class, headers, response -> {
             callback.onSuccess(response);
