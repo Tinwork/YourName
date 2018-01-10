@@ -55,13 +55,9 @@ public class AddFavorites extends Fetch {
         String URL = AppUtils.buildPlaceholderUrl(Routes.FAVORITES, foo, null);
 
         favorites = new GsonPutManager<IdSeries[]>(URL, IdSeries[].class, headers, response -> {
-            System.out.println("test 1 "+response);
             callback.onSuccess(response);
         }, error -> {
             this.handleVolleyError(error, favorites, ctx, retry, callback);
-            System.out.println("test 2 "+token);
-            System.out.println("test 2 "+favorites.toString());
-            System.out.println("test 2 "+ctx.toString());
             retry++;
         }, true);
 
