@@ -155,4 +155,29 @@ public class CommonManager<E> implements RealmDefaultBehavior {
             }
         });
     }
+
+    /**
+     * Remove Series By Id
+     *
+     * @param id series id
+     */
+    public void removFavoritesByIdeSeries(String criterion, String id) {
+        getRealmInstance().executeTransactionAsync((final Realm realm) -> {
+            RealmResults<Series> data = realm.where(Series.class)
+                    .equalTo(criterion, id)
+                    .findAll();
+
+            data.deleteAllFromRealm();
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                Log.println(Log.WARN, "Yourname::Realm", "A serie has been deleted");
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                Log.println(Log.WARN, "Yourname::Realm", "A serie has not been delete reason: "+error.getMessage());
+            }
+        });
+    }
 }

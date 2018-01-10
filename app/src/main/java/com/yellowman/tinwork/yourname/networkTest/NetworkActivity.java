@@ -18,6 +18,7 @@ import com.yellowman.tinwork.yourname.model.Token;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.series.AddFavorites;
 import com.yellowman.tinwork.yourname.model.Series;
+import com.yellowman.tinwork.yourname.network.api.series.DeleteSerie;
 import com.yellowman.tinwork.yourname.network.api.series.ListActors;
 import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
 import com.yellowman.tinwork.yourname.network.api.series.ListEpisodes;
@@ -184,6 +185,18 @@ public class NetworkActivity extends AppCompatActivity {
                 Log.d("Debug test", "Test "+err.toString());
             }
         });
+
+        /*DeleteSerie series = new DeleteSerie(this);
+        series.get(params, new GsonCallback<IdSeries[]>() {
+            @Override
+            public void onSuccess(IdSeries[] response) {
+                Log.d("Debug", "Serie name for search API " + response);
+            }
+
+            public void onError(String err) {
+                Log.d("Debug test", "Test "+err.toString());
+            }
+        });*/
     }
 
     /**
