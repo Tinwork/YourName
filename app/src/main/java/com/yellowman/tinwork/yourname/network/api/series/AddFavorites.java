@@ -13,7 +13,10 @@ import com.yellowman.tinwork.yourname.utils.AppUtils;
 import java.util.HashMap;
 
 /**
- * Created by abdel-latifmabrouck on 19/12/2017.
+ * Created by Marc Intha-amnouay on 27/12/2017.
+ * Created by Didier Youn on 27/12/2017.
+ * Created by Abdel-Atif Mabrouck on 27/12/2017.
+ * Created by Antoine Renault on 27/12/2017.
  */
 
 public class AddFavorites extends Fetch {
@@ -42,6 +45,7 @@ public class AddFavorites extends Fetch {
      */
     @Override
     public void get(HashMap<String, String> payload, final GsonCallback callback) {
+
         String token = AppUtils.getSharedPreference(ctx, "yourname_token");
         // Headers
         HashMap<String, String> headers = AppUtils.makeHeaders(null, token);

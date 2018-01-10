@@ -3,7 +3,6 @@ package com.yellowman.tinwork.yourname.networkTest;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 
 import com.yellowman.tinwork.yourname.R;
@@ -11,14 +10,11 @@ import com.yellowman.tinwork.yourname.entity.IdSeries;
 import com.yellowman.tinwork.yourname.entity.Actor;
 import com.yellowman.tinwork.yourname.model.Search;
 import com.yellowman.tinwork.yourname.entity.Episode;
-import com.yellowman.tinwork.yourname.model.Serie.Favorites;
 import com.yellowman.tinwork.yourname.model.Serie.SerieWrapper;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.model.Token;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.series.AddFavorites;
-import com.yellowman.tinwork.yourname.model.Series;
-import com.yellowman.tinwork.yourname.network.api.series.DeleteSerie;
 import com.yellowman.tinwork.yourname.network.api.series.ListActors;
 import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
 import com.yellowman.tinwork.yourname.network.api.series.ListEpisodes;
@@ -153,6 +149,7 @@ public class NetworkActivity extends AppCompatActivity {
      */
     protected void testGetEpisodesFromSeriesById() {
         HashMap<String, String> params = new HashMap<>();
+
         params.put("series_id", "252534");
 
         ListEpisodes episodes = new ListEpisodes(this);

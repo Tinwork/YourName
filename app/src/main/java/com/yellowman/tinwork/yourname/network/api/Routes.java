@@ -12,6 +12,7 @@ package com.yellowman.tinwork.yourname.network.api;
  */
 
 public class Routes {
+
     private static final String PREFIX = "https://api.thetvdb.com";
     // Protocol
     public static final String PROTOCOL = "https";
@@ -23,7 +24,6 @@ public class Routes {
     public static final String SEARCH_EPISODES = "episodes";
 
     public static final String IMG_PATH = "www.thetvdb.com/banners";
-
     public static final String SUFFIX_ROUTES_EPISODES_FROM_SERIES = "episodes/query";
     public static final String SUFFIX_ROUTES_EPISODES_SUMMARY = "episodes/summary";
     public static final String UPDATE_SERIES = "updated/query";
