@@ -12,6 +12,7 @@ package com.yellowman.tinwork.yourname.network.api;
  */
 
 public class Routes {
+
     private static final String PREFIX = "https://api.thetvdb.com";
     // Protocol
     public static final String PROTOCOL = "https";
@@ -35,6 +36,7 @@ public class Routes {
     // User
     // Route that not need params
     public static final String USER = PREFIX+"/user";
+    public static final String FAVORITES = "user/favorites";
 
     // IMDB Base URL
     public static final String IMDB_BASE_URL = "http://www.imdb.com/";
