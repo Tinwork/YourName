@@ -24,9 +24,11 @@ public class SingleSerie extends Fetch {
 
     private Context ctx;
     protected GsonGetManager<Series> request;
+    protected GsonGetManager<Series> noRealmRequest;
     protected RequestQueueManager queueManager;
     protected CommonManager realmManager;
     protected int retry;
+    protected int retryWoRealm;
 
     /**
      * Single Serie::Constructor
@@ -36,6 +38,7 @@ public class SingleSerie extends Fetch {
     public SingleSerie(Context ctx) {
         this.ctx   = ctx;
         this.retry = 0;
+        this.retryWoRealm = 0;
         this.queueManager = RequestQueueManager.getInstance(this.ctx.getApplicationContext());
         this.realmManager = new CommonManager();
     }
@@ -73,5 +76,30 @@ public class SingleSerie extends Fetch {
         }, true);
 
         queueManager.addToRequestQueue(request);
+    }
+
+    /**
+     * Get Without Realm
+     *
+     *
+     * /!\ Duplicate code, refactor this as soon as possible...
+     * @param payload HashMap
+     * @param callback GsonCallback
+     */
+    public void getWithoutRealm(HashMap<String, String> payload, GsonCallback callback) {
+        String[] data = {payload.get("series_id")};
+        String token = AppUtils.getSharedPreference(ctx, "yourname_token");
+        HashMap<String, String> headers = AppUtils.makeHeaders(null, token);
+
+        String URL = AppUtils.buildPlaceholderUrl(Routes.PREFIX_SERIES, data, null);
+
+        noRealmRequest = new GsonGetManager<>(URL, Series.class, headers, response -> {
+            callback.onSuccess(response);
+        }, error -> {
+            this.handleVolleyError(error, request, ctx, retryWoRealm, callback);
+            retryWoRealm++;
+        }, true);
+
+        queueManager.addToRequestQueue(noRealmRequest);
     }
 }

@@ -5,20 +5,22 @@ import android.util.Log;
 
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
+import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
+import com.yellowman.tinwork.yourname.network.api.series.SingleSerie;
 import com.yellowman.tinwork.yourname.network.api.user.GetFavorite;
 import com.yellowman.tinwork.yourname.network.helper.ConnectivityHelper;
 import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import io.realm.RealmResults;
 
 /**
- * Looking at 2 constellations, hopefully one day these 2 constellation will be together
- * and forming one ~. Developers's night thinking...
- *
+ * This need a refactor
  *
  * Created by Marc Intha-amnouay on 10/01/2018.
  * Created by Didier Youn on 10/01/2018.
@@ -31,6 +33,7 @@ public class FavoriteRealmDecorator extends CommonManager {
     private Context ctx;
     private ConnectivityHelper conHelper;
     private List<Series> serie;
+    private GsonCallback callback;
 
     /**
      * Favorite Realm Decorator::Constructor
@@ -46,9 +49,10 @@ public class FavoriteRealmDecorator extends CommonManager {
     /**
      * Get
      *
-     * @param callback GsonCallback
+     * @param cb GsonCallback
      */
-    public void get(GsonCallback callback) {
+    public void get(GsonCallback cb) {
+        this.callback = cb;
         // Get the series from realm first then aggregate if needed..
         RealmResults<Series> realmSeries = this.getRealmInstance()
                 .where(Series.class)
@@ -64,7 +68,14 @@ public class FavoriteRealmDecorator extends CommonManager {
             favorite.get(null, new GsonCallback<List<String>>() {
                 @Override
                 public void onSuccess(List<String> response) {
-                    compare(serie, response);
+                    List<String> v = compare(serie, response);
+
+                    if (v.size() == 0) {
+                        callback.onSuccess(serie);
+                        return;
+                    }
+                    // make a bulk of series request
+                    bulkSeriesRequest(v);
                 }
 
                 @Override
@@ -83,20 +94,78 @@ public class FavoriteRealmDecorator extends CommonManager {
     /**
      * Compare
      *
-     * @param a List<Series> Realm List<Series>
-     * @param b List<Series> TVDB List<Series>
-     * @return
+     * @param m List<Series> Realm List<Series>
+     * @param i List<String> TVDB List<String>
+     * @return List<String>
      */
-    private void compare(List<Series> a, List<String> b) {
+    private List<String> compare(List<Series> m, List<String> i) {
+        // Create a copy of RealmSeries
+        List<String> update = new ArrayList<>();
 
-        List<String> m = a.stream().map(serie -> serie.getId()).collect(Collectors.toList());
-        for (String l: m) {
-            m = m.stream().filter(s -> s != l).collect(Collectors.toList());
+        for (String tvdbIndexes: i) {
+            Boolean exist = false;
+            int indexes = 0;
+
+            for (int idx = 0; idx < m.size(); idx++) {
+                if (m.get(idx).getId().equals(tvdbIndexes)) {
+                    exist = true;
+                    indexes = idx;
+                }
+            }
+
+            if (!exist) {
+                update.add(tvdbIndexes);
+            }
         }
 
-        Log.d("M SIZE", String.valueOf(m.size()));
-        Log.d("A SIZE", String.valueOf(a.size()));
-        Log.d("B SIZE", String.valueOf(b.size()));
+        return update;
+    }
 
+    /**
+     * Bulk Series Request
+     *
+     * @param updates List<String>
+     */
+    private void bulkSeriesRequest(List<String> updates) {
+        List<Series> stack = new ArrayList<>();
+        HashMap<String, String> payload = new HashMap<>();
+        payload.put("notsave", null);
+
+        for (String update: updates) {
+            payload.put("series_id", update);
+            SingleSerie series = new SingleSerie(ctx);
+            series.getWithoutRealm(payload, new GsonCallback<Series>() {
+                @Override
+                public void onSuccess(Series response) {
+                    response.setFavorite(true);
+                    stack.add(response);
+
+                    if (stack.size() >= updates.size()) {
+                        dispatchUpdate(stack);
+                    }
+                }
+
+                @Override
+                public void onError(String err) {
+                    callback.onError(err);
+                }
+            });
+        }
+    }
+
+    /**
+     * Dispatch Update
+     *
+     * @param stack List<Series>
+     */
+    private void dispatchUpdate(List<Series> stack) {
+        this.commitMultipleEntities(stack);
+        // send the data to the callback
+        // Merge series and stack data
+        List<Series> merge = new ArrayList<>();
+        merge.addAll(serie);
+        merge.addAll(stack);
+
+        callback.onSuccess(merge);
     }
 }

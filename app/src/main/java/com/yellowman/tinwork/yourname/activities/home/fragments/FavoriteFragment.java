@@ -198,7 +198,6 @@ public class FavoriteFragment extends Fragment implements FragmentListener, Frag
      *
      */
     private void getFavoriteSeries() {
-        Log.d("Debug", "Favorite !!!");
         ProgressSpinner.setVisible(spinner);
 
         realmDecorator.get(new GsonCallback<List<Series>>() {
@@ -212,11 +211,12 @@ public class FavoriteFragment extends Fragment implements FragmentListener, Frag
                 }
 
                 ProgressSpinner.setHidden(spinner);
-                noFavorite.setVisibility(View.VISIBLE);
+                noFavorite.setVisibility(View.GONE);
             }
 
             @Override
             public void onError(String err) {
+                Log.d("Error", err);
                 bindRecycleView(null);
                 ProgressSpinner.setHidden(spinner);
                 noFavorite.setVisibility(View.VISIBLE);

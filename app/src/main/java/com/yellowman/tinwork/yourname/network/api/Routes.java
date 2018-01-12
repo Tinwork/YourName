@@ -37,7 +37,7 @@ public class Routes {
     // Route that not need params
     public static final String USER = PREFIX+"/user";
     public static final String FAVORITES = "user/favorites";
-    public static final String FAVORITES_FULL = PREFIX+FAVORITES;
+    public static final String FAVORITES_FULL = PREFIX+"/"+FAVORITES;
 
     // IMDB Base URL
     public static final String IMDB_BASE_URL = "http://www.imdb.com/";
