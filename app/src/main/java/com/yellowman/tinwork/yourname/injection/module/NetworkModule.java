@@ -13,6 +13,7 @@ import com.yellowman.tinwork.yourname.network.api.series.SingleSerie;
 import com.yellowman.tinwork.yourname.network.api.user.GetUser;
 import com.yellowman.tinwork.yourname.network.fetch.Fetch;
 import com.yellowman.tinwork.yourname.realm.decorator.ActorRealmDecorator;
+import com.yellowman.tinwork.yourname.realm.decorator.FavoriteRealmDecorator;
 import com.yellowman.tinwork.yourname.realm.decorator.UserRealmDecorator;
 import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
 import com.yellowman.tinwork.yourname.realm.decorator.SeriesRealmDecorator;
@@ -75,6 +76,17 @@ public class NetworkModule {
     @Provides @Named("FetchGetUser")
     @Singleton
     UserRealmDecorator provideFetchGetUser() { return new UserRealmDecorator(ctx); }
+
+    /**
+     * Provide Fetch Favorite
+     *
+     * @return Favorite Realm Decorator
+     */
+    @Provides @Named("FetchFavorite")
+    @Singleton
+    FavoriteRealmDecorator provideFetchFavorite() {
+        return new FavoriteRealmDecorator(ctx);
+    }
 
     /**
      * Provide Search Episodes

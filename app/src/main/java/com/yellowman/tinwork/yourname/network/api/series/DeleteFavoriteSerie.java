@@ -1,18 +1,12 @@
 package com.yellowman.tinwork.yourname.network.api.series;
 
-/**
- * Created by abdel-latifmabrouck on 10/01/2018.
- */
-
-
 import android.content.Context;
 
-import com.yellowman.tinwork.yourname.entity.Episode;
-import com.yellowman.tinwork.yourname.model.Series;
+import com.yellowman.tinwork.yourname.entity.User;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.network.fetch.Fetch;
-import com.yellowman.tinwork.yourname.network.fetch.GsonGetManager;
+import com.yellowman.tinwork.yourname.network.fetch.GsonDeleteManager;
 import com.yellowman.tinwork.yourname.network.fetch.RequestQueueManager;
 import com.yellowman.tinwork.yourname.utils.AppUtils;
 
@@ -25,23 +19,30 @@ import java.util.HashMap;
  * Created by Antoine Renault on 10/01/2018.
  */
 
-public class DeleteSerie extends Fetch {
+public class DeleteFavoriteSerie extends Fetch {
 
     private final RequestQueueManager queueManager;
     private Context ctx;
-    private GsonGetManager<Series[]> series;
+    private GsonDeleteManager<User> series;
     private int retry;
 
     /**
+     * Delete Favorite Series::Constructor
      *
-     * @param context
+     * @param context Context
      */
-    public DeleteSerie(Context context) {
+    public DeleteFavoriteSerie(Context context) {
         this.ctx = context;
         this.queueManager = RequestQueueManager.getInstance(this.ctx.getApplicationContext());
         this.retry = 0;
     }
 
+    /**
+     *
+     *
+     * @param payload HashMap
+     * @param callback GsonCallback
+     */
     @Override
     public void get(HashMap<String, String> payload, final GsonCallback callback) {
         String[] data = {payload.get("series_id")};
@@ -52,7 +53,7 @@ public class DeleteSerie extends Fetch {
         // Bind the GET request params
         String URL = AppUtils.buildPlaceholderUrl(Routes.FAVORITES, data , null);
 
-        series = new GsonGetManager<Series[]>(URL, Series[].class, headers, response -> {
+        series = new GsonDeleteManager<>(URL, User.class, headers, response -> {
             callback.onSuccess(response);
         }, error -> {
             this.handleVolleyError(error, series, ctx, retry, callback);
