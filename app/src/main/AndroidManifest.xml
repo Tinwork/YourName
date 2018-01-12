@@ -32,7 +32,6 @@
         <activity
             android:name=".activities.filmDetail.FilmDetailsActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".networkTest.NetworkActivity" />
         <activity
             android:name=".activities.login.LoginActivity"
             android:label="@string/title_activity_login"
