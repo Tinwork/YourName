@@ -45,8 +45,13 @@ public class AppUtils {
      */
     public static String buildGetUrl(String baseURL, HashMap<String, String> payload) {
         String uri = "";
-        if (payload.isEmpty())
+        if (payload == null) {
             return baseURL;
+        }
+
+        if (payload.isEmpty()) {
+            return baseURL;
+        }
 
         Uri.Builder builder = new Uri.Builder();
         builder.scheme(Routes.PROTOCOL)

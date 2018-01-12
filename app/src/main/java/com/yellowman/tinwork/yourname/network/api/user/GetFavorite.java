@@ -50,7 +50,7 @@ public class GetFavorite extends Fetch {
         // Headers
         HashMap<String, String> headers = AppUtils.makeHeaders(null, token);
         // Build URL
-        String URL = AppUtils.buildGetUrl(Routes.FAVORITES, null);
+        String URL = Routes.FAVORITES_FULL;
 
         // Make the request
         request = new GsonGetManager<>(URL, User.class, headers, response -> {
@@ -60,5 +60,7 @@ public class GetFavorite extends Fetch {
             this.handleVolleyError(error, request, ctx, retry, callback);
             retry++;
         }, true);
+
+        requestQueueManager.addToRequestQueue(request);
     }
 }

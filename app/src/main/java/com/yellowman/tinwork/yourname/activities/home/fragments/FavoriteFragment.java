@@ -24,6 +24,7 @@ import com.yellowman.tinwork.yourname.UIKit.misc.SwipeController;
 import com.yellowman.tinwork.yourname.application.YourName;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
+import com.yellowman.tinwork.yourname.realm.decorator.FavoriteRealmDecorator;
 import com.yellowman.tinwork.yourname.realm.decorator.SeriesRealmDecorator;
 import com.yellowman.tinwork.yourname.utils.AppUtils;
 
@@ -43,8 +44,8 @@ import javax.inject.Named;
 public class FavoriteFragment extends Fragment implements FragmentListener, FragmentBinder {
 
     @Inject
-    @Named("SearchSeries")
-    SeriesRealmDecorator realmDecorator;
+    @Named("FetchFavorite")
+    FavoriteRealmDecorator realmDecorator;
 
     protected RecyclerView recyclerView;
     protected View spinner;
@@ -156,7 +157,16 @@ public class FavoriteFragment extends Fragment implements FragmentListener, Frag
     @Override
     public void onStart() {
         super.onStart();
-        getFavoriteSeries();
+
+        // retrieve the preference
+        String username  = AppUtils.getSharedPreference(getContext(), "username");
+        String accountID = AppUtils.getSharedPreference(getContext(), "accountID");
+
+        if (username.isEmpty() || accountID.isEmpty()) {
+            noFavorite.setVisibility(View.VISIBLE);
+        } else {
+            getFavoriteSeries();
+        }
     }
 
     /**
@@ -188,21 +198,30 @@ public class FavoriteFragment extends Fragment implements FragmentListener, Frag
      *
      */
     private void getFavoriteSeries() {
+        Log.d("Debug", "Favorite !!!");
         ProgressSpinner.setVisible(spinner);
-        FavoriteFragment self = this;
-        List<Series> serie = realmDecorator.getFavoriteSeries();
 
-        if (serie.size() == 0) {
-            // Display something here
-            bindRecycleView(null);
-            ProgressSpinner.setHidden(spinner);
-            noFavorite.setVisibility(View.VISIBLE);
-        } else {
-            bindRecycleView(serie);
-            mLink.setParcelable(serie, parcelID);
-            ProgressSpinner.setHidden(spinner);
-            noFavorite.setVisibility(View.GONE);
-        }
+        realmDecorator.get(new GsonCallback<List<Series>>() {
+            @Override
+            public void onSuccess(List<Series> response) {
+                if (response.size() == 0) {
+                    bindRecycleView(null);
+                } else {
+                    bindRecycleView(response);
+                    mLink.setParcelable(response, parcelID);
+                }
+
+                ProgressSpinner.setHidden(spinner);
+                noFavorite.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onError(String err) {
+                bindRecycleView(null);
+                ProgressSpinner.setHidden(spinner);
+                noFavorite.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     /**

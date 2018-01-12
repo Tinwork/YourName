@@ -1,6 +1,7 @@
 package com.yellowman.tinwork.yourname.realm.decorator;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
@@ -9,8 +10,8 @@ import com.yellowman.tinwork.yourname.network.helper.ConnectivityHelper;
 import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import io.realm.RealmResults;
 
@@ -63,16 +64,13 @@ public class FavoriteRealmDecorator extends CommonManager {
             favorite.get(null, new GsonCallback<List<String>>() {
                 @Override
                 public void onSuccess(List<String> response) {
-                    // @TODO compare collection
-                    Collection<Series> seriesCollection = new ArrayList(response);
-                    // here we merge the data of the request
-                    seriesCollection.removeAll(serie);
-
+                    compare(serie, response);
                 }
 
                 @Override
                 public void onError(String err) {
                     // handle error
+                    callback.onError(err);
                 }
             });
 
@@ -80,5 +78,25 @@ public class FavoriteRealmDecorator extends CommonManager {
         }
 
         callback.onSuccess(serie);
+    }
+
+    /**
+     * Compare
+     *
+     * @param a List<Series> Realm List<Series>
+     * @param b List<Series> TVDB List<Series>
+     * @return
+     */
+    private void compare(List<Series> a, List<String> b) {
+
+        List<String> m = a.stream().map(serie -> serie.getId()).collect(Collectors.toList());
+        for (String l: m) {
+            m = m.stream().filter(s -> s != l).collect(Collectors.toList());
+        }
+
+        Log.d("M SIZE", String.valueOf(m.size()));
+        Log.d("A SIZE", String.valueOf(a.size()));
+        Log.d("B SIZE", String.valueOf(b.size()));
+
     }
 }
