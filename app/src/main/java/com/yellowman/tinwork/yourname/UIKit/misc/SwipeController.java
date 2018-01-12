@@ -1,10 +1,12 @@
 package com.yellowman.tinwork.yourname.UIKit.misc;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 
 import com.yellowman.tinwork.yourname.UIKit.holder.FavoriteHolder;
+import com.yellowman.tinwork.yourname.realm.decorator.FavoriteRealmDecorator;
 import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
 
 import static android.support.v7.widget.helper.ItemTouchHelper.LEFT;
@@ -19,14 +21,14 @@ import static android.support.v7.widget.helper.ItemTouchHelper.RIGHT;
 
 public class SwipeController extends ItemTouchHelper.Callback {
 
-    private final CommonManager realmManager;
+    private final FavoriteRealmDecorator realmManager;
 
     /**
      * Swipe Controller::Constructor
      *
      */
-    public SwipeController() {
-        this.realmManager = new CommonManager();
+    public SwipeController(Context ctx) {
+        this.realmManager = new FavoriteRealmDecorator(ctx);
     }
 
     /**

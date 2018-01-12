@@ -235,7 +235,7 @@ public class FavoriteFragment extends Fragment implements FragmentListener, Frag
      *
      */
     private void attachSwipeController() {
-        SwipeController controller = new SwipeController();
+        SwipeController controller = new SwipeController(getContext());
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(controller);
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }

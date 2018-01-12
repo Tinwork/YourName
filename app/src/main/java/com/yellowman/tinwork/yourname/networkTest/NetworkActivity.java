@@ -183,7 +183,7 @@ public class NetworkActivity extends AppCompatActivity {
             }
         });
 
-        /*DeleteSerie series = new DeleteSerie(this);
+        /*DeleteFavoriteSerie series = new DeleteFavoriteSerie(this);
         series.get(params, new GsonCallback<IdSeries[]>() {
             @Override
             public void onSuccess(IdSeries[] response) {

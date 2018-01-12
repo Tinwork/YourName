@@ -3,9 +3,11 @@ package com.yellowman.tinwork.yourname.realm.decorator;
 import android.content.Context;
 import android.util.Log;
 
+import com.yellowman.tinwork.yourname.entity.User;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
+import com.yellowman.tinwork.yourname.network.api.series.DeleteFavoriteSerie;
 import com.yellowman.tinwork.yourname.network.api.series.SingleSerie;
 import com.yellowman.tinwork.yourname.network.api.user.GetFavorite;
 import com.yellowman.tinwork.yourname.network.helper.ConnectivityHelper;
@@ -17,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import io.realm.Realm;
 import io.realm.RealmResults;
 
 /**
@@ -34,6 +37,17 @@ public class FavoriteRealmDecorator extends CommonManager {
     private ConnectivityHelper conHelper;
     private List<Series> serie;
     private GsonCallback callback;
+    private final GsonCallback<User> deleteCallback = new GsonCallback<User>() {
+        @Override
+        public void onSuccess(User response) {
+            Log.d("Debug", "a serie has been removed");
+        }
+
+        @Override
+        public void onError(String err) {
+            Log.d("ERROR", "a serie has fail to be remove");
+        }
+    };
 
     /**
      * Favorite Realm Decorator::Constructor
@@ -89,6 +103,36 @@ public class FavoriteRealmDecorator extends CommonManager {
         }
 
         callback.onSuccess(serie);
+    }
+
+    /**
+     * Remove Series By Id
+     *
+     * @param id series id
+     */
+    public void removeSeriesById(String criterion, String id) {
+        getRealmInstance().executeTransactionAsync((final Realm realm) -> {
+            RealmResults<Series> data = realm.where(Series.class)
+                    .equalTo(criterion, id)
+                    .findAll();
+
+            data.deleteAllFromRealm();
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                Log.println(Log.WARN, "Yourname::Realm", "A serie has been deleted");
+                // Call the remove services here
+                HashMap<String, String> payload = new HashMap<>();
+                payload.put("series_id", id);
+                DeleteFavoriteSerie del = new DeleteFavoriteSerie(ctx);
+                del.get(payload, deleteCallback);
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                Log.println(Log.WARN, "Yourname::Realm", "A serie has not been delete reason: "+error.getMessage());
+            }
+        });
     }
 
     /**
