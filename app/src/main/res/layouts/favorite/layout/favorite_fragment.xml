@@ -1,36 +1,59 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="none"
-    android:paddingTop="@dimen/margin_between_fragment"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activities.home.fragments.FavoriteFragment">
 
-    <ProgressBar
-        android:id="@+id/favorite_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_centerHorizontal="true"
-        android:indeterminateTint="@color/white"
-        android:visibility="gone"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:text="@string/favorite"
-        android:textAllCaps="true"
-        android:paddingLeft="16dp"
-        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/favoriteFrag_recycler_view"
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="horizontal"
-        android:layout_marginTop="30dp"
-        android:layoutAnimation="@anim/layout_animation_vertical">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:paddingTop="@dimen/margin_between_fragment">
 
-</RelativeLayout>
+        <ProgressBar
+            android:id="@+id/favorite_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:indeterminateTint="@color/white"
+            android:visibility="gone"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="@string/favorite"
+            android:textAllCaps="true"
+            android:paddingLeft="16dp"
+            android:id="@+id/favorite_title"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="@string/no_favorite"
+            android:paddingLeft="16dp"
+            android:paddingTop="16dp"
+            android:visibility="gone"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/no_favorite"
+            android:layout_below="@+id/favorite_title"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"/>
+
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/favoriteFrag_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="horizontal"
+            android:layout_marginTop="30dp"
+            android:layoutAnimation="@anim/layout_animation_vertical">
+        </android.support.v7.widget.RecyclerView>
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

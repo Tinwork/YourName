@@ -20,17 +20,30 @@ import com.yellowman.tinwork.yourname.UIKit.errors.UIErrorManager;
 import com.yellowman.tinwork.yourname.UIKit.misc.GradientGenerator;
 import com.yellowman.tinwork.yourname.UIKit.misc.ProgressSpinner;
 import com.yellowman.tinwork.yourname.activities.home.HomeActivity;
+import com.yellowman.tinwork.yourname.application.YourName;
+import com.yellowman.tinwork.yourname.entity.User;
 import com.yellowman.tinwork.yourname.model.Token;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.user.UserToken;
-import com.yellowman.tinwork.yourname.utils.Utils;
+import com.yellowman.tinwork.yourname.realm.decorator.UserRealmDecorator;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 import java.util.HashMap;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 /**
- * A login screen that offers login via email/password.
+ * Created by Marc Intha-amnouay two months ago.
+ * Created by Didier Youn two months ago.
+ * Created by Abdel-Atif Mabrouck two months ago.
+ * Created by Antoine Renault two months ago.
  */
 public class LoginActivity extends AppCompatActivity {
+
+    @Inject
+    @Named("FetchGetUser")
+    UserRealmDecorator getUser;
 
     // UI references.
     private AutoCompleteTextView mUsername;
@@ -47,6 +60,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        // Call our injector
+        ((YourName) getApplicationContext()).getmNetworkComponent().inject(this);
+
         // Init the other login component view
         initOtherComponent();
         // Prepare the listener
@@ -73,7 +89,6 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * Init Other Component
      *
-     * @void
      */
     protected void initOtherComponent() {
         mProgressView  = findViewById(R.id.spinner_container);
@@ -83,7 +98,6 @@ public class LoginActivity extends AppCompatActivity {
    /**
     * Add Submit Listener
     *
-    * @void
     */
    private void addSubmitListener() {
        Button signIn = findViewById(R.id.sign_in_button);
@@ -97,12 +111,11 @@ public class LoginActivity extends AppCompatActivity {
    /**
     * Prepare Auto Completion
     *
-    * @void
     */
    private void prepareAutoCompletion() {
        mUsername = findViewById(R.id.username);
        // Retrieve the usernames from the sharedPreference saved in Json
-       String jsonUsernameTrialStr = Utils.getSharedPreference(this, "username_trial");
+       String jsonUsernameTrialStr = AppUtils.getSharedPreference(this, "username_trial");
        // Gson
        gson = new Gson();
        String[] predicates = gson.fromJson(jsonUsernameTrialStr, String[].class);
@@ -121,7 +134,6 @@ public class LoginActivity extends AppCompatActivity {
 
    /**
     * Attempt Login
-    * @void
     */
    private void attemptLogin() {
        HashMap<String, String> userInfo = new HashMap<>();
@@ -154,20 +166,18 @@ public class LoginActivity extends AppCompatActivity {
    /**
     * Get Request Token
     *   Get the Token of the App
-    * @param payload
+    * @param payload HashMap
     */
    private void getRequestToken(HashMap<String, String> payload) {
        ProgressSpinner.setVisible(mProgressView);
        tokenReq.get(payload, new GsonCallback<Token>() {
            @Override
            public void onSuccess(Token response) {
-               Utils.saveSharedPreference(LoginActivity.this, "yourname_token", response.getToken());
+               AppUtils.saveSharedPreference(LoginActivity.this, "yourname_token", response.getToken());
                // Save the user data
                if (payload != null) {
-                   if (payload.containsKey("username") && payload.containsKey("accountID")){
-                       Utils.saveSharedPreference(LoginActivity.this, "username", payload.get("username"));
-                       Utils.saveSharedPreference(LoginActivity.this, "accountID", payload.get("account_id"));
-                   }
+                    getUserPayload(payload);
+                    return;
                }
                // Start the new home activity
                LoginActivity.this.dispatchHome();
@@ -176,11 +186,9 @@ public class LoginActivity extends AppCompatActivity {
 
            @Override
            public void onError(String err) {
-               Log.d("Debug", "CATTTCHHH ERRRROOORRR");
                ProgressSpinner.setHidden(mProgressView);
                uiErrorManager
                        .setError("", err)
-                       .setOptsMode(UIErrorManager.RETRY)
                        .setErrorStrategy(UIErrorManager.SNACKBAR);
            }
        });
@@ -189,7 +197,7 @@ public class LoginActivity extends AppCompatActivity {
    /**
     * Shows the progress UI and hides the login form.
     *
-    * @param show
+    * @param show Boolean
     */
     private void showProgress(final boolean show) {
         // The ViewPropertyAnimator APIs are not available, so simply show
@@ -211,7 +219,6 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * Set Background
-     * @void
      */
     private void setBackground() {
         RelativeLayout layout = findViewById(R.id.loginLayout);
@@ -219,7 +226,36 @@ public class LoginActivity extends AppCompatActivity {
         gd.buildBackgroundGradientColor();
 
         // Set the nav bar to translucent
-        Utils.makeNavBarTranslucent(getWindow());
+        AppUtils.makeNavBarTranslucent(getWindow());
+    }
+
+    /**
+     * Get User Payload
+     *
+     * @param payload Token payload
+     */
+    private void getUserPayload(HashMap<String, String> payload) {
+        if (payload.containsKey("username") && payload.containsKey("account_id")){
+            AppUtils.saveSharedPreference(LoginActivity.this, "username", payload.get("username"));
+            AppUtils.saveSharedPreference(LoginActivity.this, "accountID", payload.get("account_id"));
+        }
+
+        getUser.get(new GsonCallback<User>() {
+            @Override
+            public void onSuccess(User response) {
+                // Start the new home activity
+                LoginActivity.this.dispatchHome();
+                ProgressSpinner.setHidden(mProgressView);
+            }
+
+            @Override
+            public void onError(String err) {
+                ProgressSpinner.setHidden(mProgressView);
+                uiErrorManager
+                        .setError("", err)
+                        .setErrorStrategy(UIErrorManager.SNACKBAR);
+            }
+        });
     }
 }
 

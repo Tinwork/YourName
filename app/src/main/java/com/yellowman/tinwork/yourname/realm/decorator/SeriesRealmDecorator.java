@@ -9,8 +9,9 @@ import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
 import com.yellowman.tinwork.yourname.network.api.update.LastUpdate;
 import com.yellowman.tinwork.yourname.network.helper.ConnectivityHelper;
 import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
-import com.yellowman.tinwork.yourname.utils.Utils;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,8 +109,8 @@ public class SeriesRealmDecorator extends CommonManager {
         RealmResults<Series> realmSeries = this.sortEntitiesByCriterion(
                 Series.class,
                 "lastUpdated",
-                Sort.ASCENDING,
-                Utils.getYesterdayTimestamp()
+                Sort.DESCENDING,
+                AppUtils.getYesterdayTimestamp()
         );
 
         if (realmSeries != null) {
@@ -118,5 +119,24 @@ public class SeriesRealmDecorator extends CommonManager {
         } else {
             callback.onError("Unable to retrieve last series");
         }
+    }
+
+    /**
+     * Get Favorite Series
+     *
+     * @return List<Series>
+     */
+    public List<Series> getFavoriteSeries() {
+        List<Series> serie = new ArrayList<>();
+        RealmResults<Series> realmSeries = this.getRealmInstance()
+                .where(Series.class)
+                .equalTo("favorite", true)
+                .findAll();
+
+        if (realmSeries.size() != 0) {
+            serie = this.getRealmInstance().copyFromRealm(realmSeries);
+        }
+
+        return serie;
     }
 }

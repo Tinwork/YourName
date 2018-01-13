@@ -61,6 +61,23 @@ public interface RealmDefaultBehavior<E extends RealmObject> {
     }
 
     /**
+     * Get Entity By Criterion
+     *
+     * @param instance Class instance exenting RealmObject
+     * @param criterion Criteria for filtering
+     * @param value Value of the criteria
+     * @return RealmObject
+     */
+    default RealmObject getEntityByCriterion(Class<E> instance, String criterion, String value) {
+        RealmObject res = getRealmInstance()
+                .where(instance)
+                .equalTo(criterion, value)
+                .findFirst();
+
+        return res;
+    }
+
+    /**
      * GEt Entities By Single Criterion
      *
      * @param instance Class which extends of RealmObject

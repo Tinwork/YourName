@@ -34,7 +34,7 @@ import io.realm.internal.IOException;
  * Created by Antoine Renault on 18/11/2017.
  */
 
-public class Utils {
+public class AppUtils {
 
     /**
      * Build Get Url
@@ -45,8 +45,13 @@ public class Utils {
      */
     public static String buildGetUrl(String baseURL, HashMap<String, String> payload) {
         String uri = "";
-        if (payload.isEmpty())
+        if (payload == null) {
             return baseURL;
+        }
+
+        if (payload.isEmpty()) {
+            return baseURL;
+        }
 
         Uri.Builder builder = new Uri.Builder();
         builder.scheme(Routes.PROTOCOL)
@@ -233,7 +238,7 @@ public class Utils {
      */
     public static int getYesterdayTimestamp() {
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, -1);
+        cal.add(Calendar.DATE, -2);
 
         int timestamp = (int) (cal.getTimeInMillis() / 1000);
 

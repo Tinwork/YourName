@@ -2,6 +2,7 @@ package com.yellowman.tinwork.yourname.realm.manager;
 
 import android.util.Log;
 
+import com.yellowman.tinwork.yourname.UIKit.errors.UIErrorManager;
 import com.yellowman.tinwork.yourname.UIKit.helpers.Utils;
 import com.yellowman.tinwork.yourname.entity.Actor;
 import com.yellowman.tinwork.yourname.model.Series;
@@ -13,6 +14,7 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmObject;
+import io.realm.RealmResults;
 
 
 /**
@@ -117,5 +119,15 @@ public class CommonManager<E> implements RealmDefaultBehavior {
 
         List<Actor> actorList = Arrays.asList(actors);
         this.commitMultipleEntities(actorList);
+    }
+
+    /**
+     * Destroy All
+     *     /!\ Caution this drop the database
+     */
+    public void destroyAll() {
+        getRealmInstance().executeTransaction(realm -> {
+            realm.deleteAll();
+        });
     }
 }

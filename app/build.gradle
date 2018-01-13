@@ -39,6 +39,7 @@ android {
                     'src/main/res/layouts/episode_detail',
                     'src/main/res/layouts/episode_single',
                     'src/main/res/layouts/search',
+                    'src/main/res/layouts/user',
                     'src/main/res/layouts',
                     'src/main/res'
             ]

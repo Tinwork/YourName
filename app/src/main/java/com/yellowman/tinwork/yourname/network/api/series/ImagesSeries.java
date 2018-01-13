@@ -8,9 +8,8 @@ import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.network.fetch.Fetch;
 import com.yellowman.tinwork.yourname.network.fetch.GsonGetManager;
 import com.yellowman.tinwork.yourname.network.fetch.RequestQueueManager;
-import com.yellowman.tinwork.yourname.utils.Utils;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -48,13 +47,13 @@ public class ImagesSeries extends Fetch {
      */
     @Override
     public void get(HashMap<String, String> payload, GsonCallback callback) {
-        String token = Utils.getSharedPreference(ctx, "yourname_token");
+        String token = AppUtils.getSharedPreference(ctx, "yourname_token");
         // Headers
-        HashMap<String, String> headers = Utils.makeHeaders(null, token);
+        HashMap<String, String> headers = AppUtils.makeHeaders(null, token);
         // Bind the GET request params
         // test purposes
         String[] placeholder = {payload.get("series_id")};
-        String URL = Utils.buildPlaceholderUrl(Routes.PREFIX_SERIES, placeholder, "images/query?keyType=poster");
+        String URL = AppUtils.buildPlaceholderUrl(Routes.PREFIX_SERIES, placeholder, "images/query?keyType=poster");
 
         imgRequest = new GsonGetManager<>(URL, Image[].class, headers, response -> {
             callback.onSuccess(response);

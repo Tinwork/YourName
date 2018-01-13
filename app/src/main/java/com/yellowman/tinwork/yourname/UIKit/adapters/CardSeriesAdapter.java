@@ -1,6 +1,7 @@
 package com.yellowman.tinwork.yourname.UIKit.adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,7 @@ public class CardSeriesAdapter extends RecyclerView.Adapter{
 
     /**
      * Trend Adapter
-     * @param seriesList
+     * @param seriesList List of Series
      */
     public CardSeriesAdapter(List<Series> seriesList, int layoutID) {
         this.series   = seriesList;
@@ -38,8 +39,8 @@ public class CardSeriesAdapter extends RecyclerView.Adapter{
 
     /**
      *
-     * @param parent
-     * @param viewType
+     * @param parent ViewGroup
+     * @param viewType ViewType
      * @return
      */
     @Override
@@ -53,8 +54,8 @@ public class CardSeriesAdapter extends RecyclerView.Adapter{
     /**
      * On Bind View Holder
      *
-     * @param holder
-     * @param position
+     * @param holder ViewHolder
+     * @param position cursor
      */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
@@ -67,6 +68,7 @@ public class CardSeriesAdapter extends RecyclerView.Adapter{
                 ((PopularHolder) holder).bindData(series.get(position));
                 break;
             case R.layout.card_favorite:
+            case R.layout.card_favorite_hor:
                 ((FavoriteHolder) holder).bindData(series.get(position));
         }
     }
@@ -75,7 +77,7 @@ public class CardSeriesAdapter extends RecyclerView.Adapter{
     /**
      * Get Item Count
      *
-     * @return
+     * @return int size
      */
     @Override
     public int getItemCount() {
@@ -89,8 +91,8 @@ public class CardSeriesAdapter extends RecyclerView.Adapter{
     /**
      * Get Item View Type
      *
-     * @param position
-     * @return
+     * @param position int
+     * @return Layout
      */
     @Override
     public int getItemViewType(final int position) {
@@ -101,8 +103,8 @@ public class CardSeriesAdapter extends RecyclerView.Adapter{
     /**
      * Get Holder Based From Layout ID
      *
-     * @param v
-     * @return
+     * @param v View
+     * @return ViewHolder
      */
     private RecyclerView.ViewHolder getHolderBaseFromLayoutID(View v) {
         RecyclerView.ViewHolder holder = null;
@@ -116,6 +118,7 @@ public class CardSeriesAdapter extends RecyclerView.Adapter{
                 holder = new PopularHolder(v);
                 break;
             case R.layout.card_favorite:
+            case R.layout.card_favorite_hor:
                 holder = new FavoriteHolder(v);
                 break;
             default:

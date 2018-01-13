@@ -45,7 +45,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     /**
      * On Create
      *
-     * @param savedBundleInstance
+     * @param savedBundleInstance bundle
      */
     @Override
     public void onCreate(Bundle savedBundleInstance) {
@@ -64,7 +64,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     /**
      * Handle Intent
      *
-     * @param intent
+     * @param intent intent
      */
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {

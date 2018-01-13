@@ -9,7 +9,7 @@ import com.yellowman.tinwork.yourname.network.fetch.Fetch;
 import com.yellowman.tinwork.yourname.network.fetch.GsonGetManager;
 import com.yellowman.tinwork.yourname.network.fetch.RequestQueueManager;
 import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
-import com.yellowman.tinwork.yourname.utils.Utils;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 import java.util.HashMap;
 
@@ -24,9 +24,11 @@ public class SingleSerie extends Fetch {
 
     private Context ctx;
     protected GsonGetManager<Series> request;
+    protected GsonGetManager<Series> noRealmRequest;
     protected RequestQueueManager queueManager;
     protected CommonManager realmManager;
     protected int retry;
+    protected int retryWoRealm;
 
     /**
      * Single Serie::Constructor
@@ -36,6 +38,7 @@ public class SingleSerie extends Fetch {
     public SingleSerie(Context ctx) {
         this.ctx   = ctx;
         this.retry = 0;
+        this.retryWoRealm = 0;
         this.queueManager = RequestQueueManager.getInstance(this.ctx.getApplicationContext());
         this.realmManager = new CommonManager();
     }
@@ -50,15 +53,15 @@ public class SingleSerie extends Fetch {
         String[] data = {payload.get("series_id")};
         // Flag....
         Boolean fullGet  = payload.containsKey("full");
-        String token = Utils.getSharedPreference(ctx, "yourname_token");
+        String token = AppUtils.getSharedPreference(ctx, "yourname_token");
         // Headers
-        HashMap<String, String> headers = Utils.makeHeaders(null, token);
+        HashMap<String, String> headers = AppUtils.makeHeaders(null, token);
 
         if (fullGet) {
             payload.remove("full");
         }
 
-        String URL = Utils.buildPlaceholderUrl(Routes.PREFIX_SERIES, data, null);
+        String URL = AppUtils.buildPlaceholderUrl(Routes.PREFIX_SERIES, data, null);
         request = new GsonGetManager<>(URL, Series.class, headers, response -> {
             if (!fullGet) {
                 realmManager.updateSeriesMisc(response, payload.get("series_id"));
@@ -73,5 +76,30 @@ public class SingleSerie extends Fetch {
         }, true);
 
         queueManager.addToRequestQueue(request);
+    }
+
+    /**
+     * Get Without Realm
+     *
+     *
+     * /!\ Duplicate code, refactor this as soon as possible...
+     * @param payload HashMap
+     * @param callback GsonCallback
+     */
+    public void getWithoutRealm(HashMap<String, String> payload, GsonCallback callback) {
+        String[] data = {payload.get("series_id")};
+        String token = AppUtils.getSharedPreference(ctx, "yourname_token");
+        HashMap<String, String> headers = AppUtils.makeHeaders(null, token);
+
+        String URL = AppUtils.buildPlaceholderUrl(Routes.PREFIX_SERIES, data, null);
+
+        noRealmRequest = new GsonGetManager<>(URL, Series.class, headers, response -> {
+            callback.onSuccess(response);
+        }, error -> {
+            this.handleVolleyError(error, request, ctx, retryWoRealm, callback);
+            retryWoRealm++;
+        }, true);
+
+        queueManager.addToRequestQueue(noRealmRequest);
     }
 }
