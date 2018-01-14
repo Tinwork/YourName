@@ -132,8 +132,7 @@ public class UserActivity extends AppCompatActivity implements FragmentCommunica
     private void initComponent() {
         // Set the background color
         GradientGenerator gd = new GradientGenerator(this, null,  this.container);
-        gd.buildBackgroundGradientColor();
-        int colorID = gd.getRelatedColor();
+        int colorID = gd.buildBackgroundGradientColor();
         AppUtils.colorizeStatusBar(this.getWindow(), this, colorID);
 
         // set the toolbar to the gradient ouput color

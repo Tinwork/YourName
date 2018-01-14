@@ -17,6 +17,8 @@
     <color name="dynasty">#D43D69</color>
     <color name="deepPurple">#7542ea</color>
     <color name="neonPurple">#9d42ea</color>
+    <color name="luminousStar">#3C4256</color>
+    <color name="deepBrightSpace">#5F4A51</color>
 
     <!-- toolbar -->
     <color name="transparency">#00000000</color>

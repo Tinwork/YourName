@@ -94,7 +94,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">35dp</item>
         <item name="android:paddingLeft">4dp</item>
-        <item name="android:textColor">@color/starBlue</item>
+        <item name="android:textColor">@color/luminousStar</item>
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -103,7 +103,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">35dp</item>
         <item name="android:paddingRight">4dp</item>
-        <item name="android:textColor">@color/starBlue</item>
+        <item name="android:textColor">@color/luminousStar</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:gravity">center_vertical</item>
     </style>
@@ -115,7 +115,7 @@
         <item name="android:paddingLeft">4dp</item>
         <item name="android:layout_alignParentBottom">true</item>
         <item name="android:gravity">center_vertical|start</item>
-        <item name="android:textColor">@color/starBlue</item>
+        <item name="android:textColor">@color/luminousStar</item>
     </style>
 
     <!-- Text Color -->
