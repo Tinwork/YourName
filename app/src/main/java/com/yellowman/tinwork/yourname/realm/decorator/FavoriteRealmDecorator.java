@@ -191,7 +191,8 @@ public class FavoriteRealmDecorator extends CommonManager {
 
                 @Override
                 public void onError(String err) {
-                    callback.onError(err);
+                    // in case of an error it's better to dispatch current series
+                    callback.onSuccess(series);
                 }
             });
         }
@@ -273,7 +274,7 @@ public class FavoriteRealmDecorator extends CommonManager {
      */
     private void setUnsavedSeriesStatus(Series serie) {
         getRealmInstance().executeTransactionAsync(realm -> {
-            RealmObject res = this.getEntityById(Series.class, serie.getId());
+            RealmObject res = this. getEntityById(Series.class, serie.getId());
             Series realmSerie = (Series) res;
 
             realmSerie.setSaved(false);

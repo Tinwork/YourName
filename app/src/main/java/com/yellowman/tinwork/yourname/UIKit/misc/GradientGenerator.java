@@ -24,6 +24,7 @@ public class GradientGenerator {
     private RelativeLayout rLayout;
     private LinearLayout lLayout;
     private int relatedColor;
+    private final String ID = "yourname::gradient::idx";
 
     /**
      * Constructor
@@ -59,7 +60,16 @@ public class GradientGenerator {
      * @return
      */
     public int buildBackgroundGradientColor() {
-        int idx  = AppUtils.getRandomNumber(0, 1);
+        int idx;
+        String savedIdx = AppUtils.getSharedPreference(ctx, ID);
+
+        if (savedIdx.isEmpty()) {
+            idx = AppUtils.getRandomNumber(0, 1);
+            AppUtils.saveSharedPreference(ctx, ID, String.valueOf(idx));
+        } else {
+            idx = Integer.valueOf(savedIdx);
+        }
+
 
         int colors[] = {colorsID[idx][0], colorsID[idx][1]};
 

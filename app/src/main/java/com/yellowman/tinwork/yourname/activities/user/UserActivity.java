@@ -119,9 +119,9 @@ public class UserActivity extends AppCompatActivity implements FragmentCommunica
 
         if (usrSize % 2 == 0) {
             // For the moment we only set it to glide
-            Glide.with(this).load(R.drawable.kanahei).apply(RequestOptions.circleCropTransform()).into(badge);
+            Glide.with(this.getApplicationContext()).load(R.drawable.kanahei).apply(RequestOptions.circleCropTransform()).into(badge);
         } else {
-            Glide.with(this).load(R.drawable.totoro).apply(RequestOptions.circleCropTransform()).into(badge);
+            Glide.with(this.getApplicationContext()).load(R.drawable.totoro).apply(RequestOptions.circleCropTransform()).into(badge);
         }
     }
 

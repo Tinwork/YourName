@@ -63,9 +63,9 @@ public class TrendingHolder extends RecyclerView.ViewHolder{
         String bannerURL = seriesModel.getBanner();
 
         if (!bannerURL.isEmpty()) {
-            Glide.with(v).load(AppUtils.buildMiscURI(Routes.IMG_PATH, bannerURL)).into(imgView);
+            Glide.with(v.getContext().getApplicationContext()).load(AppUtils.buildMiscURI(Routes.IMG_PATH, bannerURL)).into(imgView);
         } else {
-            Glide.with(v).load(R.drawable.yourname_bg).into(imgView);
+            Glide.with(v.getContext().getApplicationContext()).load(R.drawable.yourname_bg).into(imgView);
         }
 
         // Set status

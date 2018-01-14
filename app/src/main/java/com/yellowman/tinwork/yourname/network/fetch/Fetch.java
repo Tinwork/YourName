@@ -1,6 +1,7 @@
 package com.yellowman.tinwork.yourname.network.fetch;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
@@ -21,11 +22,11 @@ public abstract class Fetch {
 
     /**
      * Handle Volley Error
-     * @param error
-     * @param req
-     * @param ctx
-     * @param retry
-     * @param callback
+     * @param error VolleyError
+     * @param req <T extends Request>
+     * @param ctx Context
+     * @param retry int
+     * @param callback GsonCallback
      */
     public static void handleVolleyError(VolleyError error, Request req, Context ctx, int retry, final GsonCallback callback) {
         HashMap<String, String> errorPayload = VolleyErrorHelper.getNetworkErrorData(error);

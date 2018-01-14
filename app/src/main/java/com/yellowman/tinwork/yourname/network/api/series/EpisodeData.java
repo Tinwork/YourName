@@ -1,6 +1,7 @@
 package com.yellowman.tinwork.yourname.network.api.series;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.yellowman.tinwork.yourname.entity.Episode;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
@@ -45,7 +46,6 @@ public class EpisodeData extends Fetch {
      */
     @Override
     public void get(HashMap<String, String> payload, GsonCallback callback) {
-        // @TODO though we can make an util which can does that for us...
         String token = AppUtils.getSharedPreference(ctx, "yourname_token");
         // Headers
         HashMap<String, String> headers = AppUtils.makeHeaders(null, token);

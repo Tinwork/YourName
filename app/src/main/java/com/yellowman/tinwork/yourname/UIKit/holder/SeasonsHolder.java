@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.helpers.Helper;
 import com.yellowman.tinwork.yourname.UIKit.helpers.Utils;
-import com.yellowman.tinwork.yourname.activities.episodeDetail.EpisodeDetailActivity;
+import com.yellowman.tinwork.yourname.activities.episodeDetail.EpisodeListActivity;
 import com.yellowman.tinwork.yourname.activities.filmDetail.FilmDetailsActivity;
 import com.yellowman.tinwork.yourname.entity.Episode;
 
@@ -73,7 +73,7 @@ public class SeasonsHolder extends RecyclerView.ViewHolder {
         }
 
         v.setOnClickListener(event -> {
-            helper.launchNewViewWithArrayModel(episodes, v.getContext(), EpisodeDetailActivity.class);
+            helper.launchNewViewWithArrayModel(episodes, v.getContext(), EpisodeListActivity.class);
         });
     }
 

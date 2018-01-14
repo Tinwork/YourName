@@ -37,14 +37,14 @@
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.episodeDetail.EpisodeDetailActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:name=".activities.episodeDetail.EpisodeListActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
-            android:name=".activities.singleEpisode.SingleEpisodeActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:name=".activities.singleEpisode.EpisodeDetailActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".activities.search.ActorWebViewActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity
             android:name=".activities.user.UserActivity"

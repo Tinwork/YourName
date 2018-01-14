@@ -76,10 +76,11 @@ public class FilmDetailsActivity extends AppCompatActivity {
         this.fe = (FilmEpisodesFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_episodes_detail);
 
         this.gd = new GradientGenerator(this, findViewById(R.id.film_details_view), null);
-        gd.buildBackgroundGradientColor();
+        int color = gd.buildBackgroundGradientColor();
         this.uiErrorManager = new UIErrorManager(this);
         // set the toolbar
         this.toolbarManager = new ToolbarManager(this);
+        AppUtils.colorizeStatusBar(this.getWindow(), this, color);
     }
 
     /**
@@ -176,7 +177,7 @@ public class FilmDetailsActivity extends AppCompatActivity {
                             .setErrorStrategy(UIErrorManager.SNACKBAR);
                 }
 
-                Glide.with(FilmDetailsActivity.this).load(R.drawable.yourname_bg).into(banner);
+                Glide.with(FilmDetailsActivity.this.getApplicationContext()).load(R.drawable.yourname_bg).into(banner);
             }
         });
     }

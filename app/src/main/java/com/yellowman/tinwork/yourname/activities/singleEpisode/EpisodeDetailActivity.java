@@ -3,12 +3,9 @@ package com.yellowman.tinwork.yourname.activities.singleEpisode;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -30,7 +27,7 @@ import java.util.HashMap;
  * Created by Antoine Renault on 29/12/2017.
  */
 
-public class SingleEpisodeActivity extends AppCompatActivity {
+public class EpisodeDetailActivity extends AppCompatActivity {
 
     private TextView episodeTitle;
     private TextView seasonId;
@@ -51,7 +48,8 @@ public class SingleEpisodeActivity extends AppCompatActivity {
         setContentView(R.layout.episode_single_layout);
         // put some colors in the bg
         GradientGenerator gd = new GradientGenerator(this, findViewById(R.id.single_episode_detail), null);
-        gd.buildBackgroundGradientColor();
+        int color = gd.buildBackgroundGradientColor();
+        AppUtils.colorizeStatusBar(this.getWindow(), this, color);
         initComponent();
         // get the datas
         getIntentData();
@@ -113,13 +111,13 @@ public class SingleEpisodeActivity extends AppCompatActivity {
         }
 
         directors.setText(directorsStr);
-        rating.setText("Rating: "+episode.getSiteRating());
+        rating.setText(getString(R.string.rating_text, episode.getSiteRating()));
 
         // Set the image https://www.thetvdb.com/banners/episodes/
-        if (episode.getFilename() != null) {
-            Glide.with(this).load(AppUtils.buildMiscURI(Routes.IMG_PATH, episode.getFilename())).into(imgview);
+        if (!episode.getFilename().isEmpty()) {
+            Glide.with(this.getApplicationContext()).load(AppUtils.buildMiscURI(Routes.IMG_PATH, episode.getFilename())).into(imgview);
         } else {
-            Glide.with(this).load(R.drawable.yourname_bg).into(imgview);
+            Glide.with(this.getApplicationContext()).load(R.drawable.yourname_bg).into(imgview);
         }
     }
 
@@ -138,7 +136,7 @@ public class SingleEpisodeActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(Episode response) {
-                SingleEpisodeActivity.this.setExtraData(response);
+                EpisodeDetailActivity.this.setExtraData(response);
             }
 
             @Override

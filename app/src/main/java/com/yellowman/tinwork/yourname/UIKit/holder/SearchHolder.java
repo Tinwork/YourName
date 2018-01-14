@@ -59,9 +59,9 @@ public class SearchHolder extends RecyclerView.ViewHolder {
      */
     public void bindData(Series serie) {
         if (!serie.getBanner().isEmpty()) {
-            Glide.with(view.getContext()).load(AppUtils.buildMiscURI(Routes.IMG_PATH, serie.getBanner())).into(imgView);
+            Glide.with(view.getContext().getApplicationContext()).load(AppUtils.buildMiscURI(Routes.IMG_PATH, serie.getBanner())).into(imgView);
         } else {
-            Glide.with(view.getContext()).load(R.drawable.ic_account_circle_white_18dp).into(imgView);
+            Glide.with(view.getContext().getApplicationContext()).load(R.drawable.ic_account_circle_white_18dp).into(imgView);
         }
 
         serieTitle.setText(serie.getSeriesName());

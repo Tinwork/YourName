@@ -36,6 +36,7 @@
     <string name="episodeInfoTitle">Episode information</string>
     <string name="overviewTitle">Overview / Details</string>
     <string name="ratingTitle">Rating</string>
+    <string name="rating_text">rating: %1$s</string>
 
     <!-- search text -->
     <string name="result_search">Results</string>
