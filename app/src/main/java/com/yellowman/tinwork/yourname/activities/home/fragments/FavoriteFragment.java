@@ -24,6 +24,7 @@ import com.yellowman.tinwork.yourname.UIKit.misc.SwipeController;
 import com.yellowman.tinwork.yourname.application.YourName;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
+import com.yellowman.tinwork.yourname.network.helper.ConnectivityHelper;
 import com.yellowman.tinwork.yourname.realm.decorator.FavoriteRealmDecorator;
 import com.yellowman.tinwork.yourname.realm.decorator.SeriesRealmDecorator;
 import com.yellowman.tinwork.yourname.utils.AppUtils;
@@ -51,6 +52,7 @@ public class FavoriteFragment extends Fragment implements FragmentListener, Frag
     protected View spinner;
     protected FragmentCommunication mLink;
     protected TextView noFavorite;
+    protected ConnectivityHelper conHelper;
 
     private final String parcelID = "favorite";
     private UIErrorManager uiErrorManager;
@@ -166,6 +168,7 @@ public class FavoriteFragment extends Fragment implements FragmentListener, Frag
             noFavorite.setVisibility(View.VISIBLE);
         } else {
             getFavoriteSeries();
+            setUnsavedSeries();
         }
     }
 
@@ -238,6 +241,26 @@ public class FavoriteFragment extends Fragment implements FragmentListener, Frag
         SwipeController controller = new SwipeController(getContext());
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(controller);
         itemTouchHelper.attachToRecyclerView(recyclerView);
+    }
+
+    /**
+     * Set Unsaved Series
+     *
+     * /!\ This save the unsave series of the tvdb apis
+     * use case: Offline and you want to save series --> no internet connexion
+     * Therefore we need to save and do a update somewhere..
+     */
+    private void setUnsavedSeries() {
+        List<Series> series = realmDecorator.getUnsavedSeriesStack();
+
+        if (series == null) {
+            return;
+        }
+
+        // update the favorite series
+        for (Series serie: series) {
+            realmDecorator.setSerieAsFavorite(serie);
+        }
     }
 
 }

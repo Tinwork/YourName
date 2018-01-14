@@ -24,6 +24,7 @@ import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.network.api.series.ImagesSeries;
+import com.yellowman.tinwork.yourname.realm.decorator.FavoriteRealmDecorator;
 import com.yellowman.tinwork.yourname.realm.decorator.SeriesRealmDecorator;
 import com.yellowman.tinwork.yourname.utils.AppUtils;
 
@@ -139,7 +140,7 @@ public class FilmDetailsActivity extends AppCompatActivity {
 
             // create extra data for the toolbar...
             callback = () -> {
-                SeriesRealmDecorator realmDecorator = new SeriesRealmDecorator(this);
+                FavoriteRealmDecorator realmDecorator = new FavoriteRealmDecorator(this);
                 realmDecorator.setSerieAsFavorite(serie);
             };
         }

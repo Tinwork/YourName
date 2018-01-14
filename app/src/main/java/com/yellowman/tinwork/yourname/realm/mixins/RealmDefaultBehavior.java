@@ -95,6 +95,27 @@ public interface RealmDefaultBehavior<E extends RealmObject> {
     }
 
     /**
+     * Get Entities By Multiple Criterion
+     *
+     * /!\ Only support boolean (special cases..)
+     *
+     * @param instance Class
+     * @param d HashMap
+     * @return RealmResult<E>
+     */
+    default RealmResults<E> getEntitiesByMultipleCriterion(Class<E> instance, HashMap<String, Boolean> d) {
+        RealmQuery<E> query = getRealmInstance().where(instance);
+
+        for (Map.Entry<String, Boolean> cmp: d.entrySet()) {
+            query.equalTo(cmp.getKey(), cmp.getValue());
+        }
+
+        RealmResults<E> res = query.findAll();
+
+        return res;
+    }
+
+    /**
      * Commit Created Entity
      *
      * @param instance Object extending from RealmObject

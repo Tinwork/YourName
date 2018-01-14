@@ -39,12 +39,7 @@ public class SingleEpisodeActivity extends AppCompatActivity {
     private TextView directors;
     private ImageView imgview;
     private UIErrorManager uiErrorManager;
-
-    private boolean fabSubMenuIsExpanded = false;
-    private FloatingActionButton fabMenu;
-    private LinearLayout layoutFabFavorite;
-    private LinearLayout layoutFabShare;
-
+    
     /**
      * On Create
      *

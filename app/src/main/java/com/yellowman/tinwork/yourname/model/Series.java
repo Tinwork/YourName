@@ -51,6 +51,7 @@ public class Series extends RealmObject implements Parcelable {
     private RealmList<Actor> actors;
     private String siteRating;
     private Boolean favorite = false;
+    private Boolean saved = false;
 
 
     public Series() {}
@@ -71,6 +72,7 @@ public class Series extends RealmObject implements Parcelable {
         siteRating = parcel.readString();
         lastUpdated= parcel.readInt();
         favorite   = parcel.readByte() != 0;
+        saved      = parcel.readByte() != 0;
         aliases    = new RealmList<>();
         genre      = new RealmList<>();
         actors     = new RealmList<>();
@@ -338,6 +340,24 @@ public class Series extends RealmObject implements Parcelable {
     }
 
     /**
+     * Get Saved
+     *
+     * @return saved Boolean
+     */
+    public Boolean getSaved() {
+        return saved;
+    }
+
+    /**
+     * Set Saved
+     *
+     * @param saved boolean saved
+     */
+    public void setSaved(Boolean saved) {
+        this.saved = saved;
+    }
+
+    /**
      * Write To Parcel
      *      Write the class properties into the Parcel
      * @param dest
@@ -355,6 +375,7 @@ public class Series extends RealmObject implements Parcelable {
         dest.writeString(siteRating);
         dest.writeInt(lastUpdated);
         dest.writeByte((byte) (favorite ? 1 : 0));
+        dest.writeByte((byte) (saved ? 1 : 0));
 
         // Special case for Realm
         dest.writeStringList(aliases);

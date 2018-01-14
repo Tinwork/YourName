@@ -121,45 +121,4 @@ public class SeriesRealmDecorator extends CommonManager {
             callback.onError("Unable to retrieve last series");
         }
     }
-
-    /**
-     * Set Serie As Favorite
-     *
-     * @param seriesToSave Series
-     */
-    public void setSerieAsFavorite(Series seriesToSave) {
-        // update the realm object using transaction
-        getRealmInstance().executeTransactionAsync(realm -> {
-            RealmObject res = this.getEntityById(Series.class, seriesToSave.getId());
-
-            if (res == null) {
-                seriesToSave.setFavorite(true);
-                realm.insertOrUpdate(seriesToSave);
-            } else {
-                Series serie = (Series) res;
-                serie.setFavorite(true);
-                realm.insertOrUpdate(serie);
-            }
-        }, () -> {
-            // Save the favorite in tvdb
-            HashMap<String, String> payload = new HashMap<>();
-            payload.put("series_id", seriesToSave.getId());
-
-            AddFavorites favoritesReq = new AddFavorites(ctx);
-            favoritesReq.set(payload, new GsonCallback<User>() {
-                @Override
-                public void onSuccess(User response) {
-                    Log.d("Info", "a serie has been set as a favorite");
-                }
-
-                @Override
-                public void onError(String err) {
-                    Log.println(Log.ERROR, "Tvdb::Error", err);
-                }
-            });
-
-        }, (Throwable error) -> {
-            Log.println(Log.ERROR, "Realm::Error", error.getMessage());
-        });
-    }
 }
