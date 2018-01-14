@@ -33,4 +33,6 @@
     <string name="profile">ແນວ</string>
     <string name="welcome">ສະບາຍດີ %1$s !</string>
     <string name="no_favorite">No favorite yet</string>
+    <string name="season_text">ລະດູການ %1$s</string>
+    <string name="episode_text">episode %1$s</string>
 </resources>

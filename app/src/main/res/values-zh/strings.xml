@@ -33,4 +33,6 @@
     <string name="profile">剖面</string>
     <string name="welcome">歡迎光臨 %1$s</string>
     <string name="no_favorite">没有最爱</string>
+    <string name="season_text">季節 %1$s</string>
+    <string name="episode_text">插曲 %1$s</string>
 </resources>
