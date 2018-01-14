@@ -1,6 +1,6 @@
 # Your Name
 
-![Image of your name app](https://github.com/Tinwork/YourName/blob/master/app/src/main/res/drawable-xxxhdpi/logo_yourname.png)
+![Image of your name app](https://github.com/Tinwork/YourName/blob/master/app/src/main/res/drawable-hdpi/logo_yourname.png)
 
 Your name is a film app that allow you to search, share, get information and save your favorite film using the TVBDI APIs
 
