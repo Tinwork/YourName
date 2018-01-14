@@ -32,9 +32,9 @@ public class EpisodeAdapter extends RecyclerView.Adapter {
     /**
      * On Create View Holder
      *
-     * @param parent
-     * @param viewType
-     * @return
+     * @param parent ViewGroup
+     * @param viewType int
+     * @return ViewHolder
      */
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -46,8 +46,8 @@ public class EpisodeAdapter extends RecyclerView.Adapter {
     /**
      * On Bind View Holder
      *
-     * @param holder
-     * @param position
+     * @param holder ViewHolder
+     * @param position int
      */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
@@ -57,7 +57,7 @@ public class EpisodeAdapter extends RecyclerView.Adapter {
     /**
      * Get Item Count
      *
-     * @return
+     * @return int
      */
     @Override
     public int getItemCount() {

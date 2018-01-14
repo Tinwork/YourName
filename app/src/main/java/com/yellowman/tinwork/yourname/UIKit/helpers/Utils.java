@@ -25,8 +25,9 @@ public class Utils {
 
     /**
      * Set Text View Icon
-     * @param textview
-     * @param resources
+     * @param textview TextView
+     * @param resources int
+     * @param offset int[]
      */
     public static void setTextViewIcon(TextView textview, int resources, int[] offset) {
         if (offset == null) {
@@ -39,8 +40,8 @@ public class Utils {
     /**
      * Get Linear Layout Orientation
      *
-     * @param ly
-     * @return
+     * @param ly Activity
+     * @return int
      */
     public static int getLinearLayoutOrientation(Activity ly) {
         if (ly.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
@@ -52,8 +53,8 @@ public class Utils {
     /**
      * Get Screen DPI
      *
-     * @param w
-     * @return
+     * @param w Window
+     * @return int
      */
     public static int getScreenDPI(Window w) {
         DisplayMetrics metrics = new DisplayMetrics();
@@ -65,8 +66,8 @@ public class Utils {
     /**
      * Get Array List From Realm
      *
-     * @param data
-     * @return
+     * @param data RealmList<String>
+     * @return ArrayList<String>
      */
     public static ArrayList<String> getArrayListFromRealm(RealmList<String> data) {
         ArrayList<String> list = new ArrayList<>();

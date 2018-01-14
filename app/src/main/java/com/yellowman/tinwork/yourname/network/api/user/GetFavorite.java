@@ -30,7 +30,7 @@ public class GetFavorite extends Fetch {
     /**
      * Get Favorite::Constructor
      *
-     * @param ctx
+     * @param ctx Context
      */
     public GetFavorite(Context ctx) {
         this.ctx   = ctx;

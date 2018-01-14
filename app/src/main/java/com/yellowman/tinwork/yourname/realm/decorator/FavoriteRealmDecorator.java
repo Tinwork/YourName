@@ -116,21 +116,15 @@ public class FavoriteRealmDecorator extends CommonManager {
                     .findAll();
 
             data.deleteAllFromRealm();
-        }, new Realm.Transaction.OnSuccess() {
-            @Override
-            public void onSuccess() {
-                Log.println(Log.WARN, "Yourname::Realm", "A serie has been deleted");
-                // Call the remove services here
-                HashMap<String, String> payload = new HashMap<>();
-                payload.put("series_id", id);
-                DeleteFavoriteSerie del = new DeleteFavoriteSerie(ctx);
-                del.get(payload, deleteCallback);
-            }
-        }, new Realm.Transaction.OnError() {
-            @Override
-            public void onError(Throwable error) {
-                Log.println(Log.WARN, "Yourname::Realm", "A serie has not been delete reason: "+error.getMessage());
-            }
+        }, () -> {
+            Log.println(Log.WARN, "Yourname::Realm", "A serie has been deleted");
+            // Call the remove services here
+            HashMap<String, String> payload = new HashMap<>();
+            payload.put("series_id", id);
+            DeleteFavoriteSerie del = new DeleteFavoriteSerie(ctx);
+            del.get(payload, deleteCallback);
+        }, (Throwable error) -> {
+            Log.println(Log.WARN, "Yourname::Realm", "A serie has not been delete reason: "+error.getMessage());
         });
     }
 

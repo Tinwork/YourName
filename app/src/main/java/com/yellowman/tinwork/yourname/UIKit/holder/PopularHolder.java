@@ -30,7 +30,7 @@ public class PopularHolder extends RecyclerView.ViewHolder {
     /**
      * Popular Holder
      *
-     * @param viewItem
+     * @param viewItem View
      */
     public PopularHolder(final View viewItem) {
         super(viewItem);
@@ -44,7 +44,7 @@ public class PopularHolder extends RecyclerView.ViewHolder {
     /**
      * Bind Data
      *
-     * @param serie
+     * @param serie Series
      */
     public void bindData(final Series serie) {
         filmTextView.setText(serie.getSeriesName());

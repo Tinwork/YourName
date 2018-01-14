@@ -30,7 +30,7 @@ public class EpisodeData extends Fetch {
     /**
      * Episode Data::Constructor
      *
-     * @param ctx
+     * @param ctx Context
      */
     public EpisodeData(Context ctx) {
         this.ctx = ctx;
@@ -41,8 +41,8 @@ public class EpisodeData extends Fetch {
     /**
      * Get
      *
-     * @param payload
-     * @param callback
+     * @param payload HashMap
+     * @param callback GsonCallback
      */
     @Override
     public void get(HashMap<String, String> payload, GsonCallback callback) {

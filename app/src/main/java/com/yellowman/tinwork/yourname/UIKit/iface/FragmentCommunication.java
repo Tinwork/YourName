@@ -16,15 +16,14 @@ import java.util.List;
  * Created by Abdel-Atif Mabrouck on 14/12/2017.
  * Created by Antoine Renault on 14/12/2017.
  *
- * @TODO rename this as this name is nonsense
  */
 
 public interface FragmentCommunication {
     /**
      * Set Parcelable
      *
-     * @param parcel
-     * @param key
+     * @param parcel List<Series><
+     * @param key String
      */
     void setParcelable(List<Series> parcel, String key);
 

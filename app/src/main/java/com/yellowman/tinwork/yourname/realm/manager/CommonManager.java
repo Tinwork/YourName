@@ -60,16 +60,10 @@ public class CommonManager<E> implements RealmDefaultBehavior {
 
             // finally update the series
             realm.insertOrUpdate(serieToUpdate);
-        }, new Realm.Transaction.OnSuccess() {
-            @Override
-            public void onSuccess() {
-                getRealmInstance().close();
-            }
-        }, new Realm.Transaction.OnError() {
-            @Override
-            public void onError(Throwable error) {
-                Log.println(Log.ERROR, "Realm Error", error.getMessage());
-            }
+        }, () -> {
+            getRealmInstance().close();
+        }, (Throwable error) -> {
+            Log.println(Log.ERROR, "Realm Error", error.getMessage());
         });
     }
 
@@ -94,16 +88,10 @@ public class CommonManager<E> implements RealmDefaultBehavior {
             serieToUpdate.setActors(actorsList);
 
             realm.insertOrUpdate(serieToUpdate);
-        }, new Realm.Transaction.OnSuccess() {
-            @Override
-            public void onSuccess() {
-                getRealmInstance().close();
-            }
-        }, new Realm.Transaction.OnError() {
-            @Override
-            public void onError(Throwable error) {
-                Log.println(Log.ERROR, "RealmSeriesActors", error.getMessage());
-            }
+        }, () -> {
+            getRealmInstance().close();
+        }, (Throwable error) -> {
+            Log.println(Log.ERROR, "RealmSeriesActors", error.getMessage());
         });
     }
 

@@ -37,7 +37,7 @@ public class UserToken extends Fetch {
     /**
      * UserToken::Constructor
      *
-     * @param ctx
+     * @param ctx Context
      */
     public UserToken(Context ctx) {
         queueManager  = RequestQueueManager.getInstance(ctx.getApplicationContext());
@@ -48,7 +48,7 @@ public class UserToken extends Fetch {
     /**
      * Get
      *
-     * @param callback
+     * @param callback GsonCallback
      */
     @Override
     public void get(HashMap<String, String> payload, final GsonCallback callback) {

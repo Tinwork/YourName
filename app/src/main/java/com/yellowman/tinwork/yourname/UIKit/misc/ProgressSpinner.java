@@ -15,7 +15,7 @@ public class ProgressSpinner {
     /**
      * Set Visible
      *
-     * @param v
+     * @param v View
      */
     public static void setVisible(View v) {
         v.setVisibility(View.VISIBLE);
@@ -24,7 +24,7 @@ public class ProgressSpinner {
     /**
      * Set Hidden
      *
-     * @param v
+     * @param v View
      */
     public static void setHidden(View v) {
         v.setVisibility(View.GONE);

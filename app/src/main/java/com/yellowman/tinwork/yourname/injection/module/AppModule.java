@@ -24,7 +24,7 @@ public class AppModule {
     /**
      * App Module
      *
-     * @param app
+     * @param app Application
      */
     public AppModule(Application app) {
         this.mApplication = app;
@@ -33,7 +33,7 @@ public class AppModule {
     /**
      * Provides Application
      *
-     * @return
+     * @return Application
      */
     @Provides
     @Singleton

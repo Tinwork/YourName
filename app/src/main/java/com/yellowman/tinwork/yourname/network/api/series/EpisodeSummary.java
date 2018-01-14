@@ -29,7 +29,7 @@ public class EpisodeSummary extends Fetch {
     /**
      * Episode Summary::Constructor
      *
-     * @param ctx
+     * @param ctx Context
      */
     public EpisodeSummary(Context ctx) {
         this.ctx   = ctx;
@@ -40,8 +40,8 @@ public class EpisodeSummary extends Fetch {
     /**
      * Get
      *
-     * @param payload
-     * @param callback
+     * @param payload HashMap
+     * @param callback GsonCallback
      */
     public void get(HashMap<String, String> payload, GsonCallback callback) {
         String token = AppUtils.getSharedPreference(ctx, "yourname_token");

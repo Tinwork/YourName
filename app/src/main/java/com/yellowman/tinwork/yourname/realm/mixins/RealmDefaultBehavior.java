@@ -143,17 +143,11 @@ public interface RealmDefaultBehavior<E extends RealmObject> {
     default void commitMultipleEntities(List<E> data) {
         getRealmInstance().executeTransactionAsync(realm -> {
             realm.insertOrUpdate(data);
-        }, new Realm.Transaction.OnSuccess() {
-            @Override
-            public void onSuccess() {
-                Log.d("Debug", "Data List is saved on realm");
-            }
-        }, new Realm.Transaction.OnError() {
-            @Override
-            public void onError(Throwable error) {
-                Log.println(Log.WARN, "Warn", error.getMessage());
-                Log.println(Log.ERROR, "Error", "Data List has not been saved");
-            }
+        }, () -> {
+            Log.d("Debug", "Data List is saved on realm");
+        }, (Throwable error) -> {
+            Log.println(Log.WARN, "Warn", error.getMessage());
+            Log.println(Log.ERROR, "Error", "Data List has not been saved");
         });
     }
 

@@ -41,7 +41,7 @@ public class CardSeriesAdapter extends RecyclerView.Adapter{
      *
      * @param parent ViewGroup
      * @param viewType ViewType
-     * @return
+     * @return ViewHolder
      */
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

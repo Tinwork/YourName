@@ -33,7 +33,7 @@ public class FavoriteHolder extends RecyclerView.ViewHolder {
 
     /**
      *
-     * @param viewItem
+     * @param viewItem View
      */
     public FavoriteHolder(final View viewItem) {
         super(viewItem);

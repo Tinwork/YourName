@@ -18,7 +18,7 @@ public class ConnectivityHelper {
     /**
      * Connectivity Helper::Constructor
      *
-     * @param ctx
+     * @param ctx Context
      */
     public ConnectivityHelper(Context ctx) {
         this.ctx = ctx;
@@ -27,7 +27,7 @@ public class ConnectivityHelper {
     /**
      * Get Connectivity Status
      *
-     * @return
+     * @return Boolean
      */
     public Boolean getConnectivityStatus() {
         ConnectivityManager cm    = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);

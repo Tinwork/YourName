@@ -34,7 +34,7 @@ public class ListActors extends Fetch {
     /**
      * List Actor
      *
-     * @param context
+     * @param context Context
      */
     public ListActors(Context context) {
         this.ctx = context;
@@ -46,8 +46,8 @@ public class ListActors extends Fetch {
     /**
      * Get
      *
-     * @param payload
-     * @param callback
+     * @param payload HashMaps
+     * @param callback GsonCallback
      */
     @Override
     public void get(HashMap<String, String> payload, final GsonCallback callback) {

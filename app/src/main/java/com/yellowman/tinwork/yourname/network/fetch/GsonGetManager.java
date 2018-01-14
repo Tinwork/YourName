@@ -39,11 +39,11 @@ public class GsonGetManager<T> extends Request<T> {
      * Gson Reflection Manager
      *      Though we could have use Optional but for backward compatibility reason we do not...
      *
-     * @param URL
-     * @param cls
-     * @param headers
-     * @param listener
-     * @param errListener
+     * @param URL String
+     * @param cls Class
+     * @param headers HashMaps
+     * @param listener Response.Listener
+     * @param errListener Response.ErrorListener
      */
     public GsonGetManager(String URL, Class<T> cls, Map<String, String> headers, Response.Listener<T> listener, Response.ErrorListener errListener, Boolean extract) {
         // Instance the super class
@@ -57,8 +57,8 @@ public class GsonGetManager<T> extends Request<T> {
     /**
      * Get Headers
      *
-     * @return
-     * @throws AuthFailureError
+     * @return Map
+     * @throws AuthFailureError AuthFailureError
      */
     public Map<String, String> getHeaders() throws AuthFailureError {
         if (headers == null)
@@ -70,7 +70,7 @@ public class GsonGetManager<T> extends Request<T> {
     /**
      * Deliver Response
      *
-     * @param response
+     * @param response Repsonse
      */
     @Override
     public void deliverResponse(T response) {
@@ -80,8 +80,8 @@ public class GsonGetManager<T> extends Request<T> {
     /**
      * Parse Network Response
      *
-     * @param response
-     * @return
+     * @param response NetworkResponse
+     * @return Response
      */
     @Override
     public Response<T> parseNetworkResponse(NetworkResponse response) {
@@ -111,9 +111,9 @@ public class GsonGetManager<T> extends Request<T> {
      * Desarialize
      *      Deserialize data when a payload need to be extract from the "data" object
      *
-     * @param json
-     * @param response
-     * @return
+     * @param json String
+     * @param response NetworkResponse
+     * @return Response
      */
     private Response<T> desarialize(String json, NetworkResponse response) {
         JsonElement element = gson.fromJson(json, JsonElement.class);

@@ -25,7 +25,7 @@ public class SeasonsAdapter extends RecyclerView.Adapter {
     /**
      * Episodes Adapter :: Constructor
      *
-     * @param episodesList
+     * @param episodesList List<Episode[]>
      */
     public SeasonsAdapter(List<Episode[]> episodesList) {
         this.episodesList = episodesList;
@@ -34,9 +34,9 @@ public class SeasonsAdapter extends RecyclerView.Adapter {
     /**
      * On Create View Holder
      *
-     * @param parent
-     * @param viewType
-     * @return
+     * @param parent ViewHolder
+     * @param viewType int
+     * @return ViewHolder
      */
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -49,8 +49,8 @@ public class SeasonsAdapter extends RecyclerView.Adapter {
     /**
      * On Bind View Holder
      *
-     * @param holder
-     * @param position
+     * @param holder ViewHolder
+     * @param position int
      */
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ((SeasonsHolder) holder).bindData(episodesList.get(position));
@@ -59,7 +59,7 @@ public class SeasonsAdapter extends RecyclerView.Adapter {
     /**
      * Get Item Count
      *
-     * @return
+     * @return int
      */
     @Override
     public int getItemCount() {

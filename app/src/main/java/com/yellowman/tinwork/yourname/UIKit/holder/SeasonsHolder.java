@@ -24,11 +24,11 @@ public class SeasonsHolder extends RecyclerView.ViewHolder {
 
     private View v;
     private Helper helper;
-    protected TextView seasons;
-    protected TextView episodes_nb;
+    private TextView seasons;
+    private TextView episodes_nb;
     protected RelativeLayout layout;
-    protected int dpi;
-    protected int listSize;
+    private int dpi;
+    private int listSize;
 
     /**
      * Episodes Holder
@@ -46,16 +46,16 @@ public class SeasonsHolder extends RecyclerView.ViewHolder {
     /**
      * Bind Data
      *
-     * @param episodes
+     * @param episodes Episode[]
      */
     public void bindData(Episode[] episodes) {
         ViewGroup.LayoutParams params = layout.getLayoutParams();
         int season      = episodes[0].getAiredSeason();
         int episodesNb  = episodes.length;
 
-        // @TODO Might do a get text before updating text for translation purposes
-        seasons.setText("Season "+season);
-        episodes_nb.setText("Episodes "+episodesNb);
+
+        seasons.setText(v.getContext().getString(R.string.season_text, String.valueOf(season)));
+        episodes_nb.setText(v.getContext().getString(R.string.episode_text, String.valueOf(episodesNb)));
 
 
         switch (listSize) {
@@ -80,7 +80,6 @@ public class SeasonsHolder extends RecyclerView.ViewHolder {
     /**
      * Prepare Elements
      *
-     * @void
      */
     private void prepareElements() {
         this.seasons = v.findViewById(R.id.season_number);

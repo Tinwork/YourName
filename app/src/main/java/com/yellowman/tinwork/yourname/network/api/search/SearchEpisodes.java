@@ -24,7 +24,7 @@ public class SearchEpisodes extends Fetch {
 
     /**
      *
-     * @param context
+     * @param context Context
      */
     public SearchEpisodes(Context context) {
         this.ctx = context;
@@ -32,6 +32,12 @@ public class SearchEpisodes extends Fetch {
         this.retry = 0;
     }
 
+    /**
+     * Get
+     *
+     * @param payload payload
+     * @param callback callback
+     */
     @Override
     public void get(HashMap<String, String> payload, final GsonCallback callback) {
         String[] data = {payload.get("series_id")};

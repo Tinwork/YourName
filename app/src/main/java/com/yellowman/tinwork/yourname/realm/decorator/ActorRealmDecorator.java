@@ -29,7 +29,7 @@ public class ActorRealmDecorator extends CommonManager {
     /**
      * Actor Realm Manager
      *
-     * @param ctx
+     * @param ctx Context
      */
     public ActorRealmDecorator(Context ctx) {
         this.ctx = ctx;
@@ -39,8 +39,8 @@ public class ActorRealmDecorator extends CommonManager {
     /**
      * Get
      *
-     * @param serie_id
-     * @param callback
+     * @param serie_id Serie id
+     * @param callback GsonCallback
      */
     public void get(String serie_id, GsonCallback callback) {
         if (conHelper.getConnectivityStatus()) {
