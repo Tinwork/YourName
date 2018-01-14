@@ -1,17 +1,22 @@
 package com.yellowman.tinwork.yourname.activities.filmDetail;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.errors.UIErrorManager;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
+import com.yellowman.tinwork.yourname.UIKit.iface.ToolbarActionCallback;
 import com.yellowman.tinwork.yourname.UIKit.misc.GradientGenerator;
+import com.yellowman.tinwork.yourname.UIKit.misc.ToolbarManager;
 import com.yellowman.tinwork.yourname.activities.filmDetail.fragments.FilmContentFragment;
 import com.yellowman.tinwork.yourname.activities.filmDetail.fragments.FilmEpisodesFragment;
 import com.yellowman.tinwork.yourname.entity.Image;
@@ -19,6 +24,8 @@ import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.network.api.series.ImagesSeries;
+import com.yellowman.tinwork.yourname.realm.decorator.FavoriteRealmDecorator;
+import com.yellowman.tinwork.yourname.realm.decorator.SeriesRealmDecorator;
 import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 import java.util.ArrayList;
@@ -41,6 +48,8 @@ public class FilmDetailsActivity extends AppCompatActivity {
     protected FragmentListener fe;
     private GradientGenerator gd;
     private UIErrorManager uiErrorManager;
+    private ToolbarManager toolbarManager;
+    private ToolbarActionCallback callback;
 
     /**
      * On Create
@@ -51,9 +60,9 @@ public class FilmDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_film_details);
-        setToolbar();
         initActivityComponent();
         getIntentData();
+        setToolbar();
     }
 
     /**
@@ -67,29 +76,59 @@ public class FilmDetailsActivity extends AppCompatActivity {
         this.fe = (FilmEpisodesFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_episodes_detail);
 
         this.gd = new GradientGenerator(this, findViewById(R.id.film_details_view), null);
-        gd.buildBackgroundGradientColor();
+        int color = gd.buildBackgroundGradientColor();
         this.uiErrorManager = new UIErrorManager(this);
+        // set the toolbar
+        this.toolbarManager = new ToolbarManager(this);
+        AppUtils.colorizeStatusBar(this.getWindow(), this, color);
     }
 
     /**
      * Set ToolBar
      */
     private void setToolbar() {
-        Toolbar toolbar = findViewById(R.id.mytoolbar);
-        toolbar.setTitle("TRENDING");
+        Toolbar toolbar = toolbarManager.setToolbar().getToolbar();
         setSupportActionBar(toolbar);
+    }
+
+    /**
+     * On Create Options Menu
+     *
+     * @param menu Menu
+     * @return Boolean
+     */
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.favorite_menu, menu);
+        return true;
+    }
+
+    /**
+     *
+     * @param item MenuItem
+     * @return Boolean
+     */
+    public boolean onOptionsItemSelected(MenuItem item) {
+        String username = AppUtils.getSharedPreference(this, "username");
+        String accountID= AppUtils.getSharedPreference(this, "accountID");
+
+        if (username.isEmpty() || accountID.isEmpty()) {
+            uiErrorManager
+                    .setError("401", "Anonymous can't save favorite series")
+                    .setErrorStrategy(UIErrorManager.SNACKBAR);
+        } else {
+            toolbarManager.toolbarItemSelectAction(item, callback);
+        }
+
+        return true;
     }
 
     /**
      * Get Intent Data
      *
-     *
      */
-    protected void getIntentData() {
+    private void getIntentData() {
         Intent intent = getIntent();
         Series serie = intent.getParcelableExtra("Entity");
-
-        Log.d("Debug", "Series name is "+serie.getSeriesName());
 
         // Call our fragment and notify that data is available
         if (!serie.getId().isEmpty()) {
@@ -99,6 +138,12 @@ public class FilmDetailsActivity extends AppCompatActivity {
             fg.notifyData(data);
             fe.notifyData(data);
             getImageForSerie(serie.getId());
+
+            // create extra data for the toolbar...
+            callback = () -> {
+                FavoriteRealmDecorator realmDecorator = new FavoriteRealmDecorator(this);
+                realmDecorator.setSerieAsFavorite(serie);
+            };
         }
     }
 
@@ -132,7 +177,7 @@ public class FilmDetailsActivity extends AppCompatActivity {
                             .setErrorStrategy(UIErrorManager.SNACKBAR);
                 }
 
-                Glide.with(FilmDetailsActivity.this).load(R.drawable.yourname_bg).into(banner);
+                Glide.with(FilmDetailsActivity.this.getApplicationContext()).load(R.drawable.yourname_bg).into(banner);
             }
         });
     }

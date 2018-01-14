@@ -23,6 +23,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import io.realm.Realm;
 import io.realm.internal.IOException;
@@ -243,5 +244,17 @@ public class AppUtils {
         int timestamp = (int) (cal.getTimeInMillis() / 1000);
 
         return timestamp;
+    }
+
+    /**
+     * Get Random Char
+     *
+     * @return c a single letter
+     */
+    public static String getRandomChar() {
+        Random r = new Random();
+        char c = (char)(r.nextInt(26) + 'a');
+
+        return String.valueOf(c);
     }
 }

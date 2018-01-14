@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:scrollbars="none"
     android:paddingTop="@dimen/margin_between_fragment"
-    tools:context=".activities.home.fragments.PopularFragment">
+    tools:context=".activities.home.fragments.RandomFragment">
 
     <ProgressBar
         android:id="@+id/popular_spinner"
@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
-        android:text="@string/popular"
+        android:text="@string/random"
         android:textAllCaps="true"
         android:paddingLeft="16dp"
         style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"/>

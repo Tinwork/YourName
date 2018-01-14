@@ -23,7 +23,7 @@ public class GradientGenerator {
     private int[][] colorsID;
     private RelativeLayout rLayout;
     private LinearLayout lLayout;
-    private int relatedColor;
+    private final String ID = "yourname::gradient::idx";
 
     /**
      * Constructor
@@ -44,12 +44,15 @@ public class GradientGenerator {
      */
     protected int[][] getShadowColors() {
         // Get a reference of every color use for the shadow generator
-        int starBlue   = ContextCompat.getColor(ctx, R.color.starBlue);
-        int orchidPink = ContextCompat.getColor(ctx, R.color.orchidPink);
-        int deepPurple = ContextCompat.getColor(ctx, R.color.deepPurple);
-        int neonPurple = ContextCompat.getColor(ctx, R.color.neonPurple);
+        int starBlue     = ContextCompat.getColor(ctx, R.color.starBlue);
+        int orchidPink   = ContextCompat.getColor(ctx, R.color.orchidPink);
+        int deepPurple   = ContextCompat.getColor(ctx, R.color.deepPurple);
+        int neonPurple   = ContextCompat.getColor(ctx, R.color.neonPurple);
+        int luminousStar = ContextCompat.getColor(ctx, R.color.luminousStar);
+        int deepBrightSp = ContextCompat.getColor(ctx, R.color.deepBrightSpace);
 
-        int[][] colors = {{starBlue, deepPurple}, {orchidPink, neonPurple}};
+
+        int[][] colors = {{starBlue, deepPurple}, {orchidPink, neonPurple}, {luminousStar, deepBrightSp}};
         return colors;
     }
 
@@ -59,7 +62,16 @@ public class GradientGenerator {
      * @return
      */
     public int buildBackgroundGradientColor() {
-        int idx  = AppUtils.getRandomNumber(0, 1);
+        int idx;
+        String savedIdx = AppUtils.getSharedPreference(ctx, ID);
+
+        if (savedIdx.isEmpty()) {
+            idx = AppUtils.getRandomNumber(0, 2);
+            AppUtils.saveSharedPreference(ctx, ID, String.valueOf(idx));
+        } else {
+            idx = Integer.valueOf(savedIdx);
+        }
+
 
         int colors[] = {colorsID[idx][0], colorsID[idx][1]};
 
@@ -82,18 +94,13 @@ public class GradientGenerator {
                 lLayout.setBackgroundColor(colorsID[idx][0]);
         }
 
-        // quick addition..
-        relatedColor = idx == 0 ? R.color.sunsetBlue : R.color.dynasty;
 
-        return idx == 0 ? R.color.starBlue : R.color.orchidPink;
-    }
-
-    /**
-     * Get Related Color
-     *
-     * @return
-     */
-    public int getRelatedColor() {
-        return relatedColor;
+        if (idx == 0) {
+            return R.color.starBlue;
+        } else if (idx == 1) {
+            return R.color.orchidPink;
+        } else {
+            return R.color.luminousStar;
+        }
     }
 }

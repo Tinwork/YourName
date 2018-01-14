@@ -29,7 +29,7 @@ public class CommonManager<E> implements RealmDefaultBehavior {
     /**
      * Get Realm Instance
      *
-     * @return
+     * @return Realm instance
      */
     @Override
     public Realm getRealmInstance() {
@@ -39,12 +39,12 @@ public class CommonManager<E> implements RealmDefaultBehavior {
     /**
      * Update Series Misc
      *
-     * @param serie
-     * @param id
+     * @param serie Serie::Entity
+     * @param id series id
      */
     public void updateSeriesMisc(Series serie, String id) {
         getRealmInstance().executeTransactionAsync(realm -> {
-            RealmObject realmObj = this.getEntitiesById(Series.class, id);
+            RealmObject realmObj = this.getEntityById(Series.class, id);
 
             if (realmObj == null) {
                 Log.println(Log.WARN, "Realm", "Series cannot be update");
@@ -76,12 +76,12 @@ public class CommonManager<E> implements RealmDefaultBehavior {
 
     /**
      *
-     * @param serie_id
-     * @param actors
+     * @param serie_id series id
+     * @param actors Array of actors
      */
     public void updateSeriesActor(String serie_id, Actor[] actors) {
         getRealmInstance().executeTransactionAsync(realm -> {
-            RealmObject realmObj = this.getEntitiesById(Series.class, serie_id);
+            RealmObject realmObj = this.getEntityById(Series.class, serie_id);
 
             if (realmObj == null) {
                 Log.println(Log.WARN, "Realm", "Series Actors cannot be update");
@@ -110,7 +110,7 @@ public class CommonManager<E> implements RealmDefaultBehavior {
     /**
      * Set Actors
      *
-     * @param actors
+     * @param actors Array of actors
      */
     public void setActors(Actor[] actors) {
         if (actors == null) {

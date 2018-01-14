@@ -1,124 +1,146 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
     android:id="@+id/coordinator_layout">
 
-    <RelativeLayout
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/single_episode_detail">
+        android:layout_height="wrap_content">
 
-        <ImageView
+        <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="wrap_content"
             android:layout_height="200dp"
-            android:layout_alignParentTop="true"
-            android:scaleType="centerCrop"
-            android:adjustViewBounds="true"
-            android:id="@+id/img_episode"/>
+            android:id="@+id/collapsing_toolbar_layout"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
-        <!-- Basic info -->
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:layout_alignParentTop="true"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
+                android:id="@+id/img_episode"
+                app:layout_collapseMode="parallax"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/filmInfoTitle"
-            android:text="@string/episodeInfoTitle"
-            android:textColor="@color/white"
-            android:layout_below="@+id/img_episode"
-            android:textSize="20sp"
-            android:padding="5dp"/>
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:fillViewport="true">
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="2dip"
-            android:background="@color/white"
-            android:layout_below="@+id/filmInfoTitle"
-            android:id="@+id/hr_title"
-            android:padding="5dp"/>
-
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/episode_title"
-            android:layout_below="@+id/hr_title"
-            android:textColor="@color/white"
-            android:padding="5dp"/>
+            android:layout_height="match_parent"
+            android:id="@+id/single_episode_detail"
+            android:padding="@dimen/detail_padding">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/season_id"
-            android:textColor="@color/white"
-            android:layout_below="@+id/episode_title"
-            android:padding="5dp"/>
+            <!-- Basic info -->
 
-        <!-- Overview -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/filmInfoTitle"
+                android:text="@string/episodeInfoTitle"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:padding="5dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/overviewTitle"
-            android:text="@string/overviewTitle"
-            android:textColor="@color/white"
-            android:layout_below="@+id/season_id"
-            android:textSize="20sp"
-            android:padding="5dp"/>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dip"
+                android:background="@color/white"
+                android:layout_below="@+id/filmInfoTitle"
+                android:id="@+id/hr_title"
+                android:padding="5dp"/>
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="2dip"
-            android:background="@color/white"
-            android:layout_below="@+id/overviewTitle"
-            android:id="@+id/hr_overview"
-            android:padding="5dp"/>
-        
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/overview"
-            android:textColor="@color/white"
-            android:layout_below="@+id/hr_overview"
-            android:padding="5dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/episode_title"
+                android:layout_below="@+id/hr_title"
+                android:textColor="@color/white"
+                android:padding="5dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/directors"
-            android:textColor="@color/white"
-            android:layout_below="@+id/overview"
-            android:padding="5dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/season_id"
+                android:textColor="@color/white"
+                android:layout_below="@+id/episode_title"
+                android:padding="5dp"/>
 
-        <!-- Rating -->
+            <!-- Overview -->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/ratingTitle"
-            android:text="@string/ratingTitle"
-            android:textColor="@color/white"
-            android:layout_below="@id/directors"
-            android:textSize="20sp"
-            android:padding="5dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/overviewTitle"
+                android:text="@string/overviewTitle"
+                android:textColor="@color/white"
+                android:layout_below="@+id/season_id"
+                android:textSize="20sp"
+                android:padding="5dp"/>
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="2dip"
-            android:background="@color/white"
-            android:layout_below="@+id/ratingTitle"
-            android:id="@+id/hr_rating"
-            android:padding="5dp"/>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dip"
+                android:background="@color/white"
+                android:layout_below="@+id/overviewTitle"
+                android:id="@+id/hr_overview"
+                android:padding="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/overview"
+                android:textColor="@color/white"
+                android:layout_below="@+id/hr_overview"
+                android:padding="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/directors"
+                android:textColor="@color/white"
+                android:layout_below="@+id/overview"
+                android:padding="5dp"/>
+
+            <!-- Rating -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ratingTitle"
+                android:text="@string/ratingTitle"
+                android:textColor="@color/white"
+                android:layout_below="@id/directors"
+                android:textSize="20sp"
+                android:padding="5dp"/>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dip"
+                android:background="@color/white"
+                android:layout_below="@+id/ratingTitle"
+                android:id="@+id/hr_rating"
+                android:padding="5dp"/>
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/episode_rating"
-            android:textColor="@color/white"
-            android:layout_below="@+id/hr_rating"
-            android:padding="5dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/episode_rating"
+                android:textColor="@color/white"
+                android:layout_below="@+id/hr_rating"
+                android:padding="5dp"/>
 
-    </RelativeLayout>
+        </RelativeLayout>
+
+    </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

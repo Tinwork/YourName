@@ -1,7 +1,8 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="@dimen/detail_padding">
 
     <View
         android:layout_width="match_parent"
@@ -26,7 +27,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="horizontal"
-        android:layout_marginTop="30dp"
         android:layout_marginBottom="@dimen/detail_padding"
         android:layout_below="@+id/episodes">
     </android.support.v7.widget.RecyclerView>

@@ -6,20 +6,19 @@ import android.util.Log;
 import com.yellowman.tinwork.yourname.entity.User;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
-import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
-import com.yellowman.tinwork.yourname.network.api.series.DeleteFavoriteSerie;
+import com.yellowman.tinwork.yourname.network.api.user.AddFavorites;
+import com.yellowman.tinwork.yourname.network.api.user.DeleteFavoriteSerie;
 import com.yellowman.tinwork.yourname.network.api.series.SingleSerie;
 import com.yellowman.tinwork.yourname.network.api.user.GetFavorite;
 import com.yellowman.tinwork.yourname.network.helper.ConnectivityHelper;
 import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import io.realm.Realm;
+import io.realm.RealmObject;
 import io.realm.RealmResults;
 
 /**
@@ -182,6 +181,7 @@ public class FavoriteRealmDecorator extends CommonManager {
                 @Override
                 public void onSuccess(Series response) {
                     response.setFavorite(true);
+                    response.setSaved(true);
                     stack.add(response);
 
                     if (stack.size() >= updates.size()) {
@@ -191,10 +191,99 @@ public class FavoriteRealmDecorator extends CommonManager {
 
                 @Override
                 public void onError(String err) {
-                    callback.onError(err);
+                    // in case of an error it's better to dispatch current series
+                    callback.onSuccess(series);
                 }
             });
         }
+    }
+
+    /**
+     * Set Serie As Favorite
+     *
+     * @param seriesToSave Series
+     */
+    public void setSerieAsFavorite(Series seriesToSave) {
+        // update the realm object using transaction
+        getRealmInstance().executeTransactionAsync(realm -> {
+            RealmObject res = this.getEntityById(Series.class, seriesToSave.getId());
+
+            if (res == null) {
+                seriesToSave.setFavorite(true);
+                realm.insertOrUpdate(seriesToSave);
+            } else {
+                Series serie = (Series) res;
+                serie.setFavorite(true);
+                serie.setSaved(true);
+                realm.insertOrUpdate(serie);
+            }
+        }, () -> {
+            if (!conHelper.getConnectivityStatus()) {
+                setUnsavedSeriesStatus(seriesToSave);
+                return;
+            }
+
+            // Save the favorite in tvdb
+            HashMap<String, String> payload = new HashMap<>();
+            payload.put("series_id", seriesToSave.getId());
+
+            AddFavorites favoritesReq = new AddFavorites(ctx);
+            favoritesReq.set(payload, new GsonCallback<User>() {
+                @Override
+                public void onSuccess(User response) {
+                    Log.d("Info", "a serie has been set as a favorite");
+                }
+
+                @Override
+                public void onError(String err) {
+                    // Assuming that the network is slow
+                    setUnsavedSeriesStatus(seriesToSave);
+                }
+            });
+
+        }, (Throwable error) -> {
+            Log.println(Log.ERROR, "Realm::Error", error.getMessage());
+        });
+    }
+
+    /**
+     * Get Unsaved Series Stack
+     *
+     * @return List<Series>
+     */
+    public List<Series> getUnsavedSeriesStack() {
+        HashMap<String, Boolean> filterPaylaod = new HashMap<>();
+        filterPaylaod.put("favorite", true);
+        filterPaylaod.put("saved", false);
+        RealmResults<Series> series = this.getEntitiesByMultipleCriterion(Series.class, filterPaylaod);
+
+        if (series == null) {
+            return null;
+        }
+
+        // Convert the realm object to a List<Series>
+        List<Series> seriesToUpdate = getRealmInstance().copyFromRealm(series);
+
+        return seriesToUpdate;
+    }
+
+    /**
+     * Set Unsaved Series Status
+     *
+     * @param serie Series
+     */
+    private void setUnsavedSeriesStatus(Series serie) {
+        getRealmInstance().executeTransactionAsync(realm -> {
+            RealmObject res = this. getEntityById(Series.class, serie.getId());
+            Series realmSerie = (Series) res;
+
+            realmSerie.setSaved(false);
+            realm.insertOrUpdate(realmSerie);
+        }, () -> {
+            Log.println(Log.INFO, "Realm::Set", "Set series to not saved status");
+        }, (Throwable error) -> {
+            Log.println(Log.ERROR, "Realm::Error", error.getMessage());
+        });
     }
 
     /**

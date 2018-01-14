@@ -36,7 +36,7 @@ import javax.inject.Named;
  * Created by Antoine Renault on 16/12/2017.
  */
 
-public class PopularFragment extends Fragment implements FragmentListener, FragmentBinder {
+public class RandomFragment extends Fragment implements FragmentListener, FragmentBinder {
 
     @Inject
     @Named("SearchSeries")
@@ -146,10 +146,10 @@ public class PopularFragment extends Fragment implements FragmentListener, Fragm
     private void getPopularSeries() {
         ProgressSpinner.setVisible(spinner);
         HashMap<String, String> payload = new HashMap<>();
-        payload.put("name","your name");
+        payload.put("name",AppUtils.getRandomChar());
 
         // get the reference of our class so we can use in our callback..
-        PopularFragment self = this;
+        RandomFragment self = this;
 
         searchSeries.get(payload, new GsonCallback<List<Series>>() {
             @Override
@@ -158,9 +158,17 @@ public class PopularFragment extends Fragment implements FragmentListener, Fragm
                     return;
                 }
 
-                self.bindRecycleView(response);
-                // Set the parcelable here
-                mLink.setParcelable(response, parcelID);
+                if (response.size() > 10) {
+                    List<Series> sub = response.subList(0, 10);
+                    self.bindRecycleView(sub);
+                    // Set parcelable too
+                    mLink.setParcelable(sub, parcelID);
+                } else {
+                    self.bindRecycleView(response);
+                    // Set the parcelable here
+                    mLink.setParcelable(response, parcelID);
+                }
+
                 // Hide the spinner here
                 ProgressSpinner.setHidden(spinner);
             }

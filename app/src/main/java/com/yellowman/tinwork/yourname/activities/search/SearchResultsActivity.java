@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.adapters.SearchAdapter;
@@ -18,6 +19,7 @@ import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
 import com.yellowman.tinwork.yourname.network.fetch.Fetch;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +42,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private UIErrorManager uiErrorManager;
+    private TextView title;
     private View spinner;
 
     /**
@@ -55,7 +58,8 @@ public class SearchResultsActivity extends AppCompatActivity {
         ((YourName) getApplicationContext()).getmNetworkComponent().inject(this);
         // gradient
         GradientGenerator gd = new GradientGenerator(this, findViewById(R.id.result_activity_layout), null);
-        gd.buildBackgroundGradientColor();
+        int color = gd.buildBackgroundGradientColor();
+        AppUtils.colorizeStatusBar(this.getWindow(), this, color);
         // init ui component
         initComponent();
         handleIntent(getIntent());
@@ -83,7 +87,9 @@ public class SearchResultsActivity extends AppCompatActivity {
      */
     private void initComponent() {
         this.spinner = findViewById(R.id.search_result_spinner);
+        this.title   = findViewById(R.id.title_search);
         this.recyclerView = findViewById(R.id.result_search_recyclerView);
+
         this.uiErrorManager = new UIErrorManager(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(
                 this,
@@ -101,6 +107,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         HashMap<String, String> payload = new HashMap<>();
         payload.put("name", criteria);
         payload.put("notsave", null);
+        title.setText(getString(R.string.result_search, criteria));
 
         searchSeries.get(payload, new GsonCallback<List<Series>>() {
             @Override

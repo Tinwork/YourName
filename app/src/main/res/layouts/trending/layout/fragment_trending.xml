@@ -14,10 +14,21 @@
         android:indeterminateTint="@color/white"
         android:visibility="gone"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="@string/trending"
+        android:textAllCaps="true"
+        android:paddingLeft="16dp"
+        android:id="@+id/trending_title"
+        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/trendingFrag_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/trending_title"
         android:layoutAnimation="@anim/layout_animation_vertical">
     </android.support.v7.widget.RecyclerView>
 

@@ -8,7 +8,6 @@
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/generic_card"
-        android:elevation="10dp"
         app:cardElevation="7dp"
         android:layout_margin="5dp"
         card_view:cardPreventCornerOverlap="false"

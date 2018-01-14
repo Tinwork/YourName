@@ -1,8 +1,8 @@
-package com.yellowman.tinwork.yourname.network.api.series;
+package com.yellowman.tinwork.yourname.network.api.user;
 
 import android.content.Context;
 
-import com.yellowman.tinwork.yourname.entity.IdSeries;
+import com.yellowman.tinwork.yourname.entity.User;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.network.fetch.Fetch;
@@ -23,13 +23,13 @@ public class AddFavorites extends Fetch {
 
     private final RequestQueueManager queueManager;
     private Context ctx;
-    private GsonPutManager<IdSeries[]> favorites;
+    private GsonPutManager<User> favorites;
     private int retry;
 
     /**
      * Search Series
      *
-     * @param context
+     * @param context Context
      */
     public AddFavorites(Context context) {
         this.ctx = context;
@@ -38,13 +38,12 @@ public class AddFavorites extends Fetch {
     }
 
     /**
-     * Get
+     * Get (should had make a set method)
      *
-     * @param payload
-     * @param callback
+     * @param payload HashMap
+     * @param callback GsonCallback
      */
-    @Override
-    public void get(HashMap<String, String> payload, final GsonCallback callback) {
+    public void set(HashMap<String, String> payload, final GsonCallback callback) {
 
         String token = AppUtils.getSharedPreference(ctx, "yourname_token");
         // Headers
@@ -54,7 +53,7 @@ public class AddFavorites extends Fetch {
         String[] foo = {payload.get("series_id")};
         String URL = AppUtils.buildPlaceholderUrl(Routes.FAVORITES, foo, null);
 
-        favorites = new GsonPutManager<IdSeries[]>(URL, IdSeries[].class, headers, response -> {
+        favorites = new GsonPutManager<User>(URL, User.class, headers, response -> {
             callback.onSuccess(response);
         }, error -> {
             this.handleVolleyError(error, favorites, ctx, retry, callback);
@@ -63,4 +62,14 @@ public class AddFavorites extends Fetch {
 
         queueManager.addToRequestQueue(favorites);
     }
+
+    /**
+     * Get
+     *
+     * /!\ Not used in this context
+     * @param payload payload
+     * @param callback callback
+     */
+    @Override
+    public void get(HashMap<String, String> payload, GsonCallback callback) {}
 }

@@ -3,12 +3,9 @@ package com.yellowman.tinwork.yourname.activities.singleEpisode;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -30,7 +27,7 @@ import java.util.HashMap;
  * Created by Antoine Renault on 29/12/2017.
  */
 
-public class SingleEpisodeActivity extends AppCompatActivity {
+public class EpisodeDetailActivity extends AppCompatActivity {
 
     private TextView episodeTitle;
     private TextView seasonId;
@@ -39,12 +36,7 @@ public class SingleEpisodeActivity extends AppCompatActivity {
     private TextView directors;
     private ImageView imgview;
     private UIErrorManager uiErrorManager;
-
-    private boolean fabSubMenuIsExpanded = false;
-    private FloatingActionButton fabMenu;
-    private LinearLayout layoutFabFavorite;
-    private LinearLayout layoutFabShare;
-
+    
     /**
      * On Create
      *
@@ -56,29 +48,12 @@ public class SingleEpisodeActivity extends AppCompatActivity {
         setContentView(R.layout.episode_single_layout);
         // put some colors in the bg
         GradientGenerator gd = new GradientGenerator(this, findViewById(R.id.single_episode_detail), null);
-        gd.buildBackgroundGradientColor();
+        int color = gd.buildBackgroundGradientColor();
+        AppUtils.colorizeStatusBar(this.getWindow(), this, color);
         initComponent();
         // get the datas
         getIntentData();
 
-        // Hold fab menu button
-        fabMenu = this.findViewById(R.id.fabMenu);
-        // Get the submenu to render/hide
-        layoutFabFavorite = this.findViewById(R.id.layoutFabFavorite);
-        layoutFabShare = this.findViewById(R.id.layoutFabShare);
-
-        fabMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (fabSubMenuIsExpanded){
-                    closeFabMenu();
-                } else {
-                    openFabMenu();
-                }
-            }
-        });
-
-        closeFabMenu();
     }
 
     /**
@@ -136,13 +111,13 @@ public class SingleEpisodeActivity extends AppCompatActivity {
         }
 
         directors.setText(directorsStr);
-        rating.setText("Rating: "+episode.getSiteRating());
+        rating.setText(getString(R.string.rating_text, episode.getSiteRating()));
 
         // Set the image https://www.thetvdb.com/banners/episodes/
-        if (episode.getFilename() != null) {
-            Glide.with(this).load(AppUtils.buildMiscURI(Routes.IMG_PATH, episode.getFilename())).into(imgview);
+        if (!episode.getFilename().isEmpty()) {
+            Glide.with(this.getApplicationContext()).load(AppUtils.buildMiscURI(Routes.IMG_PATH, episode.getFilename())).into(imgview);
         } else {
-            Glide.with(this).load(R.drawable.yourname_bg).into(imgview);
+            Glide.with(this.getApplicationContext()).load(R.drawable.yourname_bg).into(imgview);
         }
     }
 
@@ -161,7 +136,7 @@ public class SingleEpisodeActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(Episode response) {
-                SingleEpisodeActivity.this.setExtraData(response);
+                EpisodeDetailActivity.this.setExtraData(response);
             }
 
             @Override
@@ -171,25 +146,5 @@ public class SingleEpisodeActivity extends AppCompatActivity {
                         .setErrorStrategy(UIErrorManager.SNACKBAR);
             }
         });
-    }
-
-    /**
-     * Close FAB Menu
-     */
-    private void closeFabMenu(){
-        layoutFabFavorite.setVisibility(View.INVISIBLE);
-        layoutFabShare.setVisibility(View.INVISIBLE);
-        fabMenu.setImageResource(R.drawable.ic_star_rate_white_18dp);
-        fabSubMenuIsExpanded = false;
-    }
-
-    /**
-     * Open FAB Menu
-     */
-    private void openFabMenu(){
-        layoutFabFavorite.setVisibility(View.VISIBLE);
-        layoutFabShare.setVisibility(View.VISIBLE);
-        fabMenu.setImageResource(R.drawable.ic_account_circle_white_18dp);
-        fabSubMenuIsExpanded = true;
     }
 }

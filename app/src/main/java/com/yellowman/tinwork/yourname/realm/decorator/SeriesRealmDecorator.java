@@ -3,20 +3,22 @@ package com.yellowman.tinwork.yourname.realm.decorator;
 import android.content.Context;
 import android.util.Log;
 
+import com.yellowman.tinwork.yourname.entity.User;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
 import com.yellowman.tinwork.yourname.network.api.update.LastUpdate;
+import com.yellowman.tinwork.yourname.network.api.user.AddFavorites;
 import com.yellowman.tinwork.yourname.network.helper.ConnectivityHelper;
 import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
 import com.yellowman.tinwork.yourname.utils.AppUtils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import io.realm.Case;
+import io.realm.RealmObject;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import io.realm.Sort;
@@ -46,7 +48,6 @@ public class SeriesRealmDecorator extends CommonManager {
 
     /**
      * Get
-     * @TODO re do to implement best series
      *
      * @param query HashMap of query
      * @param callback A UICallback
@@ -119,24 +120,5 @@ public class SeriesRealmDecorator extends CommonManager {
         } else {
             callback.onError("Unable to retrieve last series");
         }
-    }
-
-    /**
-     * Get Favorite Series
-     *
-     * @return List<Series>
-     */
-    public List<Series> getFavoriteSeries() {
-        List<Series> serie = new ArrayList<>();
-        RealmResults<Series> realmSeries = this.getRealmInstance()
-                .where(Series.class)
-                .equalTo("favorite", true)
-                .findAll();
-
-        if (realmSeries.size() != 0) {
-            serie = this.getRealmInstance().copyFromRealm(realmSeries);
-        }
-
-        return serie;
     }
 }

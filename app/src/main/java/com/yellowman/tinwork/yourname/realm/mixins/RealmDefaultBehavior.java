@@ -45,13 +45,13 @@ public interface RealmDefaultBehavior<E extends RealmObject> {
     }
 
     /**
-     * Get Entities By Id
+     * Get Entity By Id
      *
      * @param instance Class which extends of RealmObject
      * @param id String
      * @return RealmObject
      */
-    default RealmObject getEntitiesById(Class<E> instance, String id) {
+    default RealmObject getEntityById(Class<E> instance, String id) {
         RealmObject res = getRealmInstance()
                 .where(instance)
                 .equalTo("id", id)
@@ -90,6 +90,27 @@ public interface RealmDefaultBehavior<E extends RealmObject> {
                 .where(instance)
                 .equalTo(criterion, value)
                 .findAll();
+
+        return res;
+    }
+
+    /**
+     * Get Entities By Multiple Criterion
+     *
+     * /!\ Only support boolean (special cases..)
+     *
+     * @param instance Class
+     * @param d HashMap
+     * @return RealmResult<E>
+     */
+    default RealmResults<E> getEntitiesByMultipleCriterion(Class<E> instance, HashMap<String, Boolean> d) {
+        RealmQuery<E> query = getRealmInstance().where(instance);
+
+        for (Map.Entry<String, Boolean> cmp: d.entrySet()) {
+            query.equalTo(cmp.getKey(), cmp.getValue());
+        }
+
+        RealmResults<E> res = query.findAll();
 
         return res;
     }

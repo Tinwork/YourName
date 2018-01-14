@@ -12,6 +12,7 @@ import com.yellowman.tinwork.yourname.UIKit.iface.FragmentBinder;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.UIKit.misc.GradientGenerator;
 import com.yellowman.tinwork.yourname.entity.Episode;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ import java.util.List;
  * Created by Antoine Renault on 27/12/2017.
  */
 
-public class EpisodeDetailActivity extends AppCompatActivity {
+public class EpisodeListActivity extends AppCompatActivity {
 
     protected FragmentBinder listener;
 
@@ -38,7 +39,9 @@ public class EpisodeDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_episode_detail);
         GradientGenerator gd = new GradientGenerator(this, findViewById(R.id.episode_detail_layout), null);
-        gd.buildBackgroundGradientColor();
+        int color = gd.buildBackgroundGradientColor();
+        // set toolbar color
+        AppUtils.colorizeStatusBar(this.getWindow(), this, color);
 
         // Set the listener
         this.listener = (FragmentBinder) getSupportFragmentManager().findFragmentById(R.id.fragment_episodes_season_detail);

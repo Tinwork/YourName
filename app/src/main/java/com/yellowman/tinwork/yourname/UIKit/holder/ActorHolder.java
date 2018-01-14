@@ -58,9 +58,9 @@ public class ActorHolder extends RecyclerView.ViewHolder {
      */
     public void bindData(final Actor actor) {
         if (actor.getImage().isEmpty()) {
-            Glide.with(view.getContext()).load(R.drawable.ic_account_circle_white_18dp).apply(RequestOptions.circleCropTransform()).into(actorImg);
+            Glide.with(view.getContext().getApplicationContext()).load(R.drawable.ic_account_circle_white_18dp).apply(RequestOptions.circleCropTransform()).into(actorImg);
         } else {
-            Glide.with(view.getContext()).load(AppUtils.buildMiscURI(Routes.IMG_PATH, actor.getImage())).apply(RequestOptions.circleCropTransform()).into(actorImg);
+            Glide.with(view.getContext().getApplicationContext()).load(AppUtils.buildMiscURI(Routes.IMG_PATH, actor.getImage())).apply(RequestOptions.circleCropTransform()).into(actorImg);
         }
 
         actorTxt.setText(actor.getName());

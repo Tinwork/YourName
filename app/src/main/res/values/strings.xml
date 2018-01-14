@@ -25,6 +25,7 @@
     <!-- Home string property -->
     <string name="trending">trending</string>
     <string name="popular">popular</string>
+    <string name="random">random</string>
     <string name="favorite">favorite</string>
 
     <!-- Don't forget to translate this -->
@@ -36,9 +37,10 @@
     <string name="episodeInfoTitle">Episode information</string>
     <string name="overviewTitle">Overview / Details</string>
     <string name="ratingTitle">Rating</string>
+    <string name="rating_text">rating: %1$s</string>
 
     <!-- search text -->
-    <string name="result_search">Results</string>
+    <string name="result_search">Results for: %1$s</string>
 
     <!-- Text use by the ErrorUIManager -->
     <string name="retry_mode">Retry</string>
