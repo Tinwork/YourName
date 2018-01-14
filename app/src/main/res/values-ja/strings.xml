@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Your name</string>
+    <string name="title_activity_login">接続</string>
+    <string name="prompt_username">ユーザー名</string>
+    <string name="prompt_accountID">アカウントID</string>
+    <string name="action_sign_in_short">接続</string>
+    <string name="error_invalid_accountID">アカウントIDが無効です</string>
+    <string name="error_invalid_username">ユーザー名が無効です</string>
+    <string name="error_incorrect_password">パスワードが無効です</string>
+    <string name="error_field_required">フィールドが必要です</string>
+    <string name="title_activity_log">接続</string>
+    <string name="skip">スキップ</string>
+    <string name="img_logo">Log of yourname</string>
+    <string name="search_icon">Search icon</string>
+    <string name="exit_icon">Exit icon</string>
+    <string name="trending">トレンド</string>
+    <string name="popular">人気</string>
+    <string name="random">ランダム</string>
+    <string name="favorite">お気に入り</string>
+    <string name="synopsis_title">概要</string>
+    <string name="actor_title">俳優</string>
+    <string name="seasons">季節</string>
+    <string name="episodeInfoTitle">エピソード情報</string>
+    <string name="overviewTitle">概要</string>
+    <string name="ratingTitle">評価</string>
+    <string name="rating_text">評価: %1$s</string>
+    <string name="result_search">結果: %1$s</string>
+    <string name="retry_mode">結果</string>
+    <string name="end_mode">Ok</string>
+    <string name="cancel_mode">キャンセル</string>
+    <string name="disconnect">切断する</string>
+    <string name="profile">プロフィール</string>
+    <string name="welcome">ようこそ %1$s</string>
+    <string name="no_favorite">お気に入りはありません</string>
+    <string name="season_text">季節 %1$s</string>
+    <string name="episode_text">エピソード %1$s</string>
+</resources>

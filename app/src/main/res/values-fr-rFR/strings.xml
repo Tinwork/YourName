@@ -33,4 +33,6 @@
     <string name="profile">Profile</string>
     <string name="welcome">Bienvenue %1$s !</string>
     <string name="no_favorite">Pas encore de favoris</string>
+    <string name="season_text">saison %1$s</string>
+    <string name="episode_text">épisode %1$s</string>
 </resources>
