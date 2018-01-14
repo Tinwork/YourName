@@ -53,4 +53,8 @@
     <string name="profile">Profile</string>
     <string name="welcome">Welcome %1$s !</string>
     <string name="no_favorite">No favorite yet</string>
+
+    <!-- create chooser -->
+    <string name="choose_title">Share this series with</string>
+    <string name="shared_action_template">Hey i really want to share %1$s with you, %2$s</string>
 </resources>

@@ -1,12 +1,14 @@
 # Your Name
 
-Your name is a film app that allow you to search, get information and save your favorite film using the TVBDI APIs
+![Image of your name app](https://github.com/Tinwork/YourName/blob/master/app/src/main/res/drawable-hdpi/logo_yourname.png)
+
+Your name is a film app that allow you to search, share, get information and save your favorite film using the TVBDI APIs
 
 # Pre-requirements
 
-- Android Studio
+- Android Studio latest version
 - Java 1.8
-- Android SDK
+- Android SDK v27
 - Realm Studio / Realm Browser
 
 # How to use

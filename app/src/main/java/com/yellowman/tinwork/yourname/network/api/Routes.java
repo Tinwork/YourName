@@ -38,10 +38,12 @@ public class Routes {
     public static final String USER = PREFIX+"/user";
     public static final String FAVORITES = "user/favorites";
     public static final String FAVORITES_FULL = PREFIX+"/"+FAVORITES;
+    public static final String TVDB_SITE_URL  = "https://www.thetvdb.com/?tab=series&id=";
 
     // IMDB Base URL
     public static final String IMDB_BASE_URL = "http://www.imdb.com/";
     public static final String IMDB_URI_SEARCH = "find?s=nm&q=";
+
 
     public static String getEpisode(String id) {
         return SEARCH_EPISODES+id;
