@@ -6,8 +6,12 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.yellowman.tinwork.yourname.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,5 +63,17 @@ public class Helper<T> {
         Intent intent = new Intent(from, dest);
 
         from.startActivity(intent);
+    }
+
+    /**
+     * Send Intent To Choosers
+     *
+     * @param intent Intent
+     * @param ctx Context
+     */
+    public void sendIntentToChooser(Intent intent, Context ctx) {
+        String title = ctx.getResources().getString(R.string.choose_title);
+        Intent chooser = Intent.createChooser(intent, title);
+        ctx.startActivity(chooser);
     }
 }

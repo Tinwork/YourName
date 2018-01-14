@@ -35,4 +35,6 @@
     <string name="no_favorite">No favorite yet</string>
     <string name="season_text">season %1$s</string>
     <string name="episode_text">episode %1$s</string>
+    <string name="choose_title">Share this series with</string>
+    <string name="shared_action_template">Hey i really want to share %1$s with you, %2$s</string>
 </resources>

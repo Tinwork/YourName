@@ -1,6 +1,7 @@
 package com.yellowman.tinwork.yourname.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
@@ -256,5 +257,18 @@ public class AppUtils {
         char c = (char)(r.nextInt(26) + 'a');
 
         return String.valueOf(c);
+    }
+
+    /**
+     * Build Share Intent
+     *
+     * @param text String
+     */
+    public static Intent buildShareIntent(String text) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, text);
+        intent.setType("text/plain");
+
+        return intent;
     }
 }

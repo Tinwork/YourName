@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.errors.UIErrorManager;
+import com.yellowman.tinwork.yourname.UIKit.helpers.Helper;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.UIKit.iface.ToolbarActionCallback;
 import com.yellowman.tinwork.yourname.UIKit.misc.GradientGenerator;
@@ -49,7 +50,8 @@ public class FilmDetailsActivity extends AppCompatActivity {
     private GradientGenerator gd;
     private UIErrorManager uiErrorManager;
     private ToolbarManager toolbarManager;
-    private ToolbarActionCallback callback;
+    private ToolbarActionCallback callbackFavorite;
+    private ToolbarActionCallback callbackShared;
 
     /**
      * On Create
@@ -116,7 +118,12 @@ public class FilmDetailsActivity extends AppCompatActivity {
                     .setError("401", "Anonymous can't save favorite series")
                     .setErrorStrategy(UIErrorManager.SNACKBAR);
         } else {
-            toolbarManager.toolbarItemSelectAction(item, callback);
+            // this should be refactor
+            if (item.getItemId() == R.id.favorite_item) {
+                toolbarManager.toolbarItemSelectAction(item, callbackFavorite);
+            } else {
+                toolbarManager.toolbarItemSelectAction(item, callbackShared);
+            }
         }
 
         return true;
@@ -140,9 +147,20 @@ public class FilmDetailsActivity extends AppCompatActivity {
             getImageForSerie(serie.getId());
 
             // create extra data for the toolbar...
-            callback = () -> {
+            callbackFavorite = () -> {
                 FavoriteRealmDecorator realmDecorator = new FavoriteRealmDecorator(this);
                 realmDecorator.setSerieAsFavorite(serie);
+            };
+
+            callbackShared = () -> {
+                String text = getString(
+                        R.string.shared_action_template,
+                        serie.getSeriesName(),
+                        Routes.TVDB_SITE_URL+serie.getId()
+                );
+
+                Helper helper = new Helper();
+                helper.sendIntentToChooser(AppUtils.buildShareIntent(text), this);
             };
         }
     }
