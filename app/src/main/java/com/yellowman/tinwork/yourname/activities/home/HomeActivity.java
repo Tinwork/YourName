@@ -72,8 +72,6 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
                 searchManager.getSearchableInfo(getComponentName())
         );
 
-        // save the toolbar
-        toolbarManager.setMenuComponent(menu);
         return true;
     }
 
@@ -84,7 +82,7 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-       toolbarManager.toolbarItemSelectAction(item);
+       toolbarManager.toolbarItemSelectAction(item, null);
 
        return true;
     }

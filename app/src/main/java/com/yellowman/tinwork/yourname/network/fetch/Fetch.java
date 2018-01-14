@@ -48,8 +48,9 @@ public abstract class Fetch {
 
     /**
      * Get
-     * @param payload
-     * @param callback
+     *
+     * @param payload payload
+     * @param callback callback
      */
     public abstract void get(HashMap<String, String> payload, final GsonCallback callback);
 }

@@ -6,18 +6,15 @@ import android.util.Log;
 import com.yellowman.tinwork.yourname.entity.User;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
-import com.yellowman.tinwork.yourname.network.api.search.SearchSeries;
-import com.yellowman.tinwork.yourname.network.api.series.DeleteFavoriteSerie;
+import com.yellowman.tinwork.yourname.network.api.user.DeleteFavoriteSerie;
 import com.yellowman.tinwork.yourname.network.api.series.SingleSerie;
 import com.yellowman.tinwork.yourname.network.api.user.GetFavorite;
 import com.yellowman.tinwork.yourname.network.helper.ConnectivityHelper;
 import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import io.realm.Realm;
 import io.realm.RealmResults;

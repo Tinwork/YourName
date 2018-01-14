@@ -8,17 +8,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.yellowman.tinwork.yourname.R;
+import com.yellowman.tinwork.yourname.UIKit.helpers.Helper;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentCommunication;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
+import com.yellowman.tinwork.yourname.UIKit.iface.ToolbarActionCallback;
 import com.yellowman.tinwork.yourname.UIKit.misc.GradientGenerator;
 import com.yellowman.tinwork.yourname.UIKit.misc.ToolbarManager;
+import com.yellowman.tinwork.yourname.activities.login.LoginActivity;
 import com.yellowman.tinwork.yourname.model.Series;
+import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
 import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 import java.util.HashMap;
@@ -39,6 +42,8 @@ public class UserActivity extends AppCompatActivity implements FragmentCommunica
     private ToolbarManager toolbarManager;
     private TextView usernameTx;
     private AppBarLayout layout;
+    private Helper helper;
+    private ToolbarActionCallback callback;
 
     /**
      * On Create
@@ -50,6 +55,7 @@ public class UserActivity extends AppCompatActivity implements FragmentCommunica
         setContentView(R.layout.user_layout_activity);
         initFragmentListeners();
 
+        this.helper     = new Helper();
         // set the element here
         this.badge      = findViewById(R.id.badge);
         this.container  = findViewById(R.id.containerUser);
@@ -98,7 +104,7 @@ public class UserActivity extends AppCompatActivity implements FragmentCommunica
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        this.toolbarManager.toolbarItemSelectAction(item);
+        this.toolbarManager.toolbarItemSelectAction(item, callback);
         return true;
     }
 
@@ -136,9 +142,20 @@ public class UserActivity extends AppCompatActivity implements FragmentCommunica
         setSupportActionBar(toolbar);
         // set the layout bg
         layout.setBackgroundColor(getResources().getColor(colorID));
-
         // set the component
         setElement();
+        // set the callback
+        callback = () -> {
+            CommonManager realmManager = new CommonManager();
+            realmManager.destroyAll();
+
+            AppUtils.saveSharedPreference(this, "yourname_token", "");
+            AppUtils.saveSharedPreference(this, "username", "");
+            AppUtils.saveSharedPreference(this, "accountID", "");
+
+            // Redirect the user to the Login Activity
+            helper.launchWithEmptyData(this, LoginActivity.class);
+        };
     }
 
     /**

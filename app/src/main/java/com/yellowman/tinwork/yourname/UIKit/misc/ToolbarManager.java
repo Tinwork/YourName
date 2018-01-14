@@ -10,10 +10,14 @@ import android.widget.EditText;
 
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.helpers.Helper;
+import com.yellowman.tinwork.yourname.UIKit.iface.ToolbarActionCallback;
 import com.yellowman.tinwork.yourname.activities.login.LoginActivity;
 import com.yellowman.tinwork.yourname.activities.user.UserActivity;
+import com.yellowman.tinwork.yourname.realm.decorator.SeriesRealmDecorator;
 import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
 import com.yellowman.tinwork.yourname.utils.AppUtils;
+
+import java.util.HashMap;
 
 /**
  * Sometimes you have to stop over thinking and make the big step
@@ -29,13 +33,13 @@ public class ToolbarManager {
 
     private AppCompatActivity activity;
     private Toolbar toolbar;
-    protected Menu menu;
+    private HashMap<String, String> data = new HashMap<>();
     protected Helper helper;
 
     /**
      * Toolbar Manager::Constructor
      *
-     * @param instance
+     * @param instance Activity
      */
     public ToolbarManager(AppCompatActivity instance) {
         this.helper   = new Helper();
@@ -55,7 +59,7 @@ public class ToolbarManager {
     /**
      * Set Title
      *
-     * @param title
+     * @param title String
      */
     public ToolbarManager setTitle(String title) {
         toolbar.setTitle(title);
@@ -66,7 +70,7 @@ public class ToolbarManager {
     /**
      * Get Toolbar
      *
-     * @return
+     * @return Toolbar
      */
     public Toolbar getToolbar() {
         return toolbar;
@@ -75,16 +79,19 @@ public class ToolbarManager {
     /**
      * Toolbar Item Select Action
      *
-     * @param item
-     * @return
+     * /!\ Might have been better to pass callback in order to make actions
+     *
+     * @param item MenuItem
+     * @return boolean
      */
-    public Boolean toolbarItemSelectAction(MenuItem item) {
+    public Boolean toolbarItemSelectAction(MenuItem item, ToolbarActionCallback callback) {
         switch (item.getItemId()) {
             case R.id.account:
                 accountAction();
                 return true;
             case R.id.logout:
-                logoutAction();
+            case R.id.favorite_item:
+                callback.doItemAction();
                 return true;
             default:
                 return true;
@@ -96,38 +103,10 @@ public class ToolbarManager {
      *
      * @return Boolean
      */
-    public Boolean accountAction() {
+    private Boolean accountAction() {
         Intent intent = new Intent(this.activity, UserActivity.class);
         this.activity.startActivity(intent);
 
         return true;
-    }
-
-    /**
-     * Logout Action
-     *
-     * @return boolean
-     */
-    public Boolean logoutAction() {
-        CommonManager realmManager = new CommonManager();
-        realmManager.destroyAll();
-
-        AppUtils.saveSharedPreference(activity, "yourname_token", "");
-        AppUtils.saveSharedPreference(activity, "username", "");
-        AppUtils.saveSharedPreference(activity, "accountID", "");
-
-        // Redirect the user to the Login Activity
-        helper.launchWithEmptyData(activity, LoginActivity.class);
-
-        return true;
-    }
-
-    /**
-     * Set Menu Component
-     *
-     * @param menu
-     */
-    public void setMenuComponent(Menu menu) {
-        this.menu = menu;
     }
 }

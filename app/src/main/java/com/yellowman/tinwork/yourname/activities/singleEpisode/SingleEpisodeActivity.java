@@ -62,11 +62,12 @@ public class SingleEpisodeActivity extends AppCompatActivity {
         getIntentData();
 
         // Hold fab menu button
-        fabMenu = this.findViewById(R.id.fabMenu);
+        //fabMenu = this.findViewById(R.id.fabMenu);
         // Get the submenu to render/hide
-        layoutFabFavorite = this.findViewById(R.id.layoutFabFavorite);
-        layoutFabShare = this.findViewById(R.id.layoutFabShare);
+        //layoutFabFavorite = this.findViewById(R.id.layoutFabFavorite);
+        //layoutFabShare = this.findViewById(R.id.layoutFabShare);
 
+        /**
         fabMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,7 +79,7 @@ public class SingleEpisodeActivity extends AppCompatActivity {
             }
         });
 
-        closeFabMenu();
+        closeFabMenu();**/
     }
 
     /**
@@ -173,23 +174,27 @@ public class SingleEpisodeActivity extends AppCompatActivity {
         });
     }
 
+
+
     /**
      * Close FAB Menu
      */
+    /**
     private void closeFabMenu(){
         layoutFabFavorite.setVisibility(View.INVISIBLE);
         layoutFabShare.setVisibility(View.INVISIBLE);
         fabMenu.setImageResource(R.drawable.ic_star_rate_white_18dp);
         fabSubMenuIsExpanded = false;
-    }
+    }**/
 
     /**
      * Open FAB Menu
      */
+    /**
     private void openFabMenu(){
         layoutFabFavorite.setVisibility(View.VISIBLE);
         layoutFabShare.setVisibility(View.VISIBLE);
         fabMenu.setImageResource(R.drawable.ic_account_circle_white_18dp);
         fabSubMenuIsExpanded = true;
-    }
+    }**/
 }

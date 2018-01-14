@@ -1,4 +1,4 @@
-package com.yellowman.tinwork.yourname.network.api.series;
+package com.yellowman.tinwork.yourname.network.api.user;
 
 import android.content.Context;
 

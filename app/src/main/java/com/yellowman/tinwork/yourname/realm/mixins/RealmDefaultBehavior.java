@@ -45,13 +45,13 @@ public interface RealmDefaultBehavior<E extends RealmObject> {
     }
 
     /**
-     * Get Entities By Id
+     * Get Entity By Id
      *
      * @param instance Class which extends of RealmObject
      * @param id String
      * @return RealmObject
      */
-    default RealmObject getEntitiesById(Class<E> instance, String id) {
+    default RealmObject getEntityById(Class<E> instance, String id) {
         RealmObject res = getRealmInstance()
                 .where(instance)
                 .equalTo("id", id)
