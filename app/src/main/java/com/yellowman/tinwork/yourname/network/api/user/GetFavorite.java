@@ -42,7 +42,7 @@ public class GetFavorite extends Fetch {
      * Get
      *
      * @param payload null
-     * @param callback GsonCallback<List<IdSeries[]>
+     * @param callback GsonCallback<List<User>
      */
     @Override
     public void get(HashMap<String, String> payload, GsonCallback callback) {

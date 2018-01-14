@@ -2,7 +2,6 @@ package com.yellowman.tinwork.yourname.network.api.user;
 
 import android.content.Context;
 
-import com.yellowman.tinwork.yourname.entity.IdSeries;
 import com.yellowman.tinwork.yourname.entity.User;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.Routes;
