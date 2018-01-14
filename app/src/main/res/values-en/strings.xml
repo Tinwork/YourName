@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Your name</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="prompt_username">Username</string>
+    <string name="prompt_accountID">Account ID</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_accountID">Account ID invalid</string>
+    <string name="error_invalid_username">Username is invalid</string>
+    <string name="error_incorrect_password">Password incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="title_activity_log">Sign in</string>
+    <string name="skip">Skip</string>
+    <string name="img_logo">Logo of the app</string>
+    <string name="search_icon">Search icon</string>
+    <string name="exit_icon">Exit icon</string>
+    <string name="trending">Trending</string>
+    <string name="popular">Popular</string>
+    <string name="random">Random</string>
+    <string name="favorite">Favorite</string>
+    <string name="synopsis_title">Synopsis</string>
+    <string name="actor_title">Actors(ess)</string>
+    <string name="seasons">Seasons</string>
+    <string name="episodeInfoTitle">Episode informations</string>
+    <string name="overviewTitle">Overview</string>
+    <string name="ratingTitle">Rating</string>
+    <string name="rating_text">rating: %1$s</string>
+    <string name="result_search">Results for: %1$s</string>
+    <string name="retry_mode">Retry</string>
+    <string name="end_mode">Ok</string>
+    <string name="cancel_mode">Cancel</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="profile">Profile</string>
+    <string name="welcome">Welcome %1$s !</string>
+    <string name="no_favorite">No favorite yet</string>
+</resources>
