@@ -31,7 +31,7 @@ public class ImagesSeries extends Fetch {
     /**
      * Image Series::Constructor
      *
-     * @param ctx
+     * @param ctx Context
      */
     public ImagesSeries(Context ctx) {
         this.ctx = ctx;
@@ -42,8 +42,8 @@ public class ImagesSeries extends Fetch {
     /**
      * Get
      *
-     * @param payload
-     * @param callback
+     * @param payload HashMap
+     * @param callback GsonCallback
      */
     @Override
     public void get(HashMap<String, String> payload, GsonCallback callback) {

@@ -25,7 +25,7 @@ public class FilterSeries extends Fetch {
     /**
      * Filter Series
      *
-     * @param context
+     * @param context Context
      */
     public FilterSeries(Context context) {
         this.ctx = context;
@@ -36,8 +36,8 @@ public class FilterSeries extends Fetch {
     /**
      * Get
      *
-     * @param payload
-     * @param callback
+     * @param payload HashMap
+     * @param callback GsonCallback
      */
     @Override
     public void get(HashMap<String, String> payload, final GsonCallback callback) {

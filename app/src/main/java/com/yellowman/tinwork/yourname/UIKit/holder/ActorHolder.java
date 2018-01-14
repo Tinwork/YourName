@@ -43,7 +43,6 @@ public class ActorHolder extends RecyclerView.ViewHolder {
 
     /**
      * Prepare Elements
-     * @void
      */
     public void prepareElements() {
         this.actorImg  = view.findViewById(R.id.actor_image);
@@ -54,7 +53,6 @@ public class ActorHolder extends RecyclerView.ViewHolder {
      * Bind Data
      *
      * @param actor Actor
-     * @void
      */
     public void bindData(final Actor actor) {
         if (actor.getImage().isEmpty()) {

@@ -24,7 +24,7 @@ public class VolleyErrorHelper {
     /**
      * Is Basic Error
      *
-     * @param error
+     * @param error Boolean
      */
     public static Boolean isBasicError(VolleyError error) {
         Boolean isBasic = true;
@@ -45,8 +45,8 @@ public class VolleyErrorHelper {
     /**
      * Get Error Code
      *
-     * @param error
-     * @return
+     * @param error VolleyError
+     * @return int
      */
     public static int getErrorCode(VolleyError error) {
         if (error.networkResponse != null)
@@ -81,8 +81,8 @@ public class VolleyErrorHelper {
     /**
      * Get JSON Network Error
      *
-     * @param dataError
-     * @return
+     * @param dataError VolleyError
+     * @return String
      */
     protected static String getJSONnetworkError(VolleyError dataError) {
         try {

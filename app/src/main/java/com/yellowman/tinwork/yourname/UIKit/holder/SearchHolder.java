@@ -31,7 +31,7 @@ public class SearchHolder extends RecyclerView.ViewHolder {
     /**
      * Search Holder::Constructor
      *
-     * @param viewItem
+     * @param viewItem View
      */
     public SearchHolder(final View viewItem) {
         super(viewItem);
@@ -43,8 +43,6 @@ public class SearchHolder extends RecyclerView.ViewHolder {
     /**
      * Prepare Elements
      *
-     * @void
-     * @private
      */
     private void prepareElements() {
         this.imgView     = view.findViewById(R.id.serie_image);
@@ -55,7 +53,7 @@ public class SearchHolder extends RecyclerView.ViewHolder {
     /**
      * Bind Data
      *
-     * @param serie
+     * @param serie Series
      */
     public void bindData(Series serie) {
         if (!serie.getBanner().isEmpty()) {

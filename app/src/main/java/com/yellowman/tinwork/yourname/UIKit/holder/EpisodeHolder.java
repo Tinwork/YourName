@@ -27,7 +27,7 @@ public class EpisodeHolder extends RecyclerView.ViewHolder {
     /**
      * Episode Holder::constructor
      *
-     * @param itemView
+     * @param itemView View
      */
     public EpisodeHolder(final View itemView) {
         super(itemView);
@@ -39,7 +39,6 @@ public class EpisodeHolder extends RecyclerView.ViewHolder {
     /**
      * Prepare Elements
      *
-     * @void
      */
     protected void prepareElements() {
         this.episodeNb      = view.findViewById(R.id.episode_number);
@@ -50,7 +49,6 @@ public class EpisodeHolder extends RecyclerView.ViewHolder {
     /**
      * Bind Data
      *
-     * @void
      */
     public void bindData(final Episode episode) {
         episodeNb.setText(String.valueOf(episode.getAiredEpisodeNumber()));

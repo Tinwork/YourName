@@ -27,7 +27,7 @@ public class GradientGenerator {
 
     /**
      * Constructor
-     * @param ctx
+     * @param ctx Context
      */
     public GradientGenerator(Context ctx, RelativeLayout rLayout, LinearLayout lLayout) {
         this.ctx = ctx;
@@ -39,10 +39,9 @@ public class GradientGenerator {
     /**
      * Get Shadow Colors
      *
-     * @return
-     * @protected
+     * @return int[][]
      */
-    protected int[][] getShadowColors() {
+    private int[][] getShadowColors() {
         // Get a reference of every color use for the shadow generator
         int starBlue     = ContextCompat.getColor(ctx, R.color.starBlue);
         int orchidPink   = ContextCompat.getColor(ctx, R.color.orchidPink);
@@ -59,7 +58,7 @@ public class GradientGenerator {
     /**
      * Build Background Shadow Color
      *
-     * @return
+     * @return int
      */
     public int buildBackgroundGradientColor() {
         int idx;

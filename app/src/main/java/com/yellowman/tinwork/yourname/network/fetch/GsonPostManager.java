@@ -29,11 +29,11 @@ public class GsonPostManager<T> extends JsonRequest<T> {
 
     /**
      * Gson Post Manager::Constructor
-     * @param URL
-     * @param body
-     * @param cls
-     * @param listener
-     * @param errListener
+     * @param URL String
+     * @param body String
+     * @param cls Class
+     * @param listener Response.Listener
+     * @param errListener Response.ErrorListener
      */
     public GsonPostManager(String URL, String body, Class<T> cls, Response.Listener<T> listener, Response.ErrorListener errListener) {
         super(Method.POST, URL, body, listener, errListener);
@@ -44,7 +44,7 @@ public class GsonPostManager<T> extends JsonRequest<T> {
     /**
      * Deliver Response
      *      Override the abstract implementation
-     * @param response
+     * @param response Response
      */
     @Override
     protected void deliverResponse(T response) {
@@ -54,8 +54,8 @@ public class GsonPostManager<T> extends JsonRequest<T> {
     /**
      * Parse Network Response
      *
-     * @param response
-     * @return
+     * @param response Response
+     * @return Response
      */
     protected Response<T> parseNetworkResponse(NetworkResponse response) {
         String json = "";

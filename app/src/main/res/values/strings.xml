@@ -38,6 +38,8 @@
     <string name="overviewTitle">Overview / Details</string>
     <string name="ratingTitle">Rating</string>
     <string name="rating_text">rating: %1$s</string>
+    <string name="season_text">season %1$s</string>
+    <string name="episode_text">episode %1$s</string>
 
     <!-- search text -->
     <string name="result_search">Results for: %1$s</string>

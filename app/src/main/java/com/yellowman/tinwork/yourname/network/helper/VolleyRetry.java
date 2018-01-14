@@ -29,7 +29,7 @@ public class VolleyRetry<T> {
     /**
      * Volley Retry
      *
-     * @param ctx
+     * @param ctx Context
      */
     public VolleyRetry(Context ctx) {
         this.userToken = new UserToken(ctx);
@@ -41,7 +41,7 @@ public class VolleyRetry<T> {
      * Retry
      *      We retry once the request in case IF the Token is expired
      *      This allow us to make sure that the request has failed
-     * @param req
+     * @param req Request
      */
     public void retry(Request<T> req) {
         HashMap<String, String> usrPayload = new HashMap<>();

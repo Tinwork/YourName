@@ -13,6 +13,17 @@ package com.yellowman.tinwork.yourname.network.Listeners;
  * @param <T>
  */
 public interface GsonCallback<T> {
+    /**
+     * On Success
+     *
+     * @param response Any
+     */
     void onSuccess(T response);
+
+    /**
+     * On Error
+     *
+     * @param err String
+     */
     void onError(String err);
 }

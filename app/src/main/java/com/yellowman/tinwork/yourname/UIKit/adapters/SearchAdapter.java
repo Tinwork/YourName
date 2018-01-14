@@ -26,7 +26,7 @@ public class SearchAdapter extends RecyclerView.Adapter {
     /**
      * Search Adapter::Constructor
      *
-     * @param data
+     * @param data List<Series>
      */
     public SearchAdapter(List<Series> data) {
         this.data = data;
@@ -35,9 +35,9 @@ public class SearchAdapter extends RecyclerView.Adapter {
     /**
      * On Create View Holder
      *
-     * @param parent
-     * @param viewType
-     * @return
+     * @param parent ViewGroup
+     * @param viewType int
+     * @return ViewHolder
      */
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -49,19 +49,18 @@ public class SearchAdapter extends RecyclerView.Adapter {
     /**
      * On Bind View Holder
      *
-     * @param holder
-     * @param position
+     * @param holder ViewHolder
+     * @param position int
      */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Log.d("Debug", "DEBUUUGG "+data.get(position).getSeriesName());
         ((SearchHolder) holder).bindData(data.get(position));
     }
 
     /**
      * Get Item Count
      *
-     * @return
+     * @return int
      */
     @Override
     public int getItemCount() {

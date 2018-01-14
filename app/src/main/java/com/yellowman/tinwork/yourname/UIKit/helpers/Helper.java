@@ -26,9 +26,9 @@ public class Helper<T> {
     /**
      * Launch New View With Model
      *
-     * @param model
-     * @param fromAct
-     * @param toAct
+     * @param model Parcelable
+     * @param fromAct Context
+     * @param toAct Class
      */
     public void launchNewViewWithModel(Parcelable model, Context fromAct, Class<T> toAct) {
         Intent intent = new Intent(fromAct, toAct);
@@ -39,9 +39,9 @@ public class Helper<T> {
     /**
      * Launch New View With Array Model
      *
-     * @param model
-     * @param fromAct
-     * @param toAct
+     * @param model Parcelable
+     * @param fromAct Context
+     * @param toAct Class
      */
     public void launchNewViewWithArrayModel(Parcelable[] model, Context fromAct, Class<T> toAct) {
         Intent intent = new Intent(fromAct, toAct);

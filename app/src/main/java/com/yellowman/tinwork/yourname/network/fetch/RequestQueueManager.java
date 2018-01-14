@@ -22,7 +22,7 @@ public class RequestQueueManager {
     /**
      * Request Queue Manager
      *
-     * @param appCtx
+     * @param appCtx Context
      */
     private RequestQueueManager(Context appCtx) {
         ctx = appCtx;
@@ -33,8 +33,8 @@ public class RequestQueueManager {
     /**
      * Request Queue Manager
      *
-     * @param ctx
-     * @return
+     * @param ctx Context
+     * @return RequestQueueManager
      */
     public static synchronized RequestQueueManager getInstance(Context ctx) {
         if (mInstance == null) {
@@ -47,7 +47,7 @@ public class RequestQueueManager {
     /**
      * Get Request Queue
      *
-     * @return
+     * @return RequestQueue
      */
     public RequestQueue getRequestQueue() {
         // In case the Queue is null we create a new Queue with the Application context
@@ -60,7 +60,7 @@ public class RequestQueueManager {
     /**
      * Add To Request Queue
      *
-     * @param req
+     * @param req Request
      * @param <T> any
      */
     public <T> void addToRequestQueue(Request<T> req) {

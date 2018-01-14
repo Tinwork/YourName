@@ -67,7 +67,7 @@ public class GsonDeleteManager<T> extends Request<T> {
     /**
      * Deliver Response
      *
-     * @param response
+     * @param response Response
      */
     @Override
     public void deliverResponse(T response) {
@@ -77,8 +77,8 @@ public class GsonDeleteManager<T> extends Request<T> {
     /**
      * Parse Network Response
      *
-     * @param response
-     * @return
+     * @param response Response
+     * @return Response
      */
     @Override
     public Response<T> parseNetworkResponse(NetworkResponse response) {
@@ -108,9 +108,9 @@ public class GsonDeleteManager<T> extends Request<T> {
      * Desarialize
      *      Deserialize data when a payload need to be extract from the "data" object
      *
-     * @param json
-     * @param response
-     * @return
+     * @param json String
+     * @param response NetworkResponse
+     * @return Response
      */
     private Response<T> desarialize(String json, NetworkResponse response) {
         JsonElement element = gson.fromJson(json, JsonElement.class);

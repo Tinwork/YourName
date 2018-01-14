@@ -34,7 +34,7 @@ public class SearchSeries extends Fetch {
     /**
      * Search Series
      *
-     * @param context
+     * @param context Context
      */
     public SearchSeries(Context context) {
         this.ctx = context;
@@ -46,8 +46,8 @@ public class SearchSeries extends Fetch {
     /**
      * Get
      *
-     * @param payload
-     * @param callback
+     * @param payload HashMap
+     * @param callback GsonCallback
      */
     @Override
     public void get(HashMap<String, String> payload, final GsonCallback callback) {

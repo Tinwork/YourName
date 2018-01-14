@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Your name</string>
+    <string name="title_activity_login">ການເຊື່ອມຕໍ່</string>
+    <string name="prompt_username">ຊື່ຜູ້ໃຊ້</string>
+    <string name="prompt_accountID">ລະ​ຫັດ​ບັນ​ຊີ</string>
+    <string name="action_sign_in_short">ການເຊື່ອມຕໍ່</string>
+    <string name="error_invalid_accountID">ບັນຊີທີ່ບໍ່ຖືກຕ້ອງ</string>
+    <string name="error_invalid_username">ຜູ້ໃຊ້ບໍ່ຖືກຕ້ອງ</string>
+    <string name="error_incorrect_password">ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ</string>
+    <string name="error_field_required">ພາກສະຫນາມທີ່ຕ້ອງການ</string>
+    <string name="title_activity_log">ການເຊື່ອມຕໍ່</string>
+    <string name="skip">ຂ້າມ</string>
+    <string name="img_logo">Logo of yourname</string>
+    <string name="search_icon">Search icon</string>
+    <string name="exit_icon">Exit icon</string>
+    <string name="trending">Trending</string>
+    <string name="popular">ທີ່ນິຍົມ</string>
+    <string name="random">ໂດຢບັງເອີນ</string>
+    <string name="favorite">"ທີ່ມັກຫລາຢທີ່ສົດ "</string>
+    <string name="synopsis_title">ບົດສະຫຼຸບ</string>
+    <string name="actor_title">ນັກສະແດງ</string>
+    <string name="seasons">ລຶະເບິ່ງການ</string>
+    <string name="episodeInfoTitle">Episode information</string>
+    <string name="overviewTitle">ພາບລວມ</string>
+    <string name="ratingTitle">Rating</string>
+    <string name="rating_text">rating: %1$s</string>
+    <string name="result_search">Results for: %1$s</string>
+    <string name="retry_mode">ລອງໃຫມ່</string>
+    <string name="end_mode">Ok</string>
+    <string name="cancel_mode">ຍົກເລີກ</string>
+    <string name="disconnect">ປິດການເຊື່ອມຕໍ່</string>
+    <string name="profile">ແນວ</string>
+    <string name="welcome">ສະບາຍດີ %1$s !</string>
+    <string name="no_favorite">No favorite yet</string>
+</resources>

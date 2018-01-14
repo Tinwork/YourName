@@ -33,7 +33,8 @@ public class TrendingHolder extends RecyclerView.ViewHolder{
 
     /**
      * TrendingHolder::Constructor
-     * @param itemView
+     *
+     * @param itemView View
      */
     public TrendingHolder(final View itemView) {
         super(itemView);
@@ -51,7 +52,8 @@ public class TrendingHolder extends RecyclerView.ViewHolder{
 
     /**
      * Bind Data
-     * @param seriesModel
+     *
+     * @param seriesModel Series
      */
     public void bindData(final Series seriesModel) {
         series = seriesModel;

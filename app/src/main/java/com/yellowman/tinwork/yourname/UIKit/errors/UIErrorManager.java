@@ -49,8 +49,8 @@ public class UIErrorManager {
      * Set Error
      *      Set the error which will be used to be display later
      *
-     * @param code
-     * @param message
+     * @param code String
+     * @param message String
      * @return this
      */
     public UIErrorManager setError(String code, String message) {
@@ -63,7 +63,7 @@ public class UIErrorManager {
     /**
      * Set Opts Mode
      *
-     * @return
+     * @return UIErrorManager
      */
     public UIErrorManager setOptsMode(int code) {
         this.retryMode = code;
@@ -74,7 +74,7 @@ public class UIErrorManager {
     /**
      * Set Error Strategy
      *
-     * @param strategyCode
+     * @param strategyCode int
      */
     public void setErrorStrategy(int strategyCode) {
         switch (strategyCode) {
@@ -99,10 +99,8 @@ public class UIErrorManager {
     /**
      * Alert Box
      *
-     * @void
      */
     private void alertBox() {
-        Log.d("Debug", "PASS BY ALERT BOX");
         AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
         builder.setMessage(errMessage);
 

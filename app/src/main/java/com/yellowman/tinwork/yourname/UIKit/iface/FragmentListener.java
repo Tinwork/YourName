@@ -21,7 +21,7 @@ public interface FragmentListener {
      * Notify Data
      *
      * /!\ Need review though...
-     * @param parcels
+     * @param parcels List<Series>
      */
     void notifyData(List<Series> parcels);
 }
