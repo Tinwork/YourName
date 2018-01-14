@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
@@ -18,7 +17,7 @@ import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.UIKit.misc.GradientGenerator;
 import com.yellowman.tinwork.yourname.UIKit.misc.ToolbarManager;
 import com.yellowman.tinwork.yourname.activities.home.fragments.FavoriteFragment;
-import com.yellowman.tinwork.yourname.activities.home.fragments.PopularFragment;
+import com.yellowman.tinwork.yourname.activities.home.fragments.RandomFragment;
 import com.yellowman.tinwork.yourname.activities.home.fragments.TrendingFragment;
 import com.yellowman.tinwork.yourname.activities.login.LoginActivity;
 import com.yellowman.tinwork.yourname.model.Series;
@@ -150,7 +149,7 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
     @Override
     public void initFragmentListeners() {
         TrendingFragment trFg = (TrendingFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_trending);
-        PopularFragment  poFg = (PopularFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_popular);
+        RandomFragment poFg = (RandomFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_popular);
         FavoriteFragment faFg = (FavoriteFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_favorite);
 
         // Put the listeners in the ArrayList which will be used later..
@@ -206,7 +205,7 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
      */
     private void setToolbar() {
         this.toolbarManager = new ToolbarManager(this);
-        Toolbar toolbar = toolbarManager.setToolbar().setTitle("TRENDING").getToolbar();
+        Toolbar toolbar = toolbarManager.setToolbar().setTitle("YourName").getToolbar();
         setSupportActionBar(toolbar);
     }
 

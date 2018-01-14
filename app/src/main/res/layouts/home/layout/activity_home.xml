@@ -34,7 +34,7 @@
                     android:scrollbars="none" />
 
                 <fragment
-                    class="com.yellowman.tinwork.yourname.activities.home.fragments.PopularFragment"
+                    class="com.yellowman.tinwork.yourname.activities.home.fragments.RandomFragment"
                     android:id="@+id/fragment_popular"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
