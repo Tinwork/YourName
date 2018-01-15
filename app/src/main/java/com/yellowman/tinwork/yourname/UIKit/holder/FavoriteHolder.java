@@ -66,7 +66,7 @@ public class FavoriteHolder extends RecyclerView.ViewHolder {
         for (String genre: serie.getGenre()) {
             g += " "+genre;
         }
-        runtimeTextView.setText(g+serie);
+        runtimeTextView.setText(g);
 
         // OnClick Listener
         viewItem.setOnClickListener(event -> {
