@@ -182,7 +182,7 @@ public class FilmDetailsActivity extends AppCompatActivity {
                 if (response.length > 0) {
                     Glide.with(FilmDetailsActivity.this).load(AppUtils.buildMiscURI(Routes.IMG_PATH, response[0].getFileName())).into(banner);
                 } else {
-                    Glide.with(FilmDetailsActivity.this).load(R.drawable.yourname_bg).into(banner);
+                    Glide.with(FilmDetailsActivity.this).load(R.drawable.totoro_error).into(banner);
                 }
             }
 
@@ -195,7 +195,7 @@ public class FilmDetailsActivity extends AppCompatActivity {
                             .setErrorStrategy(UIErrorManager.SNACKBAR);
                 }
 
-                Glide.with(FilmDetailsActivity.this.getApplicationContext()).load(R.drawable.yourname_bg).into(banner);
+                Glide.with(FilmDetailsActivity.this.getApplicationContext()).load(R.drawable.totoro_error).into(banner);
             }
         });
     }
