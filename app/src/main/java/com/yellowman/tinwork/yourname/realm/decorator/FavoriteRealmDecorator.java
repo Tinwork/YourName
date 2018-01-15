@@ -186,7 +186,7 @@ public class FavoriteRealmDecorator extends CommonManager {
                 @Override
                 public void onError(String err) {
                     // in case of an error it's better to dispatch current series
-                    callback.onSuccess(series);
+                    callback.onSuccess(serie);
                 }
             });
         }
