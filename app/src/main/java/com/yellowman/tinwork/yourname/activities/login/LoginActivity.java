@@ -186,7 +186,7 @@ public class LoginActivity extends AppCompatActivity {
 
            @Override
            public void onError(String err) {
-               ProgressSpinner.setHidden(mProgressView);
+               showProgress(false);
                uiErrorManager
                        .setError("", err)
                        .setErrorStrategy(UIErrorManager.SNACKBAR);
@@ -250,7 +250,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onError(String err) {
-                ProgressSpinner.setHidden(mProgressView);
+                showProgress(false);
                 uiErrorManager
                         .setError("", err)
                         .setErrorStrategy(UIErrorManager.SNACKBAR);
