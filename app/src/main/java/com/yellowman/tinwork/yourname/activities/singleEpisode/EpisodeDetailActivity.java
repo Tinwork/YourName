@@ -117,7 +117,7 @@ public class EpisodeDetailActivity extends AppCompatActivity {
         if (!episode.getFilename().isEmpty()) {
             Glide.with(this.getApplicationContext()).load(AppUtils.buildMiscURI(Routes.IMG_PATH, episode.getFilename())).into(imgview);
         } else {
-            Glide.with(this.getApplicationContext()).load(R.drawable.yourname_bg).into(imgview);
+            Glide.with(this.getApplicationContext()).load(R.drawable.totoro_error).into(imgview);
         }
     }
 

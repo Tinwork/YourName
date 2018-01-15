@@ -56,12 +56,17 @@ public class FavoriteHolder extends RecyclerView.ViewHolder {
         if (!serie.getBanner().isEmpty()) {
             Glide.with(viewItem.getContext().getApplicationContext()).load(AppUtils.buildMiscURI(Routes.IMG_PATH, serie.getBanner())).into(imgView);
         } else {
-            Glide.with(viewItem.getContext().getApplicationContext()).load(R.drawable.yourname_bg).into(imgView);
+            Glide.with(viewItem.getContext().getApplicationContext()).load(R.drawable.totoro_error).into(imgView);
         }
 
         // Set other kind of props with 'FIX' Data in the meantime
-        rateTextView.setText("5");
-        runtimeTextView.setText("Romance / 55mn");
+        rateTextView.setText(serie.getSiteRating());
+
+        String g = "";
+        for (String genre: serie.getGenre()) {
+            g += " "+genre;
+        }
+        runtimeTextView.setText(g+serie);
 
         // OnClick Listener
         viewItem.setOnClickListener(event -> {

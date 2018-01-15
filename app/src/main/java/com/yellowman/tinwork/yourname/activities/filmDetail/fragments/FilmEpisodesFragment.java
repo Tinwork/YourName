@@ -185,7 +185,6 @@ public class FilmEpisodesFragment extends Fragment implements FragmentListener, 
      *      /!\ Can take a long time ! though we may have use the AsyncTask but as the method is already asynchronious..
      *
      * @param seasons Array of seasons
-     * @return
      */
     public void handleMulSeasons(String[] seasons) {
         this.thread = new Thread(() -> {

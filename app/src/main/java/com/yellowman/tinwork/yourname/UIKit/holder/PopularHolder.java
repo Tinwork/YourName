@@ -52,7 +52,7 @@ public class PopularHolder extends RecyclerView.ViewHolder {
         if (!serie.getBanner().isEmpty()) {
             Glide.with(viewItem.getContext().getApplicationContext()).load(AppUtils.buildMiscURI(Routes.IMG_PATH, serie.getBanner())).into(imgView);
         } else {
-            Glide.with(viewItem.getContext().getApplicationContext()).load(R.drawable.yourname_bg).into(imgView);
+            Glide.with(viewItem.getContext().getApplicationContext()).load(R.drawable.totoro_error).into(imgView);
         }
 
         // Set listeners
