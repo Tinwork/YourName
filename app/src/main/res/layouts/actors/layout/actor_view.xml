@@ -17,5 +17,7 @@
     <TextView
         android:id="@+id/actor_name"
         android:layout_below="@+id/actor_image"
+        android:lines="2"
+        android:maxLines="2"
         style="@style/ActorTextViewStyle"/>
 </RelativeLayout>

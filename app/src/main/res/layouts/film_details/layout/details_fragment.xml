@@ -69,8 +69,8 @@
         android:id="@+id/actors_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="horizontal"
         android:layout_marginBottom="@dimen/detail_padding"
+        android:layout_gravity="center_vertical"
         android:layout_below="@+id/actor_title">
     </android.support.v7.widget.RecyclerView>
 
