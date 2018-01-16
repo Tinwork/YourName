@@ -11,6 +11,7 @@ import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.holder.FavoriteHolder;
 import com.yellowman.tinwork.yourname.UIKit.holder.PopularHolder;
 import com.yellowman.tinwork.yourname.UIKit.holder.TrendingHolder;
+import com.yellowman.tinwork.yourname.UIKit.iface.AdapterHolder;
 import com.yellowman.tinwork.yourname.model.Series;
 
 import java.util.List;
@@ -22,10 +23,11 @@ import java.util.List;
  * Created by Antoine Renault on 06/12/2017.
  */
 
-public class CardSeriesAdapter extends RecyclerView.Adapter{
+public class CardSeriesAdapter extends RecyclerView.Adapter {
 
     public List<Series> series;
     private int layoutID;
+    private AdapterHolder iCommunication;
 
 
     /**
@@ -35,6 +37,10 @@ public class CardSeriesAdapter extends RecyclerView.Adapter{
     public CardSeriesAdapter(List<Series> seriesList, int layoutID) {
         this.series   = seriesList;
         this.layoutID = layoutID;
+        this.iCommunication = (int idx) -> {
+            seriesList.remove(idx);
+            this.notifyDataSetChanged();
+        };
     }
 
     /**
@@ -69,7 +75,7 @@ public class CardSeriesAdapter extends RecyclerView.Adapter{
                 break;
             case R.layout.card_favorite:
             case R.layout.card_favorite_hor:
-                ((FavoriteHolder) holder).bindData(series.get(position));
+                ((FavoriteHolder) holder).bindData(series.get(position), position);
         }
     }
 
@@ -119,7 +125,7 @@ public class CardSeriesAdapter extends RecyclerView.Adapter{
                 break;
             case R.layout.card_favorite:
             case R.layout.card_favorite_hor:
-                holder = new FavoriteHolder(v);
+                holder = new FavoriteHolder(v, iCommunication);
                 break;
             default:
                 holder = new TrendingHolder(v);

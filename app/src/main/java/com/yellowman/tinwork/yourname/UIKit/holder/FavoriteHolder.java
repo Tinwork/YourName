@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.helpers.Helper;
+import com.yellowman.tinwork.yourname.UIKit.iface.AdapterHolder;
 import com.yellowman.tinwork.yourname.activities.filmDetail.FilmDetailsActivity;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.api.Routes;
@@ -26,19 +27,22 @@ public class FavoriteHolder extends RecyclerView.ViewHolder {
     private TextView  filmTextView;
     private TextView  rateTextView;
     private TextView  runtimeTextView;
+    private AdapterHolder iface;
     protected View viewItem;
     protected Helper helper;
     protected String serieID;
+    protected int pos;
 
 
     /**
      *
      * @param viewItem View
      */
-    public FavoriteHolder(final View viewItem) {
+    public FavoriteHolder(final View viewItem, AdapterHolder iface) {
         super(viewItem);
         this.viewItem = viewItem;
         this.helper = new Helper();
+        this.iface  = iface;
 
         // Prepare the Layout element
         prepareElements();
@@ -49,7 +53,8 @@ public class FavoriteHolder extends RecyclerView.ViewHolder {
      *
      * @param serie Serie
      */
-    public void bindData(final Series serie) {
+    public void bindData(final Series serie, int pos) {
+        this.pos = pos;
         serieID = serie.getId();
         filmTextView.setText(serie.getSeriesName());
 
@@ -84,6 +89,7 @@ public class FavoriteHolder extends RecyclerView.ViewHolder {
         runtimeTextView = viewItem.findViewById(R.id.genre_time);
     }
 
+
     /**
      * Get Series From Holder
      *
@@ -91,5 +97,13 @@ public class FavoriteHolder extends RecyclerView.ViewHolder {
      */
     public String getSeriesFromHolder() {
         return serieID;
+    }
+
+    /**
+     * Notify Adapter From Holder
+     *
+     */
+    public void notifyAdapterFromHolder() {
+        iface.notifyAdapterUpdate(pos);
     }
 }

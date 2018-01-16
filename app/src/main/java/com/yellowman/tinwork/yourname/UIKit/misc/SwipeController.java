@@ -13,6 +13,8 @@ import static android.support.v7.widget.helper.ItemTouchHelper.LEFT;
 import static android.support.v7.widget.helper.ItemTouchHelper.RIGHT;
 
 /**
+ * Time goes on sometimes too quickly...
+ *
  * Created by Marc Intha-amnouay on 07/01/2018.
  * Created by Didier Youn on 07/01/2018.
  * Created by Abdel-Atif Mabrouck on 07/01/2018.
@@ -68,5 +70,7 @@ public class SwipeController extends ItemTouchHelper.Callback {
         // Ok i know this is dirty, but we don't have much time
         String id = holder.getSeriesFromHolder();
         realmManager.removeSeriesById("id", id);
+        // Update the adapter via the holder
+        holder.notifyAdapterFromHolder();
     }
 }
