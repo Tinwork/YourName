@@ -46,13 +46,10 @@
             android:layout_below="@+id/favorite_title"
             style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"/>
 
-
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/favoriteFrag_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="horizontal"
             android:layout_marginTop="30dp"
             android:layoutAnimation="@anim/layout_animation_vertical">
         </android.support.v7.widget.RecyclerView>

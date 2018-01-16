@@ -69,7 +69,7 @@ public class RandomFragment extends Fragment implements FragmentListener, Fragme
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View popular = inflater.inflate(R.layout.popular_fragment, container, false);
+        View popular = inflater.inflate(R.layout.random_fragment, container, false);
 
         // Set the recycler view
         recyclerView = popular.findViewById(R.id.popularFrag_recycler_view);
