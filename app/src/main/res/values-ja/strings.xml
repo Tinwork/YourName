@@ -37,4 +37,5 @@
     <string name="episode_text">エピソード %1$s</string>
     <string name="choose_title">シリーズを共有する</string>
     <string name="shared_action_template">Hey i really want to share %1$s with you, %2$s</string>
+    <string name="reload_icon">Reload icon</string>
 </resources>

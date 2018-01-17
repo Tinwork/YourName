@@ -89,6 +89,7 @@ public class ToolbarManager {
             case R.id.account:
                 accountAction();
                 return true;
+            case R.id.reload:
             case R.id.logout:
             case R.id.favorite_item:
             case R.id.shared_item:

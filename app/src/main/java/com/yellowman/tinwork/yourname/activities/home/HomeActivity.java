@@ -14,6 +14,7 @@ import android.widget.SearchView;
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentCommunication;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
+import com.yellowman.tinwork.yourname.UIKit.iface.ToolbarActionCallback;
 import com.yellowman.tinwork.yourname.UIKit.misc.GradientGenerator;
 import com.yellowman.tinwork.yourname.UIKit.misc.ToolbarManager;
 import com.yellowman.tinwork.yourname.activities.home.fragments.FavoriteFragment;
@@ -39,6 +40,7 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
     protected ToolbarManager toolbarManager;
     private GradientGenerator gd;
     private HashMap<String, List<Series>> parcelMap;
+    private ToolbarActionCallback cb;
 
 
     /**
@@ -81,7 +83,7 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-       toolbarManager.toolbarItemSelectAction(item, null);
+       toolbarManager.toolbarItemSelectAction(item, cb);
 
        return true;
     }
@@ -213,6 +215,10 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
      * Is User Subscribe
      */
     private void isUserSubscribe(Bundle savedInstanceState) {
+        cb = () -> {
+            fireFragmentEvent(null);
+        };
+
         String token  = AppUtils.getSharedPreference(this, "yourname_token");
 
         // Create an intent to redirect to an other view

@@ -57,4 +57,7 @@
     <!-- create chooser -->
     <string name="choose_title">Share this series with</string>
     <string name="shared_action_template">Hey i really want to share %1$s with you, %2$s</string>
+
+    <!-- menu -->
+    <string name="reload_icon">Reload icon</string>
 </resources>
