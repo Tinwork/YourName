@@ -121,4 +121,24 @@ public class SeriesRealmDecorator extends CommonManager {
             callback.onError("Unable to retrieve last series");
         }
     }
+
+    /**
+     * Flush Previous Series
+     *
+     * /!\ This flush the old series that has not been set
+     */
+    public void flushPreviousSeries() {
+        if (!conHelper.getConnectivityStatus()) {
+            return;
+        }
+
+        getRealmInstance().executeTransaction(realm -> {
+            RealmResults<Series> oldSeries = realm
+                    .where(Series.class)
+                    .equalTo("favorite", false)
+                    .findAll();
+
+            oldSeries.deleteAllFromRealm();
+        });
+    }
 }
