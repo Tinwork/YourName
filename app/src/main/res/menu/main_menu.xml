@@ -5,11 +5,15 @@
     tools:context=".activities.home.HomeActivity">
 
     <item android:id="@+id/search"
-        android:title="Search stuff"
+        android:title="@string/search_icon"
         android:icon="@drawable/ic_search_white_18dp"
         app:showAsAction="collapseActionView|ifRoom"
         app:actionViewClass="android.widget.SearchView" />
 
+    <item android:id="@+id/reload"
+        android:title="@string/reload_icon"
+        android:icon="@drawable/ic_update_white_24dp"
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/account"
