@@ -60,4 +60,6 @@
 
     <!-- menu -->
     <string name="reload_icon">Reload icon</string>
+    <string name="share_icon">Share icon</string>
+    <string name="favorite_icon">Favorite icon</string>
 </resources>

@@ -194,6 +194,7 @@ public class FavoriteFragment extends Fragment implements FragmentListener, Frag
         }
 
         recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     /**
@@ -208,18 +209,18 @@ public class FavoriteFragment extends Fragment implements FragmentListener, Frag
             public void onSuccess(List<Series> response) {
                 if (response.size() == 0) {
                     bindRecycleView(null);
+                    noFavorite.setVisibility(View.VISIBLE);
                 } else {
                     bindRecycleView(response);
                     mLink.setParcelable(response, parcelID);
+                    noFavorite.setVisibility(View.GONE);
                 }
 
                 ProgressSpinner.setHidden(spinner);
-                noFavorite.setVisibility(View.GONE);
             }
 
             @Override
             public void onError(String err) {
-                Log.d("Error", err);
                 bindRecycleView(null);
                 ProgressSpinner.setHidden(spinner);
                 noFavorite.setVisibility(View.VISIBLE);

@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -20,6 +21,7 @@ import com.yellowman.tinwork.yourname.UIKit.misc.GradientGenerator;
 import com.yellowman.tinwork.yourname.UIKit.misc.ToolbarManager;
 import com.yellowman.tinwork.yourname.activities.filmDetail.fragments.FilmContentFragment;
 import com.yellowman.tinwork.yourname.activities.filmDetail.fragments.FilmEpisodesFragment;
+import com.yellowman.tinwork.yourname.application.YourName;
 import com.yellowman.tinwork.yourname.entity.Image;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
@@ -33,6 +35,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 /**
  * MERRY CHRISTMAS !!!!! ✨ L~~~~~~~~~MM~~~~~~~~~L ✨
  *
@@ -44,6 +49,10 @@ import java.util.List;
 
 public class FilmDetailsActivity extends AppCompatActivity {
 
+    @Inject
+    @Named("FetchFavorite")
+    FavoriteRealmDecorator realmDecorator;
+
     protected ImageView banner;
     protected FragmentListener fg;
     protected FragmentListener fe;
@@ -52,6 +61,7 @@ public class FilmDetailsActivity extends AppCompatActivity {
     private ToolbarManager toolbarManager;
     private ToolbarActionCallback callbackFavorite;
     private ToolbarActionCallback callbackShared;
+    private Series serie;
 
     /**
      * On Create
@@ -62,6 +72,7 @@ public class FilmDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_film_details);
+        ((YourName) getApplicationContext()).getmNetworkComponent().inject(this);
         initActivityComponent();
         getIntentData();
         setToolbar();
@@ -101,6 +112,13 @@ public class FilmDetailsActivity extends AppCompatActivity {
      */
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.favorite_menu, menu);
+
+        if (serie.getFavorite()) {
+            menu.findItem(R.id.favorite_outline_item).setVisible(true);
+        } else {
+            menu.findItem(R.id.favorite_item).setVisible(true);
+        }
+
         return true;
     }
 
@@ -119,7 +137,7 @@ public class FilmDetailsActivity extends AppCompatActivity {
                     .setErrorStrategy(UIErrorManager.SNACKBAR);
         } else {
             // this should be refactor
-            if (item.getItemId() == R.id.favorite_item) {
+            if (item.getItemId() == R.id.favorite_item || item.getItemId() == R.id.favorite_outline_item) {
                 toolbarManager.toolbarItemSelectAction(item, callbackFavorite);
             } else {
                 toolbarManager.toolbarItemSelectAction(item, callbackShared);
@@ -135,7 +153,7 @@ public class FilmDetailsActivity extends AppCompatActivity {
      */
     private void getIntentData() {
         Intent intent = getIntent();
-        Series serie = intent.getParcelableExtra("Entity");
+        serie = intent.getParcelableExtra("Entity");
 
         // Call our fragment and notify that data is available
         if (!serie.getId().isEmpty()) {
@@ -148,8 +166,11 @@ public class FilmDetailsActivity extends AppCompatActivity {
 
             // create extra data for the toolbar...
             callbackFavorite = () -> {
-                FavoriteRealmDecorator realmDecorator = new FavoriteRealmDecorator(this);
-                realmDecorator.setSerieAsFavorite(serie);
+                if (!serie.getFavorite()) {
+                    realmDecorator.setSerieAsFavorite(serie);
+                } else {
+                    realmDecorator.removeFromFavorite("id", serie.getId());
+                }
             };
 
             callbackShared = () -> {

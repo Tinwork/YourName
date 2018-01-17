@@ -69,7 +69,7 @@ public class SwipeController extends ItemTouchHelper.Callback {
         FavoriteHolder holder = (FavoriteHolder) viewHolder;
         // Ok i know this is dirty, but we don't have much time
         String id = holder.getSeriesFromHolder();
-        realmManager.removeSeriesById("id", id);
+        realmManager.removeFromFavorite("id", id);
         // Update the adapter via the holder
         holder.notifyAdapterFromHolder();
     }

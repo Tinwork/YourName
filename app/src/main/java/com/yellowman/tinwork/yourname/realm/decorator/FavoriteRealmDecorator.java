@@ -12,6 +12,7 @@ import com.yellowman.tinwork.yourname.network.api.series.SingleSerie;
 import com.yellowman.tinwork.yourname.network.api.user.GetFavorite;
 import com.yellowman.tinwork.yourname.network.helper.ConnectivityHelper;
 import com.yellowman.tinwork.yourname.realm.manager.CommonManager;
+import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -72,9 +73,7 @@ public class FavoriteRealmDecorator extends CommonManager {
                 .equalTo("favorite", true)
                 .findAll();
 
-        if (realmSeries.size() != 0) {
-            serie = this.getRealmInstance().copyFromRealm(realmSeries);
-        }
+        serie = this.getRealmInstance().copyFromRealm(realmSeries);
 
         if (conHelper.getConnectivityStatus()) {
             GetFavorite favorite = new GetFavorite(ctx);
@@ -105,17 +104,19 @@ public class FavoriteRealmDecorator extends CommonManager {
     }
 
     /**
-     * Remove Series By Id
+     * Remove From Favorite
      *
      * @param id series id
      */
-    public void removeSeriesById(String criterion, String id) {
+    public void removeFromFavorite(String criterion, String id) {
         getRealmInstance().executeTransactionAsync((final Realm realm) -> {
             RealmResults<Series> data = realm.where(Series.class)
                     .equalTo(criterion, id)
                     .findAll();
 
             data.deleteAllFromRealm();
+
+            AppUtils.outputRealmFile();
         }, () -> {
             Log.println(Log.WARN, "Yourname::Realm", "A serie has been deleted");
             // Call the remove services here
