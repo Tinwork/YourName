@@ -92,6 +92,7 @@ public class ToolbarManager {
             case R.id.reload:
             case R.id.logout:
             case R.id.favorite_item:
+            case R.id.favorite_outline_item:
             case R.id.shared_item:
                 callback.doItemAction();
                 return true;
