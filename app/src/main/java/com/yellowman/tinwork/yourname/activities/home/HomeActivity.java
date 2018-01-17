@@ -21,12 +21,17 @@ import com.yellowman.tinwork.yourname.activities.home.fragments.FavoriteFragment
 import com.yellowman.tinwork.yourname.activities.home.fragments.RandomFragment;
 import com.yellowman.tinwork.yourname.activities.home.fragments.TrendingFragment;
 import com.yellowman.tinwork.yourname.activities.login.LoginActivity;
+import com.yellowman.tinwork.yourname.application.YourName;
 import com.yellowman.tinwork.yourname.model.Series;
+import com.yellowman.tinwork.yourname.realm.decorator.SeriesRealmDecorator;
 import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * Created by Marc Intha-amnouay two months ago.
@@ -36,12 +41,15 @@ import java.util.List;
  */
 public class HomeActivity extends AppCompatActivity implements FragmentCommunication {
 
+    @Inject
+    @Named("SearchSeries")
+    SeriesRealmDecorator searchSeries;
+
     protected ArrayList<FragmentListener> listeners;
     protected ToolbarManager toolbarManager;
     private GradientGenerator gd;
     private HashMap<String, List<Series>> parcelMap;
     private ToolbarActionCallback cb;
-
 
     /**
      *
@@ -51,6 +59,8 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        ((YourName) this.getApplicationContext()).getmNetworkComponent().inject(this);
+
         setToolbar();
 
         // Init the view by adding bg colors, status bar..
@@ -200,6 +210,8 @@ public class HomeActivity extends AppCompatActivity implements FragmentCommunica
 
         // Prepare the listeners
         initFragmentListeners();
+        // Flush the realm data except the favorite
+        searchSeries.flushPreviousSeries();
     }
 
     /**
