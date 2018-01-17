@@ -115,8 +115,6 @@ public class FavoriteRealmDecorator extends CommonManager {
                     .findAll();
 
             data.deleteAllFromRealm();
-
-            AppUtils.outputRealmFile();
         }, () -> {
             Log.println(Log.WARN, "Yourname::Realm", "A serie has been deleted");
             // Call the remove services here
