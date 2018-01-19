@@ -65,7 +65,6 @@ public class SearchAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         if (data == null) {
-            Log.d("Debug", "DATAAAA NULL");
             return 0;
         }
 

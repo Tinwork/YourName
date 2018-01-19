@@ -1,20 +1,20 @@
 package com.yellowman.tinwork.yourname.activities.filmDetail;
 
 import android.content.Intent;
-import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.errors.UIErrorManager;
 import com.yellowman.tinwork.yourname.UIKit.helpers.Helper;
+import com.yellowman.tinwork.yourname.UIKit.helpers.Utils;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.UIKit.iface.ToolbarActionCallback;
 import com.yellowman.tinwork.yourname.UIKit.misc.GradientGenerator;
@@ -28,7 +28,6 @@ import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.network.api.series.ImagesSeries;
 import com.yellowman.tinwork.yourname.realm.decorator.FavoriteRealmDecorator;
-import com.yellowman.tinwork.yourname.realm.decorator.SeriesRealmDecorator;
 import com.yellowman.tinwork.yourname.utils.AppUtils;
 
 import java.util.ArrayList;
@@ -59,7 +58,8 @@ public class FilmDetailsActivity extends AppCompatActivity {
     private GradientGenerator gd;
     private UIErrorManager uiErrorManager;
     private ToolbarManager toolbarManager;
-    private ToolbarActionCallback callbackFavorite;
+    private ToolbarActionCallback callbackSetFavorite;
+    private ToolbarActionCallback callbackSetUnfavorite;
     private ToolbarActionCallback callbackShared;
     private Series serie;
 
@@ -94,6 +94,10 @@ public class FilmDetailsActivity extends AppCompatActivity {
         // set the toolbar
         this.toolbarManager = new ToolbarManager(this);
         AppUtils.colorizeStatusBar(this.getWindow(), this, color);
+
+        // Set collapsing toolbar layout scrim color
+        CollapsingToolbarLayout cl = findViewById(R.id.collapsing_toolbar_layout);
+        Utils.setCollapsingToolbarScrimColor(cl, ContextCompat.getColor(this, color));
     }
 
     /**
@@ -113,7 +117,7 @@ public class FilmDetailsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.favorite_menu, menu);
 
-        if (serie.getFavorite()) {
+        if (!serie.getFavorite()) {
             menu.findItem(R.id.favorite_outline_item).setVisible(true);
         } else {
             menu.findItem(R.id.favorite_item).setVisible(true);
@@ -131,17 +135,23 @@ public class FilmDetailsActivity extends AppCompatActivity {
         String username = AppUtils.getSharedPreference(this, "username");
         String accountID= AppUtils.getSharedPreference(this, "accountID");
 
+        if (item.getItemId() == R.id.shared_item) {
+            toolbarManager.toolbarItemSelectAction(item, callbackShared);
+            return true;
+        }
+
         if (username.isEmpty() || accountID.isEmpty()) {
             uiErrorManager
                     .setError("401", "Anonymous can't save favorite series")
                     .setErrorStrategy(UIErrorManager.SNACKBAR);
+
+            return true;
+        }
+
+        if (item.getItemId() == R.id.favorite_item) {
+            toolbarManager.toolbarItemSelectAction(item, callbackSetUnfavorite);
         } else {
-            // this should be refactor
-            if (item.getItemId() == R.id.favorite_item || item.getItemId() == R.id.favorite_outline_item) {
-                toolbarManager.toolbarItemSelectAction(item, callbackFavorite);
-            } else {
-                toolbarManager.toolbarItemSelectAction(item, callbackShared);
-            }
+            toolbarManager.toolbarItemSelectAction(item, callbackSetFavorite);
         }
 
         return true;
@@ -165,12 +175,12 @@ public class FilmDetailsActivity extends AppCompatActivity {
             getImageForSerie(serie.getId());
 
             // create extra data for the toolbar...
-            callbackFavorite = () -> {
-                if (!serie.getFavorite()) {
-                    realmDecorator.setSerieAsFavorite(serie);
-                } else {
-                    realmDecorator.removeFromFavorite("id", serie.getId());
-                }
+            callbackSetFavorite = () -> {
+                realmDecorator.setSerieAsFavorite(serie);
+            };
+
+            callbackSetUnfavorite = () -> {
+                realmDecorator.removeFromFavorite("id", serie.getId());
             };
 
             callbackShared = () -> {

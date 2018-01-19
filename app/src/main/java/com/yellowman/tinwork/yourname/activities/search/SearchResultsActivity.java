@@ -43,6 +43,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private UIErrorManager uiErrorManager;
     private TextView title;
+    private TextView errRes;
     private View spinner;
 
     /**
@@ -74,7 +75,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             if (query.isEmpty()) {
-                // Handle empty data
+                errRes.setVisibility(View.VISIBLE);
             } else {
                 makeRequest(query);
             }
@@ -88,6 +89,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     private void initComponent() {
         this.spinner = findViewById(R.id.search_result_spinner);
         this.title   = findViewById(R.id.title_search);
+        this.errRes  = findViewById(R.id.result_failed);
         this.recyclerView = findViewById(R.id.result_search_recyclerView);
 
         this.uiErrorManager = new UIErrorManager(this);
@@ -120,6 +122,7 @@ public class SearchResultsActivity extends AppCompatActivity {
             @Override
             public void onError(String err) {
                 spinner.setVisibility(View.GONE);
+                errRes.setVisibility(View.VISIBLE);
                 // one day we should handle error
                 uiErrorManager
                         .setError("", err)

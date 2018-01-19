@@ -38,5 +38,14 @@
             android:layout_below="@+id/title_search">
         </android.support.v7.widget.RecyclerView>
 
+        <TextView
+            android:id="@+id/result_failed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:text="@string/result_failed"
+            android:visibility="gone"/>
+
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

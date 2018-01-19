@@ -43,6 +43,7 @@
 
     <!-- search text -->
     <string name="result_search">Results for: %1$s</string>
+    <string name="result_failed">No results</string>
 
     <!-- Text use by the ErrorUIManager -->
     <string name="retry_mode">Retry</string>

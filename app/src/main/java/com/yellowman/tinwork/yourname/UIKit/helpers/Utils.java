@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Window;
@@ -77,5 +78,16 @@ public class Utils {
         }
 
         return list;
+    }
+
+    /**
+     * Set Collapsing Toolbar Scrim Color
+     *
+     * @param l Collapsing Toolbar Layout
+     * @param color color
+     */
+    public static void setCollapsingToolbarScrimColor(CollapsingToolbarLayout l, int color) {
+        l.setContentScrimColor(color);
+        l.setStatusBarScrimColor(color);
     }
 }
