@@ -1,5 +1,6 @@
 package com.yellowman.tinwork.yourname.UIKit.holder;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.helpers.Helper;
+import com.yellowman.tinwork.yourname.UIKit.helpers.Utils;
 import com.yellowman.tinwork.yourname.UIKit.iface.AdapterHolder;
 import com.yellowman.tinwork.yourname.activities.filmDetail.FilmDetailsActivity;
 import com.yellowman.tinwork.yourname.model.Series;
@@ -54,15 +56,14 @@ public class FavoriteHolder extends RecyclerView.ViewHolder {
      * @param serie Serie
      */
     public void bindData(final Series serie, int pos) {
+        Context appContext = viewItem.getContext().getApplicationContext();
         this.pos = pos;
         serieID = serie.getId();
         filmTextView.setText(serie.getSeriesName());
 
-        if (!serie.getBanner().isEmpty()) {
-            Glide.with(viewItem.getContext().getApplicationContext()).load(AppUtils.buildMiscURI(Routes.IMG_PATH, serie.getBanner())).into(imgView);
-        } else {
-            Glide.with(viewItem.getContext().getApplicationContext()).load(R.drawable.totoro_error).into(imgView);
-        }
+        // Set image
+        String bannerURL = serie.getId()+"-1.jpg";
+        Utils.setImgView(appContext, bannerURL, imgView);
 
         // Set other kind of props with 'FIX' Data in the meantime
         rateTextView.setText(serie.getSiteRating());

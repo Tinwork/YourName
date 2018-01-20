@@ -1,13 +1,17 @@
 package com.yellowman.tinwork.yourname.UIKit.holder;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.helpers.Helper;
+import com.yellowman.tinwork.yourname.UIKit.helpers.Utils;
 import com.yellowman.tinwork.yourname.activities.filmDetail.FilmDetailsActivity;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.api.Routes;
@@ -56,19 +60,15 @@ public class TrendingHolder extends RecyclerView.ViewHolder{
      * @param seriesModel Series
      */
     public void bindData(final Series seriesModel) {
+        Context ctx = v.getContext().getApplicationContext();
         series = seriesModel;
         // Set basic text
         filmTextView.setText(seriesModel.getSeriesName());
         airedTextView.setText(seriesModel.getFirstAired());
 
         // Set image
-        String bannerURL = seriesModel.getBanner();
-
-        if (!bannerURL.isEmpty()) {
-            Glide.with(v.getContext().getApplicationContext()).load(AppUtils.buildMiscURI(Routes.IMG_PATH, bannerURL)).into(imgView);
-        } else {
-            Glide.with(v.getContext().getApplicationContext()).load(R.drawable.totoro_error).into(imgView);
-        }
+        String bannerURL = seriesModel.getId()+"-1.jpg";
+        Utils.setImgView(ctx, bannerURL, imgView);
 
         // Set status
         String status = seriesModel.getStatus().toLowerCase().contains("ended") ? "End" : "On going";

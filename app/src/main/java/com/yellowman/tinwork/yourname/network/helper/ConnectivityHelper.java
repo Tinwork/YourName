@@ -36,4 +36,6 @@ public class ConnectivityHelper {
         return activeNetwork != null &&
                activeNetwork.isConnectedOrConnecting();
     }
+
+
 }
