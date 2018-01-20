@@ -25,8 +25,8 @@ public class SearchHolder extends RecyclerView.ViewHolder {
     private ImageView imgView;
     private TextView  serieTitle;
     private TextView  serieStatus;
-    protected View view;
-    protected Helper helper;
+    protected View    view;
+    protected Helper  helper;
 
     /**
      * Search Holder::Constructor
@@ -59,7 +59,7 @@ public class SearchHolder extends RecyclerView.ViewHolder {
         if (!serie.getBanner().isEmpty()) {
             Glide.with(view.getContext().getApplicationContext()).load(AppUtils.buildMiscURI(Routes.IMG_PATH, serie.getBanner())).into(imgView);
         } else {
-            Glide.with(view.getContext().getApplicationContext()).load(R.drawable.ic_account_circle_white_18dp).into(imgView);
+            Glide.with(view.getContext().getApplicationContext()).load(R.drawable.totoro_error).into(imgView);
         }
 
         serieTitle.setText(serie.getSeriesName());

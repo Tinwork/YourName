@@ -2,10 +2,12 @@ package com.yellowman.tinwork.yourname.UIKit.misc;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.menu.ActionMenuItemView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 
 import com.yellowman.tinwork.yourname.R;
@@ -91,10 +93,16 @@ public class ToolbarManager {
                 return true;
             case R.id.reload:
             case R.id.logout:
-            case R.id.favorite_item:
-            case R.id.favorite_outline_item:
             case R.id.shared_item:
                 callback.doItemAction();
+                return true;
+            case R.id.favorite_item:
+                callback.doItemAction();
+                toggleElementVisible(false, true);
+                return true;
+            case R.id.favorite_outline_item:
+                callback.doItemAction();
+                toggleElementVisible(true, false);
                 return true;
             default:
                 return true;
@@ -111,5 +119,20 @@ public class ToolbarManager {
         this.activity.startActivity(intent);
 
         return true;
+    }
+
+    /**
+     * Toggle Element Visible
+     *
+     * @param v int
+     * @param h int
+     */
+    private void toggleElementVisible(Boolean v, Boolean h) {
+        Menu menu = toolbar.getMenu();
+        MenuItem item_o = menu.findItem(R.id.favorite_item);
+        MenuItem item_h = menu.findItem(R.id.favorite_outline_item);
+
+        item_o.setVisible(v);
+        item_h.setVisible(h);
     }
 }

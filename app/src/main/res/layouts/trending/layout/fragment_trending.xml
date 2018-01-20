@@ -4,15 +4,6 @@
     android:layout_height="match_parent"
     android:scrollbars="none"
     tools:context=".activities.home.fragments.TrendingFragment">
-    
-    <ProgressBar
-        android:id="@+id/trending_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_centerHorizontal="true"
-        android:indeterminateTint="@color/white"
-        android:visibility="gone"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -31,5 +22,14 @@
         android:layout_below="@+id/trending_title"
         android:layoutAnimation="@anim/layout_animation_vertical">
     </android.support.v7.widget.RecyclerView>
+
+    <ProgressBar
+        android:id="@+id/trending_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:indeterminateTint="@color/white"
+        android:visibility="gone"/>
 
 </RelativeLayout>

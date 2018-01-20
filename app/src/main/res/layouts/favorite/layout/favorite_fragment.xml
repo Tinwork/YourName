@@ -14,15 +14,6 @@
         android:scrollbars="none"
         android:paddingTop="@dimen/margin_between_fragment">
 
-        <ProgressBar
-            android:id="@+id/favorite_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_centerHorizontal="true"
-            android:indeterminateTint="@color/white"
-            android:visibility="gone"/>
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,5 +44,15 @@
             android:layout_marginTop="30dp"
             android:layoutAnimation="@anim/layout_animation_vertical">
         </android.support.v7.widget.RecyclerView>
+
+        <ProgressBar
+            android:id="@+id/favorite_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:indeterminateTint="@color/white"
+            android:visibility="gone"/>
+
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>
