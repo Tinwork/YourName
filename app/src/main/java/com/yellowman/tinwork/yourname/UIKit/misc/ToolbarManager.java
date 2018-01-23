@@ -1,6 +1,7 @@
 package com.yellowman.tinwork.yourname.UIKit.misc;
 
 import android.content.Intent;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.menu.ActionMenuItemView;
 import android.support.v7.widget.Toolbar;
@@ -8,7 +9,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.yellowman.tinwork.yourname.R;
 import com.yellowman.tinwork.yourname.UIKit.helpers.Helper;
@@ -37,6 +40,7 @@ public class ToolbarManager {
     private Toolbar toolbar;
     private HashMap<String, String> data = new HashMap<>();
     protected Helper helper;
+    private Spinner spinner;
 
     /**
      * Toolbar Manager::Constructor
@@ -134,5 +138,25 @@ public class ToolbarManager {
 
         item_o.setVisible(v);
         item_h.setVisible(h);
+    }
+
+    public void setMenuSpinner() {
+        Menu menu = toolbar.getMenu();
+
+        spinner = (Spinner) menu.findItem(R.id.spinner).getActionView();
+
+        if (spinner == null) {
+            return;
+        }
+
+        // hydrate the spinner
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(activity.getApplicationContext(), R.array.rating_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+    }
+
+    public Spinner getSpinner() {
+        return this.spinner;
     }
 }

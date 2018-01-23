@@ -19,6 +19,7 @@ import com.yellowman.tinwork.yourname.UIKit.iface.FragmentBinder;
 import com.yellowman.tinwork.yourname.UIKit.iface.FragmentListener;
 import com.yellowman.tinwork.yourname.application.YourName;
 import com.yellowman.tinwork.yourname.entity.Actor;
+import com.yellowman.tinwork.yourname.entity.Rating;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.series.SingleSerie;
@@ -50,6 +51,10 @@ public class FilmContentFragment extends Fragment implements FragmentListener, F
     @Named("SingleSerie")
     Fetch singleSerie;
 
+    @Inject
+    @Named("FetchUserRatingSeries")
+    Fetch getUserRating;
+
     // protected fields
     protected RecyclerView recyclerView;
     protected View view;
@@ -65,6 +70,7 @@ public class FilmContentFragment extends Fragment implements FragmentListener, F
     private TextView filmDate;
     private TextView synopsis;
     private TextView siteRating;
+    private TextView userRating;
 
     /**
      * Film Content Fragment::Constructor
@@ -120,6 +126,8 @@ public class FilmContentFragment extends Fragment implements FragmentListener, F
             getSeriesActorById(serie.getId());
             // aggregate the serie
             agreggateSerie(serie.getId());
+            // get the user rating
+            getUserSeriesRating();
         }
     }
 
@@ -183,6 +191,28 @@ public class FilmContentFragment extends Fragment implements FragmentListener, F
     }
 
     /**
+     * Get User Series Rating
+     *
+     */
+    private void getUserSeriesRating() {
+        getUserRating.get(null, new GsonCallback<Rating[]>() {
+            @Override
+            public void onSuccess(Rating[] response) {
+                for (Rating rate: response) {
+                    if (rate.getRatingItemId() == Integer.parseInt(serie.getId())) {
+                        userRating.setText(String.valueOf(rate.getRating()));
+                    }
+                }
+            }
+
+            @Override
+            public void onError(String err) {
+                userRating.setText(R.string.no_rating);
+            }
+        });
+    }
+
+    /**
      * Init Fragment Element
      *
      *
@@ -194,6 +224,7 @@ public class FilmContentFragment extends Fragment implements FragmentListener, F
         this.filmDate     = view.findViewById(R.id.date);
         this.synopsis     = view.findViewById(R.id.synopsis);
         this.siteRating   = view.findViewById(R.id.site_rating);
+        this.userRating   = view.findViewById(R.id.user_rating);
     }
 
     /**

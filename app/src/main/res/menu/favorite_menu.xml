@@ -23,4 +23,11 @@
         android:icon="@drawable/ic_share_white_24dp"
         android:title="@string/share_icon"
         app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/spinner"
+        android:title="ActionBar Spinner"
+        app:actionViewClass="android.widget.Spinner"
+        android:actionMenuTextColor="@color/white"
+        app:showAsAction="ifRoom" />
 </menu>
