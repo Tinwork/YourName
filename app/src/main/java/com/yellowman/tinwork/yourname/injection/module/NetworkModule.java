@@ -11,6 +11,8 @@ import com.yellowman.tinwork.yourname.network.api.series.ImagesSeries;
 import com.yellowman.tinwork.yourname.network.api.series.ListEpisodes;
 import com.yellowman.tinwork.yourname.network.api.series.SingleSerie;
 import com.yellowman.tinwork.yourname.network.api.user.GetUser;
+import com.yellowman.tinwork.yourname.network.api.user.SetUserRatingService;
+import com.yellowman.tinwork.yourname.network.api.user.UserRatingServices;
 import com.yellowman.tinwork.yourname.network.fetch.Fetch;
 import com.yellowman.tinwork.yourname.realm.decorator.ActorRealmDecorator;
 import com.yellowman.tinwork.yourname.realm.decorator.FavoriteRealmDecorator;
@@ -173,4 +175,22 @@ public class NetworkModule {
     @Provides @Named("FetchSearchSeries")
     @Singleton
     Fetch provideFetchSearchSeries() { return new SearchSeries(ctx); }
+
+    /**
+     * Provide Fetch Rating Series
+     *
+     * @return Fetch Instance
+     */
+    @Provides @Named("FetchUserRatingSeries")
+    @Singleton
+    Fetch provideFetchRatingSeries() { return new UserRatingServices(ctx); }
+
+    /**
+     * Provide Fetch Rating Series
+     *
+     * @return Fetch Instance
+     */
+    @Provides @Named("FetchUserSetRatingSeries")
+    @Singleton
+    Fetch provideFetchSetRatingSeries() { return new SetUserRatingService(ctx); }
 }

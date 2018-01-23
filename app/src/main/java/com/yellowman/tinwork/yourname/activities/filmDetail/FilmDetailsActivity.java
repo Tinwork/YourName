@@ -1,14 +1,20 @@
 package com.yellowman.tinwork.yourname.activities.filmDetail;
 
+import android.content.ClipData;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.Spinner;
 
 import com.bumptech.glide.Glide;
 import com.yellowman.tinwork.yourname.R;
@@ -23,10 +29,12 @@ import com.yellowman.tinwork.yourname.activities.filmDetail.fragments.FilmConten
 import com.yellowman.tinwork.yourname.activities.filmDetail.fragments.FilmEpisodesFragment;
 import com.yellowman.tinwork.yourname.application.YourName;
 import com.yellowman.tinwork.yourname.entity.Image;
+import com.yellowman.tinwork.yourname.entity.Rating;
 import com.yellowman.tinwork.yourname.model.Series;
 import com.yellowman.tinwork.yourname.network.Listeners.GsonCallback;
 import com.yellowman.tinwork.yourname.network.api.Routes;
 import com.yellowman.tinwork.yourname.network.api.series.ImagesSeries;
+import com.yellowman.tinwork.yourname.network.fetch.Fetch;
 import com.yellowman.tinwork.yourname.realm.decorator.FavoriteRealmDecorator;
 import com.yellowman.tinwork.yourname.utils.AppUtils;
 
@@ -46,11 +54,15 @@ import javax.inject.Named;
  * Created by Antoine Renault a few months.
  */
 
-public class FilmDetailsActivity extends AppCompatActivity {
+public class FilmDetailsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     @Inject
     @Named("FetchFavorite")
     FavoriteRealmDecorator realmDecorator;
+
+    @Inject
+    @Named("FetchUserSetRatingSeries")
+    Fetch setRatingSeries;
 
     protected ImageView banner;
     protected FragmentListener fg;
@@ -62,6 +74,7 @@ public class FilmDetailsActivity extends AppCompatActivity {
     private ToolbarActionCallback callbackSetUnfavorite;
     private ToolbarActionCallback callbackShared;
     private Series serie;
+    private int check;
 
     /**
      * On Create
@@ -72,6 +85,7 @@ public class FilmDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_film_details);
+        this.check = 0;
         ((YourName) getApplicationContext()).getmNetworkComponent().inject(this);
         initActivityComponent();
         getIntentData();
@@ -123,6 +137,10 @@ public class FilmDetailsActivity extends AppCompatActivity {
             menu.findItem(R.id.favorite_item).setVisible(true);
         }
 
+        toolbarManager.setMenuSpinner();
+        Spinner spinner = toolbarManager.getSpinner();
+        spinner.setOnItemSelectedListener(this);
+
         return true;
     }
 
@@ -150,7 +168,7 @@ public class FilmDetailsActivity extends AppCompatActivity {
 
         if (item.getItemId() == R.id.favorite_item) {
             toolbarManager.toolbarItemSelectAction(item, callbackSetUnfavorite);
-        } else {
+        } else if (item.getItemId() == R.id.favorite_outline_item){
             toolbarManager.toolbarItemSelectAction(item, callbackSetFavorite);
         }
 
@@ -229,5 +247,39 @@ public class FilmDetailsActivity extends AppCompatActivity {
                 Glide.with(FilmDetailsActivity.this.getApplicationContext()).load(R.drawable.totoro_error).into(banner);
             }
         });
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (check == 0) {
+            check = 1;
+            return;
+        }
+
+        String rate = (String) parent.getItemAtPosition(position);
+
+        HashMap<String, String> payload = new HashMap<>();
+        payload.put("serie_id", serie.getId());
+        payload.put("rating", String.valueOf(rate));
+
+        // set update
+        setRatingSeries.get(payload, new GsonCallback<Rating[]>() {
+            @Override
+            public void onSuccess(Rating[] response) {
+                uiErrorManager
+                        .setError("", "Update series rating")
+                        .setErrorStrategy(UIErrorManager.SNACKBAR);
+            }
+
+            @Override
+            public void onError(String err) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

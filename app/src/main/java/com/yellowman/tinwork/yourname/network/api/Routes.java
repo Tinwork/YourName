@@ -27,6 +27,8 @@ public class Routes {
     public static final String IMG_PATH_POSTER = "www.thetvdb.com/banners/posters";
     public static final String SUFFIX_ROUTES_EPISODES_FROM_SERIES = "episodes/query";
     public static final String SUFFIX_ROUTES_EPISODES_SUMMARY = "episodes/summary";
+    public static final String RATING_SERIES = PREFIX+"/user/ratings";
+    public static final String RATING_PUT    = PREFIX+"/user/ratings/series/";
     public static final String UPDATE_SERIES = "updated/query";
 
     // User auth
